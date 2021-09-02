@@ -3,8 +3,8 @@ const { ApolloServer } = require('apollo-server');
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
 
-const dbConnect = require("./models");
-// dbConnect();
+const dbConnect = require("./model");
+dbConnect();
 
 const server = new ApolloServer({
   typeDefs,
