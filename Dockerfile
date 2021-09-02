@@ -10,9 +10,11 @@ RUN npm install
 # 프로덕션을 위한 코드를 빌드하는 경우
 # RUN npm ci --only=production
 
+RUN npm install -g pm2
+
 # 앱 소스 추가 a
 COPY . .
 
 EXPOSE 4000
 
-CMD [ "node", "index.js" ]
+CMD [ "pm2-runtime", "start", "index.js" ]
