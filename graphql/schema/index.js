@@ -1,110 +1,72 @@
 const { gql } = require('apollo-server');
 const typeDefs = gql`
+  scalar Date
+
   type Query {
-    books: [Book]
-    people:[Person]
-    contents: [Content]
-    user1s: [User1]
-    user2s: [User2]
-    booking1s: [Booking1]
-    booking2s: [Booking2]
-    posts: [Post]
-    tags: [Tag]
+    getUserById(id: ID!): User
   }
-  type Post{
-    _id: String
-    name: String
-    tags:[Tag]
-    createdAt: String
-  }
-  input PostInput{
-    name: String
-  }
-  input PostTagInput{
-    postId: String
-    tagId: String
-  }
-  type Tag{
-    _id: String
-    name: String
-    posts:[Post]
-    createdAt: String
-  }
-  input TagInput{
-    name: String
-  }
-  type Book{
-    title:String
-    author: String
-  }
-  type Person{
+  
+  type User {
     _id: ID
     name: String
-    friends: [Person]
+    birthAge: Int
+    gender: String
+    profileImage: Image
+    instructor: Instructor
+    countryCode: String
+    languageCodes: [String]
+    createdAt: Date
+    updatedAt: Date
   }
-  input PersonInput{
-    name:String
+  type ImageContentEntry {
+    key: String,
+    value: ImageContent
   }
-  type Content {
-    _id: ID
-    title: String
-    content: String
-    createdAt: String
-  }
-  input ContentInput{
-    title: String
-    content: String
-  }
-  type Booking1{
-    _id: ID
+  input Image {
+    _id: ID,
     name: String
-    user1: User1
-    createdAt: String
+    description: String
+    contentType: String
+    contentMap: [ImageContentEntry],
+    createdAt: Date,
+    updatedAt: Date,
   }
-  input Booking1Input{
-    name: String
-    user1Id: String
-  }
-  type Booking2{
-    _id: ID
-    name:String
-    user2: User2
-    createdAt: String
-  }
-  input Booking2Input{
-    name: String
-    user2Id: String
-  }
-  type User1{
+  input ImageContent{
     _id: ID
     name: String
-    booking1s: [Booking1]
-    createdAt: String
+    url: String
+    createdAt: Date
   }
-  input User1Input{
-    name: String
-  }
-  type User2{
+  type Institution{
     _id: ID
     name: String
-    booking2s: [Booking2]
-    createdAt: String
+    description: String
+  }
+  input Instructor {
+    _id: ID,
+    user: User,
+    gender: Int,
+    description: String
+    profileImage: [Image]
+    licenseIds: [License]
+    countryCode: String
+    languageCodes: [String]
+    createdAt: Date
+    updatedAt: Date
+  }
+  type License{
+    _id: ID,
+    category: String,
+    level: Int,
+    title: String,
+    description: String,
+    institution: Institution,
   }
   input User2Input{
     name: String
   }
   type Mutation{
-    createContent(contentInput: ContentInput): Content!
-    createContent1(contentInput: ContentInput): [Content!]
-    createContent2(contentInput: ContentInput): [Content!]
-    createUser1(user1Input: User1Input): User1!
-    createUser2(user2Input: User2Input): User2!
-    createBooking1(booking1Input: Booking1Input): Booking1!
-    createBooking2(booking2Input: Booking2Input): Booking2!
-    createPerson(personInput: PersonInput): Person!
-    createPost(postInput: PostInput): Post!
-    addTag(postTagInput: PostTagInput):Post!
-    createTag(tagInput: TagInput):Tag!
+    createUser(user: User): User!
   }
 `;
 
