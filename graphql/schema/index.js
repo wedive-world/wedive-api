@@ -5,7 +5,7 @@ const typeDefs = gql`
   type Query {
     getUserById(id: ID!): User
   }
-  
+
   type User {
     _id: ID
     name: String
@@ -18,11 +18,20 @@ const typeDefs = gql`
     createdAt: Date
     updatedAt: Date
   }
+
+  input UserInput {
+    name: String
+    birthAge: Int
+    gender: String
+    countryCode: String
+    languageCodes: [String]
+  }
+
   type ImageContentEntry {
     key: String,
     value: ImageContent
   }
-  input Image {
+  type Image {
     _id: ID,
     name: String
     description: String
@@ -31,7 +40,7 @@ const typeDefs = gql`
     createdAt: Date,
     updatedAt: Date,
   }
-  input ImageContent{
+  type ImageContent{
     _id: ID
     name: String
     url: String
@@ -42,7 +51,7 @@ const typeDefs = gql`
     name: String
     description: String
   }
-  input Instructor {
+  type Instructor {
     _id: ID,
     user: User,
     gender: Int,
@@ -62,11 +71,8 @@ const typeDefs = gql`
     description: String,
     institution: Institution,
   }
-  input User2Input{
-    name: String
-  }
   type Mutation{
-    createUser(user: User): User!
+    createUser(userInput: UserInput): User!
   }
 `;
 
