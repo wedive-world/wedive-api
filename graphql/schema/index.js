@@ -97,6 +97,14 @@ const typeDefs = gql`
     updatedAt: Date
   }
 
+  input DiveSiteInput {
+    name: String
+    description: String
+    latitude: Float
+    longitude: Float
+    countryCode: String
+  }
+
   type PropertyEntry {
     key: String,
     value: String
@@ -132,6 +140,7 @@ const typeDefs = gql`
 
   type Mutation{
     createUser(userInput: UserInput): User!
+    createDiveSite(diveSiteInput: DiveSiteInput): DiveSite!
   }
 
 `;

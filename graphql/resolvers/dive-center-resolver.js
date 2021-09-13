@@ -34,4 +34,13 @@ module.exports = {
             return DivePoint.find({ _id: id });
         },
     },
+
+    Mutation: {
+        createDiveSite(_, args) {
+            const diveSite = new DiveSite({
+                ...args,
+            })
+            return diveSite.save()
+        },
+    }
 };
