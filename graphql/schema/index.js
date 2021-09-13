@@ -79,6 +79,7 @@ const typeDefs = gql`
     description: String
     latitude: Float
     longitude: Float
+    depth: Int
     diveSiteId: DiveSite
     createdAt: Date
     updatedAt: Date

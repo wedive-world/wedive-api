@@ -16,4 +16,4 @@ const schema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('DiveSte', schema);
+module.exports = mongoose.model('DiveSite', schema);

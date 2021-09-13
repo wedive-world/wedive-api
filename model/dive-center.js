@@ -4,6 +4,8 @@ const { Schema } = mongoose;
 const schema = new Schema({
     _id: Schema.Types.ObjectId,
     name: String,
+    address: String,
+    phoneNumber: String,
     description: String,
     latitude: Number,
     longitude: Number,
@@ -16,4 +18,4 @@ const schema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('DiveSite', schema);
+module.exports = mongoose.model('DiveCenter', schema);

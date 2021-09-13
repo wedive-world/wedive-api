@@ -7,6 +7,7 @@ const schema = new Schema({
     description: String,
     latitude: Number,
     longitude: Number,
+    depth: Number,
     diveSiteId: { type: Schema.Types.ObjectId, ref: 'DiveSite' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
