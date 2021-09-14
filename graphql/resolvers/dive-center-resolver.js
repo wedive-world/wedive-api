@@ -16,44 +16,44 @@ module.exports = {
 
     Query: {
         async diveCenters() {
-            let result = await DiveCenter.find()
-            return result
+            return await DiveCenter.find()
         },
         async diveSites() {
-            let result = await DiveSite.find()
-            return result
+            return await DiveSite.find()
         },
         async divePoints() {
-            let result = await DivePoint.find()
-            return result
+            return await DivePoint.find()
         },
         async getDiveCenterById(id) {
-            let result = await DiveCenter.find({ _id: id })
-            return result
+            return await DiveCenter.find({ _id: id })
         },
         async getDiveSiteById(id) {
-            let result = await DiveSite.find({ _id: id })
-            return result
+            return await DiveSite.find({ _id: id })
         },
         async getDivePointById(id) {
-            let result = await DivePoint.find({ _id: id })
-            return result
+            return await DivePoint.find({ _id: id })
         },
     },
 
     Mutation: {
-        createDiveSite(_, args) {
-            const diveSite = new DiveSite({
-                ...args,
-            })
-            return diveSite.save()
+        async createDiveSite(_, args) {
+            console.log(`createDiveSite: args=${args}`)
+            let diveSite = new DiveSite(args.diveSiteInput)
+            return await diveSite.save()
         },
 
         async createDiveSites(_, args) {
-            console.log(`createDiveSites: diveSite=${JSON.stringify(args)}`)
-            let result = await DiveSite.insertMany(...args)
-            console.log(`createDiveSites: result=${JSON.stringify(result)}`)
-            return JSON.stringify(result)
+            console.log(`createDiveSites: args=${args}`)
+
+            let result = []
+
+            for (arg of args) {
+                const divesite = new DiveSite(arg)
+                const savedDiveSite = await divesite.save()
+                result.push(savedDiveSite)
+            }
+
+            return result
         },
     }
 };

@@ -12,6 +12,7 @@ const resolvers = {
 
     Mutation: {
         ...userResolvers.Mutation,
+        ...diveCenterResolvers.Mutation
     }
 }
 
