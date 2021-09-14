@@ -15,23 +15,29 @@ module.exports = {
     },
 
     Query: {
-        diveCenters() {
-            return DiveCenter.find()
+        async diveCenters() {
+            let result = await DiveCenter.find()
+            return result
         },
-        diveSites() {
-            return DiveSite.find()
+        async diveSites() {
+            let result = await DiveSite.find()
+            return result
         },
-        divePoints() {
-            return DivePoint.find()
+        async divePoints() {
+            let result = await DivePoint.find()
+            return result
         },
-        getDiveCenterById(id) {
-            return DiveCenter.find({ _id: id });
+        async getDiveCenterById(id) {
+            let result = await DiveCenter.find({ _id: id })
+            return result
         },
-        getDiveSiteById(id) {
-            return DiveSite.find({ _id: id });
+        async getDiveSiteById(id) {
+            let result = await DiveSite.find({ _id: id })
+            return result
         },
-        getDivePointById(id) {
-            return DivePoint.find({ _id: id });
+        async getDivePointById(id) {
+            let result = await DivePoint.find({ _id: id })
+            return result
         },
     },
 
@@ -41,6 +47,13 @@ module.exports = {
                 ...args,
             })
             return diveSite.save()
+        },
+
+        async createDiveSites(_, args) {
+            console.log(`createDiveSites: diveSite=${JSON.stringify(args)}`)
+            let result = await DiveSite.insertMany(...args)
+            console.log(`createDiveSites: result=${JSON.stringify(result)}`)
+            return JSON.stringify(result)
         },
     }
 };

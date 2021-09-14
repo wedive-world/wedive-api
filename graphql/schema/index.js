@@ -140,7 +140,8 @@ const typeDefs = gql`
 
   type Mutation{
     createUser(userInput: UserInput): User!
-    createDiveSite(diveSiteInput: DiveSiteInput): DiveSite!
+    createDiveSite(diveSiteInput: DiveSiteInput!): DiveSite!
+    createDiveSites(diveSiteInputs: [DiveSiteInput!]!): String
   }
 
 `;
