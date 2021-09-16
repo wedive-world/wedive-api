@@ -9,3 +9,13 @@ services:
     ports: 
       - "4000:4000"
     restart: unless-stopped
+    environment:
+      - DB_PATH=mongodb://mongodb:27017
+    networks: 
+      - wedive-mongodb_default
+      - default
+
+  
+networks:
+  wedive-mongodb_default:
+    external: true
