@@ -126,22 +126,23 @@ const typeDefs = gql`
   }
 
   type Query {
+    user(id: ID!): User
     users: [User]
-    getUserById(id: ID!): User
 
+    diveCenter(id: ID!): DiveCenter
     diveCenters: [DiveCenter]
-    diveSites: [DiveSite]
-    divePoints: [DivePoint]
 
-    getDiveCenterById(id: ID!): DiveCenter
-    getDiveSiteById(id: ID!): DiveSite
-    getDivePointById(id: ID!): DivePoint
+    diveSite(id: ID!): DiveSite
+    diveSites: [DiveSite]
+
+    divePoint(id: ID!): DivePoint
+    divePoints: [DivePoint]
   }
 
   type Mutation{
-    createUser(userInput: UserInput): User!
-    createDiveSite(diveSiteInput: DiveSiteInput!): DiveSite!
-    createDiveSites(diveSiteInputs: [DiveSiteInput!]!): String
+    user(userInput: UserInput): User!
+    diveSite(diveSiteInput: DiveSiteInput!): DiveSite!
+    diveSites(diveSiteInputs: [DiveSiteInput!]!): String
   }
 
 `;

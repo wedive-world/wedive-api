@@ -18,13 +18,13 @@ module.exports = {
         users() {
             return User.find()
         },
-        getUserById(id) {
+        user(id) {
             return User.find({ _id: id });
         },
     },
 
     Mutation: {
-        createUser(_, args) {
+        user(_, args) {
             const user = new User({
                 ...args,
             })

@@ -24,25 +24,25 @@ module.exports = {
         async divePoints() {
             return await DivePoint.find()
         },
-        async getDiveCenterById(id) {
+        async diveCenter(id) {
             return await DiveCenter.find({ _id: id })
         },
-        async getDiveSiteById(id) {
+        async diveSite(id) {
             return await DiveSite.find({ _id: id })
         },
-        async getDivePointById(id) {
+        async divePoint(id) {
             return await DivePoint.find({ _id: id })
         },
     },
 
     Mutation: {
-        async createDiveSite(_, args) {
+        async diveSite(_, args) {
             console.log(`createDiveSite: args=${args}`)
             let diveSite = new DiveSite(args.diveSiteInput)
             return await diveSite.save()
         },
 
-        async createDiveSites(_, args) {
+        async diveSites(_, args) {
             console.log(`createDiveSites: args=${args}`)
 
             let result = []
