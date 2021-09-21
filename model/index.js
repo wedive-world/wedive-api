@@ -19,3 +19,9 @@ module.exports = (() => {
     })
 })
 
+module.exports.schema = {
+    DiveCenter: require('./dive-center'),
+    User: require('./dive-center'),
+
+    DivingInterest: require('./diving/interest/divingInterest')
+}

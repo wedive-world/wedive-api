@@ -2,9 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    _id: Schema.Types.ObjectId,
-    name: String,
-    description: String,
+    name: { type: Schema.Types.ObjectId, ref: 'Content' },
+    description: { type: Schema.Types.ObjectId, ref: 'Content' },
 });
 
 module.exports = mongoose.model('Institution', schema);

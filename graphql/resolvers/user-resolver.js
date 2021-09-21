@@ -1,19 +1,21 @@
-const User = require('../../model/user');
+const schema = require('../../model')
+
+const User = schema.User
 const Instructor = require('../../model/instructor');
 const Image = require('../../model/image');
 
 module.exports = {
 
     User: {
-        instructor(_, args) {
+        instructor(parent, args, context, info) {
             return Instructor.find({ _id: _.instructor });
         },
 
-        profileImage(_, args) {
+        profileImages(parent, args, context, info) {
             return Image.find({ _id: _.profileImage });
         },
     },
-    
+
     Query: {
         users() {
             return User.find()
@@ -24,11 +26,8 @@ module.exports = {
     },
 
     Mutation: {
-        user(_, args) {
-            const user = new User({
-                ...args,
-            })
-            return user.save()
+        async user(parent, args, context, info) {
+            return await new User(args).save()
         },
     },
 };

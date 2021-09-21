@@ -3,24 +3,35 @@ const typeDefs = gql`
   scalar Date
 
   type User {
-    _id: ID
-    name: String
-    birthAge: Int
-    gender: String
-    profileImage: Image
+    _id: ID!
+    name: String!
+    birthAge: Int!
+    gender: String!
+    profileImages: [Image]
     instructor: Instructor
-    countryCode: String
-    languageCodes: [String]
-    createdAt: Date
-    updatedAt: Date
+    countryCode: String!
+    mainLanguageCode: String!
+    languageCodes: [String!]!
+    createdAt: Date!
+    updatedAt: Date!
   }
 
   input UserInput {
-    name: String
-    birthAge: Int
-    gender: String
-    countryCode: String
-    languageCodes: [String]
+    name: String!
+    """e.g. 1989, 1991, 1942"""
+    birth: Int!
+
+    """e.g. m: male, f: female"""
+    gender: String!
+
+    """2alpha iso code, e.g. kr, jp, us"""
+    countryCode: String! 
+    
+    """2alpha iso code, e.g. kr, jp, us"""
+    mainLanguageCode: String! 
+
+    """2alpha iso code, e.g. kr, jp, us"""
+    languageCodes: [String!]! 
   }
 
   type ImageContentEntry {
@@ -91,7 +102,7 @@ const typeDefs = gql`
     description: String
     latitude: Float
     longitude: Float
-    propertyMap: [PropertyEntry]
+    propertyMap: [StringEntry]
     countryCode: String
     createdAt: Date
     updatedAt: Date
@@ -105,7 +116,7 @@ const typeDefs = gql`
     countryCode: String
   }
 
-  type PropertyEntry {
+  type StringEntry {
     key: String,
     value: String
   }
@@ -125,6 +136,12 @@ const typeDefs = gql`
     updatedAt: Date
   }
 
+  type DivingInterest {
+    _id: ID
+    title: String
+    iconUrl: String
+  }
+
   type Query {
     user(id: ID!): User
     users: [User]
@@ -137,10 +154,13 @@ const typeDefs = gql`
 
     divePoint(id: ID!): DivePoint
     divePoints: [DivePoint]
+
+    divingInterest(languageCode: String!): [DivingInterest]
   }
 
   type Mutation{
     user(userInput: UserInput): User!
+
     diveSite(diveSiteInput: DiveSiteInput!): DiveSite!
     diveSites(diveSiteInputs: [DiveSiteInput!]!): String
   }
