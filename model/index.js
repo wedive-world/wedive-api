@@ -20,8 +20,19 @@ module.exports = (() => {
 })
 
 module.exports.schema = {
-    DiveCenter: require('./dive-center'),
-    User: require('./dive-center'),
+    Interest: require('./diving/interest'),
+    Diving: require('./diving/diving'),
 
-    DivingInterest: require('./diving/interest/divingInterest')
+    DiveCenter: require('./dive-center'),
+    DivePoint: require('./dive-point'),
+    DiveSite: require('./dive-site'),
+
+    Image: require('./image'),
+    ImageContent: require('./image-content'),
+
+    Institution: require('./institution'),
+    Instructor: require('./instructor'),
+    License: require('./license'),
+    
+    User: require('./user'),
 }

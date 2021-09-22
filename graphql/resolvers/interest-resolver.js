@@ -1,24 +1,39 @@
 const schema = require('../../model');
-const divingInterest = require('../../model/diving/interest/divingInterest');
 
-const DivingInterest = schema.DivingInterest
+const Interest = schema.Interest
 
 module.exports = {
     Query: {
-        async divingInterests(parent, args, context, info) {
+        async interests(parent, args, context, info) {
 
-            console.log(`divingInterests: args=${args}`)
+            console.log(`query | interests: args=${args}`)
 
-            let divingInterests = await DivingInterest.find()
+            let interests = await Interest.find({
+                type: args.type
+            })
             let languageCode = args.languageCode
 
-            return divingInterests.map(divingInterest => divingInterest.title = divingInterest.title[languageCode])
+            return interests.map(interest => interest.title = interest.title[languageCode])
         },
     },
 
-    // Mutation: {
-    //     async user(parent, args, context, info) {
-    //         return await new User(args).save()
-    //     },
-    // },
+    Mutation: {
+        async interest(parent, args, context, info) {
+
+            console.log(`mutation | interest: args=${args}`)
+
+            let input = {
+                title: {},
+                type: args.type,
+                iconType: args.iconType,
+                type: args.iconName,
+                iconColor: args.iconColor,
+                iconUrl: args.iconUrl,
+            }
+
+            input.title[args.languageCode] = args.title
+
+            return await new Interest(input).save()
+        },
+    },
 };

@@ -11,10 +11,17 @@ const schema = new Schema({
     budget: String,
     status: Number,
     totalPeople: Number,
-    initalPeople: Number,
     startAt: Date,
-    participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    candidates: [{ type: Schema.Types.Array, ref: 'User' }],
+    participants: [{
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        name: String,
+        birth: Number,
+        gender: String,
+    }],
+    applicants: [{ type: Schema.Types.Array, ref: 'User' }],
     divingLocations: [{
         locationType: String,
         locationId: Schema.Types.ObjectId,
@@ -22,12 +29,14 @@ const schema = new Schema({
         longitude: Number,
         title: { type: Schema.Types.Map, of: String },
         description: { type: Schema.Types.Map, of: String },
+        startAt: Date,
+        endAt: Date
     }],
-    ageInterests: [{ type: Schema.Types.ObjectId, ref: 'DivingInterest' }],
-    genderInterests: [{ type: Schema.Types.ObjectId, ref: 'DivingInterest' }],
-    divingInterests: [{ type: Schema.Types.ObjectId, ref: 'DivingInterest' }],
-    amityInterests: [{ type: Schema.Types.ObjectId, ref: 'DivingInterest' }],
-    EnvironmentInterests: [{ type: Schema.Types.ObjectId, ref: 'DivingInterest' }],
+    ageInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    genderInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    divingInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    amityInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    EnvironmentInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

@@ -18,19 +18,19 @@ const typeDefs = gql`
 
   input UserInput {
     name: String!
-    """e.g. 1989, 1991, 1942"""
+    """e.g.) 1989, 1991, 1942"""
     birth: Int!
 
-    """e.g. m: male, f: female"""
+    """e.g.) m: male, f: female"""
     gender: String!
 
-    """2alpha iso code, e.g. kr, jp, us"""
+    """2alpha iso code, e.g.) kr, jp, us"""
     countryCode: String! 
     
-    """2alpha iso code, e.g. kr, jp, us"""
+    """2alpha iso code, e.g.) kr, jp, us"""
     mainLanguageCode: String! 
 
-    """2alpha iso code, e.g. kr, jp, us"""
+    """2alpha iso code, e.g.) kr, jp, us"""
     languageCodes: [String!]! 
   }
 
@@ -136,9 +136,13 @@ const typeDefs = gql`
     updatedAt: Date
   }
 
-  type DivingInterest {
+  type Interest {
     _id: ID
     title: String
+    type: String
+    iconType: String
+    iconName: String
+    iconColor: String
     iconUrl: String
   }
 
@@ -155,7 +159,16 @@ const typeDefs = gql`
     divePoint(id: ID!): DivePoint
     divePoints: [DivePoint]
 
-    divingInterest(languageCode: String!): [DivingInterest]
+    interests(
+      """
+      iso-alpha2 code, e.g.) jp, us, kr
+      """
+      languageCode: String!,
+      """
+      e.g.) discountTarget, discountOption, gender, age, diving, amity, environment
+      """
+      type: String!
+    ): [Interest]
   }
 
   type Mutation{
@@ -163,6 +176,16 @@ const typeDefs = gql`
 
     diveSite(diveSiteInput: DiveSiteInput!): DiveSite!
     diveSites(diveSiteInputs: [DiveSiteInput!]!): String
+
+    interest(
+      title: String!,
+      type: String!,
+      languageCode: String!,
+      iconType: String!,
+      iconName: String,
+      iconColor: String,
+      iconUrl: String
+    ): Interest!
   }
 
 `;
