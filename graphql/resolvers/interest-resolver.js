@@ -6,14 +6,19 @@ module.exports = {
     Query: {
         async interests(parent, args, context, info) {
 
-            console.log(`query | interests: args=${args}`)
+            console.log(`query | interests: args=${JSON.stringify(args)}`)
 
             let interests = await Interest.find({
                 type: args.type
             })
-            let languageCode = args.languageCode
 
-            return interests.map(interest => interest.title = interest.title[languageCode])
+            let result = interests.map(interest => {
+                interest.title = interest.title[args.languageCode]
+                return interest
+            })
+            console.log(`result: result=${JSON.stringify(result)}`)
+
+            return result
         },
     },
 
