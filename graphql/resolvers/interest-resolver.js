@@ -1,4 +1,4 @@
-const schema = require('../../model');
+const schema = require('../../model').schema;
 
 const Interest = schema.Interest
 
@@ -20,10 +20,17 @@ module.exports = {
     Mutation: {
         async interest(parent, args, context, info) {
 
-            console.log(`mutation | interest: args=${args}`)
+            console.log(`mutation | interest: args=${JSON.stringify(args)}`)
+            let interest = await Interest.findOne({
+                title: {
+                    [args.languageCode]: args.title
+                }
+            })
 
             let input = {
-                title: {},
+                title: {
+                    [args.languageCode]: args.title
+                },
                 type: args.type,
                 iconType: args.iconType,
                 iconName: args.iconName,
@@ -31,9 +38,22 @@ module.exports = {
                 iconUrl: args.iconUrl,
             }
 
-            input.title[args.languageCode] = args.title
+            let result;
+            if (interest) {
+                let inputKey = Object.keys(input)
+                Object.keys(interest)
+                    .filter(key => inputKey.includes(key))
+                    .forEach(key => {
+                        interest[key] = input[key]
+                    })
 
-            return await new Interest(input).save()
+                result = await interest.save()
+            } else {
+                result = await new Interest(input).save()
+            }
+
+            result.title = result.title[args.languageCode]
+            return result
         },
     },
 };
