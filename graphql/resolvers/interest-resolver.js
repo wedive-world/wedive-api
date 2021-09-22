@@ -26,7 +26,7 @@ module.exports = {
                 title: {},
                 type: args.type,
                 iconType: args.iconType,
-                type: args.iconName,
+                iconName: args.iconName,
                 iconColor: args.iconColor,
                 iconUrl: args.iconUrl,
             }
