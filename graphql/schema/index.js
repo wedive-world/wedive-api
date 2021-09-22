@@ -165,7 +165,13 @@ const typeDefs = gql`
       """
       languageCode: String!,
       """
-      e.g.) discountTarget, discountOption, gender, age, diving, amity, environment
+      할인대상: discountTarget
+      할인옵션: discountOption
+      성별: gender
+      나이: age
+      다이빙: diving
+      친목: amity
+      환경: environment
       """
       type: String!
     ): [Interest]
