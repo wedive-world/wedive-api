@@ -20,8 +20,8 @@ module.exports = (() => {
 })
 
 module.exports.schema = {
-    Interest: require('./diving/interest'),
-    Diving: require('./diving/diving'),
+    Interest: require('./interest'),
+    Diving: require('./diving'),
 
     DiveCenter: require('./dive-center'),
     DivePoint: require('./dive-point'),

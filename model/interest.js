@@ -16,4 +16,12 @@ const schema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
+schema.index({
+    'title.ko': 'text',
+})
+
+// schema.index({
+//     'title.en': 'text'
+// })
+
 module.exports = mongoose.model('Interest', schema);

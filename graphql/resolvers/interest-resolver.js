@@ -8,18 +8,50 @@ module.exports = {
 
             console.log(`query | interests: args=${JSON.stringify(args)}`)
 
-            let interests = await Interest.find({
-                type: args.type
-            })
+            let param = {}
 
-            let result = interests.map(interest => {
+            if (args.type) {
+                param.type = args.type
+            }
+
+            let interests = await Interest.find(param)
+
+            interests = interests.map(interest => {
+                interest = JSON.parse(JSON.stringify(interest))
                 interest.title = interest.title[args.languageCode]
                 return interest
             })
-            console.log(`result: result=${JSON.stringify(result)}`)
 
-            return result
+            return interests
         },
+
+        async searchInterest(parent, args, context, info) {
+
+            console.log(`query | searchInterest: args=${JSON.stringify(args)}`)
+
+            let param = {
+                $and: [
+                    { $text: { $search: args.query } }
+                ]
+            }
+
+            if (args.type) {
+                param.$and.push({
+                    type: args.type
+                })
+            }
+
+            console.log(`query | searchInterest: param=${JSON.stringify(param)}`)
+
+            let result = await Interest.find(param)
+            console.log(`query | searchInterest: result=${JSON.stringify(result)}`)
+
+            return result.map(interest => {
+                interest = JSON.parse(JSON.stringify(interest))
+                interest.title = interest.title[args.languageCode]
+                return interest
+            })
+        }
     },
 
     Mutation: {
@@ -32,7 +64,7 @@ module.exports = {
                 }
             })
 
-            let input = {
+            let param = {
                 title: {
                     [args.languageCode]: args.title
                 },
@@ -45,16 +77,16 @@ module.exports = {
 
             let result;
             if (interest) {
-                let inputKey = Object.keys(input)
+                let inputKey = Object.keys(param)
                 Object.keys(interest)
                     .filter(key => inputKey.includes(key))
                     .forEach(key => {
-                        interest[key] = input[key]
+                        interest[key] = param[key]
                     })
 
                 result = await interest.save()
             } else {
-                result = await new Interest(input).save()
+                result = await new Interest(param).save()
             }
 
             result.title = result.title[args.languageCode]

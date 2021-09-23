@@ -90,19 +90,37 @@ const typeDefs = gql`
     description: String
     latitude: Float
     longitude: Float
-    depth: Int
-    diveSiteId: DiveSite
+    minDepth: Int
+    maxDepth: Int
+    diveSiteId: ID
+    interestIds: [ID]
+    imageIds: [ID]
     createdAt: Date
     updatedAt: Date
+  }
+
+  input DivePointInput {
+    name: String
+    description: String
+    latitude: Float
+    longitude: Float
+    minDepth: Int
+    maxDepth: Int
+    diveSiteId: ID
+    interestIds: [ID]
+    countryCode: String!
   }
 
   type DiveSite {
     _id: ID
     name: String
     description: String
+    address: String
     latitude: Float
     longitude: Float
-    propertyMap: [StringEntry]
+    divePoints: [ID]
+    interests: [Interest]
+    images: [Image]
     countryCode: String
     createdAt: Date
     updatedAt: Date
@@ -111,9 +129,13 @@ const typeDefs = gql`
   input DiveSiteInput {
     name: String
     description: String
+    address: String
     latitude: Float
     longitude: Float
-    countryCode: String
+    divePointIds: [ID]
+    interestIds: [ID]
+    imageIds: [ID]
+    countryCode: String!
   }
 
   type StringEntry {
@@ -150,13 +172,14 @@ const typeDefs = gql`
     user(id: ID!): User
     users: [User]
 
-    diveCenter(id: ID!): DiveCenter
-    diveCenters: [DiveCenter]
-
     diveSite(id: ID!): DiveSite
+    searchDiveSite(query: String!, countryCode: String!): [DiveSite]
+    nearByDiveSite(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
     diveSites: [DiveSite]
 
     divePoint(id: ID!): DivePoint
+    searchDivePoint(query: String!, countryCode: String!): [DivePoint]
+    nearByDivePoint(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
     divePoints: [DivePoint]
 
     interests(
@@ -173,15 +196,17 @@ const typeDefs = gql`
       친목: amity
       환경: environment
       """
-      type: String!
+      type: String
     ): [Interest]
+
+    searchInterest(query: String!, type: String, languageCode: String!): [Interest]
   }
 
   type Mutation{
     user(userInput: UserInput): User!
 
-    diveSite(diveSiteInput: DiveSiteInput!): DiveSite!
-    diveSites(diveSiteInputs: [DiveSiteInput!]!): String
+    divePoint(input: DivePointInput!): DivePoint!
+    diveSite(input: DiveSiteInput!): DiveSite!
 
     interest(
       title: String!,
