@@ -2,6 +2,11 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   scalar Date
 
+  # The implementation for this scalar is provided by the
+  # 'GraphQLUpload' export from the 'graphql-upload' package
+  # in the resolver map below.
+  scalar Upload
+
   type User {
     _id: ID!
     name: String!
@@ -40,11 +45,12 @@ const typeDefs = gql`
   }
 
   type Image {
-    _id: ID,
     name: String
     description: String
-    contentType: String
-    contentMap: [ImageContentEntry],
+    mimeType: String
+    encoding: String
+    fileSize: Int
+    contentMap: [ImageContentEntry]
     createdAt: Date,
     updatedAt: Date,
   }
@@ -217,6 +223,8 @@ const typeDefs = gql`
       iconColor: String,
       iconUrl: String
     ): Interest!
+
+    uploadImage(file: Upload!, description: String): Image!
   }
 
 `;

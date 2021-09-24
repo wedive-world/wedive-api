@@ -5,7 +5,9 @@ const schema = new Schema({
     _id: Schema.Types.ObjectId,
     name: String,
     description: String,
-    contentType: String,
+    mimeType: String,
+    encoding: String,
+    fileSize: Number,
     contentMap: {
         type: Map,
         of: { type: Schema.Types.ObjectId, ref: 'ImageContent' }

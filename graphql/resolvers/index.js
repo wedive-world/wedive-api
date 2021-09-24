@@ -1,9 +1,11 @@
 const userResolvers = require('./user-resolver')
 const interestResolvers = require('./interest-resolver')
-
+const imageResolvers = require('./image-resolver')
 const resolvers = {
     ...userResolvers,
     ...interestResolvers,
+
+    Upload: imageResolvers.Upload,
 
     Query: {
         ...userResolvers.Query,
@@ -13,6 +15,7 @@ const resolvers = {
     Mutation: {
         ...userResolvers.Mutation,
         ...interestResolvers.Mutation,
+        ...imageResolvers.Mutation,
     }
 }
 

@@ -11,10 +11,14 @@ services:
     restart: unless-stopped
     environment:
       - DB_PATH=mongodb://mongodb:27017
+      - IMAGE_BUCKET_END_POINT=https://linodeobjects.com
+      - IMAGE_BUCKET_REGION=us-east-1
+      - IMAGE_BUCKET_NAME=image-bucket
+    env_file: 
+      - /wedive-secret/api-secret.env
     networks: 
       - wedive-mongodb_default
       - default
-
   
 networks:
   wedive-mongodb_default:
