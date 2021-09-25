@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    name: String,
-    url: String,
+    s3EndPoint: String,
+    s3Region: String,
+    s3BucketName: String,
+    s3ObjectKey: String,
+    fileSize: Number,
     createdAt: { type: Date, default: Date.now },
 });
 

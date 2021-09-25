@@ -45,6 +45,7 @@ const typeDefs = gql`
   }
 
   type Image {
+    _id: ID
     name: String
     description: String
     mimeType: String
@@ -206,6 +207,8 @@ const typeDefs = gql`
     ): [Interest]
 
     searchInterest(query: String!, type: String, languageCode: String!): [Interest]
+
+    imageUrl(id: ID!, width: Int): String
   }
 
   type Mutation{

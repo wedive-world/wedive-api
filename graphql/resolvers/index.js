@@ -10,6 +10,7 @@ const resolvers = {
     Query: {
         ...userResolvers.Query,
         ...interestResolvers.Query,
+        ...imageResolvers.Query,
     },
 
     Mutation: {
