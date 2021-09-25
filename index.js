@@ -29,8 +29,8 @@ async function startServer() {
   server.applyMiddleware({ app });
 
   console.log(`==============================Secret Information==============================`)
-  console.log(`IMAGE_BUCKET_ACCESS_KEY=${process.env.IMAGE_BUCKET_ACCESS_KEY}`)
-  console.log(`IMAGE_BUCKET_SECRET_KEY=${process.env.IMAGE_BUCKET_SECRET_KEY}`)
+  console.log(`AWS_ACCESS_KEY_ID=${process.env.AWS_ACCESS_KEY_ID}`)
+  console.log(`AWS_SECRET_ACCESS_KEY=${process.env.AWS_SECRET_ACCESS_KEY}`)
   console.log(`==============================================================================`)
 
   await new Promise(r => app.listen({ port: 4000 }, r));

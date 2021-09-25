@@ -16,6 +16,7 @@ services:
       - IMAGE_BUCKET_NAME=image-bucket
     env_file: 
       - /wedive-secret/api-secret.env
+      - /wedive-secret/api-config.env
     networks: 
       - wedive-mongodb_default
       - default

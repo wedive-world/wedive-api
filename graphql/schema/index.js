@@ -224,7 +224,7 @@ const typeDefs = gql`
       iconUrl: String
     ): Interest!
 
-    uploadImage(file: Upload!, description: String): Image!
+    uploadImage(file: Upload!): Image!
   }
 
 `;
