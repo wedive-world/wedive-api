@@ -28,9 +28,11 @@ async function startServer() {
 
   server.applyMiddleware({ app });
 
-  console.log(`==============================Secret Information==============================`)
-  console.log(`AWS_ACCESS_KEY_ID=${process.env.AWS_ACCESS_KEY_ID}`)
-  console.log(`AWS_SECRET_ACCESS_KEY=${process.env.AWS_SECRET_ACCESS_KEY}`)
+  console.log(`==============================Env Information==============================`)
+  Object.keys(process.env)
+    .forEach(key => {
+      console.log(`${key}=${process.env[key]}`)
+    })
   console.log(`==============================================================================`)
 
   await new Promise(r => app.listen({ port: 4000 }, r));

@@ -7,18 +7,53 @@ const Interest = schema.Interest
 module.exports = {
 
     DivePoint: {
-        interests(parent, args, context, info) {
-            return Interest.find({ _id: args.interests });
+        async interests(parent, args, context, info) {
+            let divePoint = await DiveSite.find({ _id: parent._id })
+            return await Interest.find({
+                _id: {
+                    $in: divePoint.interests
+                }
+
+            })
+        },
+
+        async images(parent, args, context, info) {
+            let divePoint = await DiveSite.find({ _id: parent._id })
+            return await Image.find({
+                _id: {
+                    $in: divePoint.images
+                }
+            })
+        },
+
+        async backgroundImages(parent, args, context, info) {
+            let divePoint = await DiveSite.find({ _id: parent._id })
+            return await Image.find({
+                _id: {
+                    $in: divePoint.backgroundImages
+                }
+            })
+        },
+
+        async divePoints(parent, args, context, info) {
+            let divePoint = await DiveSite.find({ _id: parent._id })
+            return await Image.find({
+                _id: {
+                    $in: divePoint.divePoints
+                }
+            })
         },
     },
 
     Query: {
         async diveSite(parent, args, context, info) {
-            return await DiveSite.find({ _id: args.id })
+            return await DiveSite.find({ _id: args._id })
         },
+
         async searchDiveSite(parent, args, context, info) {
-            return await DiveSite.find({ _id: args.id })
+            return await DiveSite.find({ _id: args._id })
         },
+
         async nearByDiveSite(parent, args, context, info) {
             return await DiveSite.find({
                 $and: [
@@ -29,6 +64,7 @@ module.exports = {
                 ]
             })
         },
+
         async diveSites(parent, args, context, info) {
             return await DiveSite.find()
         },
@@ -36,23 +72,16 @@ module.exports = {
 
     Mutation: {
         async diveSite(parent, args, context, info) {
-            console.log(`createDiveSite: args=${args}`)
-            let diveSite = new DiveSite(args.diveSiteInput)
-            return await diveSite.save()
-        },
+            console.log(`mutation | diveSite: args=${args}`)
 
-        async diveSites(parent, args, context, info) {
-            console.log(`createDiveSites: args=${args}`)
-
-            let result = []
-
-            for (arg of args) {
-                const divesite = new DiveSite(arg)
-                const savedDiveSite = await divesite.save()
-                result.push(savedDiveSite)
+            let diveSite = null
+            if (args.input._id) {
+                diveSite = await DiveSite.findOne({ _id: args.input._id })
+            } else {
+                diveSite = new DiveSite(args.input)
             }
 
-            return result
+            return await diveSite.save()
         },
     }
 };

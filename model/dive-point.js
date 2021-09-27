@@ -20,9 +20,12 @@ const schema = new Schema({
     },
     minDepth: Number,
     maxDepth: Number,
+    minTemperature: Number,
+    maxTemperature: Number,
     diveSiteId: Schema.Types.ObjectId,
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

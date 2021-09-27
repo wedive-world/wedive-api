@@ -9,20 +9,40 @@ module.exports = {
 
     DivePoint: {
         async interests(parent, args, context, info) {
-            return await Interest.find({ _id: args.interests });
+            let divePoint = await DivePoint.find({ _id: parent._id })
+            return await Interest.find({
+                _id: {
+                    $in: divePoint.interests
+                }
+
+            })
         },
 
         async images(parent, args, context, info) {
-            return await Image.find({ _id: args.images })
+            let divePoint = await DivePoint.find({ _id: parent._id })
+            return await Image.find({
+                _id: {
+                    $in: divePoint.images
+                }
+            })
+        },
+
+        async backgroundImages(parent, args, context, info) {
+            let divePoint = await DivePoint.find({ _id: parent._id })
+            return await Image.find({
+                _id: {
+                    $in: divePoint.backgroundImages
+                }
+            })
         }
     },
 
     Query: {
         async divePoint(parent, args, context, info) {
-            return await DivePoint.find({ _id: args.id })
+            return await DivePoint.find({ _id: args._id })
         },
         async searchDivePoint(parent, args, context, info) {
-            return await DivePoint.find({ _id: args.id })
+            return await DivePoint.find({ _id: args._id })
         },
         async nearByDivePoint(parent, args, context, info) {
             return await DivePoint.find({
@@ -40,24 +60,18 @@ module.exports = {
     },
 
     Mutation: {
-        async diveSite(parent, args, context, info) {
-            console.log(`createDiveSite: args=${args}`)
-            let diveSite = new DiveSite(args.diveSiteInput)
-            return await diveSite.save()
-        },
 
-        async diveSites(parent, args, context, info) {
-            console.log(`createDiveSites: args=${args}`)
+        async divePoint(parent, args, context, info) {
+            console.log(`mutation | divePoint: args=${args}`)
 
-            let result = []
-
-            for (arg of args) {
-                const divesite = new DiveSite(arg)
-                const savedDiveSite = await divesite.save()
-                result.push(savedDiveSite)
+            let divePoint = null
+            if (args.input._id) {
+                divePoint = await DivePoint.findOne({ _id: args.input._id })
+            } else {
+                divePoint = new DivePoint(args.input)
             }
 
-            return result
+            return await divePoint.save()
         },
     }
 };

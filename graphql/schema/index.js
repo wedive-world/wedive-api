@@ -95,27 +95,40 @@ const typeDefs = gql`
     _id: ID
     name: String
     description: String
+    address: String
     latitude: Float
     longitude: Float
+    adminScore: Int
     minDepth: Int
     maxDepth: Int
+    minTemperature: Int
+    maxTemperature: Int
     diveSiteId: ID
-    interestIds: [ID]
-    imageIds: [ID]
+    interests: [Interest]
+    images: [Image]
+    backgroundImages: [Image]
+    countryCode: String
     createdAt: Date
     updatedAt: Date
   }
 
   input DivePointInput {
+    _id: ID
     name: String
     description: String
+    address: String
     latitude: Float
     longitude: Float
+    adminScore: Int
     minDepth: Int
     maxDepth: Int
+    minTemperature: Int
+    maxTemperature: Int
     diveSiteId: ID
-    interestIds: [ID]
-    countryCode: String!
+    interests: [ID]
+    images: [ID]
+    backgroundImages: [ID]
+    countryCode: String
   }
 
   type DiveSite {
@@ -125,24 +138,33 @@ const typeDefs = gql`
     address: String
     latitude: Float
     longitude: Float
-    divePoints: [ID]
+    adminScore: Int
+    divePoints: [DivePoint]
     interests: [Interest]
     images: [Image]
+    backgorundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
     countryCode: String
     createdAt: Date
     updatedAt: Date
   }
 
   input DiveSiteInput {
+    _id: ID
     name: String
     description: String
     address: String
     latitude: Float
     longitude: Float
-    divePointIds: [ID]
-    interestIds: [ID]
-    imageIds: [ID]
-    countryCode: String!
+    adminScore: Int
+    divePoints: [ID]
+    interests: [ID]
+    images: [ID]
+    backgorundImages: [ID]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    countryCode: String
   }
 
   type StringEntry {
@@ -176,15 +198,15 @@ const typeDefs = gql`
   }
 
   type Query {
-    user(id: ID!): User
+    user(_id: ID!): User
     users: [User]
 
-    diveSite(id: ID!): DiveSite
+    diveSite(_id: ID!): DiveSite
     searchDiveSite(query: String!, countryCode: String!): [DiveSite]
     nearByDiveSite(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
     diveSites: [DiveSite]
 
-    divePoint(id: ID!): DivePoint
+    divePoint(_id: ID!): DivePoint
     searchDivePoint(query: String!, countryCode: String!): [DivePoint]
     nearByDivePoint(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
     divePoints: [DivePoint]
@@ -208,7 +230,7 @@ const typeDefs = gql`
 
     searchInterest(query: String!, type: String, languageCode: String!): [Interest]
 
-    imageUrl(id: ID!, width: Int): String
+    imageUrl(_id: ID!, width: Int): String
   }
 
   type Mutation{
