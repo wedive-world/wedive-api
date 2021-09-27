@@ -10,7 +10,7 @@ module.exports = (() => {
     db.on('error', console.error);
     db.once('open', function () {
         // CONNECTED TO MONGODB SERVER
-        console.log("Connected to mongod server");
+        console.log(`Connected to mongod server, path=${MONGO_URL}`);
     });
 
     mongoose.connect(MONGO_URL, {
@@ -33,6 +33,6 @@ module.exports.schema = {
     Institution: require('./institution'),
     Instructor: require('./instructor'),
     License: require('./license'),
-    
+
     User: require('./user'),
 }
