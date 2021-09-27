@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    title: {
+    title: String,
+    titleTranslation: {
         type: Map,
         of: String,
-        unique: true
     },
     type: String,
     iconType: String,
@@ -17,7 +17,7 @@ const schema = new Schema({
 });
 
 schema.index({
-    'title.ko': 'text',
+    'titleTranslation.ko': 'text',
 })
 
 // schema.index({

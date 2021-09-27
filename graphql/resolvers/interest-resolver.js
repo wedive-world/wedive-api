@@ -5,7 +5,9 @@ const Interest = schema.Interest
 module.exports = {
     Query: {
         async interests(parent, args, context, info) {
+            let countryCode = context.countryCode || 'ko'
 
+            console.log(`query | interests: countrycode=${JSON.stringify(countryCode)}`)
             console.log(`query | interests: args=${JSON.stringify(args)}`)
 
             let param = {}
@@ -18,7 +20,7 @@ module.exports = {
 
             interests = interests.map(interest => {
                 interest = JSON.parse(JSON.stringify(interest))
-                interest.title = interest.title[args.languageCode]
+                interest.title = interest.titleTranslation[countryCode]
                 return interest
             })
 
@@ -27,6 +29,7 @@ module.exports = {
 
         async searchInterest(parent, args, context, info) {
 
+            let countryCode = context.countryCode || 'ko'
             console.log(`query | searchInterest: args=${JSON.stringify(args)}`)
 
             let param = {
@@ -48,7 +51,7 @@ module.exports = {
 
             return result.map(interest => {
                 interest = JSON.parse(JSON.stringify(interest))
-                interest.title = interest.title[args.languageCode]
+                interest.title = interest.titleTranslation[countryCode]
                 return interest
             })
         }
@@ -58,38 +61,29 @@ module.exports = {
         async interest(parent, args, context, info) {
 
             console.log(`mutation | interest: args=${JSON.stringify(args)}`)
-            let interest = await Interest.findOne({
-                title: {
-                    [args.languageCode]: args.title
-                }
-            })
 
-            let param = {
-                title: {
-                    [args.languageCode]: args.title
-                },
-                type: args.type,
-                iconType: args.iconType,
-                iconName: args.iconName,
-                iconColor: args.iconColor,
-                iconUrl: args.iconUrl,
-            }
+            let countryCode = context.countryCode || 'ko'
 
-            let result;
-            if (interest) {
-                let inputKey = Object.keys(param)
-                Object.keys(interest)
-                    .filter(key => inputKey.includes(key))
-                    .forEach(key => {
-                        interest[key] = param[key]
-                    })
+            let interest = null
 
-                result = await interest.save()
+            if (args.input._id) {
+                interest = await Interest.findOne({ _id: args.input._id })
+
+                Object.keys(args.input)
+                    .filter(key => args.input[key])
+                    .forEach(key => { interest[key] = args.input[key] })
+
+                interest.updatedAt = Date.now()
+
             } else {
-                result = await new Interest(param).save()
+                interest = new Interest(args.input)
+
+                interest.titleTranslation = new Map()
+                interest.titleTranslation.set(countryCode, args.input.title)
             }
 
-            result.title = result.title[args.languageCode]
+            let result = await interest.save()
+
             return result
         },
     },

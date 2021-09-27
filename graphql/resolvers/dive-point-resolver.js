@@ -39,7 +39,9 @@ module.exports = {
 
     Query: {
         async divePoint(parent, args, context, info) {
-            return await DivePoint.find({ _id: args._id })
+            let result = await DivePoint.find({ _id: args._id })
+
+            return result
         },
         async searchDivePoint(parent, args, context, info) {
             return await DivePoint.find({ _id: args._id })
@@ -63,15 +65,44 @@ module.exports = {
 
         async divePoint(parent, args, context, info) {
             console.log(`mutation | divePoint: args=${args}`)
+            let countryCode = context.countryCode || 'ko'
+
 
             let divePoint = null
+
             if (args.input._id) {
+
                 divePoint = await DivePoint.findOne({ _id: args.input._id })
+
+                Object.keys(args.input)
+                    .filter(key => args.input[key])
+                    .forEach(key => { divePoint[key] = args.input[key] })
+
+                divePoint.updatedAt = Date.now()
+
             } else {
                 divePoint = new DivePoint(args.input)
+
+                divePoint.nameTranslation = new Map()
+                divePoint.descriptionTranslation = new Map()
+                divePoint.addressTranslation = new Map()
+
+                divePoint.nameTranslation[countryCode].set(countryCode, args.input.name)
+                divePoint.descriptionTranslation[countryCode].set(countryCode, args.input.description)
+                divePoint.addressTranslation[countryCode].set(countryCode, args.input.address)
             }
 
-            return await divePoint.save()
+            let result = await divePoint.save()
+            return translate(result, countryCode)
         },
     }
 };
+
+function translate(divePoint, countryCode) {
+
+    divePoint.name = divePoint.nameTranslation[countryCode]
+    divePoint.description = divePoint.descriptionTranslation[countryCode]
+    divePoint.address = divePoint.addressTranslation[countryCode]
+
+    return divePoint
+}

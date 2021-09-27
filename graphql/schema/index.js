@@ -197,6 +197,16 @@ const typeDefs = gql`
     iconUrl: String
   }
 
+  input InterestInput {
+    _id: ID
+    title: String
+    type: String
+    iconType: String
+    iconName: String
+    iconColor: String
+    iconUrl: String
+  }
+
   type Query {
     user(_id: ID!): User
     users: [User]
@@ -213,10 +223,6 @@ const typeDefs = gql`
 
     interests(
       """
-      iso-alpha2 code, e.g.) jp, us, kr
-      """
-      languageCode: String!,
-      """
       할인대상: discountTarget
       할인옵션: discountOption
       성별: gender
@@ -228,7 +234,7 @@ const typeDefs = gql`
       type: String
     ): [Interest]
 
-    searchInterest(query: String!, type: String, languageCode: String!): [Interest]
+    searchInterest(query: String!, type: String): [Interest]
 
     imageUrl(_id: ID!, width: Int): String
   }
@@ -239,15 +245,7 @@ const typeDefs = gql`
     divePoint(input: DivePointInput!): DivePoint!
     diveSite(input: DiveSiteInput!): DiveSite!
 
-    interest(
-      title: String!,
-      type: String!,
-      languageCode: String!,
-      iconType: String!,
-      iconName: String,
-      iconColor: String,
-      iconUrl: String
-    ): Interest!
+    interest(input: InterestInput!): Interest!
 
     uploadImage(file: Upload!): Image!
   }

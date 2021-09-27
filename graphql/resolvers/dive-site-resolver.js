@@ -74,14 +74,37 @@ module.exports = {
         async diveSite(parent, args, context, info) {
             console.log(`mutation | diveSite: args=${args}`)
 
+            let countryCode = context.countryCode || 'ko'
+
             let diveSite = null
             if (args.input._id) {
                 diveSite = await DiveSite.findOne({ _id: args.input._id })
+
+                Object.keys(args.input)
+                    .filter(key => args.input[key])
+                    .forEach(key => { diveSite[key] = args.input[key] })
+
+                diveSite.updatedAt = Date.now()
+
             } else {
                 diveSite = new DiveSite(args.input)
+
+                diveSite.nameTranslation = new Map()
+                diveSite.descriptionTranslation = new Map()
+                diveSite.addressTranslation = new Map()
+
+                diveSite.nameTranslation[countryCode].set(countryCode, args.input.name)
+                diveSite.descriptionTranslation[countryCode].set(countryCode, args.input.description)
+                diveSite.addressTranslation[countryCode].set(countryCode, args.input.address)
             }
 
-            return await diveSite.save()
+            let result = await diveSite.save()
+
+            result.name = diveSite.nameTranslation[countryCode]
+            result.description = diveSite.descriptionTranslation[countryCode]
+            result.address = diveSite.addressTranslation[countryCode]
+            
+            return result
         },
     }
 };
