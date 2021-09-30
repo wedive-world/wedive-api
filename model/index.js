@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { DB_URL, DB_NAME, DB_PATH } = process.env;
 
-const MONGO_URL = DB_PATH || `mongodb://localhost:4100/platform`;
+const MONGO_URL = `${DB_PATH}/${DB_NAME}` || `mongodb://localhost:4100/platform`;
 
 // Connect to mongoDB
 module.exports = (() => {
