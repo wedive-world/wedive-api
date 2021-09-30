@@ -221,16 +221,17 @@ const typeDefs = gql`
     nearByDivePoint(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
     divePoints: [DivePoint]
 
+      """
+      @parameter type
+        할인대상: discountTarget
+        할인옵션: discountOption
+        성별: gender
+        나이: age
+        다이빙: diving
+        친목: amity
+        환경: environment
+      """
     interests(
-      """
-      할인대상: discountTarget
-      할인옵션: discountOption
-      성별: gender
-      나이: age
-      다이빙: diving
-      친목: amity
-      환경: environment
-      """
       type: String
     ): [Interest]
 
