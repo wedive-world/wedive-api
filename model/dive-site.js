@@ -33,6 +33,8 @@ const schema = new Schema({
     youtubeVideoIds: [String],
     referenceUrls: [String],
     countryCode: String,
+    waterTemperatureScore: Number,
+    eyeSiteScore: Number,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

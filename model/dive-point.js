@@ -33,6 +33,7 @@ const schema = new Schema({
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
     backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    flowRateScore: Number,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

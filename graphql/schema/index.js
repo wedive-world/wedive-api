@@ -108,6 +108,7 @@ const typeDefs = gql`
     images: [Image]
     backgroundImages: [Image]
     countryCode: String
+    flowRateScore: Int
     createdAt: Date
     updatedAt: Date
   }
@@ -129,6 +130,7 @@ const typeDefs = gql`
     images: [ID]
     backgroundImages: [ID]
     countryCode: String
+    flowRateScore: Int
   }
 
   type DiveSite {
@@ -146,6 +148,8 @@ const typeDefs = gql`
     youtubeVideoIds: [String]
     referenceUrls: [String]
     countryCode: String
+    waterTemperatureScore: Int
+    eyeSiteScore: Int
     createdAt: Date
     updatedAt: Date
   }
@@ -165,6 +169,8 @@ const typeDefs = gql`
     youtubeVideoIds: [String]
     referenceUrls: [String]
     countryCode: String
+    waterTemperatureScore: Int
+    eyeSiteScore: Int
   }
 
   type StringEntry {
