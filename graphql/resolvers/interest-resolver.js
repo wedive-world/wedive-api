@@ -2,8 +2,19 @@ const schema = require('../../model').schema;
 
 const Interest = schema.Interest
 
+const translator = require('./util/translator')
+
 module.exports = {
     Query: {
+        async interest(parent, args, context, info) {
+            let countryCode = context.countryCode || 'ko'
+            let interest = await Interest.find({
+                _id: args._id
+            })
+
+            return translator.interestTranslateOut(interest, countryCode)
+        },
+
         async interests(parent, args, context, info) {
             let countryCode = context.countryCode || 'ko'
 
@@ -17,14 +28,7 @@ module.exports = {
             }
 
             let interests = await Interest.find(param)
-
-            interests = interests.map(interest => {
-                interest = JSON.parse(JSON.stringify(interest))
-                interest.title = interest.titleTranslation[countryCode]
-                return interest
-            })
-
-            return interests
+            return interests.map(interest => translator.interestTranslateOut(interest, countryCode))
         },
 
         async searchInterest(parent, args, context, info) {
@@ -46,14 +50,10 @@ module.exports = {
 
             console.log(`query | searchInterest: param=${JSON.stringify(param)}`)
 
-            let result = await Interest.find(param)
+            let interests = await Interest.find(param)
             console.log(`query | searchInterest: result=${JSON.stringify(result)}`)
 
-            return result.map(interest => {
-                interest = JSON.parse(JSON.stringify(interest))
-                interest.title = interest.titleTranslation[countryCode]
-                return interest
-            })
+            return interests.map(interest => translator.interestTranslateOut(interest, countryCode))
         }
     },
 

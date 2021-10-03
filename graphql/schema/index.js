@@ -92,18 +92,18 @@ const typeDefs = gql`
   }
 
   type DivePoint {
-    _id: ID
-    name: String
+    _id: ID!
+    name: String!
     description: String
     address: String
-    latitude: Float
-    longitude: Float
+    latitude: Float!
+    longitude: Float!
     adminScore: Int
     minDepth: Int
     maxDepth: Int
     minTemperature: Int
     maxTemperature: Int
-    diveSiteId: ID
+    diveSiteId: ID!
     interests: [Interest]
     images: [Image]
     backgroundImages: [Image]
@@ -114,17 +114,17 @@ const typeDefs = gql`
 
   input DivePointInput {
     _id: ID
-    name: String
+    name: String!
     description: String
     address: String
-    latitude: Float
-    longitude: Float
+    latitude: Float!
+    longitude: Float!
     adminScore: Int
     minDepth: Int
     maxDepth: Int
     minTemperature: Int
     maxTemperature: Int
-    diveSiteId: ID
+    diveSiteId: ID!
     interests: [ID]
     images: [ID]
     backgroundImages: [ID]
@@ -132,12 +132,12 @@ const typeDefs = gql`
   }
 
   type DiveSite {
-    _id: ID
-    name: String
+    _id: ID!
+    name: String!
     description: String
     address: String
-    latitude: Float
-    longitude: Float
+    latitude: Float!
+    longitude: Float!
     adminScore: Int
     divePoints: [DivePoint]
     interests: [Interest]
@@ -152,11 +152,11 @@ const typeDefs = gql`
 
   input DiveSiteInput {
     _id: ID
-    name: String
+    name: String!
     description: String
     address: String
-    latitude: Float
-    longitude: Float
+    latitude: Float!
+    longitude: Float!
     adminScore: Int
     divePoints: [ID]
     interests: [ID]
@@ -212,15 +212,17 @@ const typeDefs = gql`
     users: [User]
 
     diveSite(_id: ID!): DiveSite
-    searchDiveSite(query: String!, countryCode: String!): [DiveSite]
+    searchDiveSite(query: String!): [DiveSite]
     nearByDiveSite(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
     diveSites: [DiveSite]
 
     divePoint(_id: ID!): DivePoint
-    searchDivePoint(query: String!, countryCode: String!): [DivePoint]
+    searchDivePoint(query: String!): [DivePoint]
     nearByDivePoint(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
     divePoints: [DivePoint]
 
+    interest(_id: ID!): Interest
+    searchInterest(query: String!, type: String): [Interest]
       """
       @parameter type
         할인대상: discountTarget
@@ -235,7 +237,6 @@ const typeDefs = gql`
       type: String
     ): [Interest]
 
-    searchInterest(query: String!, type: String): [Interest]
 
     imageUrl(_id: ID!, width: Int): String
   }

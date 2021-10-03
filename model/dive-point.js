@@ -38,3 +38,7 @@ const schema = new Schema({
 });
 
 module.exports = mongoose.model('DivePoint', schema);
+
+schema.index({
+    'nameTranslation.ko': 'text',
+})
