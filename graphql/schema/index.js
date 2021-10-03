@@ -142,7 +142,7 @@ const typeDefs = gql`
     divePoints: [DivePoint]
     interests: [Interest]
     images: [Image]
-    backgorundImages: [Image]
+    backgroundImages: [Image]
     youtubeVideoIds: [String]
     referenceUrls: [String]
     countryCode: String

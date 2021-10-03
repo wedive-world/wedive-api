@@ -1,5 +1,6 @@
 const schema = require('../../model').schema;
 
+const DiveSite = schema.DiveSite
 const DivePoint = schema.DivePoint
 const Interest = schema.Interest
 const Image = schema.Image
@@ -55,14 +56,12 @@ module.exports = {
 
         async searchDivePoint(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
             console.log(`query | searchDivePoint: args=${JSON.stringify(args)}`)
 
+            let countryCode = context.countryCode || 'ko'
             let param = {
                 $text: { $search: args.query }
             }
-            console.log(`query | searchDivePoint: param=${JSON.stringify(param)}`)
-            
             let divePoints = await DivePoint.find(param)
             return divePoints.map(divePoint => translator.divePointTranslateOut(divePoint, countryCode))
         },
@@ -112,6 +111,17 @@ module.exports = {
 
             divePoint = translator.divePointTranslateIn(divePoint, args.input, countryCode)
             let result = await divePoint.save()
+
+            let diveSite = await DiveSite.findOne({ _id: result.diveSiteId })
+            if (!diveSite.divePoints) {
+                diveSite.divePoints = []
+            }
+
+            if (!diveSite.divePoints.includes(result._id)) {
+                diveSite.divePoints.push(result.id)
+            }
+
+            await diveSite.save()
 
             return translator.divePointTranslateOut(result, countryCode)
         },

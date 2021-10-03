@@ -8,41 +8,37 @@ const translator = require('./util/translator')
 
 module.exports = {
 
-    DivePoint: {
+    DiveSite: {
         async interests(parent, args, context, info) {
-            let diveSite = await DiveSite.find({ _id: parent._id })
             return await Interest.find({
                 _id: {
-                    $in: diveSite.interests
+                    $in: parent.interests
                 }
 
             })
         },
 
         async images(parent, args, context, info) {
-            let diveSite = await DiveSite.find({ _id: parent._id })
             return await Image.find({
                 _id: {
-                    $in: diveSite.images
+                    $in: parent.images
                 }
             })
         },
 
         async backgroundImages(parent, args, context, info) {
-            let diveSite = await DiveSite.find({ _id: parent._id })
             return await Image.find({
                 _id: {
-                    $in: diveSite.backgroundImages
+                    $in: parent.backgroundImages
                 }
             })
         },
 
         async divePoints(parent, args, context, info) {
             const countryCode = context.countryCode
-            let diveSite = await DiveSite.find({ _id: parent._id })
             let resultList = await DivePoint.find({
                 _id: {
-                    $in: diveSite.divePoints
+                    $in: parent.divePoints
                 }
             })
 
@@ -97,7 +93,7 @@ module.exports = {
 
     Mutation: {
         async diveSite(parent, args, context, info) {
-            console.log(`mutation | diveSite: args=${args}`)
+            console.log(`mutation | diveSite: args=${JSON.stringify(args)}`)
 
             let countryCode = context.countryCode || 'ko'
 
@@ -116,9 +112,12 @@ module.exports = {
             }
 
             diveSite = translator.diveSiteTranslateIn(diveSite, args.input, countryCode)
+            console.log(`mutation | diveSite: diveSite=${JSON.stringify(diveSite)}`)
 
             let result = await diveSite.save()
-            return translator.diveSiteTranslateOut(result, countryCode)
+            let translated = translator.diveSiteTranslateOut(result, countryCode)
+            console.log(`mutation | diveSite: translated=${JSON.stringify(translated)}`)
+            return translated
         },
     }
 };

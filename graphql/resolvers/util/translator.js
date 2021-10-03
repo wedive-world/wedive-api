@@ -1,8 +1,8 @@
 module.exports.divePointTranslateOut = (divePoint, countryCode) => {
 
-    divePoint.name = divePoint.nameTranslation[countryCode]
-    divePoint.description = divePoint.descriptionTranslation[countryCode]
-    divePoint.address = divePoint.addressTranslation[countryCode]
+    divePoint.name = divePoint.nameTranslation.get(countryCode)
+    divePoint.description = divePoint.descriptionTranslation.get(countryCode)
+    divePoint.address = divePoint.addressTranslation.get(countryCode)
 
     return divePoint
 }
@@ -30,9 +30,9 @@ module.exports.divePointTranslateIn = (divePoint, input, countryCode) => {
 
 module.exports.diveSiteTranslateOut = (diveSite, countryCode) => {
 
-    diveSite.name = diveSite.nameTranslation[countryCode]
-    diveSite.description = diveSite.descriptionTranslation[countryCode]
-    diveSite.address = diveSite.addressTranslation[countryCode]
+    diveSite.name = diveSite.nameTranslation.get(countryCode)
+    diveSite.description = diveSite.descriptionTranslation.get(countryCode)
+    diveSite.address = diveSite.addressTranslation.get(countryCode)
 
     return diveSite
 }
@@ -60,7 +60,7 @@ module.exports.diveSiteTranslateIn = (diveSite, input, countryCode) => {
 
 module.exports.interestTranslateOut = (interest, countryCode) => {
 
-    interest.name = interest.titleTranslation[countryCode]
+    interest.name = interest.titleTranslation.get(countryCode)
 
     return interest
 }
