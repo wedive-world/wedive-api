@@ -10,8 +10,8 @@ services:
       - "4000:4000"
     restart: unless-stopped
     env_file: 
-      - wedive-secret/api-secret.env
-      - wedive-secret/api-config.env
+      - api-secret.env
+      - api-config.env
     networks: 
       - wedive-mongodb_default
       - default
