@@ -214,13 +214,13 @@ const typeDefs = gql`
   }
 
   enum InterestType {
-    """할인대상:""" discountTarget
-    """할인옵션:""" discountOption
-    """성별:""" gender
-    """나이:""" age
-    """다이빙:""" diving
-    """친목:""" amity
-    """환경:""" environment
+    """할인 대상""" discountTarget
+    """할인 옵션""" discountOption
+    """성별""" gender
+    """나이""" age
+    """다이빙""" diving
+    """친목""" amity
+    """환경""" environment
   }
 
   type Query {
