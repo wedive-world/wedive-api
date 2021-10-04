@@ -8,9 +8,14 @@ npm install
 node index.js
 ```
 
-## How to deploy
+## How to PRD deploy
 ```
-sudo docker-compose up -d
+sh deploy.sh
+```
+
+## How to DEV deploy
+```
+sh deploy_dev.sh
 ```
 
 
