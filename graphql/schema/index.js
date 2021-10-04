@@ -196,7 +196,7 @@ const typeDefs = gql`
   type Interest {
     _id: ID
     title: String
-    type: String
+    type: InterestType
     iconType: String
     iconName: String
     iconColor: String
@@ -206,11 +206,21 @@ const typeDefs = gql`
   input InterestInput {
     _id: ID
     title: String
-    type: String
+    type: InterestType
     iconType: String
     iconName: String
     iconColor: String
     iconUrl: String
+  }
+
+  enum InterestType {
+    """할인대상:""" discountTarget
+    """할인옵션:""" discountOption
+    """성별:""" gender
+    """나이:""" age
+    """다이빙:""" diving
+    """친목:""" amity
+    """환경:""" environment
   }
 
   type Query {
