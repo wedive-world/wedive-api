@@ -10,8 +10,9 @@ services:
       - "4000:4000"
     restart: unless-stopped
     env_file: 
-      - api-secret.env
-      - api-config.env
+      - aws-secret.env
+      - db-config.env
+      - s3-config.env
     networks: 
       - wedive-mongodb_default
       - default
