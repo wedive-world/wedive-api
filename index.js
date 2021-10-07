@@ -31,7 +31,9 @@ async function startServer() {
   connectDB();
 
   const server = new ApolloServer({
-	cors: corsOptions,
+	cors: {
+		origin: '*'
+	},
     typeDefs,
     resolvers,
     playground: true,
