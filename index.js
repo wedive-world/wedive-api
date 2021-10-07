@@ -1,8 +1,4 @@
 const express = require('express');
-const cors = require('cors');
-const domains = ['https://wedives.com', 'https://m.wedives.com'];
-
-
 const {
   ApolloServer,
   AuthenticationError,
@@ -17,21 +13,13 @@ const {
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
 const connectDB = require("./model");
-const corsOptions = {
-  origin: function(origin, callback){
-	const isTrue = domains.indexOf(origin) !== -1;
-	callback(null, isTrue);
-  }
-  ,
-  credentials: true
- }
 
 async function startServer() {
 
   connectDB();
 
   const server = new ApolloServer({
-	typeDefs,
+    typeDefs,
     resolvers,
     playground: true,
     context: ({ req }) => {
@@ -60,13 +48,9 @@ async function startServer() {
 
   const app = express();
   // This middleware should be added before calling `applyMiddleware`.
-  
-  
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),);
-  app.use(cors(corsOptions));
 
-  server.applyMiddleware({ app, cors: corsOptions });
-  //server.applyMiddleware({ app });
+  server.applyMiddleware({ app });
 
   console.log(`==============================Env Information==============================`)
   Object.keys(process.env)
