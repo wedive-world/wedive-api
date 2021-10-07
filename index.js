@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
   ApolloServer,
-  AuthenticationError,
+  //AuthenticationError,
   ForbiddenError,
 } = require('apollo-server-express');
 
