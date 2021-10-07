@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const domains = ['https://wedives.com/*', 'https://m.wedives.com/*'];
+const domains = ['https://wedives.com', 'https://m.wedives.com'];
 
 
 const {
@@ -31,7 +31,7 @@ async function startServer() {
   connectDB();
 
   const server = new ApolloServer({
-	cors: corsOptions,
+	cors: cors(corsOptions),
     typeDefs,
     resolvers,
     playground: true,
