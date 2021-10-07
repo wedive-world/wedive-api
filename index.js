@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const domains = ['https://wedives.com', 'https://m.wedives.com'];
+const domains = ['https://wedives.com/*', 'https://m.wedives.com/*'];
 
 
 const {
   ApolloServer,
-  //AuthenticationError,
+  AuthenticationError,
   ForbiddenError,
 } = require('apollo-server-express');
 
@@ -31,9 +31,7 @@ async function startServer() {
   connectDB();
 
   const server = new ApolloServer({
-	cors: {
-		origin: '*'
-	},
+	cors: corsOptions,
     typeDefs,
     resolvers,
     playground: true,
