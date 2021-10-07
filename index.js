@@ -61,10 +61,9 @@ async function startServer() {
 	  ,
 	  credentials: true
   }
-  app.use(cors(corsOptions));
-
-  app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),);
   
+  app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),);
+  app.use(cors(corsOptions));
 
   server.applyMiddleware({ app });
 
