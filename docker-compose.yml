@@ -14,9 +14,13 @@ services:
       - db-config.env
       - s3-config.env
     networks: 
-      - wedive-mongodb_default
-      - default
-  
+      - api-network
+      - mongo-network
+      
 networks:
-  wedive-mongodb_default:
+  api-network:
+    driver: bridge
+    name: api-network
+
+  mongo-network:
     external: true
