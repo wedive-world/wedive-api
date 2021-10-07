@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    image: api
     ports: 
       - "4000:4000"
     restart: unless-stopped
