@@ -31,8 +31,7 @@ async function startServer() {
   connectDB();
 
   const server = new ApolloServer({
-	cors: cors(corsOptions),
-    typeDefs,
+	typeDefs,
     resolvers,
     playground: true,
     context: ({ req }) => {
@@ -66,6 +65,7 @@ async function startServer() {
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),);
   app.use(cors(corsOptions));
 
+  server.applyMiddleware({ app, cors: corsOptions });
   server.applyMiddleware({ app });
 
   console.log(`==============================Env Information==============================`)
