@@ -66,7 +66,7 @@ async function startServer() {
   app.use(cors(corsOptions));
 
   server.applyMiddleware({ app, cors: corsOptions });
-  server.applyMiddleware({ app });
+  //server.applyMiddleware({ app });
 
   console.log(`==============================Env Information==============================`)
   Object.keys(process.env)
