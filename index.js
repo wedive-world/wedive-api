@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const domains = ['http://wedives.com', 'http://m.wedives.com'];
+const domains = ['https://wedives.com', 'https://m.wedives.com'];
 
 
 const {
