@@ -1,4 +1,7 @@
 const express = require('express');
+const cors = require('cors');
+const domains = ['http://wedives.com', 'http://m.wedives.com'];
+
 
 const {
   ApolloServer,
@@ -50,7 +53,18 @@ async function startServer() {
 
   const app = express();
   // This middleware should be added before calling `applyMiddleware`.
+  const corsOptions = {
+	  origin: function(origin, callback){
+		const isTrue = domains.indexOf(origin) !== -1;
+		callback(null, isTrue);
+	  }
+	  ,
+	  credentials: true
+  }
+  app.use(cors(corsOptions));
+
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),);
+  
 
   server.applyMiddleware({ app });
 
