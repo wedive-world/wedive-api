@@ -16,12 +16,12 @@ services:
       - wedive-secret/s3-config.env
     networks: 
       - api-network
-      - mongo-network
+      - mongodb-network
       
 networks:
   api-network:
     driver: bridge
     name: api-network
 
-  mongo-network:
+  mongodb-network:
     external: true
