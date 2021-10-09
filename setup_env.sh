@@ -1,0 +1,1 @@
+cp dev_env /root/.wedive_env
