@@ -17,4 +17,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD [ "pm2-runtime", "start", "index.js" ]
+CMD ["npm", "run", "start-production"]

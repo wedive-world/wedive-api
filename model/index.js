@@ -1,19 +1,30 @@
 const mongoose = require('mongoose');
-const { DB_URL, DB_NAME, DB_PATH } = process.env;
 
-const MONGO_URL = `${DB_PATH}/${DB_NAME}` || `mongodb://localhost:4100/platform`;
+switch (process.env.NODE_ENV) {
+    case 'production':
+        require('dotenv').config({ path: './wedive-secret/db-config.env' })
+        break;
+
+    case 'local':
+        require('dotenv').config({ path: './wedive-secret/local/db-config.env' })
+        break;
+}
+
+const { DB_HOST } = process.env;
 
 // Connect to mongoDB
 module.exports = (() => {
+
+    console.log(`trying to connect ${DB_HOST}...`)
 
     const db = mongoose.connection;
     db.on('error', console.error);
     db.once('open', function () {
         // CONNECTED TO MONGODB SERVER
-        console.log(`Connected to mongod server, path=${MONGO_URL}`);
+        console.log(`Connected to mongod server, path=${DB_HOST}`);
     });
 
-    mongoose.connect(MONGO_URL, {
+    mongoose.connect(DB_HOST, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
