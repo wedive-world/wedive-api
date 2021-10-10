@@ -26,7 +26,8 @@ module.exports = (() => {
 
     mongoose.connect(DB_HOST, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        directConnection: true
     })
 })
 
