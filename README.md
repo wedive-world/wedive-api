@@ -1,21 +1,13 @@
 # wedive-api
 
-## How to build and run
+## How to build and run in local env (for api developer)
 ```
-npm install
-```
-```
-node index.js
+sh deploy_local.sh
 ```
 
-## How to PRD deploy
+## How to deploy in dockerization env (for prd, or except api developer)
 ```
-sh deploy.sh
-```
-
-## How to DEV deploy
-```
-sh deploy_dev.sh
+sudo sh deploy.sh
 ```
 
 
