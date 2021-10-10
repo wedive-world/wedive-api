@@ -20,6 +20,7 @@ async function startServer() {
     typeDefs,
     resolvers,
     playground: true,
+    introspection: true,
     context: ({ req }) => {
       // if (!req.headers.authorization) {
       //   throw new AuthenticationError("mssing token");

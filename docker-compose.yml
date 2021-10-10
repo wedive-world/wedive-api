@@ -10,10 +10,6 @@ services:
     ports: 
       - "4000:4000"
     restart: unless-stopped
-    env_file: 
-      - wedive-secret/aws-secret.env
-      - wedive-secret/db-config.env
-      - wedive-secret/s3-config.env
     networks: 
       - api-network
       - mongodb-network
