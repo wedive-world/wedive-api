@@ -218,12 +218,13 @@ const typeDefs = gql`
     """할인 옵션""" discountOption
     """성별""" gender
     """나이""" age
-    """다이빙""" diving
     """친목""" amity
     """환경""" tripFeature
     """수상 내역""" award
     """별명""" nickName
+    """다이빙환경""" divingPointEnvironment
     """수중 생물""" aquaticLife
+    """다이빙 타입(프리,스쿠바)""" divingType
   }
 
   type Query {
