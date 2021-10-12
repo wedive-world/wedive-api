@@ -29,7 +29,7 @@ const schema = new Schema({
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
-    backgorundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
     youtubeVideoIds: [String],
     referenceUrls: [String],
     countryCode: String,

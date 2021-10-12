@@ -165,7 +165,7 @@ const typeDefs = gql`
     divePoints: [ID]
     interests: [ID]
     images: [ID]
-    backgorundImages: [ID]
+    backgroundImages: [ID]
     youtubeVideoIds: [String]
     referenceUrls: [String]
     countryCode: String
