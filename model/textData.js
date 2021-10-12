@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-//hook test
-
 const schema = new Schema({
     ko: String,
     en: String,
