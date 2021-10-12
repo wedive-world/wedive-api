@@ -1,4 +1,4 @@
-FROM node:15
+FROM --platform=linux/amd64 node:15
 
 WORKDIR /usr/src/wedive-api
 # 앱 의존성 설치
@@ -17,4 +17,5 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["npm", "run", "start-production"]
+CMD ["npm", "run", "start-development"]
+# CMD ["npm", "run", "start-production"] TODO uncomment when production serice started
