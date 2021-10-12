@@ -6,7 +6,7 @@ const translator = require('./util/translator')
 
 module.exports = {
     Query: {
-        async interest(parent, args, context, info) {
+        async getInterestById(parent, args, context, info) {
             let countryCode = context.countryCode || 'ko'
             let interest = await Interest.find({
                 _id: args._id
@@ -15,11 +15,11 @@ module.exports = {
             return translator.interestTranslateOut(interest, countryCode)
         },
 
-        async interests(parent, args, context, info) {
+        async getAllInterests(parent, args, context, info) {
             let countryCode = context.countryCode || 'ko'
 
-            console.log(`query | interests: countrycode=${JSON.stringify(countryCode)}`)
-            console.log(`query | interests: args=${JSON.stringify(args)}`)
+            console.log(`query | getAllInterests: countrycode=${JSON.stringify(countryCode)}`)
+            console.log(`query | getAllInterests: args=${JSON.stringify(args)}`)
 
             let param = {}
 
@@ -31,10 +31,10 @@ module.exports = {
             return interests.map(interest => translator.interestTranslateOut(interest, countryCode))
         },
 
-        async searchInterest(parent, args, context, info) {
+        async searchInterestsByName(parent, args, context, info) {
 
             let countryCode = context.countryCode || 'ko'
-            console.log(`query | searchInterest: args=${JSON.stringify(args)}`)
+            console.log(`query | searchInterestsByName: args=${JSON.stringify(args)}`)
 
             let param = {
                 $and: [
@@ -58,9 +58,9 @@ module.exports = {
     },
 
     Mutation: {
-        async interest(parent, args, context, info) {
+        async upsertInterest(parent, args, context, info) {
 
-            console.log(`mutation | interest: args=${JSON.stringify(args)}`)
+            console.log(`mutation | createInterest: args=${JSON.stringify(args)}`)
 
             let countryCode = context.countryCode || 'ko'
 
@@ -85,6 +85,11 @@ module.exports = {
             let result = await interest.save()
 
             return result
+        },
+        async deleteInterestById(parent, args, context, info) {
+            let result = await Interest.deleteOne({ _id: args._id })
+            console.log(`mutation | deleteInterestById: result=${JSON.stringify(result)}`)
+            return args._id
         },
     },
 };

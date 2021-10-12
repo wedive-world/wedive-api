@@ -219,55 +219,44 @@ const typeDefs = gql`
     """성별""" gender
     """나이""" age
     """친목""" amity
-    """환경""" tripFeature
+    """여행 특성""" tripFeature
     """수상 내역""" award
     """별명""" nickName
-    """다이빙환경""" divingPointEnvironment
+    """다이빙 환경""" divingPointEnvironment
     """수중 생물""" aquaticLife
     """다이빙 타입(프리,스쿠바)""" divingType
   }
 
   type Query {
-    user(_id: ID!): User
-    users: [User]
+    getAllUsers: [User]
+    getUserById(_id: ID!): User
 
-    diveSite(_id: ID!): DiveSite
-    searchDiveSite(query: String!): [DiveSite]
-    nearByDiveSite(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
-    diveSites: [DiveSite]
+    getAllDiveSites: [DiveSite]
+    getDiveSiteById(_id: ID!): DiveSite
+    getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
+    searchDiveSitesByName(query: String!): [DiveSite]
 
-    divePoint(_id: ID!): DivePoint
-    searchDivePoint(query: String!): [DivePoint]
-    nearByDivePoint(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
-    divePoints: [DivePoint]
+    getAllDivePoints: [DivePoint]
+    getDivePointById(_id: ID!): DivePoint
+    getDivePointsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
+    searchDivePointsByName(query: String!): [DivePoint]
 
-    interest(_id: ID!): Interest
-    searchInterest(query: String!, type: String): [Interest]
-      """
-      @parameter type
-        할인대상: discountTarget
-        할인옵션: discountOption
-        성별: gender
-        나이: age
-        다이빙: diving
-        친목: amity
-        환경: environment
-      """
-    interests(
-      type: String
-    ): [Interest]
+    getAllInterests(type: String): [Interest]
+    getInterestById(_id: ID!): Interest
+    searchInterestsByName(query: String!, type: String): [Interest]
 
-
-    imageUrl(_id: ID!, width: Int): String
+    getImageUrlById(_id: ID!, width: Int): String
   }
 
   type Mutation{
-    user(userInput: UserInput): User!
+    upsertUser(userInput: UserInput): User!
 
-    divePoint(input: DivePointInput!): DivePoint!
-    diveSite(input: DiveSiteInput!): DiveSite!
+    upsertDivePoint(input: DivePointInput!): DivePoint!
 
-    interest(input: InterestInput!): Interest!
+    upsertDiveSite(input: DiveSiteInput!): DiveSite!
+
+    upsertInterest(input: InterestInput!): Interest!
+    deleteInterestById(_id: ID!): ID
 
     uploadImage(file: Upload!): Image!
   }

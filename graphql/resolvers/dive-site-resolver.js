@@ -47,14 +47,32 @@ module.exports = {
     },
 
     Query: {
-        async diveSite(parent, args, context, info) {
+        async getAllDiveSites(parent, args, context, info) {
+    
+            let countryCode = context.countryCode || 'ko'
+            let diveSiteList = await DiveSite.find()
+            return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
+        },
+        async getDiveSiteById(parent, args, context, info) {
             let countryCode = context.countryCode || 'ko'
             let diveSite = await DiveSite.find({ _id: args._id })
 
             return translator.diveSiteTranslateOut(diveSite, countryCode)
         },
-
-        async searchDiveSite(parent, args, context, info) {
+        async getDiveSitesNearby(parent, args, context, info) {
+            
+            let countryCode = context.countryCode || 'ko'
+            let diveSiteList = await DiveSite.find({
+                $and: [
+                    { latitude: { $gt: Math.min(args.lat1, args.lat2) } },
+                    { longitude: { $gt: Math.min(args.lon1, args.lon2) } },
+                    { latitude: { $lt: Math.max(args.lat1, args.lat2) } },
+                    { longitude: { $lt: Math.max(args.lon1, args.lon2) } },
+                ]
+            })
+            return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
+        },
+        async searchDiveSitesByName(parent, args, context, info) {
 
             let countryCode = context.countryCode || 'ko'
             console.log(`query | searchDiveSite: args=${JSON.stringify(args)}`)
@@ -69,30 +87,10 @@ module.exports = {
             return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
         },
 
-        async nearByDiveSite(parent, args, context, info) {
-
-            let countryCode = context.countryCode || 'ko'
-            let diveSiteList = await DiveSite.find({
-                $and: [
-                    { latitude: { $gt: Math.min(args.lat1, args.lat2) } },
-                    { longitude: { $gt: Math.min(args.lon1, args.lon2) } },
-                    { latitude: { $lt: Math.max(args.lat1, args.lat2) } },
-                    { longitude: { $lt: Math.max(args.lon1, args.lon2) } },
-                ]
-            })
-            return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
-        },
-
-        async diveSites(parent, args, context, info) {
-
-            let countryCode = context.countryCode || 'ko'
-            let diveSiteList = await DiveSite.find()
-            return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
-        },
     },
 
     Mutation: {
-        async diveSite(parent, args, context, info) {
+        async upsertDiveSite(parent, args, context, info) {
             console.log(`mutation | diveSite: args=${JSON.stringify(args)}`)
 
             let countryCode = context.countryCode || 'ko'

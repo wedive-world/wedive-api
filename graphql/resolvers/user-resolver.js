@@ -17,16 +17,16 @@ module.exports = {
     },
 
     Query: {
-        users() {
+        getAllUsers() {
             return User.find()
         },
-        user(id) {
+        getUserById(id) {
             return User.find({ _id: id });
         },
     },
 
     Mutation: {
-        async user(parent, args, context, info) {
+        async upsertUser(parent, args, context, info) {
             return await new User(args).save()
         },
     },

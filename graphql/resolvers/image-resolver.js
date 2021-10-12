@@ -36,7 +36,7 @@ module.exports = {
     Upload: GraphQLUpload,
 
     Query: {
-        imageUrl: async (parent, args, context, info) => {
+        getImageUrlById: async (parent, args, context, info) => {
             return await getResizedImage(args.id, args.width)
         }
     },
