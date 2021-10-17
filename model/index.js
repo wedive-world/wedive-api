@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 switch (process.env.NODE_ENV) {
+    case 'development':
     case 'production':
         require('dotenv').config({ path: './wedive-secret/db-config.env' })
         break;
