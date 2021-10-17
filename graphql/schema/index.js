@@ -7,6 +7,22 @@ const typeDefs = gql`
   # in the resolver map below.
   scalar Upload
 
+  interface Place {
+    address: String
+    latitude: Float!
+    longitude: Float!
+    countryCode: String
+  }
+
+  interface Introduction {
+    name: String!
+    description: String
+    images: [Image]
+    backgroundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+  }
+
   type User {
     _id: ID!
     name: String!
@@ -23,20 +39,11 @@ const typeDefs = gql`
 
   input UserInput {
     name: String!
-    """e.g.) 1989, 1991, 1942"""
-    birth: Int!
-
-    """e.g.) m: male, f: female"""
-    gender: String!
-
-    """2alpha iso code, e.g.) kr, jp, us"""
-    countryCode: String! 
-    
-    """2alpha iso code, e.g.) kr, jp, us"""
-    mainLanguageCode: String! 
-
-    """2alpha iso code, e.g.) kr, jp, us"""
-    languageCodes: [String!]! 
+    """e.g.) 1989, 1991, 1942""" birth: Int!
+    """e.g.) m: male, f: female""" gender: String!
+    """2alpha iso code, e.g.) kr, jp, us""" countryCode: String! 
+    """2alpha iso code, e.g.) kr, jp, us""" mainLanguageCode: String! 
+    """2alpha iso code, e.g.) kr, jp, us""" languageCodes: [String!]! 
   }
 
   type ImageContentEntry {
@@ -56,14 +63,14 @@ const typeDefs = gql`
     updatedAt: Date,
   }
 
-  type ImageContent{
+  type ImageContent {
     _id: ID
     name: String
     url: String
     createdAt: Date
   }
 
-  type Institution{
+  type Institution {
     _id: ID
     name: String
     description: String
@@ -91,86 +98,106 @@ const typeDefs = gql`
     institution: Institution,
   }
 
-  type DivePoint {
+  type DivePoint implements Place & Introduction {
     _id: ID!
     name: String!
     description: String
+    images: [Image]
+    backgroundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+
     address: String
     latitude: Float!
     longitude: Float!
+    countryCode: String
+
+    diveSiteId: ID!
+
     adminScore: Int
     minDepth: Int
     maxDepth: Int
     minTemperature: Int
     maxTemperature: Int
-    diveSiteId: ID!
-    interests: [Interest]
-    images: [Image]
-    backgroundImages: [Image]
-    countryCode: String
     flowRateScore: Int
+
+    interests: [Interest]
+
     createdAt: Date
     updatedAt: Date
   }
 
   input DivePointInput {
     _id: ID
-    name: String!
+    name: String
     description: String
+    images: [ID]
+    backgroundImages: [ID]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+
     address: String
     latitude: Float!
     longitude: Float!
+    countryCode: String
+
+    diveSiteId: ID!
+
     adminScore: Int
     minDepth: Int
     maxDepth: Int
     minTemperature: Int
     maxTemperature: Int
-    diveSiteId: ID!
-    interests: [ID]
-    images: [ID]
-    backgroundImages: [ID]
-    countryCode: String
     flowRateScore: Int
+
+    interests: [ID]
   }
 
-  type DiveSite {
+  type DiveSite implements Place & Introduction {
     _id: ID!
     name: String!
     description: String
-    address: String
-    latitude: Float!
-    longitude: Float!
-    adminScore: Int
-    divePoints: [DivePoint]
-    interests: [Interest]
     images: [Image]
     backgroundImages: [Image]
     youtubeVideoIds: [String]
     referenceUrls: [String]
+
+    address: String
+    latitude: Float!
+    longitude: Float!
     countryCode: String
+
+    divePoints: [DivePoint]
+    interests: [Interest]
+
     waterTemperatureScore: Int
     eyeSiteScore: Int
+    adminScore: Int
+
     createdAt: Date
     updatedAt: Date
   }
 
   input DiveSiteInput {
     _id: ID
-    name: String!
+    name: String
     description: String
-    address: String
-    latitude: Float!
-    longitude: Float!
-    adminScore: Int
-    divePoints: [ID]
-    interests: [ID]
     images: [ID]
     backgroundImages: [ID]
     youtubeVideoIds: [String]
     referenceUrls: [String]
+
+    address: String
+    latitude: Float!
+    longitude: Float!
     countryCode: String
+
+    divePoints: [ID]
+    interests: [ID]
+
     waterTemperatureScore: Int
     eyeSiteScore: Int
+    adminScore: Int
   }
 
   type StringEntry {
@@ -178,19 +205,63 @@ const typeDefs = gql`
     value: String
   }
 
-  type DiveCenter {
-    _id: ID
-    name: String
+  type DiveCenter implements Place & Introduction {
+
+    _id: ID!
+    name: String!
     description: String
-    latitude: Float
-    longitude: Float
+    images: [Image]
+    backgroundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+
+    address: String
+    latitude: Float!
+    longitude: Float!
+    countryCode: String
+    
+    interests: [Interest]
+
+    diveSites: [DiveSite]
+    divePoints: [DivePoint]
+
+    managers: [User]
+    clerks: [User]
+
+    phoneNumber: String
     supportFreeDiving: Boolean
     supportScubaDiving: Boolean
-    countryCode: String
-    diveSites: [DiveSite]
-    managers: [User]
+
     createdAt: Date
     updatedAt: Date
+  }
+
+  input DiveCenterInput {
+
+    _id: ID
+    name: String!
+    description: String
+    images: [ID]
+    backgroundImages: [ID]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+
+    address: String
+    latitude: Float!
+    longitude: Float!
+    countryCode: String
+    
+    interests: [ID]
+
+    diveSites: [ID]
+    divePoints: [ID]
+
+    managers: [ID]
+    clerks: [ID]
+
+    phoneNumber: String
+    supportFreeDiving: Boolean
+    supportScubaDiving: Boolean
   }
 
   type Interest {
@@ -252,8 +323,10 @@ const typeDefs = gql`
     upsertUser(userInput: UserInput): User!
 
     upsertDivePoint(input: DivePointInput!): DivePoint!
+    deleteDivePointById(_id: ID!): ID
 
     upsertDiveSite(input: DiveSiteInput!): DiveSite!
+    deleteDiveSiteById(_id: ID!): ID
 
     upsertInterest(input: InterestInput!): Interest!
     deleteInterestById(_id: ID!): ID

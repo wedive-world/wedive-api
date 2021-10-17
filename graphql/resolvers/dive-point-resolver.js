@@ -13,54 +13,41 @@ module.exports = {
         async interests(parent, args, context, info) {
 
             let countryCode = context.countryCode || 'ko'
-            let divePoint = await DivePoint.find({ _id: parent._id })
-            let interests = await Interest.find({
-                _id: {
-                    $in: divePoint.interests
-                }
+            let interests = await Interest.find({ _id: { $in: parent.interests } })
+                .lean()
 
-            })
-
-            return interests.map(interest => translator.interestTranslateOut(interest, countryCode))
+            return interests.map(interest => translator.translateOut(interest, countryCode))
         },
 
         async images(parent, args, context, info) {
-
-            let divePoint = await DivePoint.find({ _id: parent._id })
-            return await Image.find({
-                _id: {
-                    $in: divePoint.images
-                }
-            })
+            return await Image.find({ _id: { $in: parent.images } })
+                .lean()
         },
 
         async backgroundImages(parent, args, context, info) {
-
-            let divePoint = await DivePoint.find({ _id: parent._id })
-            return await Image.find({
-                _id: {
-                    $in: divePoint.backgroundImages
-                }
-            })
+            return await Image.find({ _id: { $in: parent.backgroundImages } })
+                .lean()
         }
     },
 
     Query: {
         async getAllDivePoints(parent, args, context, info) {
-    
+
             let countryCode = context.countryCode || 'ko'
             let divePoints = await DivePoint.find()
-            return divePoints.map(divePoint => translator.divePointTranslateOut(divePoint, countryCode))
+                .lean()
+            return divePoints.map(divePoint => translator.translateOut(divePoint, countryCode))
         },
         async getDivePointById(parent, args, context, info) {
 
             let countryCode = context.countryCode || 'ko'
-            let divePoint = await DivePoint.find({ _id: args._id })
+            let divePoint = await DivePoint.findOne({ _id: args._id })
+                .lean()
 
-            return translator.divePointTranslateOut(divePoint, countryCode)
+            return translator.translateOut(divePoint, countryCode)
         },
         async getDivePointsNearBy(parent, args, context, info) {
-            
+
             let countryCode = context.countryCode || 'ko'
             let divePoints = await DivePoint.find({
                 $and: [
@@ -70,18 +57,17 @@ module.exports = {
                     { longitude: { $lt: Math.max(args.lon1, args.lon2) } },
                 ]
             })
-            return divePoints.map(divePoint => translator.divePointTranslateOut(divePoint, countryCode))
+                .lean()
+            return divePoints.map(divePoint => translator.translateOut(divePoint, countryCode))
         },
         async searchDivePointsByName(parent, args, context, info) {
 
             console.log(`query | searchDivePointsByName: args=${JSON.stringify(args)}`)
 
             let countryCode = context.countryCode || 'ko'
-            let param = {
-                $text: { $search: args.query }
-            }
-            let divePoints = await DivePoint.find(param)
-            return divePoints.map(divePoint => translator.divePointTranslateOut(divePoint, countryCode))
+            let divePoints = await DivePoint.find({ $text: { $search: args.query } })
+                .lean()
+            return divePoints.map(divePoint => translator.translateOut(divePoint, countryCode))
         },
 
     },
@@ -100,6 +86,8 @@ module.exports = {
 
             } else {
                 divePoint = await DivePoint.findOne({ _id: args.input._id })
+                    .lean()
+
                 Object.keys(args.input)
                     .filter(key => args.input[key] && typeof key == args.input[key])
                     .forEach(key => { divePoint[key] = args.input[key] })
@@ -107,23 +95,26 @@ module.exports = {
                 divePoint.updatedAt = Date.now()
             }
 
-            divePoint = translator.divePointTranslateIn(divePoint, args.input, countryCode)
-            let result = await divePoint.save()
+            divePoint = translator.translateIn(divePoint, args.input, countryCode)
+            await divePoint.save()
 
             let diveSite = await DiveSite.findOne({ _id: result.diveSiteId })
             if (!diveSite.divePoints) {
                 diveSite.divePoints = []
             }
 
-            if (!diveSite.divePoints.includes(result._id)) {
-                diveSite.divePoints.push(result.id)
+            if (!diveSite.divePoints.includes(divePoint._id)) {
+                diveSite.divePoints.push(divePoint._id)
             }
 
             await diveSite.save()
 
-            return translator.divePointTranslateOut(result, countryCode)
+            return translator.translateOut(divePoint, countryCode)
         },
-
-        
+        async deleteDivePointById(parent, args, context, info) {
+            let result = await DivePoint.deleteOne({ _id: args._id })
+            console.log(`mutation | deleteDivePointById: result=${JSON.stringify(result)}`)
+            return args._id
+        },
     }
 };

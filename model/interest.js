@@ -12,6 +12,17 @@ const schema = new Schema({
     iconName: String,
     iconColor: String,
     iconUrl: String,
+    
+    name: String,
+    nameTranslation: { type: Map, of: String },
+    description: String,
+    descriptionTranslation: { type: Map, of: String },
+
+    images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    youtubeVideoIds: [String],
+    referenceUrls: [String],
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

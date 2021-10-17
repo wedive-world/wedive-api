@@ -8,27 +8,23 @@ module.exports = {
     Query: {
         async getInterestById(parent, args, context, info) {
             let countryCode = context.countryCode || 'ko'
-            let interest = await Interest.find({
-                _id: args._id
-            })
+            console.log(`query | getInterestById: countrycode=${JSON.stringify(countryCode)} args=${JSON.stringify(args)}`)
 
-            return translator.interestTranslateOut(interest, countryCode)
+            let interest = await Interest.findOne({ _id: args._id })
+                .lean()
+
+            return translator.translateOut(interest, countryCode)
         },
 
         async getAllInterests(parent, args, context, info) {
             let countryCode = context.countryCode || 'ko'
 
             console.log(`query | getAllInterests: countrycode=${JSON.stringify(countryCode)}`)
-            console.log(`query | getAllInterests: args=${JSON.stringify(args)}`)
 
-            let param = {}
+            let interests = await Interest.find({ type: args.type })
+                .lean()
 
-            if (args.type) {
-                param.type = args.type
-            }
-
-            let interests = await Interest.find(param)
-            return interests.map(interest => translator.interestTranslateOut(interest, countryCode))
+            return interests.map(interest => translator.translateOut(interest, countryCode))
         },
 
         async searchInterestsByName(parent, args, context, info) {
@@ -51,9 +47,11 @@ module.exports = {
             console.log(`query | searchInterest: param=${JSON.stringify(param)}`)
 
             let interests = await Interest.find(param)
-            console.log(`query | searchInterest: result=${JSON.stringify(result)}`)
+                .lean()
 
-            return interests.map(interest => translator.interestTranslateOut(interest, countryCode))
+            console.log(`query | searchInterest: result=${JSON.stringify(interests)}`)
+
+            return interests.map(interest => translator.translateOut(interest, countryCode))
         }
     },
 
@@ -66,25 +64,24 @@ module.exports = {
 
             let interest = null
 
-            if (args.input._id) {
+            if (!args.input._id) {
+                interest = new Interest(args.input)
+
+            } else {
                 interest = await Interest.findOne({ _id: args.input._id })
+                    .lean()
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key])
+                    .filter(key => args.input[key] && typeof key == args.input[key])
                     .forEach(key => { interest[key] = args.input[key] })
 
                 interest.updatedAt = Date.now()
-
-            } else {
-                interest = new Interest(args.input)
-
-                interest.titleTranslation = new Map()
-                interest.titleTranslation.set(countryCode, args.input.title)
             }
 
-            let result = await interest.save()
+            interest = translator.translateIn(interest, args.input, countryCode)
+            await interest.save()
 
-            return result
+            return translator.translateOut(interest, countryCode)
         },
         async deleteInterestById(parent, args, context, info) {
             let result = await Interest.deleteOne({ _id: args._id })

@@ -6,61 +6,51 @@ const Interest = schema.Interest
 
 const translator = require('./util/translator')
 
+const divePointResolver = require('./dive-point-resolver')
+
 module.exports = {
 
     DiveSite: {
         async interests(parent, args, context, info) {
-            return await Interest.find({
-                _id: {
-                    $in: parent.interests
-                }
-
-            })
+            return await Interest.find({ _id: { $in: parent.interests } })
+                .lean()
         },
 
         async images(parent, args, context, info) {
-            return await Image.find({
-                _id: {
-                    $in: parent.images
-                }
-            })
+            return await Image.find({ _id: { $in: parent.images } })
+                .lean()
         },
 
         async backgroundImages(parent, args, context, info) {
-            return await Image.find({
-                _id: {
-                    $in: parent.backgroundImages
-                }
-            })
+            return await Image.find({ _id: { $in: parent.backgroundImages } })
+                .lean()
         },
 
         async divePoints(parent, args, context, info) {
             const countryCode = context.countryCode
-            let resultList = await DivePoint.find({
-                _id: {
-                    $in: parent.divePoints
-                }
-            })
-
-            return resultList.map(divePoint => translator.divePointTranslateOut(divePoint, countryCode))
+            let resultList = await DivePoint.find({ _id: { $in: parent.divePoints } })
+            return resultList.map(divePoint => translator.translateOut(divePoint, countryCode))
         },
     },
 
     Query: {
         async getAllDiveSites(parent, args, context, info) {
-    
+
             let countryCode = context.countryCode || 'ko'
             let diveSiteList = await DiveSite.find()
-            return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
+                .lean()
+
+            return diveSiteList.map(diveSite => translator.translateOut(diveSite, countryCode))
         },
         async getDiveSiteById(parent, args, context, info) {
             let countryCode = context.countryCode || 'ko'
             let diveSite = await DiveSite.find({ _id: args._id })
+                .lean()
 
-            return translator.diveSiteTranslateOut(diveSite, countryCode)
+            return translator.translateOut(diveSite, countryCode)
         },
         async getDiveSitesNearby(parent, args, context, info) {
-            
+
             let countryCode = context.countryCode || 'ko'
             let diveSiteList = await DiveSite.find({
                 $and: [
@@ -70,7 +60,9 @@ module.exports = {
                     { longitude: { $lt: Math.max(args.lon1, args.lon2) } },
                 ]
             })
-            return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
+                .lean()
+
+            return diveSiteList.map(diveSite => translator.translateOut(diveSite, countryCode))
         },
         async searchDiveSitesByName(parent, args, context, info) {
 
@@ -84,7 +76,9 @@ module.exports = {
             console.log(`query | searchDiveSite: param=${JSON.stringify(param)}`)
 
             let diveSiteList = await DiveSite.find(param)
-            return diveSiteList.map(diveSite => translator.diveSiteTranslateOut(diveSite, countryCode))
+                .lean()
+
+            return diveSiteList.map(diveSite => translator.translateOut(diveSite, countryCode))
         },
 
     },
@@ -96,11 +90,13 @@ module.exports = {
             let countryCode = context.countryCode || 'ko'
 
             let diveSite = null
+            
             if (!args.input._id) {
                 diveSite = new DiveSite(args.input)
 
             } else {
                 diveSite = await DiveSite.findOne({ _id: args.input._id })
+                    .lean()
 
                 Object.keys(args.input)
                     .filter(key => args.input[key] && typeof key == typeof args.input[key])
@@ -109,13 +105,15 @@ module.exports = {
                 diveSite.updatedAt = Date.now()
             }
 
-            diveSite = translator.diveSiteTranslateIn(diveSite, args.input, countryCode)
-            console.log(`mutation | diveSite: diveSite=${JSON.stringify(diveSite)}`)
+            diveSite = translator.translateIn(diveSite, args.input, countryCode)
+            await diveSite.save()
 
-            let result = await diveSite.save()
-            let translated = translator.diveSiteTranslateOut(result, countryCode)
-            console.log(`mutation | diveSite: translated=${JSON.stringify(translated)}`)
-            return translated
+            return translator.translateOut(diveSite, countryCode)
+        },
+        async deleteDiveSiteById(parent, args, context, info) {
+            let result = await DiveSite.deleteOne({ _id: args._id })
+            console.log(`mutation | deleteDiveSiteById: result=${JSON.stringify(result)}`)
+            return args._id
         },
     }
 };
