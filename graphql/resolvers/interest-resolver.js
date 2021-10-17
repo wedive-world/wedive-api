@@ -21,7 +21,7 @@ module.exports = {
 
             console.log(`query | getAllInterests: countrycode=${JSON.stringify(countryCode)}`)
 
-            let interests = await Interest.find({ type: args.type })
+            let interests = await Interest.find((args.type) ? { type: args.type } : { })
                 .lean()
 
             return interests.map(interest => translator.translateOut(interest, countryCode))
