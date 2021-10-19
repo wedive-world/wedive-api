@@ -105,39 +105,35 @@ type Query {
   type User {
     _id: ID!
 
-    """user name"""
     name: String!
+    email: String!
 
-    """e.g.) 1989, 1991, 1942""" 
-    birthAge: Int!
+    birthAge: Int
+    gender: Gender
 
-    """e.g.) m: male, f: female""" 
-    gender: String!
-    profileImages: [Image]
     instructor: Instructor
-    countryCode: String!
-    mainLanguageCode: String!
-    languageCodes: [String!]!
+    profileImages: [Image]
 
     createdAt: Date!
     updatedAt: Date!
   }
 
   input UserInput {
+    _id: ID
+
     name: String!
+    email: String!
 
-    birth: Int!
+    birthAge: Int
+    gender: Gender
 
-    gender: String!
+    instructor: ID
+    profileImages: [ID]
+  }
 
-    """2alpha iso code, e.g.) kr, jp, us""" 
-    countryCode: String! 
-
-    """2alpha iso code, e.g.) kr, jp, us""" 
-    mainLanguageCode: String! 
-
-    """2alpha iso code, e.g.) kr, jp, us""" 
-    languageCodes: [String!]! 
+  enum Gender {
+    m
+    f
   }
 
   type ImageContentEntry {
@@ -493,6 +489,9 @@ type Query {
     """다이빙 환경""" divingPointEnvironment
     """수중 생물""" aquaticLife
     """다이빙 타입(프리,스쿠바)""" divingType
+    """month, 1,2,3,4... 12 """ month
+    """sunny, cloudy, rain, heavyRain""" climate
+    """popular, soso, unrecommended""" popularity
   }
 `;
 

@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
     name: String,
+    email: { type: String, unique: true },
     birth: Number,
     gender: String,
     profileImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
@@ -11,6 +12,7 @@ const schema = new Schema({
     countryCode: String,
     mainLanguageCode: String,
     languageCodes: [String],
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
