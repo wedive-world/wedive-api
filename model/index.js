@@ -36,9 +36,9 @@ module.exports.schema = {
     Interest: require('./interest'),
     Diving: require('./diving'),
 
-    DiveCenter: require('./dive-center'),
     DivePoint: require('./dive-point'),
     DiveSite: require('./dive-site'),
+    DiveCenter: require('./dive-center'),
 
     Image: require('./image'),
     ImageContent: require('./image-content'),

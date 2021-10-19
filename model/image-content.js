@@ -6,6 +6,7 @@ const schema = new Schema({
     s3Region: String,
     s3BucketName: String,
     s3ObjectKey: String,
+    
     fileSize: Number,
     createdAt: { type: Date, default: Date.now },
 });

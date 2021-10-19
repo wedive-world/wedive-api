@@ -12,8 +12,9 @@ const schema = new Schema({
     iconName: String,
     iconColor: String,
     iconUrl: String,
-    
+
     name: String,
+    uniqueName: { type: String, index: true, unique: true },
     nameTranslation: { type: Map, of: String },
     description: String,
     descriptionTranslation: { type: Map, of: String },
@@ -22,6 +23,7 @@ const schema = new Schema({
     backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
     youtubeVideoIds: [String],
     referenceUrls: [String],
+    memo: String,
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

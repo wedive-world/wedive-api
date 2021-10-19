@@ -27,7 +27,67 @@ module.exports = {
         async backgroundImages(parent, args, context, info) {
             return await Image.find({ _id: { $in: parent.backgroundImages } })
                 .lean()
-        }
+        },
+
+        async month1(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month2(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month3(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month4(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month5(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month6(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month7(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month8(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month9(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month10(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month11(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+        
+        async month12(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
     },
 
     Query: {
@@ -111,6 +171,7 @@ module.exports = {
 
             return translator.translateOut(divePoint, countryCode)
         },
+        
         async deleteDivePointById(parent, args, context, info) {
             let result = await DivePoint.deleteOne({ _id: args._id })
             console.log(`mutation | deleteDivePointById: result=${JSON.stringify(result)}`)

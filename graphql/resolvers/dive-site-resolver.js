@@ -31,6 +31,66 @@ module.exports = {
             let resultList = await DivePoint.find({ _id: { $in: parent.divePoints } })
             return resultList.map(divePoint => translator.translateOut(divePoint, countryCode))
         },
+
+        async month1(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month2(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month3(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month4(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month5(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month6(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month7(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month8(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month9(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month10(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+
+        async month11(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
+        
+        async month12(parent, args, context, info) {
+            return await Interest.find({ _id: { $in: parent.month1 } })
+                .lean()
+        },
     },
 
     Query: {
@@ -90,7 +150,7 @@ module.exports = {
             let countryCode = context.countryCode || 'ko'
 
             let diveSite = null
-            
+
             if (!args.input._id) {
                 diveSite = new DiveSite(args.input)
 

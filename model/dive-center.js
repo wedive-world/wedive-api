@@ -3,8 +3,25 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
 
-    introduction: { type: Schema.Types.ObjectId, ref: 'Introduction' },
-    place: { type: Schema.Types.ObjectId, ref: 'Place' },
+    name: String,
+    uniqueName: { type: String, index: true, unique: true },
+    nameTranslation: { type: Map, of: String },
+    description: String,
+    descriptionTranslation: { type: Map, of: String },
+
+    images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    youtubeVideoIds: [String],
+    referenceUrls: [String],
+    memo: String,
+    
+    latitude: { type: Number, index: true, },
+    longitude: { type: Number, index: true, },
+    address: String,
+    addressTranslation: { type: Map, of: String },
+    countryCode: String,
+
+    publishStatus: String,
 
     phoneNumber: String,
 

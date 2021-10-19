@@ -1,5 +1,53 @@
 const { gql } = require('apollo-server');
 const typeDefs = gql`
+
+type Query {
+
+    """get All users"""
+    getAllUsers: [User]
+    """get only one user by id"""
+    getUserById(_id: ID!): User
+
+    getAllDiveSites: [DiveSite]
+    getDiveSiteById(_id: ID!): DiveSite
+    getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
+    searchDiveSitesByName(query: String!): [DiveSite]
+
+    getAllDivePoints: [DivePoint]
+    getDivePointById(_id: ID!): DivePoint
+    getDivePointsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
+    searchDivePointsByName(query: String!): [DivePoint]
+
+    getAllDiveCenters: [DiveCenter]
+    getDiveCenterById(_id: ID!): DiveCenter
+    getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveCenter]
+    searchDiveCentersByName(query: String!): [DiveCenter]
+
+    getAllInterests(type: String): [Interest]
+    getInterestById(_id: ID!): Interest
+    searchInterestsByName(query: String!, type: String): [Interest]
+
+    getImageUrlById(_id: ID!, width: Int): String
+  }
+
+  type Mutation{
+    upsertUser(userInput: UserInput): User!
+
+    upsertDivePoint(input: DivePointInput!): DivePoint!
+    deleteDivePointById(_id: ID!): ID
+
+    upsertDiveSite(input: DiveSiteInput!): DiveSite!
+    deleteDiveSiteById(_id: ID!): ID
+
+    upsertDiveCenter(input: DiveCenterInput!): DiveCenter!
+    deleteDiveCenterById(_id: ID!): ID
+
+    upsertInterest(input: InterestInput!): Interest!
+    deleteInterestById(_id: ID!): ID
+
+    uploadImage(file: Upload!): Image!
+  }
+
   scalar Date
 
   # The implementation for this scalar is provided by the
@@ -15,18 +63,55 @@ const typeDefs = gql`
   }
 
   interface Introduction {
+    """name for show to user"""
     name: String!
+
+    """unique id for url, english"""
+    uniqueName: String!
     description: String
     images: [Image]
     backgroundImages: [Image]
     youtubeVideoIds: [String]
     referenceUrls: [String]
+    memo: String
+  }
+
+  interface Publishable {
+    publishSatus: PublishStatus
+  }
+
+  enum PublishStatus {
+    pending
+    active
+    inactive
+    deleted
+  }
+
+  interface MonthlyInterest {
+    month1: [Interest]
+    month2: [Interest]
+    month3: [Interest]
+    month4: [Interest]
+    month5: [Interest]
+    month6: [Interest]
+    month7: [Interest]
+    month8: [Interest]
+    month9: [Interest]
+    month10: [Interest]
+    month11: [Interest]
+    month12: [Interest]
   }
 
   type User {
     _id: ID!
+
+    """user name"""
     name: String!
+
+    """e.g.) 1989, 1991, 1942""" 
     birthAge: Int!
+
+    """e.g.) m: male, f: female""" 
     gender: String!
     profileImages: [Image]
     instructor: Instructor
@@ -39,11 +124,19 @@ const typeDefs = gql`
 
   input UserInput {
     name: String!
-    """e.g.) 1989, 1991, 1942""" birth: Int!
-    """e.g.) m: male, f: female""" gender: String!
-    """2alpha iso code, e.g.) kr, jp, us""" countryCode: String! 
-    """2alpha iso code, e.g.) kr, jp, us""" mainLanguageCode: String! 
-    """2alpha iso code, e.g.) kr, jp, us""" languageCodes: [String!]! 
+
+    birth: Int!
+
+    gender: String!
+
+    """2alpha iso code, e.g.) kr, jp, us""" 
+    countryCode: String! 
+
+    """2alpha iso code, e.g.) kr, jp, us""" 
+    mainLanguageCode: String! 
+
+    """2alpha iso code, e.g.) kr, jp, us""" 
+    languageCodes: [String!]! 
   }
 
   type ImageContentEntry {
@@ -55,10 +148,14 @@ const typeDefs = gql`
     _id: ID
     name: String
     description: String
+    reference: String,
+
+    uploaderId: String,
     mimeType: String
     encoding: String
     fileSize: Int
     contentMap: [ImageContentEntry]
+
     createdAt: Date,
     updatedAt: Date,
   }
@@ -98,19 +195,37 @@ const typeDefs = gql`
     institution: Institution,
   }
 
-  type DivePoint implements Place & Introduction {
+  type DivePoint implements Place & Introduction & Publishable & MonthlyInterest {
     _id: ID!
-    name: String!
-    description: String
-    images: [Image]
-    backgroundImages: [Image]
-    youtubeVideoIds: [String]
-    referenceUrls: [String]
 
     address: String
     latitude: Float!
     longitude: Float!
     countryCode: String
+
+    name: String!
+    uniqueName: String!
+    description: String
+    images: [Image]
+    backgroundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
+
+    publishSatus: PublishStatus
+
+    month1: [Interest]
+    month2: [Interest]
+    month3: [Interest]
+    month4: [Interest]
+    month5: [Interest]
+    month6: [Interest]
+    month7: [Interest]
+    month8: [Interest]
+    month9: [Interest]
+    month10: [Interest]
+    month11: [Interest]
+    month12: [Interest]
 
     diveSiteId: ID!
 
@@ -129,17 +244,35 @@ const typeDefs = gql`
 
   input DivePointInput {
     _id: ID
-    name: String
-    description: String
-    images: [ID]
-    backgroundImages: [ID]
-    youtubeVideoIds: [String]
-    referenceUrls: [String]
 
     address: String
     latitude: Float!
     longitude: Float!
     countryCode: String
+
+    name: String!
+    uniqueName: String!
+    description: String
+    images: [ID]
+    backgroundImages: [ID]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
+
+    publishSatus: PublishStatus
+
+    month1: [ID]
+    month2: [ID]
+    month3: [ID]
+    month4: [ID]
+    month5: [ID]
+    month6: [ID]
+    month7: [ID]
+    month8: [ID]
+    month9: [ID]
+    month10: [ID]
+    month11: [ID]
+    month12: [ID]
 
     diveSiteId: ID!
 
@@ -153,19 +286,37 @@ const typeDefs = gql`
     interests: [ID]
   }
 
-  type DiveSite implements Place & Introduction {
+  type DiveSite implements Place & Introduction & Publishable & MonthlyInterest {
     _id: ID!
-    name: String!
-    description: String
-    images: [Image]
-    backgroundImages: [Image]
-    youtubeVideoIds: [String]
-    referenceUrls: [String]
 
     address: String
     latitude: Float!
     longitude: Float!
     countryCode: String
+
+    name: String!
+    uniqueName: String!
+    description: String
+    images: [Image]
+    backgroundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
+
+    publishSatus: PublishStatus
+
+    month1: [Interest]
+    month2: [Interest]
+    month3: [Interest]
+    month4: [Interest]
+    month5: [Interest]
+    month6: [Interest]
+    month7: [Interest]
+    month8: [Interest]
+    month9: [Interest]
+    month10: [Interest]
+    month11: [Interest]
+    month12: [Interest]
 
     divePoints: [DivePoint]
     interests: [Interest]
@@ -180,17 +331,35 @@ const typeDefs = gql`
 
   input DiveSiteInput {
     _id: ID
-    name: String
-    description: String
-    images: [ID]
-    backgroundImages: [ID]
-    youtubeVideoIds: [String]
-    referenceUrls: [String]
 
     address: String
     latitude: Float!
     longitude: Float!
     countryCode: String
+
+    name: String!
+    uniqueName: String!
+    description: String
+    images: [ID]
+    backgroundImages: [ID]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
+
+    publishSatus: PublishStatus
+
+    month1: [ID]
+    month2: [ID]
+    month3: [ID]
+    month4: [ID]
+    month5: [ID]
+    month6: [ID]
+    month7: [ID]
+    month8: [ID]
+    month9: [ID]
+    month10: [ID]
+    month11: [ID]
+    month12: [ID]
 
     divePoints: [ID]
     interests: [ID]
@@ -205,21 +374,26 @@ const typeDefs = gql`
     value: String
   }
 
-  type DiveCenter implements Place & Introduction {
+  type DiveCenter implements Place & Introduction & Publishable {
 
     _id: ID!
-    name: String!
-    description: String
-    images: [Image]
-    backgroundImages: [Image]
-    youtubeVideoIds: [String]
-    referenceUrls: [String]
 
     address: String
     latitude: Float!
     longitude: Float!
     countryCode: String
+
+    name: String!
+    uniqueName: String!
+    description: String
+    images: [Image]
+    backgroundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
     
+    publishSatus: PublishStatus
+
     interests: [Interest]
 
     diveSites: [DiveSite]
@@ -237,20 +411,24 @@ const typeDefs = gql`
   }
 
   input DiveCenterInput {
-
     _id: ID
-    name: String!
-    description: String
-    images: [ID]
-    backgroundImages: [ID]
-    youtubeVideoIds: [String]
-    referenceUrls: [String]
 
     address: String
     latitude: Float!
     longitude: Float!
     countryCode: String
+
+    name: String!
+    uniqueName: String!
+    description: String
+    images: [ID]
+    backgroundImages: [ID]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
     
+    publishSatus: PublishStatus
+
     interests: [ID]
 
     diveSites: [ID]
@@ -264,7 +442,7 @@ const typeDefs = gql`
     supportScubaDiving: Boolean
   }
 
-  type Interest {
+  type Interest implements Introduction {
     _id: ID
     title: String
     type: InterestType
@@ -272,6 +450,15 @@ const typeDefs = gql`
     iconName: String
     iconColor: String
     iconUrl: String
+
+    name: String!
+    uniqueName: String!
+    description: String
+    images: [Image]
+    backgroundImages: [Image]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
   }
 
   input InterestInput {
@@ -282,6 +469,14 @@ const typeDefs = gql`
     iconName: String
     iconColor: String
     iconUrl: String
+
+    name: String!
+    description: String
+    images: [ID]
+    backgroundImages: [ID]
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
   }
 
   enum InterestType {
@@ -297,43 +492,6 @@ const typeDefs = gql`
     """수중 생물""" aquaticLife
     """다이빙 타입(프리,스쿠바)""" divingType
   }
-
-  type Query {
-    getAllUsers: [User]
-    getUserById(_id: ID!): User
-
-    getAllDiveSites: [DiveSite]
-    getDiveSiteById(_id: ID!): DiveSite
-    getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
-    searchDiveSitesByName(query: String!): [DiveSite]
-
-    getAllDivePoints: [DivePoint]
-    getDivePointById(_id: ID!): DivePoint
-    getDivePointsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
-    searchDivePointsByName(query: String!): [DivePoint]
-
-    getAllInterests(type: String): [Interest]
-    getInterestById(_id: ID!): Interest
-    searchInterestsByName(query: String!, type: String): [Interest]
-
-    getImageUrlById(_id: ID!, width: Int): String
-  }
-
-  type Mutation{
-    upsertUser(userInput: UserInput): User!
-
-    upsertDivePoint(input: DivePointInput!): DivePoint!
-    deleteDivePointById(_id: ID!): ID
-
-    upsertDiveSite(input: DiveSiteInput!): DiveSite!
-    deleteDiveSiteById(_id: ID!): ID
-
-    upsertInterest(input: InterestInput!): Interest!
-    deleteInterestById(_id: ID!): ID
-
-    uploadImage(file: Upload!): Image!
-  }
-
 `;
 
 module.exports = typeDefs;
