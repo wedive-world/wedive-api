@@ -4,7 +4,7 @@ module.exports.translateIn = (originalObject, inputObject, countryCode) => {
     properties.forEach(property => {
         const translationKey = property + 'Translation'
         if (!originalObject.hasOwnProperty(translationKey)) {
-            divePoint[translationKey] = new Map()
+            originalObject[translationKey] = new Map()
         }
 
         originalObject[translationKey].set(countryCode, inputObject[property])

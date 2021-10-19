@@ -118,6 +118,7 @@ type Query {
     countryCode: String!
     mainLanguageCode: String!
     languageCodes: [String!]!
+
     createdAt: Date!
     updatedAt: Date!
   }
@@ -471,6 +472,7 @@ type Query {
     iconUrl: String
 
     name: String!
+    uniqueName: String!
     description: String
     images: [ID]
     backgroundImages: [ID]

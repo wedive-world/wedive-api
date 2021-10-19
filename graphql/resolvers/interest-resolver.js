@@ -83,6 +83,7 @@ module.exports = {
 
             return translator.translateOut(interest, countryCode)
         },
+        
         async deleteInterestById(parent, args, context, info) {
             let result = await Interest.deleteOne({ _id: args._id })
             console.log(`mutation | deleteInterestById: result=${JSON.stringify(result)}`)
