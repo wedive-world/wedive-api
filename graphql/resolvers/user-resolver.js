@@ -7,27 +7,52 @@ const Image = require('../../model/image');
 module.exports = {
 
     User: {
-        instructor(parent, args, context, info) {
-            return Instructor.find({ _id: _.instructor });
+        async instructor(parent, args, context, info) {
+            return await Instructor.find({ _id: args.instructor });
         },
 
-        profileImages(parent, args, context, info) {
-            return Image.find({ _id: _.profileImage });
+        async profileImages(parent, args, context, info) {
+            return await Image.find({ _id: args.profileImage });
         },
     },
 
     Query: {
-        getAllUsers() {
-            return User.find()
+        async getAllUsers(parent, args, context, info) {
+            return await User.find()
         },
-        getUserById(id) {
-            return User.find({ _id: id });
+
+        async getUserById(parent, args, context, info) {
+            return await User.findOne({ _id: args._id });
         },
+
+        async getUserByEmail(parent, args, context, info) {
+            return await User.findOne({ email: args.email })
+        }
     },
 
     Mutation: {
         async upsertUser(parent, args, context, info) {
-            return await new User(args).save()
+
+            console.log(`mutation | user: args=${JSON.stringify(args)}`)
+
+            let user = null
+
+            if (!args.input._id) {
+                user = new User(args.input)
+
+            } else {
+                user = await User.findOne({ _id: args.input._id })
+                    .lean()
+
+                Object.keys(args.input)
+                    .filter(key => args.input[key] && typeof key == typeof args.input[key])
+                    .forEach(key => { user[key] = args.input[key] })
+
+                user.updatedAt = Date.now()
+            }
+
+            await user.save()
+            return user
         },
     },
 };

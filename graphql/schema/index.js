@@ -7,6 +7,7 @@ type Query {
     getAllUsers: [User]
     """get only one user by id"""
     getUserById(_id: ID!): User
+    getUserByEmail(email: String): User
 
     getAllDiveSites: [DiveSite]
     getDiveSiteById(_id: ID!): DiveSite
@@ -31,7 +32,7 @@ type Query {
   }
 
   type Mutation{
-    upsertUser(userInput: UserInput): User!
+    upsertUser(input: UserInput): User!
 
     upsertDivePoint(input: DivePointInput!): DivePoint!
     deleteDivePointById(_id: ID!): ID
