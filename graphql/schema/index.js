@@ -286,7 +286,7 @@ type Query {
     flowRateScore: Int
 
     interests: [ID]
-    highlights: [Highlight]
+    highlights: [ID]
   }
   
   type Highlight {
