@@ -47,6 +47,9 @@ type Query {
     deleteInterestById(_id: ID!): ID
 
     uploadImage(file: Upload!): Image!
+    
+    upsertHighlight(input: HighlightInput!): Highlight!
+    deleteHighlightById(_id: ID!): ID
   }
 
   scalar Date
@@ -235,6 +238,7 @@ type Query {
     flowRateScore: Int
 
     interests: [Interest]
+    highlights: [Highlight]
 
     createdAt: Date
     updatedAt: Date
@@ -282,6 +286,25 @@ type Query {
     flowRateScore: Int
 
     interests: [ID]
+    highlights: [Highlight]
+  }
+  
+  type Highlight {
+    _id: ID!
+    name: String
+    description: String
+    images: [Image]
+    divePointId: ID!
+    interest: [Interest]
+  }
+
+  input HighlightInput {
+    _id: ID!
+    name: String
+    description: String
+    images: [ID]
+    divePointId: ID
+    interest: [ID]
   }
 
   type DiveSite implements Place & Introduction & Publishable & MonthlyInterest {

@@ -6,8 +6,6 @@ const Interest = schema.Interest
 
 const translator = require('./util/translator')
 
-const divePointResolver = require('./dive-point-resolver')
-
 module.exports = {
 
     DiveSite: {
@@ -127,13 +125,13 @@ module.exports = {
         async searchDiveSitesByName(parent, args, context, info) {
 
             let countryCode = context.countryCode || 'ko'
-            console.log(`query | searchDiveSite: args=${JSON.stringify(args)}`)
+            console.log(`query | searchDiveSitesByName: args=${JSON.stringify(args)}`)
 
             let param = {
                 $text: { $search: args.query }
             }
 
-            console.log(`query | searchDiveSite: param=${JSON.stringify(param)}`)
+            console.log(`query | searchDiveSitesByName: param=${JSON.stringify(param)}`)
 
             let diveSiteList = await DiveSite.find(param)
                 .lean()
@@ -145,7 +143,7 @@ module.exports = {
 
     Mutation: {
         async upsertDiveSite(parent, args, context, info) {
-            console.log(`mutation | diveSite: args=${JSON.stringify(args)}`)
+            console.log(`mutation | upsertDiveSite: args=${JSON.stringify(args)}`)
 
             let countryCode = context.countryCode || 'ko'
 

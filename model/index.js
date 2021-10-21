@@ -48,4 +48,6 @@ module.exports.schema = {
     License: require('./license'),
 
     User: require('./user'),
+
+    Highlight: require('./highlight')
 }
