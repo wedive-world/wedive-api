@@ -7,7 +7,7 @@ const translator = require('./util/translator')
 
 module.exports = {
 
-    HighLight: {
+    Highlight: {
         async interests(parent, args, context, info) {
             return await Interest.find({ _id: { $in: parent.interests } })
                 .lean()
