@@ -295,7 +295,7 @@ type Query {
     description: String
     images: [Image]
     divePointId: ID!
-    interest: [Interest]
+    interests: [Interest]
   }
 
   input HighlightInput {
@@ -304,7 +304,7 @@ type Query {
     description: String
     images: [ID]
     divePointId: ID
-    interest: [ID]
+    interests: [ID]
   }
 
   type DiveSite implements Place & Introduction & Publishable & MonthlyInterest {
