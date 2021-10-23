@@ -89,7 +89,7 @@ type Query {
   }
 
   interface Publishable {
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
   }
 enum PublishStatus {
     pending
@@ -220,7 +220,7 @@ enum PublishStatus {
     referenceUrls: [String]
     memo: String
 
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
 
     month1: [Interest]
     month2: [Interest]
@@ -268,7 +268,7 @@ enum PublishStatus {
     referenceUrls: [String]
     memo: String
 
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
 
     month1: [ID]
     month2: [ID]
@@ -331,7 +331,7 @@ enum PublishStatus {
     referenceUrls: [String]
     memo: String
 
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
 
     month1: [Interest]
     month2: [Interest]
@@ -381,7 +381,7 @@ enum PublishStatus {
     referenceUrls: [String]
     memo: String
 
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
 
     month1: [ID]
     month2: [ID]
@@ -434,7 +434,7 @@ enum PublishStatus {
     referenceUrls: [String]
     memo: String
     
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
 
     interests: [Interest]
 
@@ -468,7 +468,7 @@ enum PublishStatus {
     referenceUrls: [String]
     memo: String
     
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
 
     interests: [ID]
 
