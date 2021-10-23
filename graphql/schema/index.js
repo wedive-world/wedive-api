@@ -323,6 +323,13 @@ type Query {
     eyeSiteScore: Int
     adminScore: Int
 
+    visitTimeDescription: String
+    waterTemperatureDescription: String
+    deepDescription: String
+    waterFlowDescription: String
+    eyeSightDescription: String
+    highlightDescription: String
+
     createdAt: Date
     updatedAt: Date
   }
@@ -365,6 +372,13 @@ type Query {
     waterTemperatureScore: Int
     eyeSiteScore: Int
     adminScore: Int
+
+    visitTimeDescription: String
+    waterTemperatureDescription: String
+    deepDescription: String
+    waterFlowDescription: String
+    eyeSightDescription: String
+    highlightDescription: String
   }
 
   type StringEntry {
