@@ -41,6 +41,19 @@ const schema = new Schema({
     eyeSiteScore: Number,
     adminScore: Number,
 
+    visitTimeDescription: String,
+    visitTimeDescriptionTranslation: { type: Map, of: String },
+    waterTemperatureDescription: String,
+    waterTemperatureDescriptionTranslation: { type: Map, of: String },
+    deepDescription: String,
+    deepDescriptionTranslation: { type: Map, of: String },
+    waterFlowDescription: String,
+    waterFlowDescriptionTranslation: { type: Map, of: String },
+    eyeSightDescription: String,
+    eyeSightDescriptionTranslation: { type: Map, of: String },
+    highlightDescription: String,
+    highlightDescriptionTranslation: { type: Map, of: String },
+
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
 
     createdAt: { type: Date, default: Date.now },
