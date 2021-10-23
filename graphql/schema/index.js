@@ -324,7 +324,7 @@ type Query {
     referenceUrls: [String]
     memo: String
 
-    publishSatus: PublishStatus
+    publishStatus: PublishStatus
 
     month1: [Interest]
     month2: [Interest]
