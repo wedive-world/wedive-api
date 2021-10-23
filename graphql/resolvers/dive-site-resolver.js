@@ -3,6 +3,7 @@ const schema = require('../../model').schema;
 const DivePoint = schema.DivePoint
 const DiveSite = schema.DiveSite
 const Interest = schema.Interest
+const Image = schema.Image
 
 const translator = require('./util/translator')
 
