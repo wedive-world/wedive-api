@@ -4,6 +4,7 @@ const DiveSite = schema.DiveSite
 const DivePoint = schema.DivePoint
 const Interest = schema.Interest
 const Image = schema.Image
+const Highlight = schema.Highlight
 
 const translator = require('./util/translator')
 
@@ -27,6 +28,12 @@ module.exports = {
         async backgroundImages(parent, args, context, info) {
             return await Image.find({ _id: { $in: parent.backgroundImages } })
                 .lean()
+        },
+
+        async highlights(parent, args, context, info) {
+            let highlights = await Highlight.find({ _id: { $in: parent.highlights } })
+                .lean()
+            return highlights.map(highlight => translator.translateOut(highlight))
         },
 
         async month1(parent, args, context, info) {
@@ -83,7 +90,7 @@ module.exports = {
             return await Interest.find({ _id: { $in: parent.month1 } })
                 .lean()
         },
-        
+
         async month12(parent, args, context, info) {
             return await Interest.find({ _id: { $in: parent.month1 } })
                 .lean()
@@ -171,7 +178,7 @@ module.exports = {
 
             return translator.translateOut(divePoint, countryCode)
         },
-        
+
         async deleteDivePointById(parent, args, context, info) {
             let result = await DivePoint.deleteOne({ _id: args._id })
             console.log(`mutation | deleteDivePointById: result=${JSON.stringify(result)}`)

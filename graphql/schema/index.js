@@ -47,6 +47,9 @@ type Query {
     deleteInterestById(_id: ID!): ID
 
     uploadImage(file: Upload!): Image!
+    
+    upsertHighlight(input: HighlightInput!): Highlight!
+    deleteHighlightById(_id: ID!): ID
   }
 
   scalar Date
@@ -235,6 +238,7 @@ type Query {
     flowRateScore: Int
 
     interests: [Interest]
+    highlights: [Highlight]
 
     createdAt: Date
     updatedAt: Date
@@ -281,6 +285,25 @@ type Query {
     maxTemperature: Int
     flowRateScore: Int
 
+    interests: [ID]
+    highlights: [ID]
+  }
+  
+  type Highlight {
+    _id: ID!
+    name: String
+    description: String
+    images: [Image]
+    divePointId: ID!
+    interests: [Interest]
+  }
+
+  input HighlightInput {
+    _id: ID!
+    name: String
+    description: String
+    images: [ID]
+    divePointId: ID
     interests: [ID]
   }
 
