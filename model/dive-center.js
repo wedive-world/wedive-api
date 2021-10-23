@@ -25,8 +25,7 @@ const schema = new Schema({
 
     phoneNumber: String,
 
-    supportFreeDiving: Boolean,
-    supportScubaDiving: Boolean,
+    divingType: [String],
 
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
 

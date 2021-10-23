@@ -34,7 +34,6 @@ module.exports = {
 
             } else {
                 highlight = await Highlight.findOne({ _id: args.input._id })
-                    .lean()
 
                 Object.keys(args.input)
                     .filter(key => args.input[key] && typeof key == typeof args.input[key])
