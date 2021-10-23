@@ -2,16 +2,13 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    freeDiving: Boolean,
-    scubaDiving: Boolean,
-    hostUser: { type: Schema.Types.ObjectId, ref: 'User' },
+
     title: String,
     description: String,
-    departure: String,
-    budget: String,
-    status: Number,
-    totalPeople: Number,
-    startAt: Date,
+    status: { type: String, default: 'findingBuddy' },
+
+    hostUser: { type: Schema.Types.ObjectId, ref: 'User', index: true },
+    maxPeopleNumber: Number,
     participants: [{
         user: {
             type: Schema.Types.ObjectId,
@@ -21,22 +18,19 @@ const schema = new Schema({
         birth: Number,
         gender: String,
     }],
-    applicants: [{ type: Schema.Types.Array, ref: 'User' }],
-    divingLocations: [{
-        locationType: String,
-        locationId: Schema.Types.ObjectId,
-        latitude: Number,
-        longitude: Number,
-        title: { type: Schema.Types.Map, of: String },
-        description: { type: Schema.Types.Map, of: String },
-        startAt: Date,
-        endAt: Date
-    }],
-    ageInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
-    genderInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
-    divingInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
-    amityInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
-    EnvironmentInterests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    applicants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+
+    interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+
+    diveSites: [{ type: Schema.Types.ObjectId, ref: 'DiveSite' }],
+    divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
+    diveCenters: [{ type: Schema.Types.ObjectId, ref: 'DiveCenter' }],
+
+    startedAt: { type: Date, default: Date.now },
+    finishedAt: { type: Date, default: Date.now },
+
+    images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

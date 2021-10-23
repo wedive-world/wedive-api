@@ -5,6 +5,7 @@ const diveSiteResolvers = require('./dive-site-resolver')
 const divePointResolvers = require('./dive-point-resolver')
 const diveCenterResolvers = require('./dive-center-resolver')
 const highlightResolvers = require('./highlight-resolver')
+const divingResolvers = require('./diving-resolver')
 
 const resolvers = {
     ...userResolvers,
@@ -13,6 +14,7 @@ const resolvers = {
     ...divePointResolvers,
     ...diveCenterResolvers,
     ...highlightResolvers,
+    ...divingResolvers,
 
     Upload: imageResolvers.Upload,
 
@@ -23,6 +25,7 @@ const resolvers = {
         ...diveSiteResolvers.Query,
         ...divePointResolvers.Query,
         ...diveCenterResolvers.Query,
+        ...divingResolvers.Query,
     },
 
     Mutation: {
@@ -33,6 +36,7 @@ const resolvers = {
         ...divePointResolvers.Mutation,
         ...diveCenterResolvers.Mutation,
         ...highlightResolvers.Mutation,
+        ...divingResolvers.Mutation,
     }
 }
 

@@ -108,7 +108,6 @@ module.exports = {
 
             } else {
                 diveCenter = await DiveCenter.findOne({ _id: args.input._id })
-                    .lean()
 
                 Object.keys(args.input)
                     .filter(key => args.input[key] && typeof key == args.input[key])

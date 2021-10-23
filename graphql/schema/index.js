@@ -29,6 +29,10 @@ type Query {
     searchInterestsByName(query: String!, type: String): [Interest]
 
     getImageUrlById(_id: ID!, width: Int): String
+
+    getAllDivings: [Diving]
+    getDivingById(_id: ID!): Diving
+    getDivingsByHostUserId(hostUserId: ID!): [Diving]
   }
 
   type Mutation{
@@ -50,6 +54,10 @@ type Query {
     
     upsertHighlight(input: HighlightInput!): Highlight!
     deleteHighlightById(_id: ID!): ID
+
+    upsertDiving(input: DivingInput): Diving!
+    deleteDivingById(_id: ID!): ID!
+    joinDiving(divingId: ID!): Response!
   }
 
   scalar Date
@@ -68,10 +76,10 @@ type Query {
 
   interface Introduction {
     """name for show to user"""
-    name: String!
+    name: String
 
     """unique id for url, english"""
-    uniqueName: String!
+    uniqueName: String
     description: String
     images: [Image]
     backgroundImages: [Image]
@@ -83,8 +91,7 @@ type Query {
   interface Publishable {
     publishSatus: PublishStatus
   }
-
-  enum PublishStatus {
+enum PublishStatus {
     pending
     active
     inactive
@@ -204,8 +211,8 @@ type Query {
     longitude: Float!
     countryCode: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [Image]
     backgroundImages: [Image]
@@ -252,8 +259,8 @@ type Query {
     longitude: Float!
     countryCode: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [ID]
     backgroundImages: [ID]
@@ -315,8 +322,8 @@ type Query {
     longitude: Float!
     countryCode: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [Image]
     backgroundImages: [Image]
@@ -365,8 +372,8 @@ type Query {
     longitude: Float!
     countryCode: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [ID]
     backgroundImages: [ID]
@@ -418,8 +425,8 @@ type Query {
     longitude: Float!
     countryCode: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [Image]
     backgroundImages: [Image]
@@ -438,8 +445,7 @@ type Query {
     clerks: [User]
 
     phoneNumber: String
-    supportFreeDiving: Boolean
-    supportScubaDiving: Boolean
+    divingType: [DivingType]
 
     createdAt: Date
     updatedAt: Date
@@ -453,8 +459,8 @@ type Query {
     longitude: Float!
     countryCode: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [ID]
     backgroundImages: [ID]
@@ -473,8 +479,7 @@ type Query {
     clerks: [ID]
 
     phoneNumber: String
-    supportFreeDiving: Boolean
-    supportScubaDiving: Boolean
+    divingType: [DivingType]
   }
 
   type Interest implements Introduction {
@@ -486,8 +491,8 @@ type Query {
     iconColor: String
     iconUrl: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [Image]
     backgroundImages: [Image]
@@ -531,6 +536,109 @@ type Query {
     """sunny, cloudy, rain, heavyRain""" climate
     """popular, soso, unrecommended""" popularity
   }
+
+  type Diving {
+    _id: ID!
+
+    title: String
+    description: String
+    status: DivingStatus!
+
+    hostUser: User!
+    participants: [Participant]
+    maxPeopleNumber: Int
+
+    interests: [Interest]
+
+    diveSites: [DiveSite]
+    divePoints: [DivePoint]
+    diveCenters: [DiveCenter]
+
+    startedAt: Date
+    finishedAt: Date
+
+    images: [Image]
+
+    createdAt: Date
+    updatedAt: Date
+  }
+
+  input DivingInput {
+    _id: ID
+
+    title: String
+    description: String
+
+    status: DivingStatus
+
+    hostUser: ID!
+    participants: [ParticipantInput]
+
+    interests: [ID]
+
+    diveSites: [ID]
+    divePoints: [ID]
+    diveCenters: [ID]
+
+    startedAt: Date
+    finishedAt: Date
+
+    images: [ID]
+
+    createdAt: Date
+    updatedAt: Date
+}
+
+enum DivingStatus {
+  searchable
+  publicEnded
+  divingComplete
+
+  canceled
+  banned
+}
+
+enum DivingType {
+  scubaDiving
+  freeDiving
+}
+
+enum ParticipantStatus {
+  applied
+  joined
+  banned
+}
+
+type Participant {
+  user: User
+  status: ParticipantStatus
+  name: String
+  birth: Int
+  gender: String
+}
+
+input ParticipantInput {
+  user: ID
+  status: ParticipantStatus
+  name: String
+  birth: Int
+  gender: String
+}
+
+type Response {
+  result: ResponseResult
+  reason: ResponseReason
+}
+
+enum ResponseResult {
+  success
+  fail
+}
+
+enum ResponseReason {
+  tooManyPeople
+  publicEnded
+}
 `;
 
 module.exports = typeDefs;
