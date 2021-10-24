@@ -135,7 +135,7 @@ async function uploadImage(createReadStream, filename, mimetype, encoding) {
     }
 
     await image.save()
-    return image()
+    return image
 }
 
 async function getResizedImage(imageId, width) {
