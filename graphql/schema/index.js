@@ -147,32 +147,20 @@ enum PublishStatus {
     f
   }
 
-  type ImageContentEntry {
-    key: String,
-    value: ImageContent
-  }
-
   type Image {
     _id: ID
+    
     name: String
     description: String
     reference: String,
-
     uploaderId: String,
+
     mimeType: String
     encoding: String
     fileSize: Int
-    contentMap: [ImageContentEntry]
 
     createdAt: Date,
     updatedAt: Date,
-  }
-
-  type ImageContent {
-    _id: ID
-    name: String
-    url: String
-    createdAt: Date
   }
 
   type Institution {

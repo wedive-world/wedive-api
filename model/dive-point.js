@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    name: String,
     uniqueName: { type: String, index: true, unique: true },
+    
+    name: String,
     nameTranslation: { type: Map, of: String },
     description: String,
     descriptionTranslation: { type: Map, of: String },
