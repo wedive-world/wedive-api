@@ -62,7 +62,30 @@ module.exports = {
             console.log(`mutation | createImage: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
             return await uploadImage(args.input.file, args.input)
         },
+
+        updateImage: async (parent, args, context, info) => {
+            console.log(`mutation | updateImage: input=${JSON.stringify(args.input)}`)
+
+            return await uploadImage(args.input.file, args.input)
+        },
     }
+}
+
+async function updateImage({
+    _id,
+    name,
+    description,
+    reference,
+    uploaderId,
+}) {
+    let image = await Image.findOne({ _id: _id })
+    image.name = name
+    image.description = description
+    image.reference = reference
+    image.uploaderId = uploaderId
+
+    await image.save()
+    return image
 }
 
 async function uploadImage(
