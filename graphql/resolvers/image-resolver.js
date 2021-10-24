@@ -211,7 +211,7 @@ async function download(url, dest) {
         http.get(url, resp =>
             resp.pipe(fs.createWriteStream(dest))
                 .on('finish', async () => {
-                    console.log(`The file is finished downloading.`);
+                    console.log(`query | download: finished - ${dest}`);
                     resolve();
                 })
                 .on('error', (error) => {
@@ -220,6 +220,6 @@ async function download(url, dest) {
         )
     })
         .catch((error) => {
-            console.log(`Something happened: ${error} `);
+            console.log(`query | download: Something happened: ${error} `);
         });
 }
