@@ -157,7 +157,7 @@ module.exports = {
                 diveSite = await DiveSite.findOne({ _id: args.input._id })
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof key == typeof args.input[key])
+                    .filter(key => args.input[key] && typeof diveSite[key] == typeof args.input[key])
                     .forEach(key => { diveSite[key] = args.input[key] })
 
                 diveSite.updatedAt = Date.now()
