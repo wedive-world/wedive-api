@@ -62,6 +62,4 @@ const schema = new Schema({
 
 module.exports = mongoose.model('DiveSite', schema);
 
-schema.index({
-    'nameTranslation.ko': 'text',
-})
+schema.index({ 'nameTranslation.ko': 'text' }, { default_language: "ngram" })

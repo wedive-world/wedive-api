@@ -40,3 +40,5 @@ const schema = new Schema({
 });
 
 module.exports = mongoose.model('DiveCenter', schema);
+
+schema.index({ 'nameTranslation.ko': 'text' }, { default_language: "ngram" })

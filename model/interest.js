@@ -29,9 +29,7 @@ const schema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-schema.index({
-    'titleTranslation.ko': 'text',
-})
+schema.index({ 'titleTranslation.ko': 'text' }, { default_language: "ngram" })
 
 // schema.index({
 //     'title.en': 'text'

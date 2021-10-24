@@ -132,7 +132,7 @@ enum PublishStatus {
   input UserInput {
     _id: ID
 
-    name: String!
+    name: String
     email: String!
 
     birthAge: Int
@@ -510,8 +510,8 @@ enum PublishStatus {
     iconColor: String
     iconUrl: String
 
-    name: String!
-    uniqueName: String!
+    name: String
+    uniqueName: String
     description: String
     images: [ID]
     backgroundImages: [ID]
@@ -529,6 +529,7 @@ enum PublishStatus {
     """여행 특성""" tripFeature
     """수상 내역""" award
     """별명""" nickName
+    """Diving features, e.g. hardTraning, fun diving...""" divingFeature
     """다이빙 환경""" divingPointEnvironment
     """수중 생물""" aquaticLife
     """다이빙 타입(프리,스쿠바)""" divingType

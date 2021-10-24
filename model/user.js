@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
     name: String,
-    email: { type: String, unique: true, index: true },
+    email: { type: String, unique: true, index: true, match: /.+\@.+@..+/ },
     birth: Number,
     gender: String,
     profileImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],

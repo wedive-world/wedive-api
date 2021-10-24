@@ -51,6 +51,4 @@ const schema = new Schema({
 
 module.exports = mongoose.model('DivePoint', schema);
 
-schema.index({
-    'nameTranslation.ko': 'text',
-})
+schema.index({ 'nameTranslation.ko': 'text' }, { default_language: "ngram" })
