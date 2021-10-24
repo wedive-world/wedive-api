@@ -71,7 +71,7 @@ module.exports = {
                 interest = await Interest.findOne({ _id: args.input._id })
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof key == args.input[key])
+                    .filter(key => args.input[key] && typeof interest[key] == typeof args.input[key])
                     .forEach(key => { interest[key] = args.input[key] })
 
                 interest.updatedAt = Date.now()
