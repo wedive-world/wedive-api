@@ -50,8 +50,7 @@ type Query {
     upsertInterest(input: InterestInput!): Interest!
     deleteInterestById(_id: ID!): ID
 
-    uploadImage(file: Upload!): Image! 
-    createImage(input: CreateImageInput!): Image!
+    uploadImage(file: Upload!): Image!
     updateImage(input: UpdateImageInput!): Image!
     
     upsertHighlight(input: HighlightInput!): Highlight!
@@ -163,15 +162,6 @@ enum PublishStatus {
 
     createdAt: Date,
     updatedAt: Date,
-  }
-
-  input CreateImageInput {
-    file: Upload!
-    
-    name: String
-    description: String
-    reference: String
-    uploaderId: String
   }
 
   input UpdateImageInput {

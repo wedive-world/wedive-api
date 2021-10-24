@@ -56,17 +56,10 @@ module.exports = {
             return await uploadImage(createReadStream, filename, mimetype, encoding)
         },
 
-        createImage: async (parent, args, context, info) => {
-
-            const { createReadStream, filename, mimetype, encoding } = await args.input.file;
-            console.log(`mutation | createImage: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
-            return await uploadImage(args.input.file, args.input)
-        },
-
         updateImage: async (parent, args, context, info) => {
             console.log(`mutation | updateImage: input=${JSON.stringify(args.input)}`)
 
-            return await uploadImage(args.input.file, args.input)
+            return await updateImage(args.input)
         },
     }
 }
@@ -83,70 +76,6 @@ async function updateImage({
     image.description = description
     image.reference = reference
     image.uploaderId = uploaderId
-
-    await image.save()
-    return image
-}
-
-async function uploadImage(
-    { createReadStream, filename, mimetype, encoding },
-    { name, description, reference, uploaderId }
-) {
-
-    let image = new Image({
-        name: name,
-        description: description,
-        reference: reference,
-        uploaderId: uploaderId,
-        s3EndPoint: END_POINT,
-        s3Region: REGION,
-        s3BucketName: BUCKET_NAME,
-        name: filename,
-        mimeType: mimetype,
-        encoding: encoding
-    })
-
-    const ext = filename.split('.').pop()
-    console.log(`mutation | singleUpload: ext=${ext}`)
-
-    await fs.mkdirSync(TMP_DIR_PATH, { recursive: true })
-
-    const tmpFilePath = `${TMP_DIR_PATH}${image._id}.${ext}`
-
-    // Invoking the `createReadStream` will return a Readable Stream.
-    // See https://nodejs.org/api/stream.html#stream_readable_streams
-    const stream = createReadStream();
-
-    // This is purely for demonstration purposes and will overwrite the
-    // local-file-output.txt in the current working directory on EACH upload.
-
-    const out = fs.createWriteStream(tmpFilePath);
-    stream.pipe(out);
-    await finished(out);
-
-    let fileStat = await fs.readFileSync(tmpFilePath)
-    image.fileSize = fileStat.length
-
-    console.log(`mutation | singleUpload: fileSize=${image.fileSize}`)
-
-    var uploadParams = {
-        Bucket: BUCKET_NAME,
-        Key: `${ORIGIN_IMAGE_DIR_PATH}${image._id}.${ext}`,
-        ACL: 'private',
-        Body: fs.createReadStream(tmpFilePath),
-    };
-
-    image.s3ObjectKey = uploadParams.Key
-    console.log(`mutation | singleUpload: bucket=${JSON.stringify(uploadParams.Bucket)}, Key=${JSON.stringify(uploadParams.Key)}`)
-
-    try {
-        let result = await s3.putObject(uploadParams).promise()
-        console.log(`mutation | singleUpload: result=${JSON.stringify(result.$response.data)}`)
-        await fs.rmSync(tmpFilePath)
-
-    } catch (err) {
-        console.log(`mutation | singleUpload: putObject err=${err}}`)
-    }
 
     await image.save()
     return image
