@@ -3,15 +3,16 @@ const AWS = require('aws-sdk');
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/s3-config.env' })
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/aws-secret.env' })
 
+const END_POINT = process.env.IMAGE_BUCKET_END_POINT
+const REGION = process.env.IMAGE_BUCKET_REGION
+const BUCKET_NAME = process.env.IMAGE_BUCKET_NAME
+
+console.log(`============ENV_LIST of image-resolver.js============`)
 console.log(`pwd=${process.env.PWD}`)
-
-const END_POINT = process.env.IMAGE_BUCKET_END_POINT || "http://us-east-1.linodeobjects.com"
-const REGION = process.env.IMAGE_BUCKET_REGION || "us-east-1"
-const BUCKET_NAME = process.env.IMAGE_BUCKET_BUCKET_NAME || "image-bucket"
-
 console.log(`END_POINT=${END_POINT}`)
 console.log(`REGION=${REGION}`)
 console.log(`BUCKET_NAME=${BUCKET_NAME}`)
+console.log(`=====================================================`)
 
 const s3 = new AWS.S3({
     endpoint: END_POINT,
@@ -110,7 +111,8 @@ async function uploadImage(createReadStream, filename, mimetype, encoding) {
         console.log(`mutation | singleUpload: putObject err=${err}}`)
     }
 
-    return await image.save()
+    await image.save()
+    return image.lean()
 }
 
 async function getResizedImage(imageId, width) {
@@ -122,9 +124,15 @@ async function getResizedImage(imageId, width) {
         return null
     }
 
+    console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
+
+    if (!image.contentMap) {
+        image.contentMap = new Map()
+    }
+
     let imageContent = null
 
-    if (image.contentMap && image.contentMap.has(width.toString())) {
+    if (image.contentMap.has(width.toString())) {
         let imageContentId = image.contentMap.get(width.toString())
         console.log(`query | getResizedImage: imageContentId=${imageContentId}`)
         imageContent = await ImageContent.findOne({ _id: imageContentId })
@@ -160,6 +168,8 @@ async function getResizedImage(imageId, width) {
         await download(signedUrl, originTmpFilePath)
 
         let resizedTmpFilePath = `${originTmpDirPath}${imageContent._id}.${ext}`
+
+        console.log(`query | getResizedImage: originTmpFilePath=${originTmpFilePath}, resizedTmpFilePath=${resizedTmpFilePath}`)
 
         await sharp(originTmpFilePath)
             .resize(width)
@@ -208,7 +218,7 @@ async function download(url, dest) {
         http.get(url, resp =>
             resp.pipe(fs.createWriteStream(dest))
                 .on('finish', async () => {
-                    console.log(`The file is finished downloading.`);
+                    console.log(`query | download: finished - ${dest}`);
                     resolve();
                 })
                 .on('error', (error) => {
@@ -217,6 +227,6 @@ async function download(url, dest) {
         )
     })
         .catch((error) => {
-            console.log(`Something happened: ${error} `);
+            console.log(`query | download: Something happened: ${error} `);
         });
 }
