@@ -5,7 +5,7 @@ require('dotenv').config({ path: process.env.PWD + '/wedive-secret/aws-secret.en
 
 const END_POINT = process.env.IMAGE_BUCKET_END_POINT
 const REGION = process.env.IMAGE_BUCKET_REGION
-const BUCKET_NAME = process.env.IMAGE_BUCKET_BUCKET_NAME
+const BUCKET_NAME = process.env.IMAGE_BUCKET_NAME
 
 console.log(`============ENV_LIST of image-resolver.js============`)
 console.log(`pwd=${process.env.PWD}`)
