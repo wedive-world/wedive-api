@@ -41,9 +41,10 @@ const schema = new Schema({
 
     minDepth: Number,
     maxDepth: Number,
-    minTemperature: Number,
-    maxTemperature: Number,
     flowRateScore: Number,
+    waterEnvironmentScore: Number,
+    eyeSightScore: Number,
+    highlightDescription: String,
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

@@ -240,9 +240,11 @@ enum PublishStatus {
     adminScore: Int
     minDepth: Int
     maxDepth: Int
-    minTemperature: Int
-    maxTemperature: Int
     flowRateScore: Int
+    waterEnvironmentScore: Int
+    eyeSightScore: Int
+    highlightDescription: String
+
 
     interests: [Interest]
     highlights: [Highlight]
@@ -288,9 +290,10 @@ enum PublishStatus {
     adminScore: Int
     minDepth: Int
     maxDepth: Int
-    minTemperature: Int
-    maxTemperature: Int
     flowRateScore: Int
+    waterEnvironmentScore: Int
+    eyeSightScore: Int
+    highlightDescription: String
 
     interests: [ID]
     highlights: [ID]
