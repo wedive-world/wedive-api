@@ -118,7 +118,7 @@ async function uploadImage(createReadStream, filename, mimetype, encoding) {
 async function getResizedImage(imageId, width) {
 
     console.log(`query | getResizedImage: imageId=${imageId} width=${width}`)
-    let image = await Image.findOne({ _id: imageId }).lean()
+    let image = await Image.findOne({ _id: imageId })
 
     if (!image) {
         return null
@@ -126,11 +126,11 @@ async function getResizedImage(imageId, width) {
 
     console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
 
-    let imageContent = null
-
     if (!image.contentMap) {
         image.contentMap = new Map()
     }
+
+    let imageContent = null
 
     if (image.contentMap.has(width.toString())) {
         let imageContentId = image.contentMap.get(width.toString())
