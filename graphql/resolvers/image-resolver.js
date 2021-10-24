@@ -37,7 +37,7 @@ module.exports = {
 
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
-            return await getResizedImage(args.id, args.width)
+            return await getResizedImage(args._id, args.width)
         }
     },
 
