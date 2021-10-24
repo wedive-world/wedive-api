@@ -129,7 +129,7 @@ async function getResizedImage(imageId, width) {
     let imageContent = null
 
     if (!image.contentMap) {
-        imageContentMap = new Map()
+        image.contentMap = new Map()
     }
 
     if (image.contentMap.has(width.toString())) {
