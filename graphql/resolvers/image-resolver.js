@@ -164,6 +164,8 @@ async function getResizedImage(imageId, width) {
 
         let resizedTmpFilePath = `${originTmpDirPath}${imageContent._id}.${ext}`
 
+        console.log(`query | getResizedImage: originTmpFilePath=${originTmpFilePath}, resizedTmpFilePath=${resizedTmpFilePath}`)
+
         await sharp(originTmpFilePath)
             .resize(width)
             .toFile(resizedTmpFilePath)
