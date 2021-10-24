@@ -10,15 +10,13 @@ const {
   graphqlUploadExpress, // A Koa implementation is also exported.
 } = require('graphql-upload');
 
-const typeDefs = require("./graphql/schema");
-const resolvers = require("./graphql/resolvers");
+const schema = require('./graphql/schema')
 const connectDB = require("./model");
 
 async function startServer() {
 
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema: schema,
     playground: true,
     introspection: true,
     context: ({ req }) => {

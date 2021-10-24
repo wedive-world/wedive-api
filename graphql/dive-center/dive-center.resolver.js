@@ -6,7 +6,7 @@ const DivePoint = schema.DivePoint
 const Interest = schema.Interest
 const Image = schema.Image
 
-const translator = require('./util/translator')
+const translator = require('../common/util/translator')
 
 module.exports = {
 
