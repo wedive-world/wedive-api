@@ -40,6 +40,7 @@ const schema = new Schema({
 
     diveSiteId: Schema.Types.ObjectId,
 
+    adminScore: Number,
     minDepth: Number,
     maxDepth: Number,
     flowRateScore: Number,
