@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
     uniqueName: { type: String, index: true, unique: true },
-    
+
     name: String,
     nameTranslation: { type: Map, of: String },
     description: String,
@@ -46,6 +46,7 @@ const schema = new Schema({
     waterEnvironmentScore: Number,
     eyeSightScore: Number,
     highlightDescription: String,
+    highlightDescriptionTranslation: { type: Map, of: String },
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
