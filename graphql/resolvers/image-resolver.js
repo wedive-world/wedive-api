@@ -3,9 +3,9 @@ const AWS = require('aws-sdk');
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/s3-config.env' })
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/aws-secret.env' })
 
-const END_POINT = process.env.IMAGE_BUCKET_END_POINT
-const REGION = process.env.IMAGE_BUCKET_REGION
-const BUCKET_NAME = process.env.IMAGE_BUCKET_BUCKET_NAME
+const END_POINT = process.env.IMAGE_BUCKET_END_POINT || "http://us-east-1.linodeobjects.com"
+const REGION = process.env.IMAGE_BUCKET_REGION || "us-east-1"
+const BUCKET_NAME = process.env.IMAGE_BUCKET_BUCKET_NAME || "image-bucket"
 
 const s3 = new AWS.S3({
     endpoint: END_POINT,
