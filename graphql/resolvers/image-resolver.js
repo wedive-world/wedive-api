@@ -3,15 +3,16 @@ const AWS = require('aws-sdk');
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/s3-config.env' })
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/aws-secret.env' })
 
-console.log(`pwd=${process.env.PWD}`)
-
 const END_POINT = process.env.IMAGE_BUCKET_END_POINT || "http://us-east-1.linodeobjects.com"
 const REGION = process.env.IMAGE_BUCKET_REGION || "us-east-1"
 const BUCKET_NAME = process.env.IMAGE_BUCKET_BUCKET_NAME || "image-bucket"
 
+console.log(`============ENV_LIST of image-resolver.js============`)
+console.log(`pwd=${process.env.PWD}`)
 console.log(`END_POINT=${END_POINT}`)
 console.log(`REGION=${REGION}`)
 console.log(`BUCKET_NAME=${BUCKET_NAME}`)
+console.log(`=====================================================`)
 
 const s3 = new AWS.S3({
     endpoint: END_POINT,
@@ -116,11 +117,13 @@ async function uploadImage(createReadStream, filename, mimetype, encoding) {
 async function getResizedImage(imageId, width) {
 
     console.log(`query | getResizedImage: imageId=${imageId} width=${width}`)
-    let image = await Image.findOne({ _id: imageId })
+    let image = await Image.findOne({ _id: imageId }).lean()
 
     if (!image) {
         return null
     }
+
+    console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
 
     let imageContent = null
 
