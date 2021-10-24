@@ -51,6 +51,7 @@ type Query {
     deleteInterestById(_id: ID!): ID
 
     uploadImage(file: Upload!): Image!
+    createImage(input: CreateImageInput!): Image!
     
     upsertHighlight(input: HighlightInput!): Highlight!
     deleteHighlightById(_id: ID!): ID
@@ -149,7 +150,7 @@ enum PublishStatus {
 
   type Image {
     _id: ID
-    
+
     name: String
     description: String
     reference: String,
@@ -161,6 +162,15 @@ enum PublishStatus {
 
     createdAt: Date,
     updatedAt: Date,
+  }
+
+  input CreateImageInput {
+    file: Upload!
+    
+    name: String
+    description: String
+    reference: String
+    uploaderId: String
   }
 
   type Institution {
