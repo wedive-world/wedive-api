@@ -2,7 +2,7 @@ const schema = require('../../model').schema;
 
 const Interest = schema.Interest
 
-const translator = require('./util/translator')
+const translator = require('../common/util/translator')
 
 module.exports = {
     Query: {
