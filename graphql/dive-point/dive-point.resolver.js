@@ -42,57 +42,57 @@ module.exports = {
         },
 
         async month2(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month2 } })
                 .lean()
         },
 
         async month3(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month3 } })
                 .lean()
         },
 
         async month4(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month4 } })
                 .lean()
         },
 
         async month5(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month5 } })
                 .lean()
         },
 
         async month6(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month6 } })
                 .lean()
         },
 
         async month7(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month7 } })
                 .lean()
         },
 
         async month8(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month8 } })
                 .lean()
         },
 
         async month9(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month9 } })
                 .lean()
         },
 
         async month10(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month10 } })
                 .lean()
         },
 
         async month11(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month11 } })
                 .lean()
         },
 
         async month12(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
+            return await Interest.find({ _id: { $in: parent.month12 } })
                 .lean()
         },
     },
