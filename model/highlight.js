@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    uniqueName: { type: String, unique: true, index: true },
+    name: { type: String, unique: true, index: true },
     description: String,
     descriptionTranslation: { type: Map, of: String },
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
