@@ -53,8 +53,8 @@ module.exports = {
             let divePoint = await DivePoint.findOne({ _id: args.input.divePointId })
             if (divePoint != null) {
                 divePoint.highlights.push(highlight._id)
+                await divePoint.save()
             }
-            await divePoint.save()
 
             return translator.translateOut(highlight, languageCode)
         },
