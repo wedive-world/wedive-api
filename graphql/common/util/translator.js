@@ -20,8 +20,8 @@ module.exports.translateOut = (object, countryCode) => {
     properties
         .filter(property => object.hasOwnProperty(property))
         .forEach(property => {
-            const translationKey = property + 'Translation'
             try {
+                const translationKey = property + 'Translation'
                 object[property] = object[translationKey][countryCode]
             } catch (err) {
                 console.log(`translator | translateOut: ${property} cannot be translated into ${countryCode}`)
