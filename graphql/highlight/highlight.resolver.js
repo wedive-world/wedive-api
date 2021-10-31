@@ -2,6 +2,7 @@ const schema = require('../../model').schema;
 
 const Highlight = schema.Highlight
 const Interest = schema.Interest
+const Image = schema.Image
 
 const translator = require('../common/util/translator')
 
