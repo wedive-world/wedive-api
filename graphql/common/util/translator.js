@@ -25,6 +25,7 @@ module.exports.translateOut = (object, countryCode) => {
                 object[property] = object[translationKey][countryCode]
             } catch (err) {
                 console.log(`translator | translateOut: ${property} cannot be translated into ${countryCode}`)
+                console.log(`translator | object: ${JSON.stringify(object)}`)
                 console.log(`${err}`)
             }
         });
