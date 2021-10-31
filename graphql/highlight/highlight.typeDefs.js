@@ -18,7 +18,7 @@ type Highlight {
   }
 
   input HighlightInput {
-    _id: ID!
+    _id: ID
     name: String
     description: String
     images: [ID]
