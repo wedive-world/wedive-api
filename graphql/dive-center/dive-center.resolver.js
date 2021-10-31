@@ -13,29 +13,29 @@ module.exports = {
     DiveCenter: {
         async interests(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let interests = await Interest.find({ _id: { $in: parent.interests } })
                 .lean()
 
-            return interests.map(interest => translator.translateOut(interest, countryCode))
+            return interests.map(interest => translator.translateOut(interest, languageCode))
         },
 
         async diveSites(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveSites = await DiveSite.find({ _id: { $in: parent.diveSites } })
                 .lean()
 
-            return diveSites.map(diveSite => translator.translateOut(diveSite, countryCode))
+            return diveSites.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
 
         async divePoints(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let divePoints = await DivePoint.find({ _id: { $in: parent.divePoints } })
                 .lean()
 
-            return divePoints.map(divePoint => translator.translateOut(divePoint, countryCode))
+            return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
         },
 
         async images(parent, args, context, info) {
@@ -52,24 +52,24 @@ module.exports = {
     Query: {
         async getAllDiveCenters(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveCenters = await DiveCenter.find()
                 .lean()
-            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, countryCode))
+            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
 
         async getDiveCenterById(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveCenter = await DiveCenter.findOne({ _id: args._id })
                 .lean()
 
-            return translator.translateOut(diveCenter, countryCode)
+            return translator.translateOut(diveCenter, languageCode)
         },
 
         async getDiveCentersNearBy(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveCenters = await DiveCenter.find({
                 $and: [
                     { latitude: { $gt: Math.min(args.lat1, args.lat2) } },
@@ -80,16 +80,16 @@ module.exports = {
             })
                 .lean()
 
-            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, countryCode))
+            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
         async searchDiveCentersByName(parent, args, context, info) {
 
             console.log(`query | searchDiveCentersByName: args=${JSON.stringify(args)}`)
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveCenters = await DiveCenter.find({ $text: { $search: args.query } })
                 .lean()
-            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, countryCode))
+            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
 
     },
@@ -99,7 +99,7 @@ module.exports = {
         async upsertDiveCenter(parent, args, context, info) {
 
             console.log(`mutation | upsertDiveCenter: args=${args}`)
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
 
             let diveCenter = null
 
@@ -116,7 +116,7 @@ module.exports = {
                 diveCenter.updatedAt = Date.now()
             }
 
-            diveCenter = translator.translateIn(diveCenter, args.input, countryCode)
+            diveCenter = translator.translateIn(diveCenter, args.input, languageCode)
             await diveCenter.save()
 
             let diveSite = await DiveSite.findOne({ _id: result.diveSiteId })
@@ -130,7 +130,7 @@ module.exports = {
 
             await diveSite.save()
 
-            return translator.translateOut(diveCenter, countryCode)
+            return translator.translateOut(diveCenter, languageCode)
         },
 
         async deleteDiveCenterById(parent, args, context, info) {

@@ -32,19 +32,19 @@ module.exports = {
         async diveSites(parent, args, context, info) {
             const countryCode = context.countryCode
             let resultList = await DiveSite.find({ _id: { $in: parent.diveSites } })
-            return resultList.map(diveSite => translator.translateOut(diveSite, countryCode))
+            return resultList.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
 
         async divePoints(parent, args, context, info) {
             const countryCode = context.countryCode
             let resultList = await DivePoint.find({ _id: { $in: parent.divePoints } })
-            return resultList.map(divePoint => translator.translateOut(divePoint, countryCode))
+            return resultList.map(divePoint => translator.translateOut(divePoint, languageCode))
         },
 
         async diveCenters(parent, args, context, info) {
             const countryCode = context.countryCode
             let resultList = await DiveCenter.find({ _id: { $in: parent.diveCenters } })
-            return resultList.map(diveCenter => translator.translateOut(diveCenter, countryCode))
+            return resultList.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
 
         async images(parent, args, context, info) {

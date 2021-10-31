@@ -28,7 +28,7 @@ module.exports = {
         async divePoints(parent, args, context, info) {
             const countryCode = context.countryCode
             let resultList = await DivePoint.find({ _id: { $in: parent.divePoints } })
-            return resultList.map(divePoint => translator.translateOut(divePoint, countryCode))
+            return resultList.map(divePoint => translator.translateOut(divePoint, languageCode))
         },
 
         async month1(parent, args, context, info) {
@@ -95,22 +95,22 @@ module.exports = {
     Query: {
         async getAllDiveSites(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveSiteList = await DiveSite.find()
                 .lean()
 
-            return diveSiteList.map(diveSite => translator.translateOut(diveSite, countryCode))
+            return diveSiteList.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
         async getDiveSiteById(parent, args, context, info) {
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveSite = await DiveSite.find({ _id: args._id })
                 .lean()
 
-            return translator.translateOut(diveSite, countryCode)
+            return translator.translateOut(diveSite, languageCode)
         },
         async getDiveSitesNearby(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             let diveSiteList = await DiveSite.find({
                 $and: [
                     { latitude: { $gt: Math.min(args.lat1, args.lat2) } },
@@ -121,11 +121,11 @@ module.exports = {
             })
                 .lean()
 
-            return diveSiteList.map(diveSite => translator.translateOut(diveSite, countryCode))
+            return diveSiteList.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
         async searchDiveSitesByName(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             console.log(`query | searchDiveSitesByName: args=${JSON.stringify(args)}`)
 
             let param = {
@@ -137,7 +137,7 @@ module.exports = {
             let diveSiteList = await DiveSite.find(param)
                 .lean()
 
-            return diveSiteList.map(diveSite => translator.translateOut(diveSite, countryCode))
+            return diveSiteList.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
 
     },
@@ -146,7 +146,7 @@ module.exports = {
         async upsertDiveSite(parent, args, context, info) {
             console.log(`mutation | upsertDiveSite: args=${JSON.stringify(args)}`)
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
 
             let diveSite = null
 
@@ -163,10 +163,10 @@ module.exports = {
                 diveSite.updatedAt = Date.now()
             }
 
-            diveSite = translator.translateIn(diveSite, args.input, countryCode)
+            diveSite = translator.translateIn(diveSite, args.input, languageCode)
             await diveSite.save()
 
-            return translator.translateOut(diveSite, countryCode)
+            return translator.translateOut(diveSite, languageCode)
         },
         async deleteDiveSiteById(parent, args, context, info) {
             let result = await DiveSite.deleteOne({ _id: args._id })

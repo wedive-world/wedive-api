@@ -7,29 +7,29 @@ const translator = require('../common/util/translator')
 module.exports = {
     Query: {
         async getInterestById(parent, args, context, info) {
-            let countryCode = context.countryCode || 'ko'
-            console.log(`query | getInterestById: countrycode=${JSON.stringify(countryCode)} args=${JSON.stringify(args)}`)
+            let languageCode = context.languageCode
+            console.log(`query | getInterestById: languagecode=${JSON.stringify(languageCode)} args=${JSON.stringify(args)}`)
 
             let interest = await Interest.findOne({ _id: args._id })
                 .lean()
 
-            return translator.translateOut(interest, countryCode)
+            return translator.translateOut(interest, languageCode)
         },
 
         async getAllInterests(parent, args, context, info) {
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
 
-            console.log(`query | getAllInterests: countrycode=${JSON.stringify(countryCode)}`)
+            console.log(`query | getAllInterests: languagecode=${JSON.stringify(languageCode)}`)
 
             let interests = await Interest.find((args.type) ? { type: args.type } : { })
                 .lean()
 
-            return interests.map(interest => translator.translateOut(interest, countryCode))
+            return interests.map(interest => translator.translateOut(interest, languageCode))
         },
 
         async searchInterestsByName(parent, args, context, info) {
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             console.log(`query | searchInterestsByName: args=${JSON.stringify(args)}`)
 
             let param = {
@@ -51,7 +51,7 @@ module.exports = {
 
             console.log(`query | searchInterest: result=${JSON.stringify(interests)}`)
 
-            return interests.map(interest => translator.translateOut(interest, countryCode))
+            return interests.map(interest => translator.translateOut(interest, languageCode))
         }
     },
 
@@ -60,7 +60,7 @@ module.exports = {
 
             console.log(`mutation | createInterest: args=${JSON.stringify(args)}`)
 
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
 
             let interest = null
 
@@ -77,10 +77,10 @@ module.exports = {
                 interest.updatedAt = Date.now()
             }
 
-            interest = translator.translateIn(interest, args.input, countryCode)
+            interest = translator.translateIn(interest, args.input, languageCode)
             await interest.save()
 
-            return translator.translateOut(interest, countryCode)
+            return translator.translateOut(interest, languageCode)
         },
         
         async deleteInterestById(parent, args, context, info) {

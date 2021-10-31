@@ -3,28 +3,28 @@ const properties = [
     'visitTimeDescription', 'waterTemperatureDescription', 'deepDescription', 'waterFlowDescription', 'eyeSightDescription', 'highlightDescription',
 ]
 
-module.exports.translateIn = (originalObject, inputObject, countryCode) => {
+module.exports.translateIn = (originalObject, inputObject, languageCode) => {
     properties.forEach(property => {
         const translationKey = property + 'Translation'
         if (!originalObject.hasOwnProperty(translationKey)) {
             originalObject[translationKey] = new Map()
         }
 
-        originalObject[translationKey].set(countryCode, inputObject[property])
+        originalObject[translationKey].set(languageCode, inputObject[property])
     });
 
     return originalObject
 }
 
-module.exports.translateOut = (object, countryCode) => {
+module.exports.translateOut = (object, languageCode) => {
     properties
         .filter(property => object.hasOwnProperty(property) && object.hasOwnProperty(property + 'Translation'))
         .forEach(property => {
             try {
                 const translationKey = property + 'Translation'
-                object[property] = object[translationKey][countryCode]
+                object[property] = object[translationKey][languageCode]
             } catch (err) {
-                console.log(`translator | translateOut: ${property} cannot be translated into ${countryCode}`)
+                console.log(`translator | translateOut: ${property} cannot be translated into ${languageCode}`)
                 console.log(`translator | object: ${JSON.stringify(object)}`)
                 console.log(`${err}`)
             }

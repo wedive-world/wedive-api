@@ -11,10 +11,10 @@ module.exports = {
 
     Highlight: {
         async interests(parent, args, context, info) {
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
             return await Interest.find({ _id: { $in: parent.interests } })
                 .lean()
-                .map(interest => translator.translateOut(interest, countryCode))
+                .map(interest => translator.translateOut(interest, languageCode))
         },
         async images(parent, args, context, info) {
             return await Image.find({ _id: { $in: parent.images } })
@@ -27,9 +27,9 @@ module.exports = {
 
     Mutation: {
         async upsertHighlight(parent, args, context, info) {
-            let countryCode = context.countryCode || 'ko'
+            let languageCode = context.languageCode
 
-            console.log(`mutation | highlight: countryCode=${countryCode} args=${JSON.stringify(args)}`)
+            console.log(`mutation | highlight: languageCode=${languageCode} args=${JSON.stringify(args)}`)
 
             let highlight = null
 
@@ -46,14 +46,14 @@ module.exports = {
                 highlight.updatedAt = Date.now()
             }
 
-            highlight = translator.translateIn(highlight, args.input, countryCode)
+            highlight = translator.translateIn(highlight, args.input, languageCode)
             await highlight.save()
 
             let divePoint = await DivePoint.findOne({ _id: args.input.divePointId })
             divePoint.highlights.push(highlight._id)
             await divePoint.save()
 
-            return translator.translateOut(highlight, countryCode)
+            return translator.translateOut(highlight, languageCode)
         },
         async deleteHighlightById(parent, args, context, info) {
             let result = await Highlight.deleteOne({ _id: args._id })
