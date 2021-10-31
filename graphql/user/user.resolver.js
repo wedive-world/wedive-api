@@ -44,7 +44,7 @@ module.exports = {
                 user = await User.findOne({ _id: args.input._id })
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof key == typeof args.input[key])
+                    .filter(key => args.input[key] && typeof user[key] == typeof args.input[key])
                     .forEach(key => { user[key] = args.input[key] })
 
                 user.updatedAt = Date.now()

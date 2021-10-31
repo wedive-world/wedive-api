@@ -85,7 +85,7 @@ module.exports = {
                 diving = await Diving.findOne({ _id: args.input._id })
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof key == typeof args.input[key])
+                    .filter(key => args.input[key] && typeof diving[key] == typeof args.input[key])
                     .forEach(key => { diving[key] = args.input[key] })
 
                 diving.updatedAt = Date.now()

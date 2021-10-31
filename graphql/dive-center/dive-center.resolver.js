@@ -110,7 +110,7 @@ module.exports = {
                 diveCenter = await DiveCenter.findOne({ _id: args.input._id })
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof key == args.input[key])
+                    .filter(key => args.input[key] && typeof diveCenter[key] == typeof args.input[key])
                     .forEach(key => { diveCenter[key] = args.input[key] })
 
                 diveCenter.updatedAt = Date.now()
