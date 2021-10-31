@@ -18,7 +18,7 @@ module.exports.translateIn = (originalObject, inputObject, countryCode) => {
 
 module.exports.translateOut = (object, countryCode) => {
     properties
-        .filter(property => object.hasOwnProperty(property))
+        .filter(property => object.hasOwnProperty(property) && object.hasOwnProperty(property + 'Translation'))
         .forEach(property => {
             try {
                 const translationKey = property + 'Translation'
