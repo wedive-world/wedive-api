@@ -12,9 +12,10 @@ module.exports = {
     Highlight: {
         async interests(parent, args, context, info) {
             let languageCode = context.languageCode
-            return await Interest.find({ _id: { $in: parent.interests } })
+            var interests = await Interest.find({ _id: { $in: parent.interests } })
                 .lean()
-                .map(interest => translator.translateOut(interest, languageCode))
+            
+            return interests.map(interest => translator.translateOut(interest, languageCode))
         },
         async images(parent, args, context, info) {
             return await Image.find({ _id: { $in: parent.images } })
