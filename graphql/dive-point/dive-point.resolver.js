@@ -31,9 +31,10 @@ module.exports = {
         },
 
         async highlights(parent, args, context, info) {
+            let countryCode = context.countryCode || 'ko'
             let highlights = await Highlight.find({ _id: { $in: parent.highlights } })
                 .lean()
-            return highlights.map(highlight => translator.translateOut(highlight))
+            return highlights.map(highlight => translator.translateOut(highlight, countryCode))
         },
 
         async month1(parent, args, context, info) {
