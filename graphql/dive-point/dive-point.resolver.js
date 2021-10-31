@@ -155,11 +155,7 @@ module.exports = {
                 divePoint = await DivePoint.findOne({ _id: args.input._id })
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key] && (divePoint[key] == null || typeof divePoint[key] == typeof args.input[key]))
-                    .forEach(key => console.log(key + ":" + typeof(divePoint[key]) + "//" + typeof(args.input[key]) + "//" + args.input[key]))
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && (divePoint[key] == null || typeof divePoint[key] == typeof args.input[key]))
+                    .filter(key => args.input[key] && typeof divePoint[key] == typeof args.input[key])
                     .forEach(key => { divePoint[key] = args.input[key] })
 
                 divePoint.updatedAt = Date.now()
