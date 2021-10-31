@@ -46,6 +46,7 @@ const schema = new Schema({
     flowRateScore: Number,
     waterEnvironmentScore: Number,
     eyeSightScore: Number,
+    highlights: [{type: Schema.Types.ObjectId, ref: 'Highlight'}],
     highlightDescription: String,
     highlightDescriptionTranslation: { type: Map, of: String },
 
