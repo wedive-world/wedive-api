@@ -41,7 +41,7 @@ module.exports = {
                 highlight = await Highlight.findOne({ _id: args.input._id })
 
                 Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof key == typeof args.input[key])
+                    .filter(key => args.input[key] && typeof highlight[key] == typeof args.input[key])
                     .forEach(key => { highlight[key] = args.input[key] })
 
                 highlight.updatedAt = Date.now()
