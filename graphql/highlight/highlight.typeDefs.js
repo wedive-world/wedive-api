@@ -13,7 +13,7 @@ type Highlight {
     name: String
     description: String
     images: [Image]
-    divePointId: ID!
+    divePointId: ID
     interests: [Interest]
   }
 
