@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
     name: String,
+    nameTranslation: { type: Map, of: String },
     description: String,
     descriptionTranslation: { type: Map, of: String },
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
