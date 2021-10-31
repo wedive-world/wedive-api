@@ -102,6 +102,8 @@ module.exports = {
         async getAllDivePoints(parent, args, context, info) {
 
             let languageCode = context.languageCode
+            console.log(`query | getAllDivePoints: languageCode=${languageCode}`)
+
             let divePoints = await DivePoint.find()
                 .lean()
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
@@ -109,6 +111,8 @@ module.exports = {
         async getDivePointById(parent, args, context, info) {
 
             let languageCode = context.languageCode
+            console.log(`query | getDivePointById: languageCode=${languageCode}, args=${JSON.stringify(args)}`)
+
             let divePoint = await DivePoint.findOne({ _id: args._id })
                 .lean()
 
@@ -117,6 +121,8 @@ module.exports = {
         async getDivePointsNearBy(parent, args, context, info) {
 
             let languageCode = context.languageCode
+            console.log(`query | getDivePointsNearBy: languageCode=${languageCode}, args=${JSON.stringify(args)}`)
+
             let divePoints = await DivePoint.find({
                 $and: [
                     { latitude: { $gt: Math.min(args.lat1, args.lat2) } },
@@ -130,9 +136,9 @@ module.exports = {
         },
         async searchDivePointsByName(parent, args, context, info) {
 
-            console.log(`query | searchDivePointsByName: args=${JSON.stringify(args)}`)
-
             let languageCode = context.languageCode
+            console.log(`query | searchDivePointsByName: languageCode=${languageCode}, args=${JSON.stringify(args)}`)
+
             let divePoints = await DivePoint.find({ $text: { $search: args.query } })
                 .lean()
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
@@ -144,8 +150,8 @@ module.exports = {
 
         async upsertDivePoint(parent, args, context, info) {
 
-            console.log(`mutation | createDivePoint: args=${args}`)
             let languageCode = context.languageCode
+            console.log(`mutation | createDivePoint: languageCode=${languageCode}, args=${args}`)
 
             let divePoint = null
 
