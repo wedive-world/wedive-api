@@ -36,7 +36,7 @@ async function startServer() {
       // console.log(`context | countryCode: ${JSON.stringify(req.headers.authorization)}`)
 
       return {
-        langageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
+        languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
         user: undefined
       }
     }
