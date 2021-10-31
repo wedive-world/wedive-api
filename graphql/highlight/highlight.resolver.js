@@ -51,7 +51,9 @@ module.exports = {
             await highlight.save()
 
             let divePoint = await DivePoint.findOne({ _id: args.input.divePointId })
-            divePoint.highlights.push(highlight._id)
+            if (divePoint != null) {
+                divePoint.highlights.push(highlight._id)
+            }
             await divePoint.save()
 
             return translator.translateOut(highlight, languageCode)
