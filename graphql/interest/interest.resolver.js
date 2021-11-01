@@ -3,6 +3,7 @@ const schema = require('../../model').schema;
 const Interest = schema.Interest
 
 const translator = require('../common/util/translator')
+const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
     Query: {
@@ -69,11 +70,7 @@ module.exports = {
 
             } else {
                 interest = await Interest.findOne({ _id: args.input._id })
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof interest[key] == typeof args.input[key])
-                    .forEach(key => { interest[key] = args.input[key] })
-
+                interest = objectHelper.updateObject(args.input, interest)
                 interest.updatedAt = Date.now()
             }
 
