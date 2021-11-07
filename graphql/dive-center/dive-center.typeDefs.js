@@ -42,8 +42,18 @@ type DiveCenter implements Place & Introduction & Publishable {
     managers: [User]
     clerks: [User]
 
-    phoneNumber: String
     divingType: [DivingType]
+    phoneNumber: String
+    webPageUrl: String
+    goeAddress: String
+
+    adminScore: Int
+    viewScore: Int
+    educationScore: Int
+    facilityScore: Int
+    serviceScore: Int
+
+    wediveComments: [String]
 
     createdAt: Date
     updatedAt: Date
@@ -76,8 +86,18 @@ input DiveCenterInput {
     managers: [ID]
     clerks: [ID]
 
-    phoneNumber: String
     divingType: [DivingType]
+    phoneNumber: String
+    webPageUrl: String
+    goeAddress: String
+
+    adminScore: Int
+    viewScore: Int
+    educationScore: Int
+    facilityScore: Int
+    serviceScore: Int
+
+    wediveComments: [String]
 }
 
 

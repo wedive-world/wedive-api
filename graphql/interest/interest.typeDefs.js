@@ -68,7 +68,8 @@ type Interest implements Introduction {
     """다이빙 타입(프리,스쿠바)""" divingType
     """month, 1,2,3,4... 12 """ month
     """sunny, cloudy, rain, heavyRain""" climate
-    """popular, soso, unrecommended""" popularity
+    """popular, soso, unrecommended""" popularity,
+    """ $, $$, $$$, $$$$, $$$$$ """ priceIndex
   }
 
 `;

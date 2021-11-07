@@ -22,9 +22,8 @@ const schema = new Schema({
     countryCode: String,
 
     publishStatus: String,
-
+        
     phoneNumber: String,
-
     divingType: [String],
 
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
@@ -34,6 +33,16 @@ const schema = new Schema({
 
     managers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     clerks: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+
+    webPageUrl: String,
+
+    adminScore: Number,
+    viewScore: Number,
+    educationScore: Number,
+    facilityScore: Number,
+    serviceScore: Number,
+
+    wediveComments: [String],
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
