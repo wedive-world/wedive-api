@@ -120,7 +120,7 @@ module.exports = {
             await diveCenter.save()
 
             let diveSite = await DiveSite.findOne({ _id: diveCenter.diveSiteId })
-            if (!diveSite) {
+            if (diveSite) {
                 if (!diveSite.diveCenters) {
                     diveSite.diveCenters = []
                 }
