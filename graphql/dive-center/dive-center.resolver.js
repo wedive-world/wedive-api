@@ -120,15 +120,17 @@ module.exports = {
             await diveCenter.save()
 
             let diveSite = await DiveSite.findOne({ _id: diveCenter.diveSiteId })
-            if (!diveSite.diveCenters) {
-                diveSite.diveCenters = []
+            if (!diveSite) {
+                if (!diveSite.diveCenters) {
+                    diveSite.diveCenters = []
+                }
+    
+                if (!diveSite.diveCenters.includes(diveCenter._id)) {
+                    diveSite.diveCenters.push(diveCenter._id)
+                }
+    
+                await diveSite.save()
             }
-
-            if (!diveSite.diveCenters.includes(diveCenter._id)) {
-                diveSite.diveCenters.push(diveCenter._id)
-            }
-
-            await diveSite.save()
 
             return translator.translateOut(diveCenter, languageCode)
         },
