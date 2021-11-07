@@ -103,16 +103,12 @@ module.exports = {
         },
         async getDiveSiteById(parent, args, context, info) {
             let languageCode = context.languageCode
-            console.log("----------------");
-            console.log(args);
-            console.log(args);
-            console.log(args);
-            console.log(args);
-            console.log(args);
-            console.log("----------------");
             let diveSite = await DiveSite.find({ _id: args._id })
                 .lean()
-
+            
+            console.log("----------------");
+            console.log(diveSite);
+            console.log("----------------");
             return translator.translateOut(diveSite, languageCode)
         },
         async getDiveSiteByAddress(parent, args, context, info) {
