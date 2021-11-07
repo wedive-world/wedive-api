@@ -69,7 +69,10 @@ type Interest implements Introduction {
     """month, 1,2,3,4... 12 """ month
     """sunny, cloudy, rain, heavyRain""" climate
     """popular, soso, unrecommended""" popularity,
-    """ $, $$, $$$, $$$$, $$$$$ """ priceIndex
+    """ $, $$, $$$, $$$$, $$$$$ """ priceIndex,
+    """센터 시설정보 (주차, WIFI..)"""facility,
+    """센터 지원언어"""language,
+    """센터 결재방법"""payment,
   }
 
 `;
