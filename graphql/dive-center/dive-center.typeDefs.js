@@ -45,7 +45,7 @@ type DiveCenter implements Place & Introduction & Publishable {
     divingType: [DivingType]
     phoneNumber: String
     webPageUrl: String
-    goeAddress: String
+    geoAddress: String
 
     adminScore: Int
     viewScore: Int
@@ -89,7 +89,7 @@ input DiveCenterInput {
     divingType: [DivingType]
     phoneNumber: String
     webPageUrl: String
-    goeAddress: String
+    geoAddress: String
 
     adminScore: Int
     viewScore: Int
