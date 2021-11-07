@@ -119,7 +119,7 @@ module.exports = {
             diveCenter = translator.translateIn(diveCenter, args.input, languageCode)
             await diveCenter.save()
 
-            let diveSite = await DiveSite.findOne({ _id: result.diveSiteId })
+            let diveSite = await DiveSite.findOne({ _id: diveCenter.diveSiteId })
             if (!diveSite.diveCenters) {
                 diveSite.diveCenters = []
             }
