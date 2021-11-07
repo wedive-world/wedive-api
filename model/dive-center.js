@@ -35,6 +35,7 @@ const schema = new Schema({
     clerks: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 
     webPageUrl: String,
+    geoAddress: String,
 
     adminScore: Number,
     viewScore: Number,
