@@ -9,21 +9,25 @@ type Mutation {
 }
 
 type Highlight {
-    _id: ID!
-    name: String
-    description: String
-    images: [Image]
-    divePointId: ID
-    interests: [Interest]
-  }
+  _id: ID!
+  name: String
+  description: String
+  divePointId: ID
+}
 
-  input HighlightInput {
-    _id: ID
-    name: String
-    description: String
-    images: [ID]
-    divePointId: ID
-    interests: [ID]
-  }
+input HighlightInput {
+  _id: ID
+  name: String
+  description: String
+  divePointId: ID
+}
+
+type DivePoint {
+  highlights: [Highlight]
+}
+
+input DivePointInput {
+  highlights: [ID]
+}
 
 `;

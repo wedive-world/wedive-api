@@ -9,21 +9,13 @@ const translator = require('../common/util/translator')
 
 module.exports = {
 
-    Highlight: {
-        async interests(parent, args, context, info) {
+    DivePoint: {
+        async highlights(parent, args, context, info) {
             let languageCode = context.languageCode
-            var interests = await Interest.find({ _id: { $in: parent.interests } })
+            let highlights = await Highlight.find({ _id: { $in: parent.highlights } })
                 .lean()
-            
-            return interests.map(interest => translator.translateOut(interest, languageCode))
+            return highlights.map(highlight => translator.translateOut(highlight, languageCode))
         },
-        async images(parent, args, context, info) {
-            return await Image.find({ _id: { $in: parent.images } })
-                .lean()
-        },
-    },
-
-    Query: {
     },
 
     Mutation: {

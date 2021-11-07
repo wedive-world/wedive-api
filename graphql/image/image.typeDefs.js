@@ -2,45 +2,83 @@ const { gql } = require('apollo-server')
 
 module.exports = gql`
 
-    # The implementation for this scalar is provided by the
-    # 'GraphQLUpload' export from the 'graphql-upload' package
-    # in the resolver map below.
-    scalar Upload
+# The implementation for this scalar is provided by the
+# 'GraphQLUpload' export from the 'graphql-upload' package
+# in the resolver map below.
+scalar Upload
 
-    type Query {
+type Query {
 
-        getImageUrlById(_id: ID!, width: Int): String
-    }
+    getImageUrlById(_id: ID!, width: Int): String
+}
 
-    type Mutation {
+type Mutation {
 
-        uploadImage(file: Upload!): Image!
-        updateImage(input: UpdateImageInput!): Image!
-    }
+    uploadImage(file: Upload!): Image!
+    updateImage(input: UpdateImageInput!): Image!
+}
 
-    type Image {
-        
-        _id: ID
+type Image {
+    
+    _id: ID
 
-        name: String
-        description: String
-        reference: String,
-        uploaderId: String,
+    name: String
+    description: String
+    reference: String,
+    uploaderId: String,
 
-        mimeType: String
-        encoding: String
-        fileSize: Int
+    mimeType: String
+    encoding: String
+    fileSize: Int
 
-        createdAt: Date,
-        updatedAt: Date,
-    }
+    createdAt: Date,
+    updatedAt: Date,
+}
 
-    input UpdateImageInput {
-        _id: ID!
-        name: String
-        description: String
-        reference: String
-        uploaderId: String
-    }
+input UpdateImageInput {
+    _id: ID!
+    name: String
+    description: String
+    reference: String
+    uploaderId: String
+}
+
+type DiveSite {
+    images: [Image]
+    backgroundImages: [Image]
+}
+
+input DiveSiteInput {
+    images: [ID]
+    backgroundImages: [ID]
+}
+
+type DivePoint {
+    images: [Image]
+    backgroundImages: [Image]
+}
+
+input DivePointInput {
+    images: [ID]
+    backgroundImages: [ID]
+}
+
+type DiveCenter {
+    images: [Image]
+    backgroundImages: [Image]
+}
+
+input DiveCenterInput {
+    images: [ID]
+    backgroundImages: [ID]
+}
+
+type Highlight {
+    images: [Image]
+}
+
+input HighlightInput {
+    images: [ID]
+}
 
 `;

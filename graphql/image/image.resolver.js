@@ -42,6 +42,42 @@ const RESIZED_IMAGE_DIR_PATH = `image/resized/` //must end with '/'
 module.exports = {
     Upload: GraphQLUpload,
 
+    DiveSite: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+
+        async backgroundImages(parent, args, context, info) {
+            return await getImagesByIds(parent.backgroundImages)
+        },
+    },
+
+    DivePoint: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+
+        async backgroundImages(parent, args, context, info) {
+            return await getImagesByIds(parent.backgroundImages)
+        },
+    },
+
+    DiveCenter: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+
+        async backgroundImages(parent, args, context, info) {
+            return await getImagesByIds(parent.backgroundImages)
+        },
+    },
+
+    Highlight: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+    },
+
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
             return await getResizedImage(args._id, args.width)
@@ -252,4 +288,9 @@ async function download(url, dest) {
         .catch((error) => {
             console.log(`query | download: Something happened: ${error} `);
         });
+}
+
+async function getImagesByIds(ids) {
+    return await Image.find({ _id: { $in: ids } })
+        .lean()
 }

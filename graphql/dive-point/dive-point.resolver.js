@@ -2,99 +2,20 @@ const schema = require('../../model').schema;
 
 const DiveSite = schema.DiveSite
 const DivePoint = schema.DivePoint
-const Interest = schema.Interest
-const Image = schema.Image
-const Highlight = schema.Highlight
 
 const translator = require('../common/util/translator')
 
 module.exports = {
 
-    DivePoint: {
-        async interests(parent, args, context, info) {
-
-            let languageCode = context.languageCode
-            let interests = await Interest.find({ _id: { $in: parent.interests } })
-                .lean()
-
-            return interests.map(interest => translator.translateOut(interest, languageCode))
+    DiveCenter: {
+        async divePoints(parent, args, context, info) {
+            return await getDivePointsByIds(context.languageCode, parent.divePoints)
         },
+    },
 
-        async images(parent, args, context, info) {
-            return await Image.find({ _id: { $in: parent.images } })
-                .lean()
-        },
-
-        async backgroundImages(parent, args, context, info) {
-            return await Image.find({ _id: { $in: parent.backgroundImages } })
-                .lean()
-        },
-
-        async highlights(parent, args, context, info) {
-            let languageCode = context.languageCode
-            let highlights = await Highlight.find({ _id: { $in: parent.highlights } })
-                .lean()
-            return highlights.map(highlight => translator.translateOut(highlight, languageCode))
-        },
-
-        async month1(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month1 } })
-                .lean()
-        },
-
-        async month2(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month2 } })
-                .lean()
-        },
-
-        async month3(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month3 } })
-                .lean()
-        },
-
-        async month4(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month4 } })
-                .lean()
-        },
-
-        async month5(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month5 } })
-                .lean()
-        },
-
-        async month6(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month6 } })
-                .lean()
-        },
-
-        async month7(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month7 } })
-                .lean()
-        },
-
-        async month8(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month8 } })
-                .lean()
-        },
-
-        async month9(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month9 } })
-                .lean()
-        },
-
-        async month10(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month10 } })
-                .lean()
-        },
-
-        async month11(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month11 } })
-                .lean()
-        },
-
-        async month12(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.month12 } })
-                .lean()
+    DiveSite: {
+        async divePoints(parent, args, context, info) {
+            return await getDivePointsByIds(context.languageCode, parent.divePoints)
         },
     },
 
@@ -192,3 +113,8 @@ module.exports = {
         },
     }
 };
+
+async function getDivePointsByIds(languageCode, ids) {
+    let resultList = await DivePoint.find({ _id: { $in: ids } })
+    return resultList.map(divePoint => translator.translateOut(divePoint, languageCode))
+}

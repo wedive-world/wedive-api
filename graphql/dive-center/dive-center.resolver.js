@@ -3,52 +3,10 @@ const schema = require('../../model').schema;
 const DiveCenter = schema.DiveCenter
 const DiveSite = schema.DiveSite
 const DivePoint = schema.DivePoint
-const Interest = schema.Interest
-const Image = schema.Image
 
 const translator = require('../common/util/translator')
 
 module.exports = {
-
-    DiveCenter: {
-        async interests(parent, args, context, info) {
-
-            let languageCode = context.languageCode
-            let interests = await Interest.find({ _id: { $in: parent.interests } })
-                .lean()
-
-            return interests.map(interest => translator.translateOut(interest, languageCode))
-        },
-
-        async diveSites(parent, args, context, info) {
-
-            let languageCode = context.languageCode
-            let diveSites = await DiveSite.find({ _id: { $in: parent.diveSites } })
-                .lean()
-
-            return diveSites.map(diveSite => translator.translateOut(diveSite, languageCode))
-        },
-
-        async divePoints(parent, args, context, info) {
-
-            let languageCode = context.languageCode
-            let divePoints = await DivePoint.find({ _id: { $in: parent.divePoints } })
-                .lean()
-
-            return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
-        },
-
-        async images(parent, args, context, info) {
-            return await Image.find({ _id: { $in: parent.images } })
-                .lean()
-        },
-
-        async backgroundImages(parent, args, context, info) {
-            return await Image.find({ _id: { $in: parent.backgroundImages } })
-                .lean()
-        },
-    },
-
     Query: {
         async getAllDiveCenters(parent, args, context, info) {
 
