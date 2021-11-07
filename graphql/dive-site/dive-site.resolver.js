@@ -108,6 +108,13 @@ module.exports = {
 
             return translator.translateOut(diveSite, languageCode)
         },
+        async getDiveSiteByAddress(parent, args, context, info) {
+            let languageCode = context.languageCode
+            let diveSite = await DiveSite.find({ address: args.address })
+                .lean()
+
+            return translator.translateOut(diveSite, languageCode)
+        },
         async getDiveSitesNearby(parent, args, context, info) {
 
             let languageCode = context.languageCode

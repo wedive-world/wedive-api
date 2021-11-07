@@ -6,6 +6,7 @@ type Query {
 
     getAllDiveSites: [DiveSite]
     getDiveSiteById(_id: ID!): DiveSite
+    getDiveSiteByAddress(address: String!): DiveSite
     getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
     searchDiveSitesByName(query: String!): [DiveSite]
 }
