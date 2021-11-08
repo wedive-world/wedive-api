@@ -81,4 +81,13 @@ input HighlightInput {
     images: [ID]
 }
 
+type Interest {
+    images: [Image]
+    backgroundImages: [Image]
+}
+
+input InterestInput {
+    images: [ID]
+    backgroundImages: [ID]
+}
 `;
