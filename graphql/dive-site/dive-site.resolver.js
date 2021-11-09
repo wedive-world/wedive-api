@@ -34,9 +34,6 @@ module.exports = {
             let diveSite = await DiveSite.find({ _id: args._id })
                 .lean()
             
-            console.log("----------------");
-            console.log(diveSite);
-            console.log("----------------");
             return translator.translateOut(diveSite, languageCode)
         },
         async getDiveSiteByAddress(parent, args, context, info) {

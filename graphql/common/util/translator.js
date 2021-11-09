@@ -17,6 +17,11 @@ module.exports.translateIn = (originalObject, inputObject, languageCode) => {
 }
 
 module.exports.translateOut = (object, languageCode) => {
+
+    console.log("--------before--------");
+    console.log(object);
+    console.log("----------------");
+
     properties
         .filter(property => object.hasOwnProperty(property) && object.hasOwnProperty(property + 'Translation'))
         .forEach(property => {
@@ -29,5 +34,9 @@ module.exports.translateOut = (object, languageCode) => {
                 console.log(`${err}`)
             }
         });
+
+    console.log("--------after--------");
+    console.log(object);
+    console.log("----------------");
     return object
 }
