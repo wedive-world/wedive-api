@@ -34,13 +34,21 @@ module.exports = {
             let languageCode = context.languageCode
             let diveSite = await DiveSite.findOne({ _id: args._id })
                 .lean()
-            
+
             return translator.translateOut(diveSite, languageCode)
         },
 
         async getDiveSiteByAddress(parent, args, context, info) {
             let languageCode = context.languageCode
             let diveSite = await DiveSite.findOne({ address: args.address })
+                .lean()
+
+            return translator.translateOut(diveSite, languageCode)
+        },
+
+        async getDiveSiteByUniqueName(parent, args, context, info) {
+            let languageCode = context.languageCode
+            let diveSite = await DiveSite.findOne({ uniqueName: args.uniqueName })
                 .lean()
 
             return translator.translateOut(diveSite, languageCode)
@@ -61,7 +69,7 @@ module.exports = {
 
             return diveSiteList.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
-        
+
         async searchDiveSitesByName(parent, args, context, info) {
 
             let languageCode = context.languageCode
