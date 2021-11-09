@@ -29,6 +29,7 @@ module.exports = {
                 .lean()
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
         },
+
         async getDivePointById(parent, args, context, info) {
 
             let languageCode = context.languageCode
@@ -39,6 +40,7 @@ module.exports = {
 
             return translator.translateOut(divePoint, languageCode)
         },
+
         async getDivePointsNearBy(parent, args, context, info) {
 
             let languageCode = context.languageCode
@@ -55,6 +57,7 @@ module.exports = {
                 .lean()
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
         },
+        
         async searchDivePointsByName(parent, args, context, info) {
 
             let languageCode = context.languageCode

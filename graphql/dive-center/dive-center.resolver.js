@@ -40,6 +40,7 @@ module.exports = {
 
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
+        
         async searchDiveCentersByName(parent, args, context, info) {
 
             console.log(`query | searchDiveCentersByName: args=${JSON.stringify(args)}`)
