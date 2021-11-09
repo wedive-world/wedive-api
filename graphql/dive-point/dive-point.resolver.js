@@ -41,6 +41,17 @@ module.exports = {
             return translator.translateOut(divePoint, languageCode)
         },
 
+        async getDivePointByUniqueName(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            console.log(`query | getDivePointByUniqueName: languageCode=${languageCode}, args=${JSON.stringify(args)}`)
+
+            let divePoint = await DivePoint.findOne({ uniqueName: args.uniqueName })
+                .lean()
+
+            return translator.translateOut(divePoint, languageCode)
+        },
+
         async getDivePointsNearBy(parent, args, context, info) {
 
             let languageCode = context.languageCode
@@ -57,7 +68,7 @@ module.exports = {
                 .lean()
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
         },
-        
+
         async searchDivePointsByName(parent, args, context, info) {
 
             let languageCode = context.languageCode

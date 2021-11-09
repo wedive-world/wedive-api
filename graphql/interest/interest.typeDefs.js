@@ -36,6 +36,7 @@ type Query {
 
     getAllInterests(type: String): [Interest]
     getInterestById(_id: ID!): Interest
+    getInterestByUniqueName(uniqueName: String!): Interest
     searchInterestsByName(query: String!, type: String): [Interest]
 }
 

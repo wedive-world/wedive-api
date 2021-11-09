@@ -5,6 +5,7 @@ module.exports = gql`
 type Query {
     getAllDiveCenters: [DiveCenter]
     getDiveCenterById(_id: ID!): DiveCenter
+    getDiveCenterByUniqueName(uniqueName: String!): DiveCenter
     getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveCenter]
     searchDiveCentersByName(query: String!): [DiveCenter]
 }

@@ -25,6 +25,15 @@ module.exports = {
             return translator.translateOut(diveCenter, languageCode)
         },
 
+        async getDiveCenterByUniqueName(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            let diveCenter = await DiveCenter.findOne({ uniqueName: args.uniqueName })
+                .lean()
+
+            return translator.translateOut(diveCenter, languageCode)
+        },
+
         async getDiveCentersNearBy(parent, args, context, info) {
 
             let languageCode = context.languageCode
@@ -40,7 +49,7 @@ module.exports = {
 
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
-        
+
         async searchDiveCentersByName(parent, args, context, info) {
 
             console.log(`query | searchDiveCentersByName: args=${JSON.stringify(args)}`)

@@ -5,6 +5,7 @@ module.exports = gql`
 type Query {
   getAllDivePoints: [DivePoint]
   getDivePointById(_id: ID!): DivePoint
+  getDivePointByUniqueName(uniqueName: String!): DivePoint
   getDivePointsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
   searchDivePointsByName(query: String!): [DivePoint]
 }

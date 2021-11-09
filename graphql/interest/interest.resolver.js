@@ -17,7 +17,7 @@ module.exports = {
         async interests(parent, args, context, info) {
             return await getInterestListByIds(context.languageCode, parent.interests)
         },
-        
+
         async month1(parent, args, context, info) {
             return await getInterestListByIds(context.languageCode, parent.month1)
         },
@@ -133,6 +133,16 @@ module.exports = {
             console.log(`query | getInterestById: languagecode=${JSON.stringify(languageCode)} args=${JSON.stringify(args)}`)
 
             let interest = await Interest.findOne({ _id: args._id })
+                .lean()
+
+            return translator.translateOut(interest, languageCode)
+        },
+
+        async getInterestByUniqueName(parent, args, context, info) {
+            let languageCode = context.languageCode
+            console.log(`query | getInterestById: languagecode=${JSON.stringify(languageCode)} args=${JSON.stringify(args)}`)
+
+            let interest = await Interest.findOne({ uniqueName: args.uniqueName })
                 .lean()
 
             return translator.translateOut(interest, languageCode)
