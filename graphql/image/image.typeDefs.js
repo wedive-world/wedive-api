@@ -10,6 +10,7 @@ scalar Upload
 type Query {
 
     getImageUrlById(_id: ID!, width: Int): String
+    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String]
 }
 
 type Mutation {

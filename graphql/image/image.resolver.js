@@ -81,7 +81,20 @@ module.exports = {
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
             return await getResizedImage(args._id, args.width)
-        }
+        },
+
+        getImageUrlsByIds: async (parent, args, context, info) => {
+            const ids = args._ids
+            const widths = args.widths
+
+            let resultList = []
+            for ([i, id] of ids.entries()) {
+                let result = await getResizedImage(id, widths[i])
+                resultList.push(result)
+            }
+
+            return resultList
+        },
     },
 
     Mutation: {
