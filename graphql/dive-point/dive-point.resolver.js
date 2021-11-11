@@ -86,7 +86,7 @@ module.exports = {
         async upsertDivePoint(parent, args, context, info) {
 
             let languageCode = context.languageCode
-            console.log(`mutation | createDivePoint: languageCode=${languageCode}, args=${args}`)
+            console.log(`mutation | createDivePoint: languageCode=${languageCode}, args=${JSON.stringify(args)}`)
 
             let divePoint = null
 
@@ -107,6 +107,7 @@ module.exports = {
             await divePoint.save()
 
             let diveSite = await DiveSite.findOne({ _id: args.input.diveSiteId })
+
             if (!diveSite.divePoints) {
                 diveSite.divePoints = []
             }
@@ -115,14 +116,36 @@ module.exports = {
                 diveSite.divePoints.push(divePoint._id)
             }
 
+            await diveSite.populate('divePoints')
+            scoringDiveSite(diveSite)
             await diveSite.save()
 
             return translator.translateOut(divePoint, languageCode)
         },
 
         async deleteDivePointById(parent, args, context, info) {
+            let divePoint = await DivePoint.findOne({ _id: args.input._id })
+
+            let diveSite = await DiveSite.findOne({ _id: args.input.diveSiteId })
+
+            if (!diveSite.divePoints) {
+                diveSite.divePoints = []
+            }
+
+            if (diveSite.divePoints.includes(divePoint._id)) {
+                const index = diveSite.divePoints.indexOf(divePoint._id)
+                if (index > -1) {
+                    diveSite.divePoints.splice(index, 1)
+                }
+            }
+
+            await diveSite.populate('divePoints')
+            diveSite = scoringDiveSite(diveSite)
+            await diveSite.save()
+
             let result = await DivePoint.deleteOne({ _id: args._id })
             console.log(`mutation | deleteDivePointById: result=${JSON.stringify(result)}`)
+
             return args._id
         },
     }
@@ -131,4 +154,27 @@ module.exports = {
 async function getDivePointsByIds(languageCode, ids) {
     let resultList = await DivePoint.find({ _id: { $in: ids } })
     return resultList.map(divePoint => translator.translateOut(divePoint, languageCode))
+}
+
+function scoringDiveSite(diveSite) {
+
+    let sumOfFlowRateScore = 0
+    let sumOfWaterEnvironmentScore = 0
+    let sumOfEyeSightScore = 0
+
+    diveSite.divePoints.forEach(divePoint => {
+
+        diveSite.minDepth = Math.min(diveSite.minDepth, divePoint.minDepth)
+        diveSite.maxDepth = Math.max(diveSite.maxDepth, divePoint.maxDepth)
+
+        sumOfFlowRateScore += divePoint.flowRateScore
+        sumOfWaterEnvironmentScore += divePoint.waterEnvironmentScore
+        sumOfEyeSightScore += divePoint.eyeSightScore
+    });
+
+    let numOfDivePoints = diveSite.divePoints.length
+
+    diveSite.flowRateScore = Math.round(sumOfFlowRateScore / numOfDivePoints)
+    diveSite.waterEnvironmentScore = Math.round(sumOfWaterEnvironmentScore / numOfDivePoints)
+    diveSite.eyeSightScore = Math.round(sumOfEyeSightScore / numOfDivePoints)
 }

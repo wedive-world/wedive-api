@@ -40,13 +40,14 @@ const schema = new Schema({
 
     diveSiteId: Schema.Types.ObjectId,
 
-    adminScore: Number,
-    minDepth: Number,
-    maxDepth: Number,
-    flowRateScore: Number,
-    waterEnvironmentScore: Number,
-    eyeSightScore: Number,
-    highlights: [{type: Schema.Types.ObjectId, ref: 'Highlight'}],
+    adminScore: { type: Number, default: 0 },
+    minDepth: { type: Number, default: 0 },
+    maxDepth: { type: Number, default: 0 },
+    flowRateScore: { type: Number, default: 0 },
+    waterEnvironmentScore: { type: Number, default: 0 },
+    eyeSightScore: { type: Number, default: 0 },
+
+    highlights: [{ type: Schema.Types.ObjectId, ref: 'Highlight' }],
     highlightDescription: String,
     highlightDescriptionTranslation: { type: Map, of: String },
 

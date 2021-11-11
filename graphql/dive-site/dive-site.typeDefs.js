@@ -17,13 +17,19 @@ type Mutation {
     upsertDiveSite(input: DiveSiteInput!): DiveSite!
     deleteDiveSiteById(_id: ID!): ID
 }
-
+#618d05aeb5b807044aa05e4a
 type DiveSite {
     _id: ID!
 
     waterTemperatureScore: Int
-    eyeSiteScore: Int
+    eyeSightScore: Int
     adminScore: Int
+
+    minDepth: Int
+    maxDepth: Int
+    flowRateScore: Int
+    waterEnvironmentScore: Int
+    eyeSightScore: Int
 
     visitTimeDescription: String
     waterTemperatureDescription: String
@@ -40,7 +46,7 @@ type DiveSite {
     _id: ID
 
     waterTemperatureScore: Int
-    eyeSiteScore: Int
+    eyeSightScore: Int
     adminScore: Int
 
     visitTimeDescription: String

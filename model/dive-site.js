@@ -37,9 +37,14 @@ const schema = new Schema({
     addressTranslation: { type: Map, of: String },
     countryCode: String,
 
-    waterTemperatureScore: Number,
-    eyeSiteScore: Number,
-    adminScore: Number,
+    waterTemperatureScore: { type: Number, default: 0 },
+    adminScore: { type: Number, default: 0 },
+
+    minDepth: { type: Number, default: 0 },
+    maxDepth: { type: Number, default: 0 },
+    flowRateScore: { type: Number, default: 0 },
+    waterEnvironmentScore: { type: Number, default: 0 },
+    eyeSightScore: { type: Number, default: 0 },
 
     visitTimeDescription: String,
     visitTimeDescriptionTranslation: { type: Map, of: String },
