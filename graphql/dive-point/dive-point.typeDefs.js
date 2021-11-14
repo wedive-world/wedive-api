@@ -23,6 +23,8 @@ type DivePoint {
   adminScore: Int
   minDepth: Int
   maxDepth: Int
+  minSight: Int
+  maxSight: Int
   flowRateScore: Int
   waterEnvironmentScore: Int
   eyeSightScore: Int
@@ -40,6 +42,8 @@ input DivePointInput {
   adminScore: Int
   minDepth: Int
   maxDepth: Int
+  minSight: Int
+  maxSight: Int
   flowRateScore: Int
   waterEnvironmentScore: Int
   eyeSightScore: Int

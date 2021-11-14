@@ -17,7 +17,7 @@ type Mutation {
     upsertDiveSite(input: DiveSiteInput!): DiveSite!
     deleteDiveSiteById(_id: ID!): ID
 }
-#618d05aeb5b807044aa05e4a
+
 type DiveSite {
     _id: ID!
 
@@ -27,6 +27,8 @@ type DiveSite {
 
     minDepth: Int
     maxDepth: Int
+    minSight: Int
+    maxSight: Int
     flowRateScore: Int
     waterEnvironmentScore: Int
     eyeSightScore: Int
