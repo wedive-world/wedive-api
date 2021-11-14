@@ -197,11 +197,7 @@ module.exports = {
             let interest = null
 
             if (!args.input._id) {
-                try {
-                    interest = new Interest(args.input)
-                } catch (err) {
-                    console.log(err)
-                }
+                interest = new Interest(args.input)
 
             } else {
                 interest = await Interest.findOne({ _id: args.input._id })
