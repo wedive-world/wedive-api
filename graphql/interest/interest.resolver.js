@@ -201,12 +201,11 @@ module.exports = {
 
             } else {
                 interest = await Interest.findOne({ _id: args.input._id })
-                interest = objectHelper.updateObject(args.input, interest)
+                objectHelper.updateObject(args.input, interest)
                 interest.updatedAt = Date.now()
             }
 
             interest = translator.translateIn(interest, args.input, languageCode)
-            console.log(`interest=${JSON.stringify(interest)}`)
             await interest.save()
 
             let result = await Interest.findOne({ _id: interest._id })

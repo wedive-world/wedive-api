@@ -21,7 +21,6 @@ function onInputPreProcess(object) {
 module.exports.translateIn = (originalObject, inputObject, languageCode) => {
 
     inputObject = onInputPreProcess(inputObject)
-    console.log(`onInputPreProcess: inputObject=${JSON.stringify(inputObject)}`)
 
     translatableProperties
         .filter(property => inputObject.hasOwnProperty(property))
@@ -39,8 +38,6 @@ module.exports.translateIn = (originalObject, inputObject, languageCode) => {
 
 module.exports.translateOut = (object, languageCode) => {
 
-    console.log(`translateOut: << type=${typeof object} object=${JSON.stringify(object)}, languageCode = ${languageCode}`)
-
     translatableProperties
         .filter(property => object.hasOwnProperty(property + 'Translation'))
         .forEach(property => {
@@ -53,8 +50,6 @@ module.exports.translateOut = (object, languageCode) => {
                 console.log(`${err} `)
             }
         });
-
-    console.log(`translateOut: >> object=${JSON.stringify(object)}, languageCode = ${languageCode}`)
 
     return object
 }
