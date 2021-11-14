@@ -1,11 +1,9 @@
 const schema = require('../../model').schema;
 
-const DivePoint = schema.DivePoint
 const DiveSite = schema.DiveSite
-const Interest = schema.Interest
-const Image = schema.Image
 
 const translator = require('../common/util/translator')
+const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
@@ -102,11 +100,7 @@ module.exports = {
 
             } else {
                 diveSite = await DiveSite.findOne({ _id: args.input._id })
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof diveSite[key] == typeof args.input[key])
-                    .forEach(key => { diveSite[key] = args.input[key] })
-
+                objectHelper.updateObject(args.input, diveSite)
                 diveSite.updatedAt = Date.now()
             }
 

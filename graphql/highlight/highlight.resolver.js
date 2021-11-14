@@ -6,6 +6,7 @@ const Image = schema.Image
 const DivePoint = schema.DivePoint
 
 const translator = require('../common/util/translator')
+const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
@@ -31,11 +32,7 @@ module.exports = {
 
             } else {
                 highlight = await Highlight.findOne({ _id: args.input._id })
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof highlight[key] == typeof args.input[key])
-                    .forEach(key => { highlight[key] = args.input[key] })
-
+                objectHelper.updateObject(args.input, highlight)
                 highlight.updatedAt = Date.now()
             }
 

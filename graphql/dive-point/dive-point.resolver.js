@@ -4,6 +4,7 @@ const DiveSite = schema.DiveSite
 const DivePoint = schema.DivePoint
 
 const translator = require('../common/util/translator')
+const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
@@ -95,11 +96,7 @@ module.exports = {
 
             } else {
                 divePoint = await DivePoint.findOne({ _id: args.input._id })
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof divePoint[key] == typeof args.input[key])
-                    .forEach(key => { divePoint[key] = args.input[key] })
-
+                objectHelper.updateObject(args.input, divePoint)
                 divePoint.updatedAt = Date.now()
             }
 

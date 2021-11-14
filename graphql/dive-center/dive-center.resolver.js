@@ -2,9 +2,9 @@ const schema = require('../../model').schema;
 
 const DiveCenter = schema.DiveCenter
 const DiveSite = schema.DiveSite
-const DivePoint = schema.DivePoint
 
 const translator = require('../common/util/translator')
+const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
     Query: {
@@ -76,11 +76,7 @@ module.exports = {
 
             } else {
                 diveCenter = await DiveCenter.findOne({ _id: args.input._id })
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof diveCenter[key] == typeof args.input[key])
-                    .forEach(key => { diveCenter[key] = args.input[key] })
-
+                objectHelper.updateObject(args.input, diveCenter)
                 diveCenter.updatedAt = Date.now()
             }
 

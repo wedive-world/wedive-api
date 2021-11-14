@@ -4,6 +4,8 @@ const User = schema.User
 const Instructor = require('../../model/instructor');
 const Image = require('../../model/image');
 
+const objectHelper = require('../common/util/object-helper')
+
 module.exports = {
 
     User: {
@@ -42,11 +44,7 @@ module.exports = {
 
             } else {
                 user = await User.findOne({ _id: args.input._id })
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof user[key] == typeof args.input[key])
-                    .forEach(key => { user[key] = args.input[key] })
-
+                objectHelper.updateObject(args.input, user)
                 user.updatedAt = Date.now()
             }
 
