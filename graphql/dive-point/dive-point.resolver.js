@@ -169,6 +169,8 @@ function scoringDiveSite(diveSite) {
 
         diveSite.minDepth = Math.min(diveSite.minDepth, divePoint.minDepth)
         diveSite.maxDepth = Math.max(diveSite.maxDepth, divePoint.maxDepth)
+        diveSite.minSight = Math.min(diveSite.minSight, divePoint.minSight)
+        diveSite.maxSight = Math.max(diveSite.maxSight, divePoint.maxSight)
 
         sumOfFlowRateScore += divePoint.flowRateScore
         sumOfWaterEnvironmentScore += divePoint.waterEnvironmentScore

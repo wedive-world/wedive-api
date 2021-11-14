@@ -49,6 +49,8 @@ const schema = new Schema({
 
     minDepth: { type: Number, default: 0 },
     maxDepth: { type: Number, default: 0 },
+    minSight: { type: Number, default: 0 },
+    maxSight: { type: Number, default: 0 },
     flowRateScore: { type: Number, default: 0 },
     waterEnvironmentScore: { type: Number, default: 0 },
     eyeSightScore: { type: Number, default: 0 },

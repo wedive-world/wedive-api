@@ -50,6 +50,8 @@ const schema = new Schema({
     adminScore: { type: Number, default: 0 },
     minDepth: { type: Number, default: 0 },
     maxDepth: { type: Number, default: 0 },
+    minSight: { type: Number, default: 0 },
+    maxSight: { type: Number, default: 0 },
     flowRateScore: { type: Number, default: 0 },
     waterEnvironmentScore: { type: Number, default: 0 },
     eyeSightScore: { type: Number, default: 0 },
