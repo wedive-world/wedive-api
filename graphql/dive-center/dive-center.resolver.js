@@ -92,15 +92,18 @@ module.exports = {
                 if (!diveSite.diveCenters) {
                     diveSite.diveCenters = []
                 }
-    
+
                 if (!diveSite.diveCenters.includes(diveCenter._id)) {
                     diveSite.diveCenters.push(diveCenter._id)
                 }
-    
+
                 await diveSite.save()
             }
 
-            return translator.translateOut(diveCenter, languageCode)
+            let result = await DiveCenter.findOne({ _id: diveCenter._id })
+                .lean()
+
+            return translator.translateOut(result, languageCode)
         },
 
         async deleteDiveCenterById(parent, args, context, info) {

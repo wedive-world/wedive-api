@@ -2,7 +2,7 @@ const { gql } = require('apollo-server')
 
 const fields = `
     name: String
-    uniqueName: String
+    uniqueName: String!
     description: String
     youtubeVideoIds: [String]
     referenceUrls: [String]
@@ -11,7 +11,7 @@ const fields = `
 
 const inputFields = `
     name: String
-    uniqueName: String
+    uniqueName: String!
     description: String
     youtubeVideoIds: [String]
     referenceUrls: [String]

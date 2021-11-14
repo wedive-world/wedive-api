@@ -120,7 +120,10 @@ module.exports = {
             scoringDiveSite(diveSite)
             await diveSite.save()
 
-            return translator.translateOut(divePoint, languageCode)
+            let result = await DivePoint.findOne({ _id: divePoint._id })
+                .lean()
+
+            return translator.translateOut(result, languageCode)
         },
 
         async deleteDivePointById(parent, args, context, info) {

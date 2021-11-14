@@ -37,6 +37,13 @@ const schema = new Schema({
     addressTranslation: { type: Map, of: String },
     countryCode: String,
 
+    aliases: [String],
+    aliasesString: String,
+    aliasesStringTranslation: { type: Map, of: String },
+    searchTerms: [String],
+    searchTermsString: String,
+    searchTermsStringTranslation: { type: Map, of: String },
+
     waterTemperatureScore: { type: Number, default: 0 },
     adminScore: { type: Number, default: 0 },
 
@@ -68,3 +75,5 @@ const schema = new Schema({
 module.exports = mongoose.model('DiveSite', schema);
 
 schema.index({ 'nameTranslation.ko': 'text' }, { default_language: "ngram" })
+schema.index({ 'aliasesStringTranslation.ko': 'text' }, { default_language: "ngram" })
+schema.index({ 'searchTermsStringTranslation.ko': 'text' }, { default_language: "ngram" })

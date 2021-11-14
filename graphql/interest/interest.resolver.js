@@ -197,7 +197,11 @@ module.exports = {
             let interest = null
 
             if (!args.input._id) {
-                interest = new Interest(args.input)
+                try {
+                    interest = new Interest(args.input)
+                } catch (err) {
+                    console.log(err)
+                }
 
             } else {
                 interest = await Interest.findOne({ _id: args.input._id })
@@ -206,9 +210,13 @@ module.exports = {
             }
 
             interest = translator.translateIn(interest, args.input, languageCode)
+            console.log(`interest=${JSON.stringify(interest)}`)
             await interest.save()
 
-            return translator.translateOut(interest, languageCode)
+            let result = await Interest.findOne({ _id: interest._id })
+                .lean()
+
+            return translator.translateOut(result, languageCode)
         },
 
         async deleteInterestById(parent, args, context, info) {

@@ -113,7 +113,10 @@ module.exports = {
             diveSite = translator.translateIn(diveSite, args.input, languageCode)
             await diveSite.save()
 
-            return translator.translateOut(diveSite, languageCode)
+            let result = await DiveSite.findOne({ _id: diveSite._id })
+                .lean()
+
+            return translator.translateOut(result, languageCode)
         },
         async deleteDiveSiteById(parent, args, context, info) {
             let result = await DiveSite.deleteOne({ _id: args._id })

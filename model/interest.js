@@ -25,14 +25,19 @@ const schema = new Schema({
     referenceUrls: [String],
     memo: String,
 
+    aliases: [String],
+    aliasesString: String,
+    aliasesStringTranslation: { type: Map, of: String },
+    searchTerms: [String],
+    searchTermsString: String,
+    searchTermsStringTranslation: { type: Map, of: String },
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
 
-schema.index({ 'titleTranslation.ko': 'text' }, { default_language: "ngram" })
-
-// schema.index({
-//     'title.en': 'text'
-// })
-
 module.exports = mongoose.model('Interest', schema);
+
+schema.index({ 'nameTranslation.ko': 'text' }, { default_language: "ngram" })
+schema.index({ 'aliasesStringTranslation.ko': 'text' }, { default_language: "ngram" })
+schema.index({ 'searchTermsStringTranslation.ko': 'text' }, { default_language: "ngram" })

@@ -38,6 +38,13 @@ const schema = new Schema({
 
     publishStatus: String,
 
+    aliases: [String],
+    aliasesString: String,
+    aliasesStringTranslation: { type: Map, of: String },
+    searchTerms: [String],
+    searchTermsString: String,
+    searchTermsStringTranslation: { type: Map, of: String },
+
     diveSiteId: Schema.Types.ObjectId,
 
     adminScore: { type: Number, default: 0 },
@@ -58,3 +65,5 @@ const schema = new Schema({
 module.exports = mongoose.model('DivePoint', schema);
 
 schema.index({ 'nameTranslation.ko': 'text' }, { default_language: "ngram" })
+schema.index({ 'aliasesStringTranslation.ko': 'text' }, { default_language: "ngram" })
+schema.index({ 'searchTermsStringTranslation.ko': 'text' }, { default_language: "ngram" })
