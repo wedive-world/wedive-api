@@ -10,6 +10,7 @@ const stringifiableProperties = [
 
 function onInputPreProcess(object) {
     stringifiableProperties.filter(property => object.hasOwnProperty(property))
+        .filter(property => object[property] && object[property].length > 0)
         .forEach(property => {
             object[property + 'String'] = object[property].reduce((prev, next) => `${prev},${next}`)
         })
