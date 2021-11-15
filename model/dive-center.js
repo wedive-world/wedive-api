@@ -14,7 +14,7 @@ const schema = new Schema({
     youtubeVideoIds: [String],
     referenceUrls: [String],
     memo: String,
-    
+
     latitude: { type: Number, index: true, },
     longitude: { type: Number, index: true, },
     address: String,
@@ -29,9 +29,15 @@ const schema = new Schema({
     searchTerms: [String],
     searchTermsString: String,
     searchTermsStringTranslation: { type: Map, of: String },
-        
+
     phoneNumber: String,
+    email: { type: String, match: /.+\@.+@..+/ },
+
     divingType: [String],
+    enteranceLevelFree: String,
+    enteranceLevelScuba: String,
+    institutionTypes: [String],
+    openingHours: [String],
 
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
 
@@ -62,4 +68,4 @@ schema.index({
     'nameTranslation.ko': 'text',
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
- }, { default_language: "ngram" })
+}, { default_language: "ngram" })
