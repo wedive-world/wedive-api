@@ -37,7 +37,7 @@ const schema = new Schema({
     enteranceLevelFree: String,
     enteranceLevelScuba: String,
     institutionTypes: [String],
-    openingHours: [String],
+    openingHours: [[String]],
 
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
 

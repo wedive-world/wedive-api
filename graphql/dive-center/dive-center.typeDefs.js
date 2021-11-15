@@ -32,7 +32,7 @@ type DiveCenter  {
     email: String
     webPageUrl: String
     geoAddress: String
-    openingHours: [String]
+    openingHours: [[String]]
 
     adminScore: Int
     viewScore: Int
@@ -62,7 +62,7 @@ input DiveCenterInput {
     email: String
     webPageUrl: String
     geoAddress: String
-    openingHours: [String]
+    openingHours: [[String]]
 
     adminScore: Int
     viewScore: Int
