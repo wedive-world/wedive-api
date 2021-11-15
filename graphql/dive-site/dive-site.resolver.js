@@ -18,6 +18,17 @@ module.exports = {
         },
     },
 
+    DivePoint: {
+        async diveSite(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            let diveSite = await DiveSite.findOne({ _id: parent.diveSiteId })
+                .lean()
+
+            return translator.translateOut(diveSite, languageCode)
+        },
+    },
+
     Query: {
         async getAllDiveSites(parent, args, context, info) {
 

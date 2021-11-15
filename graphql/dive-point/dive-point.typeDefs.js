@@ -19,6 +19,7 @@ type DivePoint {
   _id: ID!
 
   diveSiteId: ID!
+  diveSite: DiveSite
 
   adminScore: Int
   minDepth: Int
