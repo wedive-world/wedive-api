@@ -3,21 +3,6 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
   scalar Date
-  
-  interface MonthlyInterest {
-    month1: [Interest]
-    month2: [Interest]
-    month3: [Interest]
-    month4: [Interest]
-    month5: [Interest]
-    month6: [Interest]
-    month7: [Interest]
-    month8: [Interest]
-    month9: [Interest]
-    month10: [Interest]
-    month11: [Interest]
-    month12: [Interest]
-  }
 
   type StringEntry {
     key: String,
@@ -43,4 +28,16 @@ module.exports = gql`
     tooManyPeople
     publicEnded
   }
+
+  enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+  }
+
+  directive @cacheControl(
+    maxAge: Int
+    scope: CacheControlScope
+    inheritMaxAge: Boolean
+  ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
+
 `;
