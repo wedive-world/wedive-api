@@ -31,9 +31,9 @@ async function startServer() {
       //   throw new AuthenticationError("invalid token");
       // }
 
-      // console.log(`context | headers: ${JSON.stringify(req.headers)}`)
-      // console.log(`context | countryCode: ${JSON.stringify(req.headers.countrycode)}`)
-      // console.log(`context | countryCode: ${JSON.stringify(req.headers.authorization)}`)
+      console.log(`context | headers: ${JSON.stringify(req.headers)}`)
+      console.log(`context | countryCode: ${JSON.stringify(req.headers.countrycode)}`)
+      console.log(`context | countryCode: ${JSON.stringify(req.headers.authorization)}`)
 
       return {
         languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',

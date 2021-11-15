@@ -23,9 +23,16 @@ type DiveCenter  {
     clerks: [User]
 
     divingType: [DivingType]
+    enteranceLevelFree: String
+    enteranceLevelScuba: String
+
+    enteranceFee: String
+
     phoneNumber: String
+    email: String
     webPageUrl: String
     geoAddress: String
+    openingHours: [[String]]
 
     adminScore: Int
     viewScore: Int
@@ -48,9 +55,14 @@ input DiveCenterInput {
     clerks: [ID]
 
     divingType: [DivingType]
+    enteranceLevelFree: String
+    enteranceLevelScuba: String
+
     phoneNumber: String
+    email: String
     webPageUrl: String
     geoAddress: String
+    openingHours: [[String]]
 
     adminScore: Int
     viewScore: Int
