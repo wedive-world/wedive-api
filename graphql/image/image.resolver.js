@@ -95,6 +95,8 @@ module.exports = {
                 resultList.push(result)
             }
 
+            console.log(`query | getImageUrlsByIds: _ids=${args._ids}, widths=${args.widths}, resultList=${resultList}`)
+
             return resultList
         },
     },
@@ -191,14 +193,14 @@ async function uploadImage(createReadStream, filename, mimetype, encoding) {
 
 async function getResizedImage(imageId, width) {
 
-    console.log(`query | getResizedImage: imageId=${imageId} width=${width}`)
+    // console.log(`query | getResizedImage: imageId=${imageId} width=${width}`)
     let image = await Image.findOne({ _id: imageId })
 
     if (!image) {
         return null
     }
 
-    console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
+    // console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
 
     if (!image.contentMap) {
         image.contentMap = new Map()
