@@ -80,7 +80,9 @@ module.exports = {
 
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
-            return await getResizedImage(args._id, args.width)
+            let result = await getResizedImage(args._id, args.width)
+            console.log(`query | getImageUrlById: _id=${args._id}, width=${args.width}, result=${result}`)
+            return result
         },
 
         getImageUrlsByIds: async (parent, args, context, info) => {
@@ -92,6 +94,8 @@ module.exports = {
                 let result = await getResizedImage(id, widths[i])
                 resultList.push(result)
             }
+
+            console.log(`query | getImageUrlsByIds: _ids=${args._ids}, widths=${args.widths}, resultList=${resultList}`)
 
             return resultList
         },
@@ -189,14 +193,14 @@ async function uploadImage(createReadStream, filename, mimetype, encoding) {
 
 async function getResizedImage(imageId, width) {
 
-    console.log(`query | getResizedImage: imageId=${imageId} width=${width}`)
+    // console.log(`query | getResizedImage: imageId=${imageId} width=${width}`)
     let image = await Image.findOne({ _id: imageId })
 
     if (!image) {
         return null
     }
 
-    console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
+    // console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
 
     if (!image.contentMap) {
         image.contentMap = new Map()
@@ -206,10 +210,10 @@ async function getResizedImage(imageId, width) {
 
     if (image.contentMap.has(width.toString())) {
         let imageContentId = image.contentMap.get(width.toString())
-        console.log(`query | getResizedImage: imageContentId=${imageContentId}`)
+        // console.log(`query | getResizedImage: imageContentId=${imageContentId}`)
         imageContent = await ImageContent.findOne({ _id: imageContentId })
 
-        console.log(`imageContent=${JSON.stringify(imageContent)}`)
+        // console.log(`imageContent=${JSON.stringify(imageContent)}`)
 
     } else {
         const ext = image.s3ObjectKey.split('.').pop()
@@ -227,10 +231,10 @@ async function getResizedImage(imageId, width) {
             Key: image.s3ObjectKey,
             Expires: 300
         }
-        console.log(`query | getResizedImage: getOriginImageParams=${JSON.stringify(getOriginImageParams)}`)
+        // console.log(`query | getResizedImage: getOriginImageParams=${JSON.stringify(getOriginImageParams)}`)
 
         let signedUrl = await s3.getSignedUrlPromise('getObject', getOriginImageParams)
-        console.log(`query | getResizedImage: signedUrl=${signedUrl}`)
+        // console.log(`query | getResizedImage: signedUrl=${signedUrl}`)
 
         let originTmpDirPath = `${TMP_DIR_PATH}${imageContent._id}/`
         await fs.mkdirSync(originTmpDirPath, { recursive: true })
@@ -241,7 +245,7 @@ async function getResizedImage(imageId, width) {
 
         let resizedTmpFilePath = `${originTmpDirPath}${imageContent._id}.${ext}`
 
-        console.log(`query | getResizedImage: originTmpFilePath=${originTmpFilePath}, resizedTmpFilePath=${resizedTmpFilePath}`)
+        // console.log(`query | getResizedImage: originTmpFilePath=${originTmpFilePath}, resizedTmpFilePath=${resizedTmpFilePath}`)
 
         await sharp(originTmpFilePath)
             .resize(width)
@@ -257,7 +261,7 @@ async function getResizedImage(imageId, width) {
         };
 
         imageContent.s3ObjectKey = uploadParams.Key
-        console.log(`query | getResizedImage: bucket=${JSON.stringify(uploadParams.Bucket)}, Key=${JSON.stringify(uploadParams.Key)}`)
+        // console.log(`query | getResizedImage: bucket=${JSON.stringify(uploadParams.Bucket)}, Key=${JSON.stringify(uploadParams.Key)}`)
 
         try {
             let result = await s3.putObject(uploadParams).promise()

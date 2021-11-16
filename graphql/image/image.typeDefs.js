@@ -9,8 +9,8 @@ scalar Upload
 
 type Query {
 
-    getImageUrlById(_id: ID!, width: Int): String
-    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String]
+    getImageUrlById(_id: ID!, width: Int): String #@cacheControl(maxAge: 30)
+    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] #@cacheControl(maxAge: 30)
 }
 
 type Mutation {
