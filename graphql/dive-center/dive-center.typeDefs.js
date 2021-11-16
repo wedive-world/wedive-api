@@ -58,6 +58,8 @@ input DiveCenterInput {
     enteranceLevelFree: String
     enteranceLevelScuba: String
 
+    enteranceFee: String
+
     phoneNumber: String
     email: String
     webPageUrl: String
