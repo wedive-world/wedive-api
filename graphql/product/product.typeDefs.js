@@ -57,9 +57,16 @@ input ProductInput {
 
 type DiveCenter {
   tickets: [Product]
-  educataions: [Product]
+  educations: [Product]
   courses: [Product]
   rentals: [Product]
+}
+
+input DiveCenterInput {
+  tickets: [ID]
+  educations: [ID]
+  courses: [ID]
+  rentals: [ID]
 }
 
 enum ProductType {

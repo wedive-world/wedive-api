@@ -9,8 +9,8 @@ module.exports = {
             return await getProductsByIds(parent.tickets, context.languageCode)
         },
 
-        async educataions(parent, args, context, info) {
-            return await getProductsByIds(parent.educataions, context.languageCode)
+        async educations(parent, args, context, info) {
+            return await getProductsByIds(parent.educations, context.languageCode)
         },
 
         async courses(parent, args, context, info) {

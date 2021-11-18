@@ -58,6 +58,11 @@ const schema = new Schema({
 
     wediveComments: [String],
 
+    tickets: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    educations: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    courses: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    rentals: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
