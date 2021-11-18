@@ -55,4 +55,12 @@ type Interest implements Introduction {
 input InterestInput {
     ${inputFields}
 }
+
+type Product implements Introduction {
+    ${fields}
+}
+
+input ProductInput {
+    ${inputFields}
+}
 `

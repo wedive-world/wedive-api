@@ -20,7 +20,7 @@ type DiveCenter {
     institutionTypes: [InstitutionType]
 }
 
-type DiveCenterInput {
+input DiveCenterInput {
     institutionTypes: [InstitutionType]
 }
 

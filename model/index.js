@@ -50,5 +50,7 @@ module.exports.schema = {
 
     User: require('./user'),
 
-    Highlight: require('./highlight')
+    Highlight: require('./highlight'),
+
+    Product: require('./product')
 }

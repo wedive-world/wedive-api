@@ -1,6 +1,4 @@
-const schema = require('../../model').schema;
-
-const Interest = schema.Interest
+const { Interest } = require('../../model').schema;
 
 const translator = require('../common/util/translator')
 const objectHelper = require('../common/util/object-helper')
@@ -122,6 +120,12 @@ module.exports = {
     },
 
     Highlight: {
+        async interests(parent, args, context, info) {
+            return await getInterestListByIds(context.languageCode, parent.interests)
+        },
+    },
+
+    Product: {
         async interests(parent, args, context, info) {
             return await getInterestListByIds(context.languageCode, parent.interests)
         },

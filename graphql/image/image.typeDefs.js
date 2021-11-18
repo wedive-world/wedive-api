@@ -9,8 +9,11 @@ scalar Upload
 
 type Query {
 
-    getImageUrlById(_id: ID!, width: Int): String #@cacheControl(maxAge: 30)
-    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] #@cacheControl(maxAge: 30)
+    getImageUrlById(_id: ID!, width: Int): String @cacheControl(maxAge: 30)
+    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] @cacheControl(maxAge: 30)
+
+    getResizedImageById(_id: ID!, width: Int): ResizedImage @cacheControl(maxAge: 30)
+    getResizedImagesByIds(_ids: [ID], widths: [Int]): [ResizedImage] @cacheControl(maxAge: 30)
 }
 
 type Mutation {
@@ -42,6 +45,17 @@ input UpdateImageInput {
     description: String
     reference: String
     uploaderId: String
+}
+
+type ResizedImage {
+    _id: ID
+
+    name: String
+    description: String
+    reference: String,
+    uploaderId: String,
+
+    url: String
 }
 
 type DiveSite {
@@ -88,6 +102,16 @@ type Interest {
 }
 
 input InterestInput {
+    images: [ID]
+    backgroundImages: [ID]
+}
+
+type Product {
+    images: [Image]
+    backgroundImages: [Image]
+}
+
+input ProductInput {
     images: [ID]
     backgroundImages: [ID]
 }

@@ -78,6 +78,24 @@ module.exports = {
         },
     },
 
+    Product: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+
+        async backgroundImages(parent, args, context, info) {
+            return await getImagesByIds(parent.backgroundImages)
+        },
+        
+        async courseInformations(parent, args, context, info) {
+            return await getImagesByIds(parent.courseInformations)
+        },
+
+        async briefIcon(parent, args, context, info) {
+            return await getImageById(parent.briefIcon)
+        },
+    },
+
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
             let result = await getResizedImage(args._id, args.width)
@@ -99,6 +117,41 @@ module.exports = {
 
             return resultList
         },
+
+        getResizedImageById: async (parent, args, context, info) => {
+            let resizedImage = await getResizedImage(args._id, args.width)
+            let image = await getImageById(args._id)
+
+            let result = {
+                url: resizedImageUrl,
+                ...image
+            }
+
+            console.log(`query | getResizedImageById: _id=${args._id}, width=${args.width}, result=${result}`)
+            return result
+        },
+
+        getResizedImagesByIds: async (parent, args, context, info) => {
+            const ids = args._ids
+            const widths = args.widths
+
+            let resultList = []
+            for ([i, id] of ids.entries()) {
+                let resizedImageUrl = await getResizedImage(id, widths[i])
+                let image = await getImageById(id)
+
+                let result = {
+                    url: resizedImageUrl,
+                    ...image
+                }
+
+                resultList.push(result)
+            }
+
+            console.log(`query | getResizedImagesByIds: _ids=${args._ids}, widths=${args.widths}, resultList=${resultList}`)
+
+            return resultList
+        },
     },
 
     Mutation: {
@@ -115,6 +168,20 @@ module.exports = {
             return await updateImage(args.input)
         },
     }
+}
+
+async function getImageById(id) {
+    let image = await Image.findOne({ _id: _id })
+        .lean()
+
+    return image
+}
+
+async function getImagesByIds(ids) {
+    let images = await Image.find({ _id: { $in: ids } })
+        .lean()
+
+    return images
 }
 
 async function updateImage({

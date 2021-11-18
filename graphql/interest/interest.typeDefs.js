@@ -128,5 +128,13 @@ input HighlightInput {
   interests: [ID]
 }
 
+type Product {
+  interests: [Interest]
+}
+
+input ProductInput {
+  interests: [ID]
+}
+
 
 `;
