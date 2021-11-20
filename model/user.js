@@ -3,7 +3,9 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
     name: String,
-    email: { type: String, unique: true, index: true, match: /.+\@.+@..+/ },
+    firebaseUid: { type: String, unique: true, index: true },
+    fcmToken: String,
+    email: { type: String, match: /.+\@.+@..+/ },
     birth: Number,
     gender: String,
     profileImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],

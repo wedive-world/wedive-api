@@ -13,10 +13,14 @@ type Query {
 
 type Mutation {
     upsertUser(input: UserInput): User!
+    updateFcmToken(firebaseUid: String!, fcmToken: String!): Response!
 }
 
 type User {
     _id: ID!
+
+    firebaseUid: String!
+    fcmToken: String
 
     name: String!
     email: String!
