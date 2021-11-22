@@ -78,6 +78,7 @@ enum InterestType {
   """Diving features, e.g. hardTraning, fun diving...""" divingFeature
   """다이빙 환경""" divingPointEnvironment
   """수중 생물""" aquaticLife
+  """수중 생물 100%보는""" aquaticLife100
   """다이빙 타입(프리,스쿠바)""" divingType
   """month, 1,2,3,4... 12 """ month
   """sunny, cloudy, rain, heavyRain""" climate
