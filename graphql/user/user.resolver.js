@@ -1,16 +1,12 @@
-const { User, Instructor, Image } = require('../../model').schema
+const { User, Instructor } = require('../../model').schema
 
 const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
-    User: {
-        async instructor(parent, args, context, info) {
-            return await Instructor.find({ _id: args.instructor });
-        },
-
-        async profileImages(parent, args, context, info) {
-            return await Image.find({ _id: args.profileImage });
+    InstructorVerification: {
+        async user(parent, args, context, info) {
+            return await await User.findOne({ _id: parent.user });
         },
     },
 
@@ -53,18 +49,10 @@ module.exports = {
 
             let result = await User.updateOne(
                 { firebaseUid: args.firebaseUid },
-                { fcmToken: args.fcmToken, updatedAt: Date.now() }
+                { fcmToken: args.fcmToken, updatedAt: Date.now() },
+                { upsert: true }
             )
             console.log(`mutation | updateFcmToken: result=${JSON.stringify(result)}`)
-
-            if (result.matchedCount < 1) {
-                let user = new User({
-                    firebaseUid: args.firebaseUid,
-                    fcmToken: args.fcmToken,
-                })
-
-                await user.save()
-            }
 
             return {
                 result: 'success'

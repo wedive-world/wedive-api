@@ -9,6 +9,11 @@ module.exports = gql`
     value: String
   }
 
+  input StringEntryInput {
+    key: String,
+    value: String
+  }
+
   type IntEntry {
     key: String,
     value: Int

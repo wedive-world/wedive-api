@@ -27,12 +27,17 @@ type Product {
 
   price: Int
   type: [ProductType]
+
+  amount: Int
+  unitName: String
+
   hours: Int
   days: Int
 
   courseInformations: [Image]
 
   briefIcon: Image
+  preCaution: String
   cautions: [String]
 
   createdAt: Date
@@ -46,12 +51,17 @@ input ProductInput {
 
   price: Int
   type: [ProductType]
+
+  amount: Int
+  unitName: String
+
   hours: Int
   days: Int
 
   courseInformations: [ID]
 
   briefIcon: ID
+  preCaution: String
   cautions: [String]
 }
 

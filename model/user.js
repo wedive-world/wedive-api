@@ -2,18 +2,31 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
-    name: String,
+
     firebaseUid: { type: String, unique: true, index: true },
     fcmToken: String,
     email: { type: String, match: /.+\@.+@..+/ },
-    birth: Number,
-    gender: String,
+    emailVerified: Boolean,
+    phoneNumber: String,
+    phoneNumberVerified: Boolean,
+
     profileImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
-    instructor: { type: Schema.Types.ObjectId, ref: 'Instructor' },
-    diveInterests: [{ type: Schema.Types.ObjectId, ref: 'DiveInterest' }],
-    countryCode: String,
-    mainLanguageCode: String,
-    languageCodes: [String],
+    nickName: String,
+    name: String,
+
+    birthAge: { type: Number, min: 1900, max: 2100 },
+    gender: String,
+    residence: String,
+
+    interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+
+    divingLog: Number,
+    freeDivingBests: { type: Map, of: String },
+
+    instructorLicenseImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    instructorTypes: [String],
+
+    instructorVerifications: [{ type: Schema.Types.ObjectId, ref: 'InstructorVerification' }],
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

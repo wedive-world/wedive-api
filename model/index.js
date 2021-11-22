@@ -49,6 +49,7 @@ module.exports.schema = {
     License: require('./license'),
 
     User: require('./user'),
+    InstructorVerification: require('./instructor-verification'),
 
     Highlight: require('./highlight'),
 

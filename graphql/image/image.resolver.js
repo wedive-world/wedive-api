@@ -96,6 +96,18 @@ module.exports = {
         },
     },
 
+    User: {
+        async profileImages(parent, args, context, info) {
+            return await getImagesByIds(parent.profileImages)
+        },
+    },
+
+    InstructorVerification: {
+        async instructorLicenseImage(parent, args, context, info) {
+            return await getImageById(parent.instructorLicenseImage)
+        },
+    },
+
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
             let result = await getResizedImage(args._id, args.width)

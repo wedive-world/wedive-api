@@ -21,31 +21,45 @@ type User {
 
     firebaseUid: String!
     fcmToken: String
+    email: String
+    emailVerified: Boolean
+    phoneNumber: String
+    phoneNumberVerified: Boolean
 
-    name: String!
-    email: String!
+    profileImages: [Image]
+    nickName: String
+    name: String
 
     birthAge: Int
     gender: Gender
+    residence: String
 
-    instructor: Instructor
-    profileImages: [Image]
+    interests: [Interest]
 
-    createdAt: Date!
-    updatedAt: Date!
+    divingLog: Int
+    freeDivingBests: [StringEntry]
+
+    createdAt: Date
+    updatedAt: Date
   }
 
   input UserInput {
     _id: ID
 
     name: String
-    email: String!
+    nickName: String
+    email: String
 
     birthAge: Int
     gender: Gender
 
-    instructor: ID
+    instructors: [ID]
     profileImages: [ID]
+
+    divingLog: Int
+    freeDivingBest: [StringEntryInput]
+
+    interests: [ID]
   }
 
   enum Gender {
@@ -53,10 +67,12 @@ type User {
     f
   }
 
-  type Institution {
-    _id: ID
-    name: String
-    description: String
+  type InstructorVerification {
+    user: User
+  }
+
+  input InstructorVerificationInput {
+    user: ID!
   }
 
   type Instructor {
@@ -64,20 +80,8 @@ type User {
     user: User,
     gender: Int,
     description: String
-    profileImage: [Image]
-    licenseIds: [License]
-    countryCode: String
     languageCodes: [String]
     createdAt: Date
     updatedAt: Date
-  }
-
-  type License {
-    _id: ID,
-    category: String,
-    level: Int,
-    title: String,
-    description: String,
-    institution: Institution,
   }
 `;

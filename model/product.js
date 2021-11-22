@@ -21,6 +21,11 @@ const schema = new Schema({
 
     price: Number,
     type: [String],
+
+    amount: Number,
+    unitName: String,
+    unitNameTranslation: { type: Map, of: String },
+
     hours: Number,
     days: Number,
 

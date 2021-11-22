@@ -115,4 +115,8 @@ input ProductInput {
     images: [ID]
     backgroundImages: [ID]
 }
+
+type User {
+    instructorLicenseImages: [Image]
+}
 `;

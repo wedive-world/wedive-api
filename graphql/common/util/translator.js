@@ -2,6 +2,7 @@ const translatableProperties = [
     'name', 'description', 'address', 'title',
     'visitTimeDescription', 'waterTemperatureDescription', 'deepDescription', 'waterFlowDescription', 'eyeSightDescription', 'highlightDescription',
     'aliasesString', 'searchTermsString',
+    'unitName',
 ]
 
 const stringifiableProperties = [
