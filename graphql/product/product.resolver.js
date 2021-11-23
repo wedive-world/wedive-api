@@ -51,13 +51,17 @@ module.exports = {
                 interest.updatedAt = Date.now()
             }
 
+            if (!product.uniqueName) {
+                product.uniqueName = product._id
+            }
+
             await product.save()
 
             return product
         },
 
         async deleteProductById(parent, args, context, info) {
-            let result = await Product.deleteOne({ _id: args._id })
+            let product = await Product.findById(args._id)
             console.log(`mutation | deleteProductById: result=${JSON.stringify(result)}`)
             return args._id
         },
@@ -85,5 +89,11 @@ async function getProductById(id, languageCode) {
         .lean()
 
     return translator.translateOut(product, languageCode)
+}
+
+async function deleteProductRecurrsively(productId) {
+    let product = await Product.findById(args._id)
+        .populate('options')
+    
 }
 

@@ -18,11 +18,6 @@ type Mutation {
 type Product {
   _id: ID!
 
-  totalPrice: Int
-  totalTypes: [ProductType]
-  totalHours: Int
-  totalDays: Int
-
   options: [Product]
 
   price: Int
