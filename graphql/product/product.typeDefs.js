@@ -45,7 +45,7 @@ type Product {
 }
 
 input ProductInput {
-  _id: ID!
+  _id: ID
 
   options: [ID]
 
