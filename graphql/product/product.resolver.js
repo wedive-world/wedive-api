@@ -92,7 +92,7 @@ async function getProductById(id, languageCode) {
 }
 
 async function deleteProductRecurrsively(productId) {
-    let product = await Product.findById(args._id)
+    let product = await Product.findById(productId)
         .populate('options')
 
     for (childProduct of product.options) {
