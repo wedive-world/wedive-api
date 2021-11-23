@@ -48,8 +48,8 @@ module.exports = {
 
             } else {
                 product = await Product.findOne({ _id: args.input._id })
-                objectHelper.updateObject(args.input, interest)
-                interest.updatedAt = Date.now()
+                objectHelper.updateObject(args.input, product)
+                product.updatedAt = Date.now()
             }
 
             if (!product.uniqueName) {
