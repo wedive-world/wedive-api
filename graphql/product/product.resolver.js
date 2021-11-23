@@ -61,8 +61,8 @@ module.exports = {
         },
 
         async deleteProductById(parent, args, context, info) {
-            let product = await Product.findById(args._id)
-            console.log(`mutation | deleteProductById: result=${JSON.stringify(result)}`)
+            await deleteProductRecurrsively(args._id)
+            console.log(`mutation | deleteProductById: args._id=${JSON.stringify(args._id)}`)
             return args._id
         },
     }
@@ -94,6 +94,11 @@ async function getProductById(id, languageCode) {
 async function deleteProductRecurrsively(productId) {
     let product = await Product.findById(args._id)
         .populate('options')
-    
+
+    for (childProduct of product.options) {
+        await deleteProductRecurrsively(childProduct._id)
+    }
+
+    await product.remove()
 }
 

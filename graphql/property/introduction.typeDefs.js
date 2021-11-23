@@ -61,6 +61,11 @@ type Product implements Introduction {
 }
 
 input ProductInput {
-    ${inputFields}
+    name: String
+    uniqueName: String
+    description: String
+    youtubeVideoIds: [String]
+    referenceUrls: [String]
+    memo: String
 }
 `
