@@ -1,6 +1,7 @@
 const { Product } = require('../../model').schema;
 
 const translator = require('../common/util/translator')
+const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
