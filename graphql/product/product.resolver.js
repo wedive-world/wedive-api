@@ -47,8 +47,8 @@ module.exports = {
 
             } else {
                 product = await Product.findOne({ _id: args.input._id })
-                Object.assign(interest, args.input)
-                interest.updatedAt = Date.now()
+                Object.assign(product, args.input)
+                product.updatedAt = Date.now()
             }
 
             if (!product.uniqueName) {
