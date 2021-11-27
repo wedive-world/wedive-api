@@ -4,16 +4,18 @@ module.exports = gql`
 
 type Query {
 
-    getAllDivings: [Diving]
-    getDivingById(_id: ID!): Diving
-    getDivingsByHostUserId(hostUserId: ID!): [Diving]
+  QUERY_________Divings_________: Diving
+  getAllDivings: [Diving]
+  getDivingById(_id: ID!): Diving
+  getDivingsByHostUserId(hostUserId: ID!): [Diving]
 }
 
 type Mutation {
 
-    upsertDiving(input: DivingInput): Diving!
-    deleteDivingById(_id: ID!): ID!
-    joinDiving(divingId: ID!): Response!
+  MUTATION_________Divings_________: Diving
+  upsertDiving(input: DivingInput): Diving!
+  deleteDivingById(_id: ID!): ID!
+  joinDiving(divingId: ID!): Response!
 }
 
 

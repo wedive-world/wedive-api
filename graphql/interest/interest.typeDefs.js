@@ -34,16 +34,18 @@ module.exports = gql`
 
 type Query {
 
-    getAllInterests(type: String): [Interest]
-    getInterestById(_id: ID!): Interest
-    getInterestByUniqueName(uniqueName: String!): Interest
-    searchInterestsByName(query: String!, type: String): [Interest]
+  QUERY_________Interests_________: Interest
+  getAllInterests(type: String): [Interest]
+  getInterestById(_id: ID!): Interest
+  getInterestByUniqueName(uniqueName: String!): Interest
+  searchInterestsByName(query: String!, type: String): [Interest]
 }
 
 type Mutation {
 
-    upsertInterest(input: InterestInput!): Interest!
-    deleteInterestById(_id: ID!): ID
+  MUTATION_________Interests_________: Interest
+  upsertInterest(input: InterestInput!): Interest!
+  deleteInterestById(_id: ID!): ID
 }
 
 type Interest {

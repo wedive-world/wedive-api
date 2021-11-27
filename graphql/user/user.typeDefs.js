@@ -4,16 +4,19 @@ module.exports = gql`
 
 type Query {
 
-    """get All users"""
-    getAllUsers: [User]
-    """get only one user by id"""
-    getUserById(_id: ID!): User
-    getUserByEmail(email: String): User
+  QUERY_________Users_________: User
+
+  """get All users"""
+  getAllUsers: [User]
+  """get only one user by id"""
+  getUserById(_id: ID!): User
+  getUserByEmail(email: String): User
 }
 
 type Mutation {
-    upsertUser(input: UserInput): User!
-    updateFcmToken(firebaseUid: String!, fcmToken: String!): Response!
+  MUTATION_________Users_________: User
+  upsertUser(input: UserInput): User!
+  updateFcmToken(firebaseUid: String!, fcmToken: String!): Response!
 }
 
 type User {

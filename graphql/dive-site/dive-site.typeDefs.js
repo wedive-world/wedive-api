@@ -4,18 +4,20 @@ module.exports = gql`
 
 type Query {
 
-    getAllDiveSites: [DiveSite]
-    getDiveSiteById(_id: ID!): DiveSite
-    getDiveSiteByUniqueName(uniqueName: String!): DiveSite
-    getDiveSiteByAddress(address: String!): DiveSite
-    getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
-    searchDiveSitesByName(query: String!): [DiveSite]
+  QUERY_________DiveSites_________: DiveSite
+  getAllDiveSites: [DiveSite]
+  getDiveSiteById(_id: ID!): DiveSite
+  getDiveSiteByUniqueName(uniqueName: String!): DiveSite
+  getDiveSiteByAddress(address: String!): DiveSite
+  getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
+  searchDiveSitesByName(query: String!): [DiveSite]
 }
 
 type Mutation {
 
-    upsertDiveSite(input: DiveSiteInput!): DiveSite!
-    deleteDiveSiteById(_id: ID!): ID
+  MUTATION_________DiveSites_________: DiveSite
+  upsertDiveSite(input: DiveSiteInput!): DiveSite!
+  deleteDiveSiteById(_id: ID!): ID
 }
 
 type DiveSite {

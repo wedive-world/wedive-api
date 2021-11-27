@@ -4,13 +4,15 @@ module.exports = gql`
 
 type Query {
 
-    getUserReactionByTargetId(targetId: ID!): [UserReaction]
+  QUERY_________UserReactions_________: UserReaction
+  getUserReactionByTargetId(targetId: ID!): [UserReaction]
 }
 
 type Mutation {
 
-    createUserReaction(input: ReviewInput): Diving!
-    deleteUserReaction(_id: ID!): ID!
+  MUTATION_________UserReactions_________: UserReaction
+  createUserReaction(input: ReviewInput): Diving!
+  deleteUserReaction(_id: ID!): ID!
 }
 
 type UserReaction {
