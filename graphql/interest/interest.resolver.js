@@ -1,7 +1,6 @@
 const { Interest } = require('../../model').schema;
 
 const translator = require('../common/util/translator')
-const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
@@ -205,7 +204,7 @@ module.exports = {
 
             } else {
                 interest = await Interest.findOne({ _id: args.input._id })
-                objectHelper.updateObject(args.input, interest)
+                Object.assign(interest, args.input)
                 interest.updatedAt = Date.now()
             }
 

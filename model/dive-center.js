@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const { isEmail } = require('validator')
 
 const schema = new Schema({
 
@@ -31,7 +32,7 @@ const schema = new Schema({
     searchTermsStringTranslation: { type: Map, of: String },
 
     phoneNumber: String,
-    email: { type: String, match: /.+\@.+@..+/ },
+    email: { type: String, validate: [isEmail, 'invalid email'] },
 
     divingType: [String],
     enteranceLevelFree: String,

@@ -10,7 +10,6 @@ const Interest = schema.Interest
 const Image = schema.Image
 
 const translator = require('../common/util/translator')
-const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 

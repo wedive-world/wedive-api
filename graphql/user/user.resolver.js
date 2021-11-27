@@ -1,7 +1,5 @@
 const { User, Instructor } = require('../../model').schema
 
-const objectHelper = require('../common/util/object-helper')
-
 module.exports = {
 
     InstructorVerification: {
@@ -36,7 +34,7 @@ module.exports = {
 
             } else {
                 user = await User.findOne({ _id: args.input._id })
-                objectHelper.updateObject(args.input, user)
+                Object.assign(user, args.input)
                 user.updatedAt = Date.now()
             }
 

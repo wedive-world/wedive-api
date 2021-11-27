@@ -6,7 +6,6 @@ const Image = schema.Image
 const DivePoint = schema.DivePoint
 
 const translator = require('../common/util/translator')
-const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
@@ -32,7 +31,7 @@ module.exports = {
 
             } else {
                 highlight = await Highlight.findOne({ _id: args.input._id })
-                objectHelper.updateObject(args.input, highlight)
+                Object.assign(highlight, args.input)
                 highlight.updatedAt = Date.now()
             }
 

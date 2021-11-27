@@ -4,7 +4,6 @@ const DiveSite = schema.DiveSite
 const DivePoint = schema.DivePoint
 
 const translator = require('../common/util/translator')
-const objectHelper = require('../common/util/object-helper')
 
 module.exports = {
 
@@ -96,7 +95,7 @@ module.exports = {
 
             } else {
                 divePoint = await DivePoint.findOne({ _id: args.input._id })
-                objectHelper.updateObject(args.input, divePoint)
+                Object.assign(divePoint, args.input)
                 divePoint.updatedAt = Date.now()
             }
 

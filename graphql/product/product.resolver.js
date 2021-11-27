@@ -47,7 +47,7 @@ module.exports = {
 
             } else {
                 product = await Product.findOne({ _id: args.input._id })
-                objectHelper.updateObject(args.input, interest)
+                Object.assign(interest, args.input)
                 interest.updatedAt = Date.now()
             }
 
