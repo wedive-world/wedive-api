@@ -183,7 +183,7 @@ module.exports = {
 }
 
 async function getImageById(id) {
-    let image = await Image.findOne({ _id: _id })
+    let image = await Image.findOne({ _id: id })
         .lean()
 
     return image
