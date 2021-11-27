@@ -37,7 +37,7 @@ const schema = new Schema({
         validate: [
             {
                 validator: function (value) {
-                    if (value == null) {
+                    if (!value) {
                         return true
                     } else {
                         return isEmail(value)
