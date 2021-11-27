@@ -39,7 +39,7 @@ const TMP_DIR_PATH = `tmp/image/` //must end with '/'
 const ORIGIN_IMAGE_DIR_PATH = `image/origin/` //must end with '/'
 const RESIZED_IMAGE_DIR_PATH = `image/resized/` //must end with '/'
 
-const THUMBNAIL_WIDTH = 72
+const THUMBNAIL_WIDTH = 128
 
 module.exports = {
     Upload: GraphQLUpload,
