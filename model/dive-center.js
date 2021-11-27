@@ -32,7 +32,21 @@ const schema = new Schema({
     searchTermsStringTranslation: { type: Map, of: String },
 
     phoneNumber: String,
-    email: { type: String, validate: [isEmail, 'invalid email'] },
+    email: {
+        type: String,
+        validate: [
+            {
+                validator: function (value) {
+                    if (value == null) {
+                        return true
+                    } else {
+                        return isEmail(value)
+                    }
+                },
+                message: 'invalid email'
+            },
+        ]
+    },
 
     divingType: [String],
     enteranceLevelFree: String,
