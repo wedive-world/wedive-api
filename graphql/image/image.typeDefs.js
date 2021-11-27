@@ -37,6 +37,8 @@ type Image {
     encoding: String
     fileSize: Int
 
+    thumbnailUrl: String
+
     createdAt: Date,
     updatedAt: Date,
 }

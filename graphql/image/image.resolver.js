@@ -39,6 +39,8 @@ const TMP_DIR_PATH = `tmp/image/` //must end with '/'
 const ORIGIN_IMAGE_DIR_PATH = `image/origin/` //must end with '/'
 const RESIZED_IMAGE_DIR_PATH = `image/resized/` //must end with '/'
 
+const THUMBNAIL_WIDTH = 72
+
 module.exports = {
     Upload: GraphQLUpload,
 
@@ -86,7 +88,7 @@ module.exports = {
         async backgroundImages(parent, args, context, info) {
             return await getImagesByIds(parent.backgroundImages)
         },
-        
+
         async courseInformations(parent, args, context, info) {
             return await getImagesByIds(parent.courseInformations)
         },
@@ -131,7 +133,7 @@ module.exports = {
         },
 
         getResizedImageById: async (parent, args, context, info) => {
-            let resizedImage = await getResizedImage(args._id, args.width)
+            let resizedImageUrl = await getResizedImage(args._id, args.width)
             let image = await getImageById(args._id)
 
             let result = {
@@ -171,7 +173,11 @@ module.exports = {
 
             const { createReadStream, filename, mimetype, encoding } = await file;
             console.log(`mutation | singleUpload: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
-            return await uploadImage(createReadStream, filename, mimetype, encoding)
+            let image = await uploadImage(createReadStream, filename, mimetype, encoding)
+            let thumbnailUrl = await getResizedImage(image._id, THUMBNAIL_WIDTH)
+            image.thumbnailUrl = thumbnailUrl;
+            await image.save()
+            return image
         },
 
         updateImage: async (parent, args, context, info) => {

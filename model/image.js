@@ -16,6 +16,8 @@ const schema = new Schema({
     s3BucketName: String,
     s3ObjectKey: String,
 
+    thumbnailUrl: String,
+
     contentMap: {
         type: Map,
         of: { type: Schema.Types.ObjectId, ref: 'ImageContent' }
