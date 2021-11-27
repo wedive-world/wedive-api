@@ -29,7 +29,7 @@ const schema = new Schema({
     hours: Number,
     days: Number,
 
-    briefIcon: { type: Schema.Types.ObjectId, ref: 'Product' },
+    briefIcon: { type: Schema.Types.ObjectId, ref: 'Image' },
     cautions: [String],
 
     createdAt: Date,
