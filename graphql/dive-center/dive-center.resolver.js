@@ -96,21 +96,23 @@ module.exports = {
                 diveCenter.updatedAt = Date.now()
             }
 
+            if (diveCenter.divePoints) {
+                await diveCenter.populate('divePoints')
+                diveCenter.divePoints.forEach(divePoint => {
+                    if (!diveCenter.diveSites) {
+                        diveCenter.diveSites = [];
+                    }
+
+                    if (diveCenter.diveSites.includes(divePoint.diveSiteId)) {
+                        return;
+                    }
+
+                    diveCenter.diveSites.push(divePoint.diveSiteId)
+                });
+            }
+
             diveCenter = translator.translateIn(diveCenter, args.input, languageCode)
             await diveCenter.save()
-
-            let diveSite = await DiveSite.findOne({ _id: diveCenter.diveSiteId })
-            if (diveSite) {
-                if (!diveSite.diveCenters) {
-                    diveSite.diveCenters = []
-                }
-
-                if (!diveSite.diveCenters.includes(diveCenter._id)) {
-                    diveSite.diveCenters.push(diveCenter._id)
-                }
-
-                await diveSite.save()
-            }
 
             let result = await DiveCenter.findOne({ _id: diveCenter._id })
                 .lean()
