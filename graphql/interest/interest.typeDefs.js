@@ -89,6 +89,7 @@ enum InterestType {
   """센터 시설정보 (주차, WIFI..)"""facility,
   """센터 지원언어"""language,
   """센터 결재방법"""payment,
+  """교육 product 포함사항"""eduInclude,
 }
 
 interface MonthlyInterest {

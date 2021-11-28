@@ -78,9 +78,10 @@ input DiveCenterInput {
 
 enum ProductType {
   education
+  fun
+  experience
   course
   rental
-  meal
   ticket
 }
 
