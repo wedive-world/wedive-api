@@ -29,6 +29,8 @@ const schema = new Schema({
     hours: Number,
     days: Number,
 
+    interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    
     briefIcon: { type: Schema.Types.ObjectId, ref: 'Image' },
     cautions: [String],
 
