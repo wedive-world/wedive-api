@@ -1,0 +1,24 @@
+{
+    "family": "wedive-api",
+    "executionRoleArn": "arn:aws:iam::681728264552:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "wedive-api",
+            "image": "681728264552.dkr.ecr.ap-northeast-2.amazonaws.com/wedive-container-image-repo:latest",
+            "portMappings": [
+                {
+                    "containerPort": 4000,
+                    "hostPort": 4000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+}
