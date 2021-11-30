@@ -57,8 +57,8 @@ module.exports = {
     }
 };
 
-async function getHightlights(languageCode, highlights) {
-    let highlights = await Highlight.find({ _id: { $in: highlights } })
+async function getHightlights(languageCode, highlightIds) {
+    let highlights = await Highlight.find({ _id: { $in: highlightIds } })
         .lean();
     return highlights.map(highlight => translator.translateOut(highlight, languageCode));
 }
