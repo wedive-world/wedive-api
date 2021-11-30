@@ -11,10 +11,13 @@ module.exports = {
 
     DivePoint: {
         async highlights(parent, args, context, info) {
-            let languageCode = context.languageCode
-            let highlights = await Highlight.find({ _id: { $in: parent.highlights } })
-                .lean()
-            return highlights.map(highlight => translator.translateOut(highlight, languageCode))
+            return await getHightlights(context.languageCode, parent.highlights);
+        },
+    },
+
+    DiveSite: {
+        async highlights(parent, args, context, info) {
+            return await getHightlights(context.languageCode, parent.highlights);
         },
     },
 
@@ -53,3 +56,9 @@ module.exports = {
         },
     }
 };
+
+async function getHightlights(languageCode, highlights) {
+    let highlights = await Highlight.find({ _id: { $in: highlights } })
+        .lean();
+    return highlights.map(highlight => translator.translateOut(highlight, languageCode));
+}

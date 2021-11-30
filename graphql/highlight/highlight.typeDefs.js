@@ -30,4 +30,11 @@ input DivePointInput {
   highlights: [ID]
 }
 
+type DiveSite {
+  highlights: [Highlight]
+}
+
+input DiveSiteInput {
+  highlights: [ID]
+}
 `;
