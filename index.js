@@ -46,6 +46,7 @@ async function startServer() {
   const app = express();
   // This middleware should be added before calling `applyMiddleware`.
   app.use(graphqlUploadExpress({ maxFileSize: 100000000, maxFiles: 10 }),);
+  app.use('/healthcheck', require('express-healthcheck')())
 
   server.applyMiddleware({ app });
 
