@@ -9,13 +9,11 @@ const BUCKET_NAME = process.env.IMAGE_BUCKET_NAME
 
 console.log(`============ENV_LIST of image-resolver.js============`)
 console.log(`pwd=${process.env.PWD}`)
-console.log(`END_POINT=${END_POINT}`)
 console.log(`REGION=${REGION}`)
 console.log(`BUCKET_NAME=${BUCKET_NAME}`)
 console.log(`=====================================================`)
 
 const s3 = new AWS.S3({
-    endpoint: END_POINT,
     region: REGION,
     accesKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -367,7 +365,7 @@ async function getResizedImage(imageId, width) {
         await fs.rmdirSync(originTmpDirPath)
     }
 
-    return `https://${imageContent.s3BucketName}.${imageContent.s3Region}.linodeobjects.com/${imageContent.s3ObjectKey}`
+    return `https://${imageContent.s3BucketName}.s3.${imageContent.s3Region}.${imageContent.s3EndPoint}/${imageContent.s3ObjectKey}`
 }
 
 async function download(url, dest) {
