@@ -31,7 +31,7 @@ const { finished } = require('stream/promises');
 
 const fs = require('fs')
 const sharp = require('sharp')
-const http = require('http')
+const https = require('https')
 
 const TMP_DIR_PATH = `tmp/image/` //must end with '/'
 const ORIGIN_IMAGE_DIR_PATH = `image/origin/` //must end with '/'
@@ -374,7 +374,7 @@ async function download(url, dest) {
 
     /* Using Promises so that we can use the ASYNC AWAIT syntax */
     await new Promise((resolve, reject) => {
-        http.get(url, resp =>
+        https.get(url, resp =>
             resp.pipe(fs.createWriteStream(dest))
                 .on('finish', async () => {
                     console.log(`query | download: finished - ${dest}`);
