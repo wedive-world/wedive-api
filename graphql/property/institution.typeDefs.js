@@ -3,17 +3,42 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
 enum InstitutionType {
-    AIDA
-    CMAS
     PADI
+    NAUI
+    BSAC
+    CMAS
     SSI
+    NDL
+    SDI_TDI
+    IANTD
+    KUDA
+    NASE
+    YMCA
+    AIDA
     AA
-    KF
-    UTA
+    Molchanovs
     RAID
+    UTA
     SNSI
-    MOLCHANOVA
     AFIA
+    KF
+    UTR
+    PSS
+    NASDS
+    IDA_WDA
+    IDDA
+    IAC
+    ACUC
+    VIT
+    PDIC International
+    RSTC
+    DDI
+    IAHD
+    MDEA
+    ANDI
+    GUE
+    PSAI
+    SEI
 }
 
 type DiveCenter {
