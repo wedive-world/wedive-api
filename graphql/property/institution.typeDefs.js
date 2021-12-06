@@ -43,12 +43,12 @@ enum InstitutionType {
     PSS
     NASDS
     IDEA_WDA
-    IDDA 
-    IAC 
-    VIT 
+    IDDA
+    IAC
+    VIT
     PDIC
-    DDI
     RSTC
+    DDI
     IAHD
     MDEA
     ANDI
@@ -105,12 +105,12 @@ enum ScubaLicenseType {
     PSS
     NASDS
     IDEA_WDA
-    IDDA 
-    IAC 
-    VIT 
+    IDDA
+    IAC
+    VIT
     PDIC
-    DDI
     RSTC
+    DDI
     IAHD
     MDEA
     ANDI
@@ -159,12 +159,12 @@ enum FreeLicenseType {
     PSS
     NASDS
     IDEA_WDA
-    IDDA 
-    IAC 
-    VIT 
+    IDDA
+    IAC
+    VIT
     PDIC
-    DDI
     RSTC
+    DDI
     IAHD
     MDEA
     ANDI
