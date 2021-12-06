@@ -339,7 +339,7 @@ async function getResizedImage(imageId, width) {
         var uploadParams = {
             Bucket: BUCKET_NAME,
             Key: `${RESIZED_IMAGE_DIR_PATH}${imageContent._id}.${ext}`,
-            ACL: 'public-read',
+            // ACL: 'public-read',
             Body: fs.createReadStream(resizedTmpFilePath),
         };
 
