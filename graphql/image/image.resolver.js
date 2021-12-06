@@ -350,22 +350,23 @@ async function getResizedImage(imageId, width) {
             let result = await s3.putObject(uploadParams).promise()
             console.log(`result=${JSON.stringify(result.$response.data)}`)
 
+            await imageContent.save()
+            if (!image.contentMap) {
+                image.contentMap = new Map()
+            }
+            image.contentMap.set(width.toString(), imageContent._id)
+            await image.save()
+    
+            await fs.rmSync(resizedTmpFilePath)
+            await fs.rmdirSync(originTmpDirPath)
+
+            return `https://${imageContent.s3BucketName}.s3.${imageContent.s3Region}.${imageContent.s3EndPoint}/${imageContent.s3ObjectKey}`
+
         } catch (err) {
             console.log(`query | getResizedImage: putObject err=${err}}`)
+            return null;
         }
-
-        await imageContent.save()
-        if (!image.contentMap) {
-            image.contentMap = new Map()
-        }
-        image.contentMap.set(width.toString(), imageContent._id)
-        await image.save()
-
-        await fs.rmSync(resizedTmpFilePath)
-        await fs.rmdirSync(originTmpDirPath)
     }
-
-    return `https://${imageContent.s3BucketName}.s3.${imageContent.s3Region}.${imageContent.s3EndPoint}/${imageContent.s3ObjectKey}`
 }
 
 async function download(url, dest) {
