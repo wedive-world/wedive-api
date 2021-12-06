@@ -6,11 +6,13 @@ require('dotenv').config({ path: process.env.PWD + '/wedive-secret/aws-secret.en
 const END_POINT = process.env.IMAGE_BUCKET_END_POINT
 const REGION = process.env.IMAGE_BUCKET_REGION
 const BUCKET_NAME = process.env.IMAGE_BUCKET_NAME
+const IMAGE_CDN_DNS = process.env.IMAGE_CDN_DNS
 
 console.log(`============ENV_LIST of image-resolver.js============`)
 console.log(`pwd=${process.env.PWD}`)
 console.log(`REGION=${REGION}`)
 console.log(`BUCKET_NAME=${BUCKET_NAME}`)
+console.log(`IMAGE_CDN_DNS=${IMAGE_CDN_DNS}`)
 console.log(`=====================================================`)
 
 const s3 = new AWS.S3({
@@ -283,7 +285,7 @@ async function getResizedImage(imageId, width) {
         return null
     }
 
-    // console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
+    console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
 
     if (!image.contentMap) {
         image.contentMap = new Map()
@@ -298,7 +300,9 @@ async function getResizedImage(imageId, width) {
 
         // console.log(`imageContent=${JSON.stringify(imageContent)}`)
 
-    } else {
+    } 
+    
+    if (imageContent == null) {
         const ext = image.s3ObjectKey.split('.').pop()
 
         imageContent = new ImageContent({
@@ -314,21 +318,20 @@ async function getResizedImage(imageId, width) {
             Key: image.s3ObjectKey,
             Expires: 300
         }
-        // console.log(`query | getResizedImage: getOriginImageParams=${JSON.stringify(getOriginImageParams)}`)
+        console.log(`query | getResizedImage: getOriginImageParams=${JSON.stringify(getOriginImageParams)}`)
 
         let signedUrl = await s3.getSignedUrlPromise('getObject', getOriginImageParams)
-        // console.log(`query | getResizedImage: signedUrl=${signedUrl}`)
+        console.log(`query | getResizedImage: signedUrl=${signedUrl}`)
 
         let originTmpDirPath = `${TMP_DIR_PATH}${imageContent._id}/`
         await fs.mkdirSync(originTmpDirPath, { recursive: true })
 
         let originTmpFilePath = `${originTmpDirPath}${image._id}.${ext}`
-        // http.get(signedUrl, resp => resp.pipe(fs.createWriteStream(originTmpFilePath)));
         await download(signedUrl, originTmpFilePath)
 
         let resizedTmpFilePath = `${originTmpDirPath}${imageContent._id}.${ext}`
 
-        // console.log(`query | getResizedImage: originTmpFilePath=${originTmpFilePath}, resizedTmpFilePath=${resizedTmpFilePath}`)
+        console.log(`query | getResizedImage: originTmpFilePath=${originTmpFilePath}, resizedTmpFilePath=${resizedTmpFilePath}`)
 
         await sharp(originTmpFilePath)
             .resize(width)
@@ -360,7 +363,8 @@ async function getResizedImage(imageId, width) {
             await fs.rmSync(resizedTmpFilePath)
             await fs.rmdirSync(originTmpDirPath)
 
-            return `https://${imageContent.s3BucketName}.s3.${imageContent.s3Region}.${imageContent.s3EndPoint}/${imageContent.s3ObjectKey}`
+            // return `https://${imageContent.s3BucketName}.s3.${imageContent.s3Region}.${imageContent.s3EndPoint}/${imageContent.s3ObjectKey}`
+            return `${IMAGE_CDN_DNS}/${imageContent.s3ObjectKey}`
 
         } catch (err) {
             console.log(`query | getResizedImage: putObject err=${err}}`)
