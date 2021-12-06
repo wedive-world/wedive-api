@@ -42,10 +42,10 @@ enum InstitutionType {
     PSAI
     PSS
     NASDS
-    IDEA–WDA
-    IDDA 
-    IAC 
-    VIT 
+    IDEA_WDA
+    IDDA
+    IAC
+    VIT
     PDIC
     RSTC
     DDI
@@ -104,10 +104,10 @@ enum ScubaLicenseType {
     PSAI
     PSS
     NASDS
-    IDEA–WDA
-    IDDA 
-    IAC 
-    VIT 
+    IDEA_WDA
+    IDDA
+    IAC
+    VIT
     PDIC
     RSTC
     DDI
@@ -158,10 +158,10 @@ enum FreeLicenseType {
     PSAI
     PSS
     NASDS
-    IDEA–WDA
-    IDDA 
-    IAC 
-    VIT 
+    IDEA_WDA
+    IDDA
+    IAC
+    VIT
     PDIC
     RSTC
     DDI
