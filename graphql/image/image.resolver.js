@@ -139,7 +139,7 @@ module.exports = {
                 ...image
             }
 
-            console.log(`query | getResizedImageById: _id=${args._id}, width=${args.width}, result=${result}`)
+            console.log(`query | getResizedImageById: _id=${args._id}, width=${args.width}, result=${JSON.stringify(result)}`)
             return result
         },
 
@@ -356,7 +356,7 @@ async function getResizedImage(imageId, width) {
             }
             image.contentMap.set(width.toString(), imageContent._id)
             await image.save()
-    
+
             await fs.rmSync(resizedTmpFilePath)
             await fs.rmdirSync(originTmpDirPath)
 
