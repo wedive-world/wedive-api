@@ -386,7 +386,7 @@ async function download(url, dest) {
         )
     })
         .catch((error) => {
-            console.log(`query | download: Something happened: ${error} `);
+            console.log(`query | download: url: ${url} Something happened: ${error}`);
         });
 }
 
