@@ -5,39 +5,54 @@ module.exports = gql`
 enum InstitutionType {
     PADI
     NAUI
-    BSAC
+    DAN
+    RAID
+    AFIA
+    AIDA
     CMAS
+    MOLCHANOVS
+    SNSI
     SSI
-    NDL
-    SDI_TDI
+    UTA
+    ACUC
+    BDSG
+    BHA
+    BSAC
+    DDRC
+    GADAP
     IANTD
+    IDA
+    IDEST
+    IRISH
+    LIFEBOATS
+    NOB
+    SAA
+    SDI
+    SITA
+    SSAC
+    TDI
+    UKDMC
+    NDL
     KUDA
     NASE
     YMCA
-    AIDA
     AA
-    Molchanovs
-    RAID
-    UTA
-    SNSI
-    AFIA
     KF
     UTR
+    PSAI
     PSS
     NASDS
-    IDA_WDA
-    IDDA
-    IAC
-    ACUC
-    VIT
-    PDIC International
+    IDEA–WDA
+    IDDA 
+    IAC 
+    VIT 
+    PDIC
     RSTC
     DDI
     IAHD
     MDEA
     ANDI
     GUE
-    PSAI
     SEI
 }
 
@@ -52,78 +67,108 @@ input DiveCenterInput {
 enum ScubaLicenseType {
     PADI
     NAUI
-    BSAC
+    DAN
+    RAID
+    AFIA
+    AIDA
     CMAS
+    MOLCHANOVS
+    SNSI
     SSI
-    NDL
-    SDI_TDI
+    UTA
+    ACUC
+    BDSG
+    BHA
+    BSAC
+    DDRC
+    GADAP
     IANTD
+    IDA
+    IDEST
+    IRISH
+    LIFEBOATS
+    NOB
+    SAA
+    SDI
+    SITA
+    SSAC
+    TDI
+    UKDMC
+    NDL
     KUDA
     NASE
     YMCA
-    AIDA
     AA
-    Molchanovs
-    RAID
-    UTA
-    SNSI
-    AFIA
     KF
     UTR
+    PSAI
     PSS
     NASDS
-    IDA_WDA
-    IDDA
-    IAC
-    ACUC
-    VIT
-    PDIC International
+    IDEA–WDA
+    IDDA 
+    IAC 
+    VIT 
+    PDIC
     RSTC
     DDI
     IAHD
     MDEA
     ANDI
     GUE
-    PSAI
     SEI
 }
 
 enum FreeLicenseType {
     PADI
     NAUI
-    BSAC
+    DAN
+    RAID
+    AFIA
+    AIDA
     CMAS
+    MOLCHANOVS
+    SNSI
     SSI
-    NDL
-    SDI_TDI
+    UTA
+    ACUC
+    BDSG
+    BHA
+    BSAC
+    DDRC
+    GADAP
     IANTD
+    IDA
+    IDEST
+    IRISH
+    LIFEBOATS
+    NOB
+    SAA
+    SDI
+    SITA
+    SSAC
+    TDI
+    UKDMC
+    NDL
     KUDA
     NASE
     YMCA
-    AIDA
     AA
-    Molchanovs
-    RAID
-    UTA
-    SNSI
-    AFIA
     KF
     UTR
+    PSAI
     PSS
     NASDS
-    IDA_WDA
-    IDDA
-    IAC
-    ACUC
-    VIT
-    PDIC International
+    IDEA–WDA
+    IDDA 
+    IAC 
+    VIT 
+    PDIC
     RSTC
     DDI
     IAHD
     MDEA
     ANDI
     GUE
-    PSAI
     SEI
 }
 
