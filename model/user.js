@@ -5,7 +5,7 @@ const schema = new Schema({
 
     firebaseUid: { type: String, unique: true, index: true },
     fcmToken: String,
-    email: { type: String, match: /.+\@.+@..+/ },
+    email: String,
     emailVerified: Boolean,
     phoneNumber: String,
     phoneNumberVerified: Boolean,
