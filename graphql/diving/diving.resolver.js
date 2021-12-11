@@ -8,6 +8,7 @@ const DiveCenter = schema.DiveCenter
 
 const Interest = schema.Interest
 const Image = schema.Image
+const User = schma.User
 
 const translator = require('../common/util/translator')
 
