@@ -61,11 +61,19 @@ type DiveSite {
     highlightDescription: String
   }
 
-type DiveCenter {
+  type DiveCenter {
   diveSites: [DiveSite]
 }
 
 input DiveCenterInput {
+  divesites: [ID]
+}
+
+type Diving {
+  diveSites: [DiveSite]
+}
+
+input DivingInput {
   divesites: [ID]
 }
 `;

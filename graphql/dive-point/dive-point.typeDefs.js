@@ -68,4 +68,12 @@ type DiveCenter {
 input DiveCenterInput {
   divePoints: [ID]
 }
+
+type Diving {
+  divePoints: [DivePoint]
+}
+
+input DivingInput {
+  divePoints: [ID]
+}
 `;

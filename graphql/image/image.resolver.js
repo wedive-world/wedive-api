@@ -104,6 +104,12 @@ module.exports = {
         },
     },
 
+    Diving: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+    },
+
     InstructorVerification: {
         async instructorLicenseImage(parent, args, context, info) {
             return await getImageById(parent.instructorLicenseImage)

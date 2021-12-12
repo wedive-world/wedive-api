@@ -22,6 +22,14 @@ module.exports = {
         }
     },
 
+    Diving: {
+        async diveCenters(parent, args, context, info) {
+            let languageCode = context.languageCode
+            let diveCenters = await DiveCenter.find({ diveSites: { $in: parent._id } }).lean()
+            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
+        }
+    },
+
     Query: {
         // async ___DiveCenters(parent, args, context, info) { },
         async getAllDiveCenters(parent, args, context, info) {

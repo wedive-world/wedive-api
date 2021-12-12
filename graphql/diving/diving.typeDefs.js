@@ -18,28 +18,19 @@ type Mutation {
   joinDiving(divingId: ID!): Response!
 }
 
-
 type Diving {
     _id: ID!
 
     title: String
     description: String
     status: DivingStatus!
+    type: DivingType
 
-    hostUser: User!
     participants: [Participant]
     maxPeopleNumber: Int
 
-    interests: [Interest]
-
-    diveSites: [DiveSite]
-    divePoints: [DivePoint]
-    diveCenters: [DiveCenter]
-
     startedAt: Date
     finishedAt: Date
-
-    images: [Image]
 
     createdAt: Date
     updatedAt: Date
@@ -50,22 +41,14 @@ type Diving {
 
     title: String
     description: String
-
     status: DivingStatus
+    type: DivingType
 
-    hostUser: ID!
     participants: [ParticipantInput]
-
-    interests: [ID]
-
-    diveSites: [ID]
-    divePoints: [ID]
-    diveCenters: [ID]
+    maxPeopleNumber: Int
 
     startedAt: Date
     finishedAt: Date
-
-    images: [ID]
 
     createdAt: Date
     updatedAt: Date

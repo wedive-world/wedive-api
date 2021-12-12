@@ -20,71 +20,80 @@ type Mutation {
 }
 
 type User {
-    _id: ID!
+  _id: ID!
 
-    firebaseUid: String!
-    fcmToken: String
-    email: String
-    emailVerified: Boolean
-    phoneNumber: String
-    phoneNumberVerified: Boolean
+  firebaseUid: String!
+  fcmToken: String
+  email: String
+  emailVerified: Boolean
+  phoneNumber: String
+  phoneNumberVerified: Boolean
 
-    profileImages: [Image]
-    nickName: String
-    name: String
+  profileImages: [Image]
+  nickName: String
+  name: String
 
-    birthAge: Int
-    gender: Gender
-    residence: String
+  birthAge: Int
+  gender: Gender
+  residence: String
 
-    interests: [Interest]
+  interests: [Interest]
 
-    divingLog: Int
-    freeDivingBests: [StringEntry]
+  divingLog: Int
+  freeDivingBests: [StringEntry]
 
-    createdAt: Date
-    updatedAt: Date
-  }
+  createdAt: Date
+  updatedAt: Date
+}
 
-  input UserInput {
-    _id: ID
+input UserInput {
+  _id: ID
 
-    name: String
-    nickName: String
-    email: String
+  name: String
+  nickName: String
+  email: String
 
-    birthAge: Int
-    gender: Gender
+  birthAge: Int
+  gender: Gender
 
-    instructors: [ID]
-    profileImages: [ID]
+  instructors: [ID]
+  profileImages: [ID]
 
-    divingLog: Int
-    freeDivingBest: [StringEntryInput]
+  divingLog: Int
+  freeDivingBest: [StringEntryInput]
 
-    interests: [ID]
-  }
+  interests: [ID]
+}
 
-  enum Gender {
-    m
-    f
-  }
+enum Gender {
+  m
+  f
+}
 
-  type InstructorVerification {
-    user: User
-  }
+type InstructorVerification {
+  user: User
+}
 
-  input InstructorVerificationInput {
-    user: ID!
-  }
+input InstructorVerificationInput {
+  user: ID!
+}
 
-  type Instructor {
-    _id: ID,
-    user: User,
-    gender: Int,
-    description: String
-    languageCodes: [String]
-    createdAt: Date
-    updatedAt: Date
-  }
+type Instructor {
+  _id: ID,
+  user: User,
+  gender: Int,
+  description: String
+  languageCodes: [String]
+  createdAt: Date
+  updatedAt: Date
+}
+
+type Diving {
+  hostUser: User!
+}
+
+input DivingInput {
+  hostUser: ID!
+}
+
 `;

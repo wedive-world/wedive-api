@@ -28,6 +28,17 @@ module.exports = {
         },
     },
 
+    Diving: {
+        async diveSites(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            let diveSites = await DiveSite.find({ _id: { $in: parent.diveSites } })
+                .lean()
+
+            return diveSites.map(diveSite => translator.translateOut(diveSite, languageCode))
+        },
+    },
+
     Query: {
         async getAllDiveSites(parent, args, context, info) {
 

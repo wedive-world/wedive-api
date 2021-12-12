@@ -19,6 +19,12 @@ module.exports = {
         },
     },
 
+    Diving: {
+        async divePoints(parent, args, context, info) {
+            return await getDivePointsByIds(context.languageCode, parent.divePoints)
+        },
+    },
+
     Query: {
         async getAllDivePoints(parent, args, context, info) {
 

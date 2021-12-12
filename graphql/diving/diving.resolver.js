@@ -1,58 +1,10 @@
-const schema = require('../../model').schema;
-
-const Diving = schema.Diving
-
-const DivePoint = schema.DivePoint
-const DiveSite = schema.DiveSite
-const DiveCenter = schema.DiveCenter
-
-const Interest = schema.Interest
-const Image = schema.Image
-//const User = schma.User
+const {
+    Diving
+} = require('../../model').schema;
 
 const translator = require('../common/util/translator')
 
 module.exports = {
-
-    Diving: {
-        async hostUser(parent, args, context, info) {
-            return await User.find({ _id: parent.hostUser })
-                .lean()
-        },
-
-        async participants(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.interests } })
-                .lean()
-        },
-
-        async interests(parent, args, context, info) {
-            return await Interest.find({ _id: { $in: parent.interests } })
-                .lean()
-        },
-
-        async diveSites(parent, args, context, info) {
-            const countryCode = context.countryCode
-            let resultList = await DiveSite.find({ _id: { $in: parent.diveSites } })
-            return resultList.map(diveSite => translator.translateOut(diveSite, languageCode))
-        },
-
-        async divePoints(parent, args, context, info) {
-            const countryCode = context.countryCode
-            let resultList = await DivePoint.find({ _id: { $in: parent.divePoints } })
-            return resultList.map(divePoint => translator.translateOut(divePoint, languageCode))
-        },
-
-        async diveCenters(parent, args, context, info) {
-            const countryCode = context.countryCode
-            let resultList = await DiveCenter.find({ _id: { $in: parent.diveCenters } })
-            return resultList.map(diveCenter => translator.translateOut(diveCenter, languageCode))
-        },
-
-        async images(parent, args, context, info) {
-            return await Image.find({ _id: { $in: parent.images } })
-                .lean()
-        },
-    },
 
     Query: {
         async getAllDivings(parent, args, context, info) {

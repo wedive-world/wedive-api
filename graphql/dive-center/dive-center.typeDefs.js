@@ -85,4 +85,11 @@ type DivePoint {
     diveCenters: [DiveCenter]
 }
 
+type Diving {
+    diveCenters: [DiveCenter]
+}
+
+input DivingInput {
+    diveCenters: [ID]
+}
 `;

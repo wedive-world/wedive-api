@@ -123,4 +123,13 @@ input ProductInput {
 type User {
     instructorLicenseImages: [Image]
 }
+
+type Diving {
+    images: [Image]
+}
+
+input DivingInput {
+    images: [ID]
+}
+
 `;

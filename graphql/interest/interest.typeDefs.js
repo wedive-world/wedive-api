@@ -140,5 +140,12 @@ input ProductInput {
   interests: [ID]
 }
 
+type Diving {
+  interests: [Interest]
+}
+
+input DivingInput {
+  interests: [ID]
+}
 
 `;
