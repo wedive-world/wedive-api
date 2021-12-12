@@ -19,7 +19,7 @@ module.exports = {
         },
 
         async getDivingsByHostUserId(parent, args, context, info) {
-            return await Diving.findOne({ hostUser: args.hostUserId })
+            return await Diving.find({ hostUser: args.hostUserId })
                 .lean()
         },
     },
