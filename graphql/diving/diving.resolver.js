@@ -14,12 +14,12 @@ module.exports = {
         },
 
         async getDivingById(parent, args, context, info) {
-            return await Diving.find({ _id: args._id })
+            return await Diving.findOne({ _id: args._id })
                 .lean()
         },
 
         async getDivingsByHostUserId(parent, args, context, info) {
-            return await Diving.find({ hostUser: args.hostUserId })
+            return await Diving.findOne({ hostUser: args.hostUserId })
                 .lean()
         },
     },

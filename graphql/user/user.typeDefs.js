@@ -22,8 +22,12 @@ type Mutation {
 type User {
   _id: ID!
 
-  firebaseUid: String!
+  uid: String
+  authProvider: AuthProvider
+  oauthToken: String
+
   fcmToken: String
+
   email: String
   emailVerified: Boolean
   phoneNumber: String
@@ -49,6 +53,10 @@ type User {
 input UserInput {
   _id: ID
 
+  uid: String
+  authProvider: AuthProvider
+  oauthToken: String
+
   name: String
   nickName: String
   email: String
@@ -63,6 +71,10 @@ input UserInput {
   freeDivingBest: [StringEntryInput]
 
   interests: [ID]
+}
+
+enum AuthProvider {
+  firebase
 }
 
 enum Gender {

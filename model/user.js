@@ -3,8 +3,12 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
 
-    firebaseUid: { type: String, unique: true, index: true },
+    uid: { type: String, unique: true, index: true },
+    authProvider: String,
+    oauthToken: String,
+
     fcmToken: String,
+
     email: String,
     emailVerified: Boolean,
     phoneNumber: String,
