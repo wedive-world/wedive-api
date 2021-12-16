@@ -25,7 +25,11 @@ module.exports = {
 
         async getUserByEmail(parent, args, context, info) {
             return await User.findOne({ email: args.email })
-        }
+        },
+
+        async getUserByNickName(parent, args, context, info) {
+            return await User.findOne({ nickName: args.nickName })
+        },
     },
 
     Mutation: {
