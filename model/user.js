@@ -26,6 +26,11 @@ const schema = new Schema({
 
     divingLog: Number,
     freeDivingBests: { type: Map, of: String },
+    freeLicenceseLevel: String,
+    freeLicenceType: String,
+  
+    scubaLicenceseLevel: String,
+    scubaLicenceType: String,
 
     instructorLicenseImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
     instructorTypes: [String],

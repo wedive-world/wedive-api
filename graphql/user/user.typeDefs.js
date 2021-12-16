@@ -44,7 +44,13 @@ type User {
   interests: [Interest]
 
   divingLog: Int
+
   freeDivingBests: [StringEntry]
+  freeLicenceseLevel: String
+  freeLicenceType: String
+
+  scubaLicenceseLevel: String
+  scubaLicenceType: String
 
   createdAt: Date
   updatedAt: Date
@@ -57,20 +63,29 @@ input UserInput {
   authProvider: AuthProvider
   oauthToken: String
 
-  name: String
-  nickName: String
   email: String
+  phoneNumber: String
+
+  profileImages: [ID]
+  nickName: String
+  name: String
 
   birthAge: Int
   gender: Gender
+  residence: String
 
   instructors: [ID]
-  profileImages: [ID]
-
-  divingLog: Int
-  freeDivingBest: [StringEntryInput]
 
   interests: [ID]
+
+  divingLog: Int
+
+  freeDivingBest: [StringEntryInput]
+  freeLicenceseLevel: String
+  freeLicenceType: String
+
+  scubaLicenceseLevel: String
+  scubaLicenceType: String
 }
 
 enum AuthProvider {
