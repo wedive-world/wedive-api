@@ -5,6 +5,8 @@ const schema = new Schema({
 
     instructorLicenseImage: { type: Schema.Types.ObjectId, ref: 'Image' },
     instructorType: String,
+    phoneNumber: String,
+    email: String,
     isVerified: Boolean,
     verificationReason: String,
 

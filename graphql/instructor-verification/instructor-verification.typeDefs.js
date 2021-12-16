@@ -12,6 +12,8 @@ type InstructorVerification {
 
     instructorLicenseImage: Image
     instructorType: DivingType
+    phoneNumber: String
+    email: String
     isVerified: Boolean
     verificationReason: String
 
@@ -24,6 +26,8 @@ type InstructorVerification {
 
     instructorLicenseImage: ID
     instructorType: DivingType
+    phoneNumber: String
+    email: String
     isVerified: Boolean
     verificationReason: String
   }
