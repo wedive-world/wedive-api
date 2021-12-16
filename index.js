@@ -13,7 +13,16 @@ const {
 const schema = require('./graphql/schema')
 const connectDB = require("./model");
 
+const {
+  initializeApp,
+  auth
+} = require('firebase-admin/app');
+
+require('dotenv').config({ path: process.env.PWD + '/wedive-secret/firebase-admin/firebase-admin.env' })
+
 async function startServer() {
+
+  initializeApp();
 
   const server = new ApolloServer({
     schema: schema,
@@ -24,20 +33,17 @@ async function startServer() {
       //   throw new AuthenticationError("mssing token");
       // }
 
-      // const token = req.headers.authorization.substr(7);
-      // const user = users.find((user) => user.token === token);
+      // let decodedToken = await admin.auth()
+      //   .verifyIdToken(idToken)
+      // const uid = decodedToken.uid;
 
       // if (!user) {
       //   throw new AuthenticationError("invalid token");
       // }
 
-      // console.log(`context | countryCode: ${JSON.stringify(req.headers.countrycode)}`)
-      // console.log(`context | Bearer: ${JSON.stringify(req.headers.Bearer)}`)
-      // console.log(`context | headers: ${JSON.stringify(req.headers)}`)
-
       return {
         languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
-        user: undefined
+        // uid: uid
       }
     }
   });
