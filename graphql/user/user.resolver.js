@@ -10,7 +10,7 @@ module.exports = {
 
     Diving: {
         async hostUser(parent, args, context, info) {
-            return await await User.findOne({ _id: parent.user });
+            return await await User.findOne({ _id: parent.hostUser });
         },
     },
 
