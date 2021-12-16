@@ -74,6 +74,6 @@ type Diving {
 }
 
 input DivingInput {
-  divesites: [ID]
+  diveSites: [ID]
 }
 `;
