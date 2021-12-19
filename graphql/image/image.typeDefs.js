@@ -10,11 +10,11 @@ scalar Upload
 type Query {
 
     QUERY_________Images_________: Image
-    getImageUrlById(_id: ID!, width: Int): String @cacheControl(maxAge: 86400)
-    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] @cacheControl(maxAge: 86400)
+    getImageUrlById(_id: ID!, width: Int): String @cacheControl(maxAge: 60)
+    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] @cacheControl(maxAge: 60)
 
-    getResizedImageById(_id: ID!, width: Int): ResizedImage @cacheControl(maxAge: 86400)
-    getResizedImagesByIds(_ids: [ID], widths: [Int]): [ResizedImage] @cacheControl(maxAge: 86400)
+    getResizedImageById(_id: ID!, width: Int): ResizedImage @cacheControl(maxAge: 60)
+    getResizedImagesByIds(_ids: [ID], widths: [Int]): [ResizedImage] @cacheControl(maxAge: 60)
 }
 
 type Mutation {
