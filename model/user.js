@@ -25,10 +25,10 @@ const schema = new Schema({
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
 
     divingLog: Number,
-    freeDivingBests: { type: Map, of: String },
+    freeDivingBests: [[String]],
     freeLicenseLevel: String,
     freeLicenseType: String,
-  
+
     scubaLicenseLevel: String,
     scubaLicenseType: String,
 

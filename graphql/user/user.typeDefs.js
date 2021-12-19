@@ -47,7 +47,7 @@ type User {
 
   divingLog: Int
 
-  freeDivingBests: [StringEntry]
+  freeDivingBests: [[String]]
   freeLicenseLevel: String
   freeLicenseType: String
 
@@ -82,7 +82,7 @@ input UserInput {
 
   divingLog: Int
 
-  freeDivingBests: [StringEntryInput]
+  freeDivingBests: [[String]]
   freeLicenseLevel: String
   freeLicenseType: String
 
