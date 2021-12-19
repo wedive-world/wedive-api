@@ -10,6 +10,7 @@ type Query {
   getAllUsers: [User]
   """get only one user by id"""
   getUserById(_id: ID!): User
+  getUserByUId(uid: ID!): User
   getUserByEmail(email: String!): User
   getUserByNickName(nickName: String!): User
 }

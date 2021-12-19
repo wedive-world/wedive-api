@@ -30,6 +30,10 @@ module.exports = {
         async getUserByNickName(parent, args, context, info) {
             return await User.findOne({ nickName: args.nickName })
         },
+
+        async getUserByUid(parent, args, context, info) {
+            return await User.findOne({ uid: args.uid })
+        },
     },
 
     Mutation: {
