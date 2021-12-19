@@ -4,13 +4,13 @@ module.exports = {
 
     InstructorVerification: {
         async user(parent, args, context, info) {
-            return await await User.findOne({ _id: parent.user });
+            return await User.findOne({ _id: parent.user });
         },
     },
 
     Diving: {
         async hostUser(parent, args, context, info) {
-            return await await User.findOne({ _id: parent.hostUser });
+            return await User.findOne({ _id: parent.hostUser });
         },
     },
 
