@@ -1,4 +1,5 @@
 const { User, Instructor } = require('../../model').schema
+const ChatServiceProxy = require('../../proxy/chat-service-proxy')
 
 module.exports = {
 
@@ -42,8 +43,9 @@ module.exports = {
             console.log(`mutation | upsertUser: args=${JSON.stringify(args)}`)
 
             let user = null
+            const isNewUser = !args.input._id
 
-            if (!args.input._id) {
+            if (isNewUser) {
                 user = new User(args.input)
 
             } else {
@@ -53,6 +55,16 @@ module.exports = {
             }
 
             await user.save()
+
+            const chatServiceProxy = new ChatServiceProxy()
+
+            if (isNewUser) {
+                await chatServiceProxy.createUser(user, context.idToken)
+
+            } else {
+
+            }
+
             return user
         },
         async updateFcmToken(parent, args, context, info) {

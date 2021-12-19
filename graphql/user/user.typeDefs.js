@@ -48,11 +48,11 @@ type User {
   divingLog: Int
 
   freeDivingBests: [StringEntry]
-  freeLicenceseLevel: String
-  freeLicenceType: String
+  freeLicenseLevel: String
+  freeLicenseType: String
 
-  scubaLicenceseLevel: String
-  scubaLicenceType: String
+  scubaLicenseseLevel: String
+  scubaLicenseType: String
 
   createdAt: Date
   updatedAt: Date
@@ -82,12 +82,12 @@ input UserInput {
 
   divingLog: Int
 
-  freeDivingBest: [StringEntryInput]
-  freeLicenceseLevel: String
-  freeLicenceType: String
+  freeDivingBests: [StringEntryInput]
+  freeLicenseLevel: String
+  freeLicenseType: String
 
-  scubaLicenceseLevel: String
-  scubaLicenceType: String
+  scubaLicenseseLevel: String
+  scubaLicenseType: String
 }
 
 enum AuthProvider {

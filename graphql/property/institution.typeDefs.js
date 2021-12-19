@@ -172,18 +172,4 @@ enum FreeLicenseType {
     SEI
 }
 
-type User {
-    scubaLicenseType: ScubaLicenseType
-    scubaLicenseLevel: Int
-    freeLicenseType: FreeLicenseType
-    freeLicenseLevel: Int
-}
-
-input UserInput {
-    scubaLicenseType: ScubaLicenseType
-    scubaLicenseLevel: Int
-    freeLicenseType: FreeLicenseType
-    freeLicenseLevel: Int
-}
-
 `
