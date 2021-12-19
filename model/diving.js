@@ -6,7 +6,7 @@ const schema = new Schema({
     title: String,
     description: String,
     status: { type: String, default: 'searchable' },
-    type: String,
+    type: [String],
 
     hostUser: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     maxPeopleNumber: Number,

@@ -24,7 +24,7 @@ type Diving {
     title: String
     description: String
     status: DivingStatus!
-    type: DivingType
+    type: [DivingType]
 
     participants: [Participant]
     maxPeopleNumber: Int
@@ -42,7 +42,7 @@ type Diving {
     title: String
     description: String
     status: DivingStatus
-    type: DivingType
+    type: [DivingType]
 
     participants: [ParticipantInput]
     maxPeopleNumber: Int
