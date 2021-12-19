@@ -26,7 +26,7 @@ const schema = new Schema({
 
     divingLog: Number,
     freeDivingBests: { type: Map, of: String },
-    freeLicenseseLevel: String,
+    freeLicenseLevel: String,
     freeLicenseType: String,
   
     scubaLicenseLevel: String,

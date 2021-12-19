@@ -51,7 +51,7 @@ type User {
   freeLicenseLevel: String
   freeLicenseType: String
 
-  scubaLicenseseLevel: String
+  scubaLicenseLevel: String
   scubaLicenseType: String
 
   createdAt: Date
@@ -86,7 +86,7 @@ input UserInput {
   freeLicenseLevel: String
   freeLicenseType: String
 
-  scubaLicenseseLevel: String
+  scubaLicenseLevel: String
   scubaLicenseType: String
 }
 
