@@ -45,8 +45,8 @@ async function startServer() {
       // }
 
       return {
+        uid: req.headers.uid ? req.headers.uid: 'a4H7anucnXWGBV4QR7FEf7iZYXv2',
         languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
-        // uid: uid
       }
     }
   });
