@@ -38,8 +38,10 @@ async function startServer() {
 
       let decodedToken = await admin.auth()
         .verifyIdToken(req.headers.idtoken)
-        
+
       const uid = decodedToken.uid;
+
+      console.log(`uid=${uid}`)
 
       return {
         uid: uid ? uid : 'a4H7anucnXWGBV4QR7FEf7iZYXv2',
