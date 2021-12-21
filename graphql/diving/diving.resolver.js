@@ -28,7 +28,6 @@ module.exports = {
     Mutation: {
         async upsertDiving(parent, args, context, info) {
             console.log(`mutation | upsertDiving: args=${JSON.stringify(args)}`)
-            //TODO check host user
 
             let diving = null
 
@@ -37,6 +36,12 @@ module.exports = {
 
             } else {
                 diving = await Diving.findOne({ _id: args.input._id })
+                    .populate('hostUser')
+
+                if (context.uid != diving.hostUser.uid) {
+                    console.log(`mutation | upsertDiving: invalid user`)
+                    return null
+                }
 
                 Object.keys(args.input)
                     .filter(key => args.input[key] && typeof diving[key] == typeof args.input[key])
@@ -106,11 +111,6 @@ module.exports = {
             return {
                 success: true
             }
-        },
-
-        async acceptParticipant(parent, args, context, info) {
-            let diving = await Diving.findOne({ _id: args.input._id })
-
         },
     }
 };
