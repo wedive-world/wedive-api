@@ -36,16 +36,14 @@ async function startServer() {
       //   throw new AuthenticationError("mssing token");
       // }
 
-      // let decodedToken = await admin.auth()
-      //   .verifyIdToken(idToken)
-      // const uid = decodedToken.uid;
-
-      // if (!user) {
-      //   throw new AuthenticationError("invalid token");
-      // }
+      let decodedToken = await admin.auth()
+        .verifyIdToken(req.headers.idtoken)
+        
+      const uid = decodedToken.uid;
 
       return {
-        uid: req.headers.uid ? req.headers.uid: 'a4H7anucnXWGBV4QR7FEf7iZYXv2',
+        uid: uid ? uid : 'a4H7anucnXWGBV4QR7FEf7iZYXv2',
+        idToken: idToken,
         languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
       }
     }
