@@ -51,7 +51,7 @@ async function startServer() {
 
       return {
         uid: uid ? uid : 'a4H7anucnXWGBV4QR7FEf7iZYXv2',
-        idToken: idToken,
+        idToken: req.headers.idtoken,
         languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
       }
     }
