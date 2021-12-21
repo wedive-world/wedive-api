@@ -16,6 +16,7 @@ type Mutation {
   upsertDiving(input: DivingInput): Diving!
   deleteDivingById(_id: ID!): ID!
   joinDiving(divingId: ID!): Response!
+  updateParticipantState(divingId: ID!, userId: ID!, status: ParticipantStatus!): Response!
 }
 
 type Diving {

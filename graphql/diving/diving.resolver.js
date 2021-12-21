@@ -1,5 +1,6 @@
 const {
-    Diving
+    Diving,
+    User
 } = require('../../model').schema;
 
 const translator = require('../common/util/translator')
@@ -56,14 +57,60 @@ module.exports = {
         },
 
         async joinDiving(parent, args, context, info) {
-            let diving = await Diving.findOne({ _id: args.input._id })
-            console.log(`mutation | deleteDivingById: result=${JSON.stringify(result)}`)
+            console.log(`mutation | joinDiving: args=${JSON.stringify(args)}`)
 
-            //TODO IMPL
-            return {
-                result: 'fail',
-                reason: 'publicEnded'
+            let diving = await Diving.findOne({ _id: args.input._id })
+                .populate('participants.user')
+
+            if (diving.status != 'searchable') {
+                return {
+                    success: false,
+                    reason: 'publicEnded'
+                }
             }
+
+            let userUid = context.uid
+
+            let userExist = diving.participants
+                .filter(participant => participant.user)
+                .map(participant => participant.user)
+                .find(user => user.uid == userUid)
+
+            if (userExist) {
+                return {
+                    success: false,
+                    reason: 'alreadyApplied'
+                }
+            }
+
+            let user = await User.findOne({ uid: uid })
+                .lean()
+
+            if (diving.hostUser == user._id) {
+                return {
+                    success: false,
+                    reason: 'hostCannotApply'
+                }
+            }
+
+            diving.push({
+                user: user._id,
+                status: applied,
+                name: user.nickName,
+                birth: user.birth,
+                gender: user.gender
+            })
+
+            await diving.save()
+
+            return {
+                success: true
+            }
+        },
+
+        async acceptParticipant(parent, args, context, info) {
+            let diving = await Diving.findOne({ _id: args.input._id })
+
         },
     }
 };

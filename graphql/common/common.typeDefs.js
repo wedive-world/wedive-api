@@ -20,18 +20,8 @@ module.exports = gql`
   }
 
   type Response {
-    result: ResponseResult
-    reason: ResponseReason
-  }
-
-  enum ResponseResult {
-    success
-    fail
-  }
-
-  enum ResponseReason {
-    tooManyPeople
-    publicEnded
+    success: Boolean
+    reason: String
   }
 
   enum CacheControlScope {

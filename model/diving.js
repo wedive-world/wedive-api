@@ -11,11 +11,9 @@ const schema = new Schema({
     hostUser: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     maxPeopleNumber: Number,
     participants: [{
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        },
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
         name: String,
+        status: String,
         birth: Number,
         gender: String,
     }],
