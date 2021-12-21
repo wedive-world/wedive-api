@@ -29,6 +29,9 @@ async function startServer() {
     playground: true,
     introspection: true,
     context: ({ req }) => {
+
+      console.log(`req.headers=${JSON.stringify(req.headers)}`)
+
       // if (!req.headers.authorization) {
       //   throw new AuthenticationError("mssing token");
       // }
