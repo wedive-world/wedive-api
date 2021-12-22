@@ -91,7 +91,7 @@ module.exports = {
             let user = await User.findOne({ uid: userUid })
                 .lean()
 
-            if (diving.hostUser == user._id) {
+            if (user && diving.hostUser == user._id) {
                 return {
                     success: false,
                     reason: 'hostCannotApply'
