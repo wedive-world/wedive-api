@@ -22,6 +22,7 @@ type Mutation {
     MUTATION_________Images_________: Image
     uploadImage(file: Upload!): Image!
     updateImage(input: UpdateImageInput!): Image!
+    updateThmbnailForAllImages: Response
 }
 
 type Image {

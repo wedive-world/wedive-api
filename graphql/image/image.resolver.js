@@ -191,6 +191,21 @@ module.exports = {
 
             return await updateImage(args.input)
         },
+
+        updateThmbnailForAllImages: async (parent, args, context, info) => {
+            console.log(`mutation | updateThmbnailForAllImages`)
+
+            let images = await Image.find()
+            for (image of images) {
+                let thumbnailUrl = await getResizedImage(image._id, THUMBNAIL_WIDTH)
+                image.thumbnailUrl = thumbnailUrl;
+                await image.save()
+            }
+
+            return {
+                'success': true
+            }
+        },
     }
 }
 
