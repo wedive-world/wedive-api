@@ -100,7 +100,7 @@ module.exports = {
 
             diving.participants.push({
                 user: user._id,
-                status: applied,
+                status: 'applied',
                 name: user.nickName,
                 birth: user.birth,
                 gender: user.gender
