@@ -88,7 +88,7 @@ module.exports = {
                 }
             }
 
-            let user = await User.findOne({ uid: uid })
+            let user = await User.findOne({ uid: userUid })
                 .lean()
 
             if (diving.hostUser == user._id) {
