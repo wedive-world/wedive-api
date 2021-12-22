@@ -98,7 +98,7 @@ module.exports = {
                 }
             }
 
-            diving.push({
+            diving.participants.push({
                 user: user._id,
                 status: applied,
                 name: user.nickName,
