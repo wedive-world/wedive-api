@@ -370,13 +370,14 @@ async function getResizedImage(imageId, width) {
             await fs.rmdirSync(originTmpDirPath)
 
             // return `https://${imageContent.s3BucketName}.s3.${imageContent.s3Region}.${imageContent.s3EndPoint}/${imageContent.s3ObjectKey}`
-            return `${IMAGE_CDN_DNS}/${imageContent.s3ObjectKey}`
 
         } catch (err) {
             console.log(`query | getResizedImage: putObject err=${err}}`)
             return null;
         }
     }
+        
+    return `${IMAGE_CDN_DNS}/${imageContent.s3ObjectKey}`
 }
 
 async function download(url, dest) {
