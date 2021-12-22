@@ -37,6 +37,9 @@ const schema = new Schema({
 
     instructorVerifications: [{ type: Schema.Types.ObjectId, ref: 'InstructorVerification' }],
 
+    views: Number,
+    likes: Number,
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

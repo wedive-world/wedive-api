@@ -78,6 +78,9 @@ const schema = new Schema({
     courses: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     rentals: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
 
+    views: Number,
+    likes: Number,
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

@@ -1,49 +1,144 @@
-const schema = require('../../model').schema;
-
-const Diving = schema.Diving
-
-const DivePoint = schema.DivePoint
-const DiveSite = schema.DiveSite
-const DiveCenter = schema.DiveCenter
-
-const Interest = schema.Interest
-const Image = schema.Image
-
-const translator = require('../common/util/translator')
+const {
+    Diving,
+    DivePoint,
+    DiveSite,
+    DiveCenter,
+    Image,
+    User,
+    Like,
+    Subscribe
+} = require('../../model').schema;
 
 module.exports = {
 
-    // Query: {
-    //     async getAllDivings(parent, args, context, info) {
+    //TODO refactor relocate into different resolver
+    UserReaction: {
+        async diveCenters(parent, args, context, info) {
+            return await DiveCenter.find({ _id: { $in: parent.targetIds } }).lean()
+        },
+        async divePoints(parent, args, context, info) {
+            return await DivePoint.find({ _id: { $in: parent.targetIds } }).lean()
+        },
+        async diveSites(parent, args, context, info) {
+            return await DiveSite.find({ _id: { $in: parent.targetIds } }).lean()
+        },
+        async divings(parent, args, context, info) {
+            return await Diving.find({ _id: { $in: parent.targetIds } }).lean()
+        },
+        async images(parent, args, context, info) {
+            return await Image.find({ _id: { $in: parent.targetIds } }).lean()
+        },
+        async users(parent, args, context, info) {
+            return await User.find({ _id: { $in: parent.targetIds } }).lean()
+        },
+    },
 
-    //         return await Diving.find()
-    //             .lean()
-    //     },
-    // },
+    Query: {
+        async getUserLikes(parent, args, context, info) {
+            let user = await User.findOne({ uid: context.uid })
+            return await Like.findOne({ userId: user._id }).lean()
+        },
 
-    // Mutation: {
-    //     async upsertDiving(parent, args, context, info) {
-    //         console.log(`mutation | upsertDiving: args=${JSON.stringify(args)}`)
-    //         //TODO check host user
+        async getUserSubsciption(parent, args, context, info) {
+            let user = await User.findOne({ uid: context.uid })
+            return await Subscribe.findOne({ userId: user._id }).lean()
+        },
+    },
 
-    //         let diving = null
+    Mutation: {
+        async view(parent, args, context, info) {
+            console.log(`mutation | view: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
+            await getModel(args.targetType).findOneAndUpdate({ _id: args.targetId }, { $inc: { 'views': 1 } })
+            return {
+                'success': true
+            }
+        },
 
-    //         if (!args.input._id) {
-    //             diving = new Diving(args.input)
+        async like(parent, args, context, info) {
+            console.log(`mutation | like: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
 
-    //         } else {
-    //             diving = await Diving.findOne({ _id: args.input._id })
+            let user = await User.findOne({ uid: context.uid })
 
-    //             Object.keys(args.input)
-    //                 .filter(key => args.input[key] && typeof diving[key] == typeof args.input[key])
-    //                 .forEach(key => { diving[key] = args.input[key] })
+            let like = await Like.findOne({ userId: user._id })
+            if (like == null) {
+                like = new Like({ userId: user._id })
+            }
 
-    //             diving.updatedAt = Date.now()
-    //         }
+            if (!like.targetIds) {
+                like.targetIds = []
+            }
 
-    //         await diving.save()
+            let isLike = !like.targetIds.includes(args.targetId)
+            let increament = isLike ? 1 : -1
 
-    //         return diving
-    //     },
-    // }
+            if (isLike) {
+                like.targetIds.push(args.targetId)
+            } else {
+                let index = like.targetIds.indexOf(args.targetId)
+                if (index > -1) {
+                    like.targetIds.splice(index, 1)
+                }
+            }
+
+            await like.save()
+            await getModel(args.targetType).findOneAndUpdate({ _id: args.targetId }, { $inc: { 'likes': increament } })
+            return {
+                'success': true
+            }
+        },
+
+        async subscribe(parent, args, context, info) {
+            console.log(`mutation | subscribe: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
+            let user = await User.findOne({ uid: context.uid })
+
+            let subscribe = await Subscribe.findOne({ userId: user._id })
+            if (subscribe == null) {
+                subscribe = new Subscribe({ userId: user._id })
+            }
+
+            if (!subscribe.targetIds) {
+                subscribe.targetIds = []
+            }
+
+            let isSubscribe = !subscribe.targetIds.includes(args.targetId)
+
+            if (isSubscribe) {
+                subscribe.targetIds.push(args.targetId)
+            } else {
+                let index = subscribe.targetIds.indexOf(args.targetId)
+                if (index > -1) {
+                    subscribe.targetIds.splice(index, 1)
+                }
+            }
+
+            await subscribe.save()
+            return {
+                'success': true
+            }
+        },
+    }
 };
+
+function getModel(targetType) {
+
+    switch (targetType) {
+
+        case 'diveCenter':
+            return DiveCenter
+
+        case 'divePoint':
+            return DivePoint
+
+        case 'diveSite':
+            return DiveSite
+
+        case 'diving':
+            return Diving
+
+        case 'image':
+            return Image
+
+        case 'user':
+            return User
+    }
+}

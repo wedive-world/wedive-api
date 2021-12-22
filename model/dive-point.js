@@ -60,6 +60,9 @@ const schema = new Schema({
     highlightDescription: String,
     highlightDescriptionTranslation: { type: Map, of: String },
 
+    views: Number,
+    likes: Number,
+    
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

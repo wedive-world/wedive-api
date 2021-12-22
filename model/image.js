@@ -23,6 +23,9 @@ const schema = new Schema({
         of: { type: Schema.Types.ObjectId, ref: 'ImageContent' }
     },
 
+    views: Number,
+    likes: Number,
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

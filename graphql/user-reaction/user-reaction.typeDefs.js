@@ -3,70 +3,61 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
 type Query {
-
   QUERY_________UserReactions_________: UserReaction
-  getUserReactionByTargetId(targetId: ID!): [UserReaction]
+  getUserLikes: UserReaction
+  getUserSubsciption: UserReaction
 }
 
 type Mutation {
-
   MUTATION_________UserReactions_________: UserReaction
-  createUserReaction(input: ReviewInput): Diving!
-  deleteUserReaction(_id: ID!): ID!
+
+  view(targetId: ID!, targetType: UserReactionTargetType): Response
+  like(targetId: ID!, targetType: UserReactionTargetType): Response
+  subscribe(targetId: ID!, targetType: UserReactionTargetType): Response
 }
 
 type UserReaction {
-  _id: ID!
-  type: UserReactionType!
-  targetId: ID!
-  targetType: String!
-  author: User!
-
-  createdAt: Date
+  targetIds: [ID]
+  diveCenters: [DiveCenter]
+  divePoints: [DivePoint]
+  diveSites: [DiveSite]
+  divings: [Diving]
+  images: [Image]
+  users: [User]
 }
 
-input UserReactionInput {
-  _id: ID
-
-  type: UserReactionType!
-  targetId: ID!
-  targetType: String!
-}
-
-type UserReactionEntry {
-  key: UserReactionType
-  value: Boolean
-}
-
-type UserReactionCountEntry {
-  key: UserReactionType
-  count: Int
-}
-
-enum UserReactionType {
-  like
-  dislike
-  star
+enum UserReactionTargetType {
+  diveCenter
+  divePoint
+  diveSite
+  diving
+  image
+  user
 }
 
 interface UserReactionable {
-  userReactions: [UserReactionEntry]
-  userReactionCountMap: [UserReactionCountEntry]
+  views: Int
+  likes: Int
 }
 
 type DiveCenter implements UserReactionable {
-  userReactions: [UserReactionEntry]
-  userReactionCountMap: [UserReactionCountEntry]
+  views: Int
+  likes: Int
 }
 
 type DivePoint implements UserReactionable {
-  userReactions: [UserReactionEntry]
-  userReactionCountMap: [UserReactionCountEntry]
+  views: Int
+  likes: Int
 }
 
 type DiveSite implements UserReactionable {
-  userReactions: [UserReactionEntry]
-  userReactionCountMap: [UserReactionCountEntry]
+  views: Int
+  likes: Int
+}
+
+type Diving implements UserReactionable {
+  views: Int
+  likes: Int
 }
 
 

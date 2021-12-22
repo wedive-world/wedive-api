@@ -53,5 +53,8 @@ module.exports.schema = {
 
     Highlight: require('./highlight'),
 
-    Product: require('./product')
+    Product: require('./product'),
+
+    Like: require('./like'),
+    Subscribe: require('./subscribe'),
 }

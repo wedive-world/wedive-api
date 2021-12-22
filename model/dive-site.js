@@ -73,6 +73,9 @@ const schema = new Schema({
 
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
 
+    views: Number,
+    likes: Number,
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
