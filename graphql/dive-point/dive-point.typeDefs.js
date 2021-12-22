@@ -40,7 +40,7 @@ type DivePoint {
 input DivePointInput {
   _id: ID
 
-  diveSiteId: ID!
+  diveSiteId: ID
 
   adminScore: Int
   minDepth: Int

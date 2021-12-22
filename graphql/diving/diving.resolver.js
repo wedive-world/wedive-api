@@ -64,7 +64,7 @@ module.exports = {
         async joinDiving(parent, args, context, info) {
             console.log(`mutation | joinDiving: args=${JSON.stringify(args)}`)
 
-            let diving = await Diving.findOne({ _id: args.input._id })
+            let diving = await Diving.findOne({ _id: args.divingId })
                 .populate('participants.user')
 
             if (diving.status != 'searchable') {
@@ -91,7 +91,7 @@ module.exports = {
             let user = await User.findOne({ uid: userUid })
                 .lean()
 
-            if (diving.hostUser == user._id) {
+            if (user && diving.hostUser == user._id) {
                 return {
                     success: false,
                     reason: 'hostCannotApply'
