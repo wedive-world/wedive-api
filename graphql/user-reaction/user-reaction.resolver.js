@@ -5,6 +5,7 @@ const {
     DiveCenter,
     Image,
     User,
+    Review,
     Like,
     Subscribe
 } = require('../../model').schema;
@@ -140,5 +141,8 @@ function getModel(targetType) {
 
         case 'user':
             return User
+
+        case 'review':
+            return Review
     }
 }

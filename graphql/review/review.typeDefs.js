@@ -5,7 +5,6 @@ module.exports = gql`
 type Query {
 
   QUERY_________Reviews_________: Review
-  getReviewsByTargetId(targetId: ID!, updatedSince: Date): [Review]
   getReviewsByCurrentUser: [Review]
 }
 
@@ -13,18 +12,19 @@ type Mutation {
   
   MUTATION_________Reviews_________: Review
   upsertReview(input: ReviewInput): Review!
-  deleteReviewById(_id: ID!): ID!
+  deleteReviewById(_id: ID!): Response!
 }
 
 type Review {
   _id: ID!
   targetId: ID!
-  targetTypeName: String!
+  targetType: ReviewTargetType!
   author: User!
+  languageCode: String
 
   title: String
-  description: String
-  images: [Image]
+  content: String
+  rating: Int
 
   createdAt: Date
   updatedAt: Date
@@ -33,11 +33,19 @@ type Review {
 input ReviewInput {
   _id: ID
   targetId: ID!
-  targetTypeName: String!
+  targetType: ReviewTargetType!
 
   title: String
-  description: String
-  images: [ID]
+  content: String
+  rating: Int
+}
+
+enum ReviewTargetType {
+  diving
+  diveSite
+  divePoint
+  diveCenter
+  review
 }
 
 interface Reviewable {
@@ -56,6 +64,16 @@ type DivePoint implements Reviewable {
 }
 
 type DiveSite implements Reviewable {
+  reviews: [Review]
+  reviewCount: Int
+}
+
+type Review implements Reviewable {
+  reviews: [Review]
+  reviewCount: Int
+}
+
+type Diving implements Reviewable {
   reviews: [Review]
   reviewCount: Int
 }

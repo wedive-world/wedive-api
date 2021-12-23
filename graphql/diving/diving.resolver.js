@@ -42,10 +42,7 @@ module.exports = {
                     console.log(`mutation | upsertDiving: invalid user`)
                     return null
                 }
-
-                Object.keys(args.input)
-                    .filter(key => args.input[key] && typeof diving[key] == typeof args.input[key])
-                    .forEach(key => { diving[key] = args.input[key] })
+                Object.assign(diving, args.input)
 
                 diving.updatedAt = Date.now()
             }

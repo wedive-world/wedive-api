@@ -63,6 +63,8 @@ const schema = new Schema({
     views: Number,
     likes: Number,
     
+    reviewCount: Number,
+    
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

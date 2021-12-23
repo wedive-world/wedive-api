@@ -133,4 +133,12 @@ input DivingInput {
     images: [ID]
 }
 
+type Review {
+    images: [Image]
+}
+
+input ReviewInput {
+    images: [ID]
+}
+
 `;

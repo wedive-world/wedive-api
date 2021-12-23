@@ -57,4 +57,6 @@ module.exports.schema = {
 
     Like: require('./like'),
     Subscribe: require('./subscribe'),
+
+    Review: require('./review'),
 }

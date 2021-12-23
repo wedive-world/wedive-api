@@ -33,6 +33,7 @@ enum UserReactionTargetType {
   diving
   image
   user
+  review
 }
 
 interface UserReactionable {
@@ -60,5 +61,9 @@ type Diving implements UserReactionable {
   likes: Int
 }
 
+type Review implements UserReactionable {
+  views: Int
+  likes: Int
+}
 
 `;
