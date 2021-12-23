@@ -32,6 +32,12 @@ type InstructorVerification {
     verificationReason: String
   }
 
+  type InstructorProfile {
+    _id: ID
+    introduction: String
+    careers: [String]
+  }
+
   type User {
     instructorTypes: [DivingType]
     instructorVerifications: [InstructorVerification]

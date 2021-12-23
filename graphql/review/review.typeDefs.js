@@ -77,4 +77,9 @@ type Diving implements Reviewable {
   reviews: [Review]
   reviewCount: Int
 }
+
+type InstructorProfile implements Reviewable {
+  reviews: [Review]
+  reviewCount: Int
+}
 `;

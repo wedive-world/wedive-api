@@ -18,7 +18,7 @@ module.exports = {
     Mutation: {
         async upsertReview(parent, args, context, info) {
             console.log(`mutation | upsertReview: args=${JSON.stringify(args)}`)
-            
+
             let review = null
             if (args.input._id) {
                 review = await Review.findById(args.input._id)
@@ -27,7 +27,11 @@ module.exports = {
             }
 
             Object.assign(review, args.input)
+
+            let user = await User.findOne({ uid: context.uid }).lean()
+            review.author = user._id
             await review.save()
+            
             return review
         },
 
