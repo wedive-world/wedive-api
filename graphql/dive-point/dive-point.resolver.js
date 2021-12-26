@@ -40,8 +40,8 @@ module.exports = {
             //console.log(`query | getAllDivePoints: languageCode=${languageCode}`)
 
             console.log(`query | getAllDivePoints: args=${JSON.stringify(args)}`)
-            let offset = args.offset ? args.offset : null;
-            let limit = args.limit ? args.limit : 100;
+            let offset = args.offset
+            let limit = args.limit
 
             let params = offset ? {
                 _id: { $gt: offset }

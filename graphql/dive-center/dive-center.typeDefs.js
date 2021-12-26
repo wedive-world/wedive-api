@@ -4,7 +4,7 @@ module.exports = gql`
 
 type Query {
     QUERY____________________________DiveCenters: DiveCenter
-    getDiveCenters(offset: ID, limit: Int): [DiveCenter]
+    getDiveCenters(offset: ID, limit: Int = 100): [DiveCenter]
     getAllDiveCenters: [DiveCenter]
     getDiveCenterById(_id: ID!): DiveCenter
     getDiveCenterByUniqueName(uniqueName: String!): DiveCenter

@@ -174,7 +174,7 @@ module.exports = {
             console.log(`query | getAllInterests: languageCode=${languageCode}`)
 
             console.log(`query | getAllInterests: args=${JSON.stringify(args)}`)
-            let offset = args.offset ? args.offset : 100
+            let offset = args.offset
             let limit = args.limit
 
             let params = offset ? {

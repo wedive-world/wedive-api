@@ -54,7 +54,7 @@ module.exports = {
             console.log(`query | getAllDiveCenters: languageCode=${languageCode}`)
 
             console.log(`query | getAllDiveCenters: args=${JSON.stringify(args)}`)
-            let offset = args.offset ? args.offset : 100
+            let offset = args.offset
             let limit = args.limit
 
             let params = offset ? {
