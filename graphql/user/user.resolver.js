@@ -84,7 +84,7 @@ module.exports = {
             console.log(`mutation | updateFcmToken: args=${JSON.stringify(args)}`)
 
             let result = await User.updateOne(
-                { firebaseUid: args.firebaseUid },
+                { uid: args.uid },
                 { fcmToken: args.fcmToken, updatedAt: Date.now() },
                 { upsert: true }
             )
