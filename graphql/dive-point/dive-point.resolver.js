@@ -37,11 +37,11 @@ module.exports = {
         async getDivePoints(parent, args, context, info) {
 
             let languageCode = context.languageCode
-            console.log(`query | getAllDivePoints: languageCode=${languageCode}`)
+            //console.log(`query | getAllDivePoints: languageCode=${languageCode}`)
 
             console.log(`query | getAllDivePoints: args=${JSON.stringify(args)}`)
-            let offset = args.offset ? args.offset : 100
-            let limit = args.limit
+            let offset = args.offset ? args.offset : null;
+            let limit = args.limit ? args.limit : 100;
 
             let params = offset ? {
                 _id: { $gt: offset }
