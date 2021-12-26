@@ -41,33 +41,33 @@ type InstructorVerification {
   updatedAt: Date
 }
 
-  input InstructorVerificationInput {
-    _id: ID
+input InstructorVerificationInput {
+  _id: ID
 
-    user: ID!,
-    licenseImages: [ID],
-    licenses: [ID],
-    instructorType: [DivingType],
+  user: ID!,
+  licenseImages: [ID],
+  licenses: [ID],
+  instructorType: [DivingType],
 
-    phoneNumber: String,
-    email: String,
-    gender: Gender,
+  phoneNumber: String,
+  email: String,
+  gender: Gender,
 
-    introduction: String
-    careers: [String]
+  introduction: String
+  careers: [String]
 
-    profileImages: [ID]
+  profileImages: [ID]
 
-    diveCenters: [ID],
-    diveSites: [ID],
-    divePoints: [ID],
-  }
+  diveCenters: [ID],
+  diveSites: [ID],
+  divePoints: [ID],
+}
 
-  type User {
-    instructorVerifications: [InstructorVerification]
-  }
+type User {
+  instructorVerifications: [InstructorVerification]
+}
 
-  input UserInput {
-    instructorVerifications: [ID]
-  }
+input UserInput {
+  instructorVerifications: [ID]
+}
 `;
