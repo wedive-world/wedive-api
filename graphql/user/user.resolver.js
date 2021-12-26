@@ -87,7 +87,7 @@ module.exports = {
             input.updatedAt = Date.now()
 
             let result = await User.updateOne(
-                { uid: args.uid },
+                { uid: input.uid },
                 input,
                 { upsert: true }
             )
