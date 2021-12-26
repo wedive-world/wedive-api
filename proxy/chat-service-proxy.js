@@ -34,7 +34,7 @@ class ChatServiceProxy {
         const variable = {
             id: uid,
             email: email,
-            name: nickName
+            name: nickName ? nickName : uid
         }
 
         try {
@@ -61,7 +61,7 @@ class ChatServiceProxy {
         `
 
         const variable = {
-            name: nickName,
+            name: nickName ? nickName : uid,
             avatarUrl: profileImageUrl
         }
 
