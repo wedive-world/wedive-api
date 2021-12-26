@@ -83,6 +83,9 @@ module.exports = {
 
             console.log(`mutation | updateFcmToken: args=${JSON.stringify(args)}`)
 
+            let user = await User.findOne({ uid: args.uid })
+            let isNewUser = user == null
+
             let input = args.input
             input.updatedAt = Date.now()
 
@@ -92,6 +95,14 @@ module.exports = {
                 { upsert: true }
             )
             console.log(`mutation | updateFcmToken: result=${JSON.stringify(result)}`)
+
+            user = await User.findOne({ uid: input.uid })
+            if (isNewUser) {
+                await chatServiceProxy.createUser(user, context.idToken)
+
+            } else {
+
+            }
 
             return {
                 result: 'success'
