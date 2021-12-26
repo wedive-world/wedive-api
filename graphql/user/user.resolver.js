@@ -15,6 +15,12 @@ module.exports = {
         },
     },
 
+    Participant: {
+        async user(parent, args, context, info) {
+            return await User.findById(parent.user);
+        },
+    },
+
     Query: {
         async getAllUsers(parent, args, context, info) {
             return await User.find()

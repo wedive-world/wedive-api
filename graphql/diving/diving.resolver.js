@@ -109,5 +109,5 @@ module.exports = {
                 success: true
             }
         },
-    }
+    },
 };
