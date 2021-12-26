@@ -122,7 +122,7 @@ module.exports = {
             }, context.idToken)
 
             return {
-                result: 'success'
+                success: true
             }
         },
     },
