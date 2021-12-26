@@ -109,6 +109,7 @@ module.exports = {
 
             }
 
+            const chatServiceProxy = new ChatServiceProxy()
             await chatServiceProxy.updateUser({
                 name: user.nickName,
                 profileImageUrl: user.profileImages ? user.profileImages[0].thumbnail : ""
