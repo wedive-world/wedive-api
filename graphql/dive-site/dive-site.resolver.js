@@ -57,6 +57,26 @@ module.exports = {
             return diveSiteList.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
 
+        async getDiveSites(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            console.log(`query | getAllDiveSites: languageCode=${languageCode}`)
+
+            console.log(`query | getAllDiveSites: args=${JSON.stringify(args)}`)
+            let from = args.from
+            let limit = args.limit
+
+            let params = from ? {
+                _id: { $gt: from }
+            } : {}
+
+            let diveSites = await DiveSite.find(params)
+                .limit(limit)
+                .lean()
+
+            return diveSites.map(diveSite => translator.translateOut(diveSite, languageCode))
+        },
+        
         async getDiveSiteById(parent, args, context, info) {
             let languageCode = context.languageCode
             let diveSite = await DiveSite.findOne({ _id: args._id })

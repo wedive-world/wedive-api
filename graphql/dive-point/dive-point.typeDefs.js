@@ -4,11 +4,13 @@ module.exports = gql`
 
 type Query {
   QUERY____________________________DivePoints: DivePoint
+  getDivePoints(from: ID, limit: Int!): [DivePoint]
   getAllDivePoints: [DivePoint]
   getDivePointById(_id: ID!): DivePoint
   getDivePointByUniqueName(uniqueName: String!): DivePoint
   getDivePointsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DivePoint]
   searchDivePointsByName(query: String!): [DivePoint]
+  getNearByDivePoints(lat: Float!, lon: Float!, m: Int): [DivePoint]
 }
 
 type Mutation {

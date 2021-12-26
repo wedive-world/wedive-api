@@ -34,6 +34,26 @@ module.exports = {
     },
 
     Query: {
+        async getDivePoints(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            console.log(`query | getAllDivePoints: languageCode=${languageCode}`)
+
+            console.log(`query | getAllDivePoints: args=${JSON.stringify(args)}`)
+            let from = args.from
+            let limit = args.limit
+
+            let params = from ? {
+                _id: { $gt: from }
+            } : {}
+
+            let divePoints = await DivePoint.find(params)
+                .limit(limit)
+                .lean()
+
+            return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
+        },
+
         async getAllDivePoints(parent, args, context, info) {
 
             let languageCode = context.languageCode

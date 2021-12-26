@@ -6,11 +6,13 @@ type Query {
 
   QUERY____________________________DiveSites: DiveSite
   getAllDiveSites: [DiveSite]
+  getDiveSites(from: ID, limit: Int!): [DiveSite]
   getDiveSiteById(_id: ID!): DiveSite
   getDiveSiteByUniqueName(uniqueName: String!): DiveSite
   getDiveSiteByAddress(address: String!): DiveSite
   getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
   searchDiveSitesByName(query: String!): [DiveSite]
+  getNearByDiveSites(lat: Float!, lon: Float!, m: Int): [DiveSite]
 }
 
 type Mutation {
@@ -21,47 +23,47 @@ type Mutation {
 }
 
 type DiveSite {
-    _id: ID!
+  _id: ID!
 
-    waterTemperatureScore: Int
-    eyeSightScore: Int
-    adminScore: Int
+  waterTemperatureScore: Int
+  eyeSightScore: Int
+  adminScore: Int
 
-    minDepth: Int
-    maxDepth: Int
-    minSight: Int
-    maxSight: Int
-    flowRateScore: Int
-    waterEnvironmentScore: Int
-    eyeSightScore: Int
+  minDepth: Int
+  maxDepth: Int
+  minSight: Int
+  maxSight: Int
+  flowRateScore: Int
+  waterEnvironmentScore: Int
+  eyeSightScore: Int
 
-    visitTimeDescription: String
-    waterTemperatureDescription: String
-    deepDescription: String
-    waterFlowDescription: String
-    eyeSightDescription: String
-    highlightDescription: String
+  visitTimeDescription: String
+  waterTemperatureDescription: String
+  deepDescription: String
+  waterFlowDescription: String
+  eyeSightDescription: String
+  highlightDescription: String
 
-    createdAt: Date
-    updatedAt: Date
-  }
+  createdAt: Date
+  updatedAt: Date
+}
 
-  input DiveSiteInput {
-    _id: ID
+input DiveSiteInput {
+  _id: ID
 
-    waterTemperatureScore: Int
-    eyeSightScore: Int
-    adminScore: Int
+  waterTemperatureScore: Int
+  eyeSightScore: Int
+  adminScore: Int
 
-    visitTimeDescription: String
-    waterTemperatureDescription: String
-    deepDescription: String
-    waterFlowDescription: String
-    eyeSightDescription: String
-    highlightDescription: String
-  }
+  visitTimeDescription: String
+  waterTemperatureDescription: String
+  deepDescription: String
+  waterFlowDescription: String
+  eyeSightDescription: String
+  highlightDescription: String
+}
 
-  type DiveCenter {
+type DiveCenter {
   diveSites: [DiveSite]
 }
 

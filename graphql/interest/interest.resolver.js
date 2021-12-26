@@ -168,6 +168,26 @@ module.exports = {
             return interests.map(interest => translator.translateOut(interest, languageCode))
         },
 
+        async getInterests(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            console.log(`query | getAllInterests: languageCode=${languageCode}`)
+
+            console.log(`query | getAllInterests: args=${JSON.stringify(args)}`)
+            let from = args.from
+            let limit = args.limit
+
+            let params = from ? {
+                _id: { $gt: from }
+            } : {}
+
+            let interests = await Interest.find(params)
+                .limit(limit)
+                .lean()
+
+            return interests.map(interest => translator.translateOut(interest, languageCode))
+        },
+
         async searchInterestsByName(parent, args, context, info) {
 
             let languageCode = context.languageCode

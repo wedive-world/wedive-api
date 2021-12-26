@@ -36,6 +36,7 @@ type Query {
 
   QUERY____________________________Interests: Interest
   getAllInterests(type: String): [Interest]
+  getInterests(from: ID, limit: Int!): [Interest]
   getInterestById(_id: ID!): Interest
   getInterestByUniqueName(uniqueName: String!): Interest
   searchInterestsByName(query: String!, type: String): [Interest]

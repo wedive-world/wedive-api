@@ -48,6 +48,26 @@ module.exports = {
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
 
+        async getDiveCenters(parent, args, context, info) {
+
+            let languageCode = context.languageCode
+            console.log(`query | getAllDiveCenters: languageCode=${languageCode}`)
+
+            console.log(`query | getAllDiveCenters: args=${JSON.stringify(args)}`)
+            let from = args.from
+            let limit = args.limit
+
+            let params = from ? {
+                _id: { $gt: from }
+            } : {}
+
+            let diveCenters = await DiveCenter.find(params)
+                .limit(limit)
+                .lean()
+
+            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
+        },
+
         async getDiveCenterById(parent, args, context, info) {
 
             let languageCode = context.languageCode
