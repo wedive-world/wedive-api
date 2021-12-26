@@ -3,10 +3,12 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
 type Query {
+  QUERY____________________________InstructorVerification: InstructorVerification
   getInstructorVerifications: [InstructorVerification]
 }
 
 type Mutation {
+  MUTATION_________________________InstructorVerification: InstructorVerification
   upsertInstructorVerification(input: InstructorVerificationInput): InstructorVerification!
   verifyInstructor(instructorVerificationId: ID!, isVerified: Boolean!, reason: String): Response
 }
