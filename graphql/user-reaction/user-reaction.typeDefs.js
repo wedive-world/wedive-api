@@ -3,13 +3,13 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
 type Query {
-  QUERY_________UserReactions_________: UserReaction
+  QUERY____________________________UserReactions: UserReaction
   getUserLikes: UserReaction
   getUserSubsciption: UserReaction
 }
 
 type Mutation {
-  MUTATION_________UserReactions_________: UserReaction
+  MUTATION_________________________UserReactions: UserReaction
 
   view(targetId: ID!, targetType: UserReactionTargetType!): Response
   like(targetId: ID!, targetType: UserReactionTargetType!): Response

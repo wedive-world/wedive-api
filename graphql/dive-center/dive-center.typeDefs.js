@@ -3,7 +3,7 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
 type Query {
-    QUERY_________DiveCenters_________: DiveCenter
+    QUERY____________________________DiveCenters: DiveCenter
     getAllDiveCenters: [DiveCenter]
     getDiveCenterById(_id: ID!): DiveCenter
     getDiveCenterByUniqueName(uniqueName: String!): DiveCenter

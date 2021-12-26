@@ -34,7 +34,7 @@ module.exports = gql`
 
 type Query {
 
-  QUERY_________Interests_________: Interest
+  QUERY____________________________Interests: Interest
   getAllInterests(type: String): [Interest]
   getInterestById(_id: ID!): Interest
   getInterestByUniqueName(uniqueName: String!): Interest
@@ -43,7 +43,7 @@ type Query {
 
 type Mutation {
 
-  MUTATION_________Interests_________: Interest
+  MUTATION_________________________Interests: Interest
   upsertInterest(input: InterestInput!): Interest!
   deleteInterestById(_id: ID!): ID
 }

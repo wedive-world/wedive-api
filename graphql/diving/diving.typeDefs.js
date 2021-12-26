@@ -4,7 +4,7 @@ module.exports = gql`
 
 type Query {
 
-  QUERY_________Divings_________: Diving
+  QUERY____________________________Divings: Diving
   getAllDivings: [Diving]
   getDivingById(_id: ID!): Diving
   getDivingsByHostUserId(hostUserId: ID!): [Diving]

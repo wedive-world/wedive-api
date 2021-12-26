@@ -3,7 +3,7 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
 type Query {
-  QUERY_________DivePoints_________: DivePoint
+  QUERY____________________________DivePoints: DivePoint
   getAllDivePoints: [DivePoint]
   getDivePointById(_id: ID!): DivePoint
   getDivePointByUniqueName(uniqueName: String!): DivePoint
@@ -12,7 +12,7 @@ type Query {
 }
 
 type Mutation {
-  MUTATION_________DivePoints_________: DivePoint
+  MUTATION_________________________DivePoints: DivePoint
   upsertDivePoint(input: DivePointInput!): DivePoint!
   deleteDivePointById(_id: ID!): ID
 }

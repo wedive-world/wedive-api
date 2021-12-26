@@ -4,13 +4,13 @@ module.exports = gql`
 
 type Query {
 
-  QUERY_________Reviews_________: Review
+  QUERY____________________________Reviews: Review
   getReviewsByCurrentUser: [Review]
 }
 
 type Mutation {
   
-  MUTATION_________Reviews_________: Review
+  MUTATION_________________________Reviews: Review
   upsertReview(input: ReviewInput): Review!
   deleteReviewById(_id: ID!): Response!
 }

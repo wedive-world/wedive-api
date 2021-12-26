@@ -4,7 +4,7 @@ module.exports = gql`
 
 type Query {
 
-  QUERY_________Users_________: User
+  QUERY____________________________Users: User
 
   """get All users"""
   getAllUsers: [User]
@@ -16,7 +16,7 @@ type Query {
 }
 
 type Mutation {
-  MUTATION_________Users_________: User
+  MUTATION_________________________Users: User
   upsertUser(input: UserInput): User!
   updateFcmToken(firebaseUid: String!, fcmToken: String!): Response!
 }

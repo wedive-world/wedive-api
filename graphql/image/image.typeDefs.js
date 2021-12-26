@@ -9,7 +9,7 @@ scalar Upload
 
 type Query {
 
-    QUERY_________Images_________: Image
+    QUERY____________________________Images: Image
     getImageUrlById(_id: ID!, width: Int): String @cacheControl(maxAge: 60)
     getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] @cacheControl(maxAge: 60)
 
@@ -19,7 +19,7 @@ type Query {
 
 type Mutation {
 
-    MUTATION_________Images_________: Image
+    MUTATION_________________________Images: Image
     uploadImage(file: Upload!): Image!
     updateImage(input: UpdateImageInput!): Image!
     updateThmbnailForAllImages: Response

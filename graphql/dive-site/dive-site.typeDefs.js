@@ -4,7 +4,7 @@ module.exports = gql`
 
 type Query {
 
-  QUERY_________DiveSites_________: DiveSite
+  QUERY____________________________DiveSites: DiveSite
   getAllDiveSites: [DiveSite]
   getDiveSiteById(_id: ID!): DiveSite
   getDiveSiteByUniqueName(uniqueName: String!): DiveSite
@@ -15,7 +15,7 @@ type Query {
 
 type Mutation {
 
-  MUTATION_________DiveSites_________: DiveSite
+  MUTATION_________________________DiveSites: DiveSite
   upsertDiveSite(input: DiveSiteInput!): DiveSite!
   deleteDiveSiteById(_id: ID!): ID
 }

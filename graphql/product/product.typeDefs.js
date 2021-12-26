@@ -4,7 +4,7 @@ module.exports = gql`
 
 type Query {
 
-  QUERY_________Products_________: Product
+  QUERY____________________________Products: Product
   getAllProducts: [Product]
   getProductById(_id: ID!): Product
   getProductsByIds(_ids: [ID]): [Product]
@@ -12,7 +12,7 @@ type Query {
 
 type Mutation {
 
-  MUTATION_________Products_________: Product
+  MUTATION_________________________Products: Product
   upsertProduct(input: ProductInput): Product!
   deleteProductById(_id: ID!): ID!
 }
