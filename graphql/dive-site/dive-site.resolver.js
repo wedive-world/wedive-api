@@ -63,11 +63,11 @@ module.exports = {
             console.log(`query | getAllDiveSites: languageCode=${languageCode}`)
 
             console.log(`query | getAllDiveSites: args=${JSON.stringify(args)}`)
-            let from = args.from
+            let offset = args.offset ? args.offset : 100
             let limit = args.limit
 
-            let params = from ? {
-                _id: { $gt: from }
+            let params = offset ? {
+                _id: { $gt: offset }
             } : {}
 
             let diveSites = await DiveSite.find(params)
@@ -76,7 +76,7 @@ module.exports = {
 
             return diveSites.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
-        
+
         async getDiveSiteById(parent, args, context, info) {
             let languageCode = context.languageCode
             let diveSite = await DiveSite.findOne({ _id: args._id })

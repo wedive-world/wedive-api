@@ -54,11 +54,11 @@ module.exports = {
             console.log(`query | getAllDiveCenters: languageCode=${languageCode}`)
 
             console.log(`query | getAllDiveCenters: args=${JSON.stringify(args)}`)
-            let from = args.from
+            let offset = args.offset ? args.offset : 100
             let limit = args.limit
 
-            let params = from ? {
-                _id: { $gt: from }
+            let params = offset ? {
+                _id: { $gt: offset }
             } : {}
 
             let diveCenters = await DiveCenter.find(params)

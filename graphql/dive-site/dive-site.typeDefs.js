@@ -6,7 +6,7 @@ type Query {
 
   QUERY____________________________DiveSites: DiveSite
   getAllDiveSites: [DiveSite]
-  getDiveSites(from: ID, limit: Int!): [DiveSite]
+  getDiveSites(offset: ID, limit: Int): [DiveSite]
   getDiveSiteById(_id: ID!): DiveSite
   getDiveSiteByUniqueName(uniqueName: String!): DiveSite
   getDiveSiteByAddress(address: String!): DiveSite

@@ -40,11 +40,11 @@ module.exports = {
             console.log(`query | getAllDivePoints: languageCode=${languageCode}`)
 
             console.log(`query | getAllDivePoints: args=${JSON.stringify(args)}`)
-            let from = args.from
+            let offset = args.offset ? args.offset : 100
             let limit = args.limit
 
-            let params = from ? {
-                _id: { $gt: from }
+            let params = offset ? {
+                _id: { $gt: offset }
             } : {}
 
             let divePoints = await DivePoint.find(params)

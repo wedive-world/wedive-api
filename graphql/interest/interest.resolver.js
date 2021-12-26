@@ -174,11 +174,11 @@ module.exports = {
             console.log(`query | getAllInterests: languageCode=${languageCode}`)
 
             console.log(`query | getAllInterests: args=${JSON.stringify(args)}`)
-            let from = args.from
+            let offset = args.offset ? args.offset : 100
             let limit = args.limit
 
-            let params = from ? {
-                _id: { $gt: from }
+            let params = offset ? {
+                _id: { $gt: offset }
             } : {}
 
             let interests = await Interest.find(params)
