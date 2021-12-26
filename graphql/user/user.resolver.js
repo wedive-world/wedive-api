@@ -77,6 +77,11 @@ module.exports = {
 
             }
 
+            await chatServiceProxy.updateUser({
+                name: user.nickName,
+                profileImageUrl: user.profileImages ? user.profileImages[0].thumbnail : ""
+            }, context.idToken)
+
             return user
         },
         async updateFcmToken(parent, args, context, info) {
@@ -103,6 +108,11 @@ module.exports = {
             } else {
 
             }
+
+            await chatServiceProxy.updateUser({
+                name: user.nickName,
+                profileImageUrl: user.profileImages ? user.profileImages[0].thumbnail : ""
+            }, context.idToken)
 
             return {
                 result: 'success'

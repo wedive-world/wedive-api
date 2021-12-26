@@ -38,7 +38,7 @@ class ChatServiceProxy {
         }
 
         try {
-            const data = await this.client.request(query, variable, { authorization: idToken })
+            const data = await this.client.request(query, variable, { idtoken: idToken })
             console.log(`ChatServiceProxy | createUser: data=${data}`)
 
             return data
@@ -48,8 +48,31 @@ class ChatServiceProxy {
         }
     }
 
-    async updateUser() {
+    async updateUser({ nickName, profileImageUrl }, idToken) {
 
+        const query = gql`
+        mutation Mutation($name: String!, $avatarUrl: String) {
+            updateChatUser(name: $name, avatarUrl: $avatarUrl) {
+                success
+                reason
+            }
+        }
+        `
+        
+        const variable = {
+            name: nickName,
+            avatarUrl: profileImageUrl
+        }
+
+        try {
+            const data = await this.client.request(query, variable, { idtoken: idToken })
+            console.log(`ChatServiceProxy | updateUser: data=${data}`)
+
+            return data
+
+        } catch (err) {
+            console.log(`ChatServiceProxy | updateUser: ERROR, ${err}`)
+        }
     }
 }
 
