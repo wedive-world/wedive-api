@@ -65,6 +65,8 @@ input UserInput {
   authProvider: AuthProvider
   oauthToken: String
 
+  fcmToken: String
+  
   email: String
   phoneNumber: String
 
