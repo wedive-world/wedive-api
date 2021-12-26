@@ -47,6 +47,10 @@ module.exports = {
         async getUserByUid(parent, args, context, info) {
             return await User.findOne({ uid: args.uid })
         },
+
+        async getUsersByUid(parent, args, context, info) {
+            return await User.find({ uid: { $in: args.uids } })
+        },
     },
 
     Mutation: {

@@ -13,6 +13,7 @@ type Query {
   getUserByEmail(email: String!): User
   getUserByNickName(nickName: String!): User
   getUserByUid(uid: ID!): User
+  getUsersByUid(uids: [ID]): [User]
 }
 
 type Mutation {
@@ -66,7 +67,7 @@ input UserInput {
   oauthToken: String
 
   fcmToken: String
-  
+
   email: String
   phoneNumber: String
 
