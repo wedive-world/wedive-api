@@ -31,7 +31,7 @@ module.exports = {
             let user = await User.findOne({ uid: context.uid }).lean()
             review.author = user._id
             await review.save()
-            
+
             return review
         },
 
@@ -43,5 +43,47 @@ module.exports = {
                 success: true
             }
         }
-    }
+    },
+
+    DiveCenter: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent.reviews } })
+                .lean()
+        },
+    },
+
+    DivePoint: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent.reviews } })
+                .lean()
+        },
+    },
+
+    DiveSite: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent.reviews } })
+                .lean()
+        },
+    },
+
+    Review: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent.reviews } })
+                .lean()
+        },
+    },
+
+    Diving: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent.reviews } })
+                .lean()
+        },
+    },
+
+    InstructorProfile: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent.reviews } })
+                .lean()
+        },
+    },
 };
