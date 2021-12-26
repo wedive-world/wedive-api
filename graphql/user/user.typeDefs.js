@@ -76,8 +76,6 @@ input UserInput {
   gender: Gender
   residence: String
 
-  instructors: [ID]
-
   interests: [ID]
 
   divingLog: Int
@@ -113,6 +111,10 @@ type Diving {
 
 input DivingInput {
   hostUser: ID!
+}
+
+type Instructor {
+  user: User!
 }
 
 `;

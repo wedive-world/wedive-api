@@ -24,17 +24,16 @@ type Instructor {
 
   phoneNumber: String,
   email: String,
-
   gender: Gender,
-  description: String,
 
-  profileImages: [Image],
+  introduction: String
+  careers: [String]
 
-  languageCodes: [String],
+  profileImages: [Image]
 
   diveCenters: [DiveCenter],
-  diveSite: [DiveSite],
-  divePoint: [DivePoint],
+  diveSites: [DiveSite],
+  divePoints: [DivePoint],
 
   createdAt: Date,
   updatedAt: Date,
@@ -45,9 +44,10 @@ input InstructorInput {
 
   phoneNumber: String,
   email: String,
-
   gender: Gender,
-  description: String,
+
+  introduction: String
+  careers: [String]
 
   profileImages: [ID],
 
@@ -56,6 +56,22 @@ input InstructorInput {
   diveCenters: [ID],
   diveSite: [ID],
   divePoint: [ID],
+}
+
+type DiveCenter {
+  instructors: [Instructor]
+}
+
+type DivePoint {
+  instructors: [Instructor]
+}
+
+type DiveSite {
+  instructors: [Instructor]
+}
+
+type User {
+  instructorProfile: Instructor
 }
 
 `;

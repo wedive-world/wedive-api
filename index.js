@@ -46,6 +46,7 @@ async function startServer() {
           console.log(`uid=${uid}`)
         } catch (err) {
           console.log(`err!! + ${err}`)
+          throw new AuthenticationError(err);
         }
       }
 

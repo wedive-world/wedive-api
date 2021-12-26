@@ -25,6 +25,14 @@ module.exports = {
         },
     },
 
+    Instructor: {
+        async divePoints(parent, args, context, info) {
+            let languageCode = context.languageCode
+            let divePoints = await DivePoint.find({ _id: { $in: parent.divePoints } }).lean()
+            return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
+        }
+    },
+
     Query: {
         async getAllDivePoints(parent, args, context, info) {
 

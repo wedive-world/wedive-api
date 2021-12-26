@@ -111,7 +111,21 @@ module.exports = {
     },
 
     InstructorVerification: {
-        async instructorLicenseImage(parent, args, context, info) {
+        async profileImages(parent, args, context, info) {
+            return await getImageById(parent.instructorLicenseImage)
+        },
+        
+        async licenseImages(parent, args, context, info) {
+            return await getImageById(parent.instructorLicenseImage)
+        },
+    },
+
+    Instructor: {
+        async profileImages(parent, args, context, info) {
+            return await getImageById(parent.instructorLicenseImage)
+        },
+
+        async licenseImages(parent, args, context, info) {
             return await getImageById(parent.instructorLicenseImage)
         },
     },

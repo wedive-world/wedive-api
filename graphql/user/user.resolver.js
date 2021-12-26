@@ -3,6 +3,12 @@ const ChatServiceProxy = require('../../proxy/chat-service-proxy')
 
 module.exports = {
 
+    Instructor: {
+        async user(parent, args, context, info) {
+            return await User.findOne({ _id: parent.user });
+        },
+    },
+
     InstructorVerification: {
         async user(parent, args, context, info) {
             return await User.findOne({ _id: parent.user });

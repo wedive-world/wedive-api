@@ -1,9 +1,32 @@
 const {
     User,
-    Review
+    Instructor
 } = require('../../model').schema;
 
 module.exports = {
+    User: {
+        async instructorProfile(parent, args, context, info) {
+            return await Instructor.findById(parent.instructorProfile)
+        }
+    },
+
+    DiveSite: {
+        async instructors(parent, args, context, info) {
+            return await Instructor.find({ diveSites: parent._id })
+        }
+    },
+
+    DiveCenter: {
+        async instructors(parent, args, context, info) {
+            return await Instructor.find({ diveCenters: parent._id })
+        }
+    },
+
+    DivePoint: {
+        async instructors(parent, args, context, info) {
+            return await Instructor.find({ divePoints: parent._id })
+        }
+    },
 
     // Query: {
     //     async (parent, args, context, info) {

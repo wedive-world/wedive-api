@@ -1,10 +1,13 @@
-const { InstructorVerification, User } = require('../../model').schema
+const {
+    InstructorVerification,
+    Instructor
+} = require('../../model').schema
 
 module.exports = {
 
     User: {
         async instructorVerifications(parent, args, context, info) {
-            return await InstructorVerification.find({ _id: { $in: parent.instructorVerifications } });
+            return await InstructorVerification.find({ user: parent._id });
         },
     },
 
@@ -31,25 +34,21 @@ module.exports = {
         async verifyInstructor(parent, args, context, info) {
 
             console.log(`mutation | verifyInstructor: args=${JSON.stringify(args)}`)
+            if (args.isVerified) {
 
-            let instructorVerification = await InstructorVerification.findByIdAndUpdate(args.instructorVerificationId,
+                let instructorVerification = await InstructorVerification.findById(args.instructorVerificationId)
+                    .lean()
+                let instructor = new Instructor(instructorVerification)
+                await instructor.save()
+            }
+
+            await InstructorVerification.findByIdAndUpdate(args.instructorVerificationId,
                 {
                     isVerified: args.isVerified,
-                    verificationReason: verificationReason,
+                    verificationReason: args.reason,
                     updatedAt: Date.now()
-                },
-                {
-                    returnDocument: 'after',
-                    lean: true,
                 }
             )
-
-            let user = await User.findById(instructorVerification.user)
-            if (!user.instructorTypes.includes(instructorVerification.instructorType)) {
-                user.instructorLicenseImages.push(instructorVerification.instructorLicenseImage)
-                user.instructorTypes.push(instructorVerification.instructorType)
-                await user.save()
-            }
 
             return {
                 result: 'success'
