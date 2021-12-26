@@ -38,6 +38,7 @@ class ChatServiceProxy {
         }
 
         try {
+            console.log(`ChatServiceProxy | createUser: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
             const data = await this.client.request(query, variable, { idtoken: idToken })
             console.log(`ChatServiceProxy | createUser: data=${data}`)
 
@@ -58,13 +59,14 @@ class ChatServiceProxy {
             }
         }
         `
-        
+
         const variable = {
             name: nickName,
             avatarUrl: profileImageUrl
         }
 
         try {
+            console.log(`ChatServiceProxy | updateUser: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
             const data = await this.client.request(query, variable, { idtoken: idToken })
             console.log(`ChatServiceProxy | updateUser: data=${data}`)
 
