@@ -18,7 +18,7 @@ type Query {
 type Mutation {
   MUTATION_________________________Users: User
   upsertUser(input: UserInput): User!
-  updateFcmToken(uid: String!, authProvider: AuthProvider, fcmToken: String!): Response!
+  updateFcmToken(input: UserInput): Response!
 }
 
 type User {

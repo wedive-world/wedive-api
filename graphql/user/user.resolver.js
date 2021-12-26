@@ -83,9 +83,12 @@ module.exports = {
 
             console.log(`mutation | updateFcmToken: args=${JSON.stringify(args)}`)
 
+            let input = args.input
+            input.updatedAt = Date.now()
+
             let result = await User.updateOne(
                 { uid: args.uid },
-                { fcmToken: args.fcmToken, updatedAt: Date.now() },
+                input,
                 { upsert: true }
             )
             console.log(`mutation | updateFcmToken: result=${JSON.stringify(result)}`)
