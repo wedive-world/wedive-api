@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const schema = new Schema({
+    title: String,
+    divingType: String,
     category: String,
-    level: Number,
-    title: { type: Schema.Types.ObjectId, ref: 'Content' },
-    description: { type: Schema.Types.ObjectId, ref: 'Institution' },
-    institution: { type: Schema.Types.ObjectId, ref: 'Institution' },
+    level: String,
+    description: String,
+    institution: String,
 });
 
 module.exports = mongoose.model('License', schema);

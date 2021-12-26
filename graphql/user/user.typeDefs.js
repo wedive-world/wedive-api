@@ -107,16 +107,6 @@ input InstructorVerificationInput {
   user: ID!
 }
 
-type Instructor {
-  _id: ID,
-  user: User,
-  gender: Int,
-  description: String
-  languageCodes: [String]
-  createdAt: Date
-  updatedAt: Date
-}
-
 type Diving {
   hostUser: User!
 }
