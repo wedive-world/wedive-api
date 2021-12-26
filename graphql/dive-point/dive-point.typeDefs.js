@@ -20,7 +20,7 @@ type Mutation {
 type DivePoint {
   _id: ID!
 
-  diveSiteId: ID!
+  diveSiteId: ID
   diveSite: DiveSite
 
   adminScore: Int
