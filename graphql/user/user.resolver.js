@@ -98,22 +98,24 @@ module.exports = {
             let user = await User.findOne({ uid: input.uid })
             let isNewUser = user == null
 
-            let result = await User.updateOne(
-                { uid: input.uid },
-                input,
-                { upsert: true }
-            )
-            console.log(`mutation | updateFcmToken: result=${JSON.stringify(result)}`)
+            if (isNewUser) {
+                user = new User(input)
+            }
+
+            Object.assign(user, args.input)
+            user.updatedAt = Date.now()
+
+            await user.save()
 
             const chatServiceProxy = new ChatServiceProxy()
 
-            user = await User.findOne({ uid: input.uid })
             if (isNewUser) {
                 await chatServiceProxy.createUser(user, context.idToken)
 
             } else {
 
             }
+
             await chatServiceProxy.updateUser({
                 name: user.nickName,
                 profileImageUrl: user.profileImages && user.profileImages.length > 0 ? user.profileImages[0].thumbnail : ""
