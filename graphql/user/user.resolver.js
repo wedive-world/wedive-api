@@ -88,11 +88,11 @@ module.exports = {
 
             console.log(`mutation | updateFcmToken: args=${JSON.stringify(args)}`)
 
-            let user = await User.findOne({ uid: args.uid })
-            let isNewUser = user == null
-
             let input = args.input
             input.updatedAt = Date.now()
+
+            let user = await User.findOne({ uid: input.uid })
+            let isNewUser = user == null
 
             let result = await User.updateOne(
                 { uid: input.uid },
