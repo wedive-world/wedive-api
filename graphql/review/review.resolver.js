@@ -47,42 +47,42 @@ module.exports = {
 
     DiveCenter: {
         async reviews(parent, args, context, info) {
-            return await Review.find({ targetId: { $in: parent.reviews } })
+            return await Review.find({ targetId: { $in: parent._id } })
                 .lean()
         },
     },
 
     DivePoint: {
         async reviews(parent, args, context, info) {
-            return await Review.find({ targetId: { $in: parent.reviews } })
+            return await Review.find({ targetId: { $in: parent._id } })
                 .lean()
         },
     },
 
     DiveSite: {
         async reviews(parent, args, context, info) {
-            return await Review.find({ targetId: { $in: parent.reviews } })
+            return await Review.find({ targetId: { $in: parent._id } })
                 .lean()
         },
     },
 
     Review: {
         async reviews(parent, args, context, info) {
-            return await Review.find({ targetId: { $in: parent.reviews } })
+            return await Review.find({ targetId: { $in: parent._id } })
                 .lean()
         },
     },
 
     Diving: {
         async reviews(parent, args, context, info) {
-            return await Review.find({ targetId: { $in: parent.reviews } })
+            return await Review.find({ targetId: { $in: parent._id } })
                 .lean()
         },
     },
 
     InstructorProfile: {
         async reviews(parent, args, context, info) {
-            return await Review.find({ targetId: { $in: parent.reviews } })
+            return await Review.find({ targetId: { $in: parent._id } })
                 .lean()
         },
     },
