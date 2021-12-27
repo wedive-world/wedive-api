@@ -50,8 +50,8 @@ module.exports = {
 
             
             let divePoints = await DivePoint.find(params)
-                .limit(limit)
                 .skip(offset)
+                .limit(limit)
                 .lean()
 
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
