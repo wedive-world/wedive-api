@@ -4,7 +4,7 @@ module.exports = gql`
 
 type Query {
   QUERY____________________________DivePoints: DivePoint
-  getDivePoints(offset: ID, limit: Int = 100): [DivePoint]
+  getDivePoints(offset: Int, limit: Int = 100): [DivePoint]
   getAllDivePoints: [DivePoint]
   getDivePointById(_id: ID!): DivePoint
   getDivePointByUniqueName(uniqueName: String!): DivePoint

@@ -43,8 +43,11 @@ module.exports = {
             let offset = args.offset
             let limit = args.limit
 
+            //let params = offset ? {
+            //    _id: { $gt: offset }
+            //.} : {}
             let params = offset ? {
-                _id: { $gt: offset }
+                offset: offset
             } : {}
 
             let divePoints = await DivePoint.find(params)
