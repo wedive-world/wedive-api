@@ -55,13 +55,10 @@ module.exports = {
 
             console.log(`query | getAllDiveCenters: args=${JSON.stringify(args)}`)
             let offset = args.offset
-            let limit = args.limit
+            let skip = args.skip
 
-            let params = offset ? {
-                _id: { $gt: offset }
-            } : {}
-
-            let diveCenters = await DiveCenter.find(params)
+            let diveCenters = await DiveCenter.find()
+                .skip(skip)
                 .limit(limit)
                 .lean()
 

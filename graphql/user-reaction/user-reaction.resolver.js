@@ -34,6 +34,47 @@ module.exports = {
         },
     },
 
+    DiveCenter: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
+    DivePoint: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
+    DiveSite: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
+    Diving: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
+    Image: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
+    
     Query: {
         async getUserLikes(parent, args, context, info) {
             let user = await User.findOne({ uid: context.uid })
@@ -119,6 +160,20 @@ module.exports = {
         },
     }
 };
+
+async function isUserSubscribe(context, parent) {
+    let user = await User.findOne({ uid: context.uid });
+    let subscribe = await Subscribe.find({ userId: user._id, targetIds: parent._id });
+
+    return subscribe != null;
+}
+
+async function isUserLike(context, parent) {
+    let user = await User.findOne({ uid: context.uid });
+    let like = await Like.find({ userId: user._id, targetIds: parent._id });
+
+    return like != null;
+}
 
 function getModel(targetType) {
 

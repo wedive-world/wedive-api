@@ -63,14 +63,11 @@ module.exports = {
             console.log(`query | getAllDiveSites: languageCode=${languageCode}`)
 
             console.log(`query | getAllDiveSites: args=${JSON.stringify(args)}`)
-            let offset = args.offset
+            let skip = args.skip
             let limit = args.limit
 
-            let params = offset ? {
-                _id: { $gt: offset }
-            } : {}
-
             let diveSites = await DiveSite.find(params)
+                .skip(skip)
                 .limit(limit)
                 .lean()
 

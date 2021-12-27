@@ -40,17 +40,11 @@ module.exports = {
             //console.log(`query | getAllDivePoints: languageCode=${languageCode}`)
 
             console.log(`query | getAllDivePoints: args=${JSON.stringify(args)}`)
-            let offset = (args.offset) ? args.offset : 0;
+            let skip = args.skip
             let limit = args.limit
-
-            //let params = offset ? {
-            //    _id: { $gt: offset }
-            //} : {}
-            let params = {};
-
             
-            let divePoints = await DivePoint.find(params)
-                .skip(offset)
+            let divePoints = await DivePoint.find()
+                .skip(skip)
                 .limit(limit)
                 .lean()
 

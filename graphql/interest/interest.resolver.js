@@ -174,14 +174,11 @@ module.exports = {
             console.log(`query | getAllInterests: languageCode=${languageCode}`)
 
             console.log(`query | getAllInterests: args=${JSON.stringify(args)}`)
-            let offset = args.offset
+            let skip = args.skip
             let limit = args.limit
 
-            let params = offset ? {
-                _id: { $gt: offset }
-            } : {}
-
-            let interests = await Interest.find(params)
+            let interests = await Interest.find()
+                .skip(skip)
                 .limit(limit)
                 .lean()
 

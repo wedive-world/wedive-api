@@ -39,31 +39,50 @@ enum UserReactionTargetType {
 interface UserReactionable {
   views: Int
   likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
 }
 
 type DiveCenter implements UserReactionable {
   views: Int
   likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
 }
 
 type DivePoint implements UserReactionable {
   views: Int
   likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
 }
 
 type DiveSite implements UserReactionable {
   views: Int
   likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
 }
 
 type Diving implements UserReactionable {
   views: Int
   likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
 }
 
 type Review implements UserReactionable {
   views: Int
   likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
+}
+
+type Image implements UserReactionable {
+  views: Int
+  likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
 }
 
 `;
