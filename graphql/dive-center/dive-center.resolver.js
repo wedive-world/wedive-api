@@ -54,8 +54,8 @@ module.exports = {
             console.log(`query | getAllDiveCenters: languageCode=${languageCode}`)
 
             console.log(`query | getAllDiveCenters: args=${JSON.stringify(args)}`)
-            let offset = args.offset
             let skip = args.skip
+            let limit = args.limit
 
             let diveCenters = await DiveCenter.find()
                 .skip(skip)
