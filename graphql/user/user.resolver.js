@@ -27,6 +27,12 @@ module.exports = {
         },
     },
 
+    Review: {
+        async author(parent, args, context, info) {
+            return await User.findById(parent.author);
+        },
+    },
+
     Query: {
         async getAllUsers(parent, args, context, info) {
             return await User.find()
