@@ -49,7 +49,7 @@ class ChatServiceProxy {
         }
     }
 
-    async updateUser({ nickName, profileImageUrl }, idToken) {
+    async updateUser({ name, profileImageUrl }, idToken) {
 
         const query = gql`
         mutation Mutation($name: String!, $avatarUrl: String) {
@@ -61,7 +61,7 @@ class ChatServiceProxy {
         `
 
         const variable = {
-            name: nickName,
+            name: name,
             avatarUrl: profileImageUrl
         }
 
