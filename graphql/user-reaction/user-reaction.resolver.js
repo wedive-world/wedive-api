@@ -157,16 +157,16 @@ module.exports = {
 
 async function isUserSubscribe(context, parent) {
     let user = await User.findOne({ uid: context.uid });
-    let subscribe = await Subscribe.find({ userId: user._id, targetIds: parent._id });
+    let subscribes = await Subscribe.find({ userId: user._id, targetIds: parent._id });
 
-    return subscribe != null;
+    return subscribes != null && subscribes.length > 0;
 }
 
 async function isUserLike(context, parent) {
     let user = await User.findOne({ uid: context.uid });
-    let like = await Like.find({ userId: user._id, targetIds: parent._id });
+    let likes = await Like.find({ userId: user._id, targetIds: parent._id });
 
-    return like != null;
+    return likes != null && likes.length > 0;
 }
 
 function getModel(targetType) {
