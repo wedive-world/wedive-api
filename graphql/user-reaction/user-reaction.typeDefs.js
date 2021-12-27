@@ -11,9 +11,9 @@ type Query {
 type Mutation {
   MUTATION_________________________UserReactions: UserReaction
 
-  view(targetId: ID!, targetType: UserReactionTargetType!): Response
-  like(targetId: ID!, targetType: UserReactionTargetType!): Response
-  subscribe(targetId: ID!, targetType: UserReactionTargetType!): Response
+  view(targetId: ID!, targetType: UserReactionTargetType!): Boolean
+  like(targetId: ID!, targetType: UserReactionTargetType!): Boolean
+  subscribe(targetId: ID!, targetType: UserReactionTargetType!): Boolean
 }
 
 type UserReaction {

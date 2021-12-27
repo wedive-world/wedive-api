@@ -74,7 +74,7 @@ module.exports = {
             return await isUserSubscribe(context, parent);
         }
     },
-    
+
     Query: {
         async getUserLikes(parent, args, context, info) {
             let user = await User.findOne({ uid: context.uid })
@@ -91,9 +91,7 @@ module.exports = {
         async view(parent, args, context, info) {
             console.log(`mutation | view: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
             await getModel(args.targetType).findOneAndUpdate({ _id: args.targetId }, { $inc: { 'views': 1 } })
-            return {
-                'success': true
-            }
+            return true
         },
 
         async like(parent, args, context, info) {
@@ -124,9 +122,7 @@ module.exports = {
 
             await like.save()
             await getModel(args.targetType).findOneAndUpdate({ _id: args.targetId }, { $inc: { 'likes': increament } })
-            return {
-                'success': true
-            }
+            return isLike
         },
 
         async subscribe(parent, args, context, info) {
@@ -154,9 +150,7 @@ module.exports = {
             }
 
             await subscribe.save()
-            return {
-                'success': true
-            }
+            return isSubscribe
         },
     }
 };
