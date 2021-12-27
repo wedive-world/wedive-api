@@ -88,7 +88,7 @@ module.exports = {
             }
 
             await chatServiceProxy.updateUser({
-                name: user.nickName,
+                name: user.nickName ? user.nickName : user.uid,
                 profileImageUrl: user.profileImages && user.profileImages.length > 0 ? user.profileImages[0].thumbnail : ""
             }, context.idToken)
 
@@ -99,6 +99,7 @@ module.exports = {
             console.log(`mutation | updateFcmToken: args=${JSON.stringify(args)}`)
 
             let user = await User.findOne({ uid: args.input.uid })
+            console.log(`mutation | updateFcmToken: args=${JSON.stringify(user)}`)
             const isNewUser = user == null
 
             if (isNewUser) {
