@@ -165,6 +165,11 @@ module.exports = {
 
 async function isUserSubscribe(context, parent) {
     let user = await User.findOne({ uid: context.uid });
+
+    if (user == null) {
+        console.log(`user-reaction-resolver | isUserSubscribe: cannot find user, uid=${context.uid}`)
+    }
+
     let subscribe = await Subscribe.findOne({ userId: user._id });
 
     return subscribe.targetIds && subscribe.targetIds.includes(parent._id)
@@ -172,6 +177,11 @@ async function isUserSubscribe(context, parent) {
 
 async function isUserLike(context, parent) {
     let user = await User.findOne({ uid: context.uid });
+
+    if (user == null) {
+        console.log(`user-reaction-resolver | isUserLike: cannot find user, uid=${context.uid}`)
+    }
+
     let like = await Like.findOne({ userId: user._id });
 
     return like.targetIds && like.targetIds.includes(parent._id)

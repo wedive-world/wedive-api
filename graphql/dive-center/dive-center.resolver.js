@@ -9,7 +9,7 @@ module.exports = {
     DiveSite: {
         async diveCenters(parent, args, context, info) {
             let languageCode = context.languageCode
-            let diveCenters = await DiveCenter.find({ diveSites: { $in: parent._id } }).lean()
+            let diveCenters = await DiveCenter.find({ diveSites: parent._id }).lean()
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         }
     },
@@ -17,7 +17,7 @@ module.exports = {
     DivePoint: {
         async diveCenters(parent, args, context, info) {
             let languageCode = context.languageCode
-            let diveCenters = await DiveCenter.find({ divePoints: { $in: parent._id } }).lean()
+            let diveCenters = await DiveCenter.find({ divePoints: parent._id }).lean()
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         }
     },
@@ -25,7 +25,7 @@ module.exports = {
     Diving: {
         async diveCenters(parent, args, context, info) {
             let languageCode = context.languageCode
-            let diveCenters = await DiveCenter.find({ diveSites: { $in: parent._id } }).lean()
+            let diveCenters = await DiveCenter.find({ _id: { $in: parent.diveCenters } }).lean()
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         }
     },
