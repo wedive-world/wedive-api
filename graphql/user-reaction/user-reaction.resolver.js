@@ -172,7 +172,7 @@ async function isUserSubscribe(context, parent) {
 
     let subscribe = await Subscribe.findOne({ userId: user._id });
 
-    return subscribe.targetIds && subscribe.targetIds.includes(parent._id)
+    return subscribe != null && subscribe.targetIds && subscribe.targetIds.includes(parent._id)
 }
 
 async function isUserLike(context, parent) {
@@ -184,7 +184,7 @@ async function isUserLike(context, parent) {
 
     let like = await Like.findOne({ userId: user._id });
 
-    return like.targetIds && like.targetIds.includes(parent._id)
+    return like != null && like.targetIds && like.targetIds.includes(parent._id)
 }
 
 function getModel(targetType) {
