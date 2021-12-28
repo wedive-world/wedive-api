@@ -74,6 +74,14 @@ module.exports = {
             return await isUserSubscribe(context, parent);
         }
     },
+    User: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
 
     Query: {
         async getUserLikes(parent, args, context, info) {

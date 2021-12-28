@@ -85,4 +85,11 @@ type Image implements UserReactionable {
   isUserSubscribe: Boolean
 }
 
+type User implements UserReactionable {
+  views: Int
+  likes: Int
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
+}
+
 `;
