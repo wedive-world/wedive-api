@@ -81,18 +81,18 @@ class ChatServiceProxy {
 
         const query = gql`
             mutation Mutation($input: ChatUserInput) {
-                updateChatUserV2(input: $input) {
-                    success
-                    reason
+                mutation Mutation($id: String!, $fcmToken: String!) {
+                    updateFcmToken(_id: $id, fcmToken: $fcmToken) {
+                        success
+                        reason
+                    }
                 }
             }
         `
 
         const variable = {
-            input: {
-                "uid": uid,
-                "fcmToken": fcmToken
-            }
+            "uid": uid,
+            "fcmToken": fcmToken
         }
 
         try {
