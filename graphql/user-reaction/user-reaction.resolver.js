@@ -181,7 +181,7 @@ async function isUserLike(context, parent) {
         }
     ).lean();
 
-    return like != null && subscribe.value
+    return like != null && like.value
 }
 
 function getModel(targetType) {
