@@ -80,12 +80,10 @@ class ChatServiceProxy {
     async updateFcmToken({ uid, fcmToken }, idToken) {
 
         const query = gql`
-            mutation Mutation($input: ChatUserInput) {
-                mutation Mutation($id: String!, $fcmToken: String!) {
-                    updateFcmToken(_id: $id, fcmToken: $fcmToken) {
-                        success
-                        reason
-                    }
+            mutation Mutation($id: String!, $fcmToken: String!) {
+                updateFcmToken(_id: $id, fcmToken: $fcmToken) {
+                    success
+                    reason
                 }
             }
         `
