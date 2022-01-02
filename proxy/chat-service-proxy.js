@@ -68,12 +68,42 @@ class ChatServiceProxy {
         try {
             console.log(`ChatServiceProxy | updateUser: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
             const data = await this.client.request(query, variable, { idtoken: idToken })
-            console.log(`ChatServiceProxy | updateUser: data=${data}`)
+            console.log(`ChatServiceProxy | updateUser: data=${JSON.stringify(data)}`)
 
             return data
 
         } catch (err) {
             console.log(`ChatServiceProxy | updateUser: ERROR, ${err}`)
+        }
+    }
+
+    async updateFcmToken({ uid, fcmToken }, idToken) {
+
+        const query = gql`
+            mutation Mutation($input: ChatUserInput) {
+                updateChatUserV2(input: $input) {
+                    success
+                    reason
+                }
+            }
+        `
+
+        const variable = {
+            input: {
+                "uid": uid,
+                "fcmToken": fcmToken
+            }
+        }
+
+        try {
+            console.log(`ChatServiceProxy | updateFcmToken: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
+            const data = await this.client.request(query, variable, { idtoken: idToken })
+            console.log(`ChatServiceProxy | updateFcmToken: data=${JSON.stringify(data)}`)
+
+            return data
+
+        } catch (err) {
+            console.log(`ChatServiceProxy | updateFcmToken: ERROR, ${err}`)
         }
     }
 }
