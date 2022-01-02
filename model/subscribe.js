@@ -3,9 +3,9 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
 
-    userId: { type: String, unique: true, index: true },
-
-    targetIds: [Schema.Types.ObjectId],
+    userId: { type: Schema.Types.ObjectId, index: true },
+    targetId: { type: Schema.Types.ObjectId, index: true },
+    value: Boolean,
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

@@ -107,58 +107,45 @@ module.exports = {
 
             let user = await User.findOne({ uid: context.uid })
 
-            let like = await Like.findOne({ userId: user._id })
-            if (like == null) {
-                like = new Like({ userId: user._id })
-            }
-
-            if (!like.targetIds) {
-                like.targetIds = []
-            }
-
-            let isLike = !like.targetIds.includes(args.targetId)
-            let increament = isLike ? 1 : -1
-
-            if (isLike) {
-                like.targetIds.push(args.targetId)
-            } else {
-                let index = like.targetIds.indexOf(args.targetId)
-                if (index > -1) {
-                    like.targetIds.splice(index, 1)
+            let result = await Like.findOneAndUpdate(
+                {
+                    userId: user ? user._id : "6188c5ad4c8a87c504b15501",
+                    targetId: args.targetId
+                },
+                [{ $set: { value: { $eq: [false, '$value'] } } }],
+                {
+                    upsert: true,
+                    new: true
                 }
-            }
+            )
 
-            await like.save()
-            await getModel(args.targetType).findOneAndUpdate({ _id: args.targetId }, { $inc: { 'likes': increament } })
-            return isLike
+            console.log(`mutation | like: result=${JSON.stringify(result)}`)
+
+            await getModel(args.targetType).findOneAndUpdate(
+                { _id: args.targetId },
+                { $inc: { 'likes': result.value ? 1 : -1 } }
+            )
+            return result.value
         },
 
         async subscribe(parent, args, context, info) {
             console.log(`mutation | subscribe: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
             let user = await User.findOne({ uid: context.uid })
 
-            let subscribe = await Subscribe.findOne({ userId: user._id })
-            if (subscribe == null) {
-                subscribe = new Subscribe({ userId: user._id })
-            }
-
-            if (!subscribe.targetIds) {
-                subscribe.targetIds = []
-            }
-
-            let isSubscribe = !subscribe.targetIds.includes(args.targetId)
-
-            if (isSubscribe) {
-                subscribe.targetIds.push(args.targetId)
-            } else {
-                let index = subscribe.targetIds.indexOf(args.targetId)
-                if (index > -1) {
-                    subscribe.targetIds.splice(index, 1)
+            let result = await Subscribe.findOneAndUpdate(
+                {
+                    userId: user ? user._id : "6188c5ad4c8a87c504b15501",
+                    targetId: args.targetId
+                },
+                [{ $set: { value: { $eq: [false, '$value'] } } }],
+                {
+                    upsert: true,
+                    new: true
                 }
-            }
+            )
 
-            await subscribe.save()
-            return isSubscribe
+            console.log(`mutation | subscribe: result=${JSON.stringify(result)}`)
+            return result.value
         },
     }
 };
@@ -170,9 +157,14 @@ async function isUserSubscribe(context, parent) {
         console.log(`user-reaction-resolver | isUserSubscribe: cannot find user, uid=${context.uid}`)
     }
 
-    let subscribe = await Subscribe.findOne({ userId: user._id });
+    let subscribe = await Subscribe.findOne(
+        {
+            userId: user._id,
+            targetId: parent._id
+        }
+    ).lean();
 
-    return subscribe != null && subscribe.targetIds && subscribe.targetIds.includes(parent._id)
+    return subscribe != null && subscribe.value
 }
 
 async function isUserLike(context, parent) {
@@ -182,9 +174,14 @@ async function isUserLike(context, parent) {
         console.log(`user-reaction-resolver | isUserLike: cannot find user, uid=${context.uid}`)
     }
 
-    let like = await Like.findOne({ userId: user._id });
+    let like = await Like.findOne(
+        {
+            userId: user._id,
+            targetId: parent._id
+        }
+    ).lean();
 
-    return like != null && like.targetIds && like.targetIds.includes(parent._id)
+    return like != null && subscribe.value
 }
 
 function getModel(targetType) {
