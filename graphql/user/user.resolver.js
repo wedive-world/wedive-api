@@ -124,9 +124,9 @@ module.exports = {
 
             }
 
-            await chatServiceProxy.updateUser({
-                name: user.name ? user.name : user._id,
-                profileImageUrl: ""
+            await chatServiceProxy.updateFcmToken({
+                uid: args.input.uid,
+                fcmToken: args.input.fcmToken
             }, context.idToken)
 
             return {
