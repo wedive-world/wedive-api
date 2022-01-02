@@ -3,6 +3,8 @@ const {
     Review
 } = require('../../model').schema;
 
+const DEFAULT_REVIEW_COUNT = 5
+
 module.exports = {
 
     Query: {
@@ -48,6 +50,7 @@ module.exports = {
     DiveCenter: {
         async reviews(parent, args, context, info) {
             return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
                 .lean()
         },
     },
@@ -55,6 +58,7 @@ module.exports = {
     DivePoint: {
         async reviews(parent, args, context, info) {
             return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
                 .lean()
         },
     },
@@ -62,6 +66,7 @@ module.exports = {
     DiveSite: {
         async reviews(parent, args, context, info) {
             return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
                 .lean()
         },
     },
@@ -69,6 +74,7 @@ module.exports = {
     Review: {
         async reviews(parent, args, context, info) {
             return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
                 .lean()
         },
     },
@@ -76,6 +82,7 @@ module.exports = {
     Diving: {
         async reviews(parent, args, context, info) {
             return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
                 .lean()
         },
     },
@@ -83,6 +90,7 @@ module.exports = {
     InstructorProfile: {
         async reviews(parent, args, context, info) {
             return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
                 .lean()
         },
     },
