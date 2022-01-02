@@ -89,8 +89,8 @@ class ChatServiceProxy {
         `
 
         const variable = {
-            "uid": uid,
-            "fcmToken": fcmToken
+            id: uid,
+            fcmToken: fcmToken
         }
 
         try {
