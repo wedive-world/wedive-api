@@ -59,4 +59,5 @@ module.exports.schema = {
     Subscribe: require('./subscribe'),
 
     Review: require('./review'),
+    Notification: require('./notification')
 }

@@ -3,7 +3,8 @@ const {
     User
 } = require('../../model').schema;
 
-const translator = require('../common/util/translator')
+const notificationManager = require('../../controller/notification-manager')
+const ChatServiceProxy = require('../../proxy/chat-service-proxy')
 
 module.exports = {
 
@@ -23,6 +24,20 @@ module.exports = {
             return await Diving.find({ hostUser: args.hostUserId })
                 .lean()
         },
+
+        async getDivingsByCurrentUser(parent, args, context, info) {
+            let userUid = context.uid
+            let user = await User.findOne({ uid: userUid })
+            return await Diving.find({
+                participant: {
+                    user: {
+                        '_id': user._id
+                    }
+                }
+            })
+                .skip(args.skip)
+                .limit(args.limit)
+        }
     },
 
     Mutation: {
@@ -30,8 +45,8 @@ module.exports = {
             console.log(`mutation | upsertDiving: args=${JSON.stringify(args)}`)
 
             let diving = null
-
-            if (!args.input._id) {
+            let isNewDiving = !args.input._id
+            if (isNewDiving) {
                 diving = new Diving(args.input)
 
             } else {
@@ -49,6 +64,8 @@ module.exports = {
 
             await diving.save()
 
+            await notificationManager.onDivingCreated(diving)
+
             return diving
         },
 
@@ -62,7 +79,7 @@ module.exports = {
             console.log(`mutation | joinDiving: args=${JSON.stringify(args)}`)
 
             let diving = await Diving.findOne({ _id: args.divingId })
-                .populate('participants.user')
+                .populate('participants.user', 'hostUser')
 
             if (diving.status != 'searchable') {
                 return {
@@ -72,6 +89,12 @@ module.exports = {
             }
 
             let userUid = context.uid
+            if (diving.hostUser.uid != userUid) {
+                return {
+                    success: false,
+                    reason: 'hostCannotApply'
+                }
+            }
 
             let userExist = diving.participants
                 .filter(participant => participant.user)
@@ -88,13 +111,6 @@ module.exports = {
             let user = await User.findOne({ uid: userUid })
                 .lean()
 
-            if (user && diving.hostUser == user._id) {
-                return {
-                    success: false,
-                    reason: 'hostCannotApply'
-                }
-            }
-
             diving.participants.push({
                 user: user._id,
                 status: 'applied',
@@ -104,10 +120,75 @@ module.exports = {
             })
 
             await diving.save()
+            await notificationManager.onNewParticipantAtDiving(diving, user)
 
+            return {
+                success: true
+            }
+        },
+
+        async acceptParticipant(parent, args, context, info) {
+            console.log(`mutation | acceptParticipant: args=${JSON.stringify(args)}`)
+
+            let diving = await Diving.findOne({ _id: args.divingId })
+                .populate('participants.user', 'hostUser')
+
+            await updateParticipantStatus(diving, context.uid, args.userId, 'joined')
+            await notificationManager.onParticipantJoinedDiving(rgs.userId, diving)
+            //todo chat invite
+            return {
+                success: true
+            }
+        },
+
+        async kickParticipant(parent, args, context, info) {
+            console.log(`mutation | kickParticipant: args=${JSON.stringify(args)}`)
+
+            let diving = await Diving.findOne({ _id: args.divingId })
+                .populate('participants.user', 'hostUser')
+
+            await updateParticipantStatus(diving, context.uid, args.userId, 'banned')
+            //todo chat kick
             return {
                 success: true
             }
         },
     },
 };
+
+async function updateParticipantStatus(diving, userUid, participantId, participantStatus) {
+
+    if (diving.status != 'searchable') {
+        return {
+            success: false,
+            reason: 'publicEnded'
+        }
+    }
+
+    if (diving.hostUser.uid != userUid) {
+        return {
+            success: false,
+            reason: 'onlyHostCanUpdate'
+        }
+    }
+
+    let participant = diving.participants
+        .find(participant => participant.user && participant.user._id == participantId)
+
+    if (!participant) {
+        return {
+            success: false,
+            reason: 'userNotFoundInParticipants'
+        }
+    }
+
+    if (participant.status == participantStatus) {
+        return {
+            success: false,
+            reason: 'alreadyUpdated'
+        }
+    }
+
+    participant.status = participantStatus
+    await diving.save()
+}

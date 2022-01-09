@@ -36,6 +36,7 @@ const schema = new Schema({
     instructorTypes: [String],
 
     instructorVerifications: [{ type: Schema.Types.ObjectId, ref: 'InstructorVerification' }],
+    instructor: { type: Schema.Types.ObjectId, ref: 'Instructor' },
 
     views: Number,
     likes: Number,

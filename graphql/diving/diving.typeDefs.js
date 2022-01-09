@@ -8,6 +8,7 @@ type Query {
   getAllDivings: [Diving]
   getDivingById(_id: ID!): Diving
   getDivingsByHostUserId(hostUserId: ID!): [Diving]
+  getDivingsByCurrentUser(skip: Int! = 0, limit: Int! = 10): [Diving]
 }
 
 type Mutation {
@@ -16,6 +17,8 @@ type Mutation {
   upsertDiving(input: DivingInput): Diving!
   deleteDivingById(_id: ID!): ID!
   joinDiving(divingId: ID!): Response!
+  acceptParticipant(divingId: ID!, userId: ID!): Response!
+  kickParticipant(divingId: ID!, userId: ID!): Response!
 }
 
 type Diving {
