@@ -5,6 +5,7 @@ const {
 
 const notificationManager = require('../../controller/notification-manager')
 const ChatServiceProxy = require('../../proxy/chat-service-proxy')
+const chatServiceProxy = new ChatServiceProxy()
 
 module.exports = {
 
@@ -45,7 +46,8 @@ module.exports = {
             console.log(`mutation | upsertDiving: args=${JSON.stringify(args)}`)
 
             let diving = null
-            let isNewDiving = !args.input._id
+            const isNewDiving = !args.input._id
+
             if (isNewDiving) {
                 diving = new Diving(args.input)
 
@@ -62,8 +64,13 @@ module.exports = {
                 diving.updatedAt = Date.now()
             }
 
-            await diving.save()
+            let chatRoomId = await chatServiceProxy.createChatRoom({
+                name: diving.title,
+                description: diving.description
+            })
 
+            diving.chatRoomId = chatRoomId
+            await diving.save()
             await notificationManager.onDivingCreated(diving)
 
             return diving
@@ -135,7 +142,14 @@ module.exports = {
 
             await updateParticipantStatus(diving, context.uid, args.userId, 'joined')
             await notificationManager.onParticipantJoinedDiving(rgs.userId, diving)
-            //todo chat invite
+
+            let user = await User.findById(args.userId)
+            let inviteResult = await chatServiceProxy.invite({
+                roomId: args.roomId,
+                uid: user.uid
+            }, context.idToken)
+
+            console.log(`diving-resolver | acceptParticipant: inviteResult=${JSON.stringify(inviteResult)}`)
             return {
                 success: true
             }
@@ -148,7 +162,13 @@ module.exports = {
                 .populate('participants.user', 'hostUser')
 
             await updateParticipantStatus(diving, context.uid, args.userId, 'banned')
-            //todo chat kick
+            let user = await User.findById(args.userId)
+            let kickResult = await chatServiceProxy.kick({
+                roomId: args.roomId,
+                uid: user.uid
+            }, context.idToken)
+
+            console.log(`diving-resolver | kickUser: kickReesult=${JSON.stringify(kickResult)}`)
             return {
                 success: true
             }

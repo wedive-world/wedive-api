@@ -34,6 +34,8 @@ const schema = new Schema({
     likes: Number,
 
     reviewCount: Number,
+
+    chatRoomId: String,
     
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

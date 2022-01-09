@@ -104,6 +104,87 @@ class ChatServiceProxy {
             console.log(`ChatServiceProxy | updateFcmToken: ERROR, ${err}`)
         }
     }
+
+    async createChatRoom({ name, description }, idToken) {
+
+        const query = gql`
+            mutation CreateRoom($name: String!, $description: String!) {
+                createRoom(name: $name, description: $description) {
+                    _id
+                }
+            }
+        `
+
+        const variable = {
+            name: name,
+            description: description
+        }
+
+        try {
+            console.log(`ChatServiceProxy | createChatRoom: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
+            const data = await this.client.request(query, variable, { idtoken: idToken })
+            console.log(`ChatServiceProxy | createChatRoom: data=${JSON.stringify(data)}`)
+
+            return data.createRoom._id
+
+        } catch (err) {
+            console.log(`ChatServiceProxy | createChatRoom: ERROR, ${err}`)
+        }
+    }
+
+    async invite({ roomId, uid }, idToken) {
+
+        const query = gql`
+        mutation CreateRoom($roomId: String!, $uid: String!) {
+            invite(roomId: $roomId, uid: $uid) {
+                success
+            }
+        }
+        `
+
+        const variable = {
+            roomId: roomId,
+            uid: uid
+        }
+
+        try {
+            console.log(`ChatServiceProxy | createChatRoom: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
+            const data = await this.client.request(query, variable, { idtoken: idToken })
+            console.log(`ChatServiceProxy | createChatRoom: data=${JSON.stringify(data)}`)
+
+            return data.createRoom._id
+
+        } catch (err) {
+            console.log(`ChatServiceProxy | createChatRoom: ERROR, ${err}`)
+        }
+    }
+
+    async kick({ roomId, uid }, idToken) {
+
+        const query = gql`
+            mutation CreateRoom($roomId: String!, $uid: String!) {
+                kick(roomId: $roomId, uid: $uid) {
+                    success
+                }
+            }
+        `
+
+        const variable = {
+            roomId: roomId,
+            uid: uid
+        }
+
+        try {
+            console.log(`ChatServiceProxy | createChatRoom: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
+            const data = await this.client.request(query, variable, { idtoken: idToken })
+            console.log(`ChatServiceProxy | createChatRoom: data=${JSON.stringify(data)}`)
+
+            return data.createRoom._id
+
+        } catch (err) {
+            console.log(`ChatServiceProxy | createChatRoom: ERROR, ${err}`)
+        }
+    }
 }
 
 module.exports = ChatServiceProxy
