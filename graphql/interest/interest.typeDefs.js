@@ -85,7 +85,7 @@ enum InterestType {
   """다이빙 타입(프리,스쿠바)""" divingType
   """month, 1,2,3,4... 12 """ month
   """sunny, cloudy, rain, heavyRain""" climate
-  """popular, soso, unrecommended""" popularity,
+  """unavailable, popular, soso, unrecommended""" popularity,
   """ $, $$, $$$, $$$$, $$$$$ """ priceIndex,
   """센터 시설정보 (주차, WIFI..)"""facility,
   """센터 지원언어"""language,
