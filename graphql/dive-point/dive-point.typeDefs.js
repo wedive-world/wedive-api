@@ -35,6 +35,8 @@ type DivePoint {
   eyeSightScore: Int
   highlightDescription: String
 
+  divingType: [DivingType]
+
   createdAt: Date
   updatedAt: Date
 }
@@ -53,6 +55,8 @@ input DivePointInput {
   waterEnvironmentScore: Int
   eyeSightScore: Int
   highlightDescription: String
+
+  divingType: [DivingType]
 }
 
 type DiveSite {

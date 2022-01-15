@@ -44,6 +44,8 @@ type DiveSite {
   eyeSightDescription: String
   highlightDescription: String
 
+  divingType: [DivingType]
+
   createdAt: Date
   updatedAt: Date
 }
@@ -61,6 +63,8 @@ input DiveSiteInput {
   waterFlowDescription: String
   eyeSightDescription: String
   highlightDescription: String
+
+  divingType: [DivingType]
 }
 
 type DiveCenter {

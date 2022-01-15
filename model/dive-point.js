@@ -60,6 +60,8 @@ const schema = new Schema({
     highlightDescription: String,
     highlightDescriptionTranslation: { type: Map, of: String },
 
+    divingType: [String],
+    
     views: Number,
     likes: Number,
     
