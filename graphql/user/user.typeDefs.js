@@ -14,6 +14,7 @@ type Query {
   getUserByNickName(nickName: String!): User
   getUserByUid(uid: ID!): User
   getUsersByUid(uids: [ID]): [User]
+  findUserByNickName(nickName: String!): [User]
 }
 
 type Mutation {

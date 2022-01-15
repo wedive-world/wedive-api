@@ -45,4 +45,8 @@ const schema = new Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
+schema.index({
+    'nickName': 'text'
+}, { default_language: "ngram" })
+
 module.exports = mongoose.model('User', schema);
