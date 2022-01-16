@@ -136,19 +136,22 @@ module.exports = {
             divePoint = translator.translateIn(divePoint, args.input, languageCode)
             await divePoint.save()
 
-            let diveSite = await DiveSite.findOne({ _id: args.input.diveSiteId })
+            if (args.input.diveSiteId) {
 
-            if (!diveSite.divePoints) {
-                diveSite.divePoints = []
+                let diveSite = await DiveSite.findOne({ _id: args.input.diveSiteId })
+
+                if (!diveSite.divePoints) {
+                    diveSite.divePoints = []
+                }
+    
+                if (!diveSite.divePoints.includes(divePoint._id)) {
+                    diveSite.divePoints.push(divePoint._id)
+                }
+    
+                await diveSite.populate('divePoints')
+                scoringDiveSite(diveSite)
+                await diveSite.save()
             }
-
-            if (!diveSite.divePoints.includes(divePoint._id)) {
-                diveSite.divePoints.push(divePoint._id)
-            }
-
-            await diveSite.populate('divePoints')
-            scoringDiveSite(diveSite)
-            await diveSite.save()
 
             let result = await DivePoint.findOne({ _id: divePoint._id })
                 .lean()
