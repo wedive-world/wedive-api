@@ -5,8 +5,9 @@ module.exports = gql`
 type Mutation {
 
   MUTATION_________________________ADMIN: Response
-  updateAddressByLocation: Response!
+  updateAddressByLocation(targetType: String): Response!
   updateDiveCenterLatLngByAddress: Response!
+  updateLatLngByAddress(targetType: String): Response!
 }
 
 `;
