@@ -77,6 +77,17 @@ async function searchPlaces(searchParams, limit) {
         mongooseParams['$and'].push({ eyeSightScore: { $gte: searchParams.eyeSightScore } })
     }
 
+    if (searchParams.lat1 && searchParams.lng1 && searchParams.lat2 && searchParams.lng2) {
+        mongooseParams['$and'].push({
+            $and: [
+                { latitude: { $gte: Math.min(args.lat1, args.lat2) } },
+                { longitude: { $gte: Math.min(args.lng1, args.lng2) } },
+                { latitude: { $lte: Math.max(args.lat1, args.lat2) } },
+                { longitude: { $lte: Math.max(args.lng1, args.lng2) } },
+            ]
+        })
+    }
+
     if (searchParams.interests && searchParams.interests.length > 0 && searchParams.interests[0].length > 0) {
         searchParams.interests.forEach(interestArray => mongooseParams['$and'].push({ interests: { $in: interestArray } }))
     }
