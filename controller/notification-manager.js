@@ -27,7 +27,7 @@ module.exports.onDivingCreated = async (diving) => {
             });
     }
 
-    let hostUser = await User.findById(hostUser)
+    let hostUser = await User.findById(diving.hostUser)
         .lean()
 
     if (hostUser.instructor) {
