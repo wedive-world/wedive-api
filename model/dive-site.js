@@ -33,6 +33,10 @@ const schema = new Schema({
 
     latitude: { type: Number, index: true, },
     longitude: { type: Number, index: true, },
+    location: {
+        type: { type: String, enum: ['Point'], required: true },
+        coordinates: { type: [Number], required: true }
+    },
     address: String,
     addressTranslation: { type: Map, of: String },
     countryCode: String,
@@ -90,4 +94,5 @@ schema.index({
     'nameTranslation.ko': 'text',
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
+    'addressTranslation.ko': 'text',
  }, { default_language: "ngram" })

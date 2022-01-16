@@ -18,6 +18,10 @@ const schema = new Schema({
 
     latitude: { type: Number, index: true, },
     longitude: { type: Number, index: true, },
+    location: {
+        type: { type: String, enum: ['Point'], required: true },
+        coordinates: { type: [Number], required: true }
+    },
     address: String,
     addressTranslation: { type: Map, of: String },
     countryCode: String,
@@ -82,7 +86,7 @@ const schema = new Schema({
     likes: Number,
 
     reviewCount: Number,
-    
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
@@ -93,4 +97,5 @@ schema.index({
     'nameTranslation.ko': 'text',
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
+    'addressTranslation.ko': 'text',
 }, { default_language: "ngram" })
