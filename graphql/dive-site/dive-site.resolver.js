@@ -3,6 +3,10 @@ const schema = require('../../model').schema;
 const DiveSite = schema.DiveSite
 
 const translator = require('../common/util/translator')
+const {
+    queryGeocoding,
+    queryReverseGeocoding
+} = require('../../controller/geocoding-client')
 
 module.exports = {
 
@@ -152,6 +156,9 @@ module.exports = {
 
             diveSite.location.type = 'Point'
             diveSite.location.coordinates = [diveSite.latitude, diveSite.longitude]
+            
+            let geocoding = await queryReverseGeocoding(diveSite.latitude, diveSite.longitude, context.languageCode)
+            diveSite.address = geocoding.refinedAddress
 
             diveSite = translator.translateIn(diveSite, args.input, languageCode)
             await diveSite.save()
