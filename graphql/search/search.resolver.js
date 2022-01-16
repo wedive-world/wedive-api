@@ -36,13 +36,15 @@ module.exports = {
             let searchParams = args.searchParams
 
             let places = await searchPlaces(searchParams, limit)
+            console.log(JSON.stringify(places))
             let placeIds = places.map(place => place._id)
+            console.log(JSON.stringify(placeIds))
 
             return await Diving.find({
                 $or: [
-                    { '_id': placeIds },
-                    { diveSites: placeIds },
-                    { divePoints: placeIds }
+                    { $in: { '_id': placeIds } },
+                    { $in: { diveSites: placeIds } },
+                    { $in: { divePoints: placeIds } }
                 ]
             })
         },
