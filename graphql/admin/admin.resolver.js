@@ -25,6 +25,10 @@ module.exports = {
             let failed = ''
             for (let model of models) {
                 try {
+                    if (model.location) {
+                        continue
+                    }
+
                     let result = await queryReverseGeocoding(model.latitude, model.longitude, context.languageCode)
 
                     if (!model.addressTranslation) {
