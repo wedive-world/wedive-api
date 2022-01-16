@@ -113,6 +113,7 @@ module.exports = {
                     { longitude: { $lt: Math.max(args.lon1, args.lon2) } },
                 ]
             })
+                .limit(args.limit)
                 .lean()
 
             return diveSiteList.map(diveSite => translator.translateOut(diveSite, languageCode))
@@ -156,7 +157,7 @@ module.exports = {
 
             diveSite.location.type = 'Point'
             diveSite.location.coordinates = [diveSite.latitude, diveSite.longitude]
-            
+
             let geocoding = await queryReverseGeocoding(diveSite.latitude, diveSite.longitude, context.languageCode)
             diveSite.address = geocoding.refinedAddress
 

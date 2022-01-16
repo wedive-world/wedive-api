@@ -47,7 +47,7 @@ module.exports = {
             console.log(`query | getAllDivePoints: args=${JSON.stringify(args)}`)
             let skip = args.skip
             let limit = args.limit
-            
+
             let divePoints = await DivePoint.find()
                 .skip(skip)
                 .limit(limit)
@@ -101,7 +101,9 @@ module.exports = {
                     { longitude: { $lt: Math.max(args.lon1, args.lon2) } },
                 ]
             })
+                .limit(args.limit)
                 .lean()
+
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))
         },
 
@@ -151,11 +153,11 @@ module.exports = {
                 if (!diveSite.divePoints) {
                     diveSite.divePoints = []
                 }
-    
+
                 if (!diveSite.divePoints.includes(divePoint._id)) {
                     diveSite.divePoints.push(divePoint._id)
                 }
-    
+
                 await diveSite.populate('divePoints')
                 scoringDiveSite(diveSite)
                 await diveSite.save()

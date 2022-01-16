@@ -10,7 +10,7 @@ type Query {
   getDiveSiteById(_id: ID!): DiveSite
   getDiveSiteByUniqueName(uniqueName: String!): DiveSite
   getDiveSiteByAddress(address: String!): DiveSite
-  getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!): [DiveSite]
+  getDiveSitesNearby(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 100): [DiveSite]
   searchDiveSitesByName(query: String!): [DiveSite]
   getNearByDiveSites(lat: Float!, lon: Float!, m: Int): [DiveSite]
 }

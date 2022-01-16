@@ -98,6 +98,7 @@ module.exports = {
                     { longitude: { $lt: Math.max(args.lon1, args.lon2) } },
                 ]
             })
+                .limit(args.limit)
                 .lean()
 
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
