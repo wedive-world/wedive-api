@@ -143,6 +143,9 @@ module.exports = {
                     diveCenter.diveSites.push(divePoint.diveSiteId)
                 });
             }
+            
+            diveCenter.location.type = 'Point'
+            diveCenter.location.coordinates = [diveCenter.latitude, diveCenter.longitude]
 
             diveCenter = translator.translateIn(diveCenter, args.input, languageCode)
             await diveCenter.save()

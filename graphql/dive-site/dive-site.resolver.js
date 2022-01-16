@@ -150,6 +150,9 @@ module.exports = {
                 diveSite.updatedAt = Date.now()
             }
 
+            diveSite.location.type = 'Point'
+            diveSite.location.coordinates = [diveSite.latitude, diveSite.longitude]
+
             diveSite = translator.translateIn(diveSite, args.input, languageCode)
             await diveSite.save()
 

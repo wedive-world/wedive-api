@@ -2,8 +2,8 @@ const { gql } = require('apollo-server')
 
 const fields = `
     address: String
-    latitude: Float!
-    longitude: Float!
+    latitude: Float
+    longitude: Float
     countryCode: String
 `
 
