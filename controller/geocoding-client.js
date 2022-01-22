@@ -1,3 +1,4 @@
+const axios = require('axios').default
 
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/geocoding-secret.env' })
 
@@ -61,6 +62,9 @@ module.exports.queryGeocoding = async function (address, language) {
 function extractRefinedAddress(data) {
     let addressComponents = data.results[0].address_components;
 
+    let country = addressComponents
+        .find(component => component.types.includes('country'));
+
     let administrative_area_level_1 = addressComponents
         .find(component => component.types.includes('administrative_area_level_1'));
 
@@ -70,6 +74,6 @@ function extractRefinedAddress(data) {
     let sublocality_level_1 = addressComponents
         .find(component => component.types.includes('sublocality_level_1'));
 
-    let refinedAddress = `${administrative_area_level_1 ? administrative_area_level_1.long_name : ''}${locality ? ' ' + locality.long_name : ''}${sublocality_level_1 ? ' ' + sublocality_level_1.long_name : ''}`;
+    let refinedAddress = `${country ? country.long_name : ''} ${administrative_area_level_1 ? administrative_area_level_1.long_name : ''}${locality ? ' ' + locality.long_name : ''}${sublocality_level_1 ? ' ' + sublocality_level_1.long_name : ''}`;
     return refinedAddress;
 }
