@@ -81,10 +81,10 @@ async function searchPlaces(searchParams, limit) {
         if (searchParams.lat1 && searchParams.lng1 && searchParams.lat2 && searchParams.lng2) {
             mongooseParams['$and'].push({
                 $and: [
-                    { latitude: { $gte: Math.min(args.lat1, args.lat2) } },
-                    { longitude: { $gte: Math.min(args.lng1, args.lng2) } },
-                    { latitude: { $lte: Math.max(args.lat1, args.lat2) } },
-                    { longitude: { $lte: Math.max(args.lng1, args.lng2) } },
+                    { latitude: { $gte: Math.min(searchparams.lat1, searchparams.lat2) } },
+                    { longitude: { $gte: Math.min(searchparams.lng1, searchparams.lng2) } },
+                    { latitude: { $lte: Math.max(searchparams.lat1, searchparams.lat2) } },
+                    { longitude: { $lte: Math.max(searchparams.lng1, searchparams.lng2) } },
                 ]
             })
         }
