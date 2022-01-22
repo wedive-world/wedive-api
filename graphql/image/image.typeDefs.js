@@ -141,4 +141,13 @@ input ReviewInput {
     images: [ID]
 }
 
+type Recommendation {
+    images: [Image]
+    backgroundImages: [Image]
+}
+
+input RecommendationInput {
+    images: [ID]
+    backgroundImages: [ID]
+}
 `;
