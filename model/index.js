@@ -56,6 +56,7 @@ module.exports.schema = {
     Product: require('./product'),
 
     Like: require('./like'),
+    Dislike: require('./dislike'),
     Subscribe: require('./subscribe'),
 
     Review: require('./review'),
