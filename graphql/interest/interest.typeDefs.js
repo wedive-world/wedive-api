@@ -149,4 +149,11 @@ input DivingInput {
   interests: [ID]
 }
 
+type Recommendation {
+  interests: [Interest]
+}
+
+input RecommendationInput {
+  interests: [ID]
+}
 `;

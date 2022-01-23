@@ -53,43 +53,45 @@ module.exports = {
 
 async function searchPlaces(searchParams, limit) {
 
-    let mongooseParams = {
-        $and: []
-    }
+    let mongooseParams = {}
 
-    if (searchParams.query) {
-        mongooseParams['$and'].push({ $text: { $search: searchParams.query } })
-    }
+    if (searchParams) {
+        mongooseParams['$and'] = []
 
-    if (searchParams.divingTypes && searchParams.divingTypes.length > 0) {
-        mongooseParams['$and'].push({ divingType: { $in: searchParams.divingTypes } })
-    }
+        if (searchParams.query) {
+            mongooseParams['$and'].push({ $text: { $search: searchParams.query } })
+        }
 
-    if (searchParams.adminScore) {
-        mongooseParams['$and'].push({ adminScore: { $gte: searchParams.adminScore } })
-    }
+        if (searchParams.divingTypes && searchParams.divingTypes.length > 0) {
+            mongooseParams['$and'].push({ divingType: { $in: searchParams.divingTypes } })
+        }
 
-    if (searchParams.waterEnvironmentScore) {
-        mongooseParams['$and'].push({ waterEnvironmentScore: { $gte: searchParams.waterEnvironmentScore } })
-    }
+        if (searchParams.adminScore) {
+            mongooseParams['$and'].push({ adminScore: { $gte: searchParams.adminScore } })
+        }
 
-    if (searchParams.eyeSightScore) {
-        mongooseParams['$and'].push({ eyeSightScore: { $gte: searchParams.eyeSightScore } })
-    }
+        if (searchParams.waterEnvironmentScore) {
+            mongooseParams['$and'].push({ waterEnvironmentScore: { $gte: searchParams.waterEnvironmentScore } })
+        }
 
-    if (searchParams.lat1 && searchParams.lng1 && searchParams.lat2 && searchParams.lng2) {
-        mongooseParams['$and'].push({
-            $and: [
-                { latitude: { $gte: Math.min(args.lat1, args.lat2) } },
-                { longitude: { $gte: Math.min(args.lng1, args.lng2) } },
-                { latitude: { $lte: Math.max(args.lat1, args.lat2) } },
-                { longitude: { $lte: Math.max(args.lng1, args.lng2) } },
-            ]
-        })
-    }
+        if (searchParams.eyeSightScore) {
+            mongooseParams['$and'].push({ eyeSightScore: { $gte: searchParams.eyeSightScore } })
+        }
 
-    if (searchParams.interests && searchParams.interests.length > 0 && searchParams.interests[0].length > 0) {
-        searchParams.interests.forEach(interestArray => mongooseParams['$and'].push({ interests: { $in: interestArray } }))
+        if (searchParams.lat1 && searchParams.lng1 && searchParams.lat2 && searchParams.lng2) {
+            mongooseParams['$and'].push({
+                $and: [
+                    { latitude: { $gte: Math.min(searchParams.lat1, searchParams.lat2) } },
+                    { longitude: { $gte: Math.min(searchParams.lng1, searchParams.lng2) } },
+                    { latitude: { $lte: Math.max(searchParams.lat1, searchParams.lat2) } },
+                    { longitude: { $lte: Math.max(searchParams.lng1, searchParams.lng2) } },
+                ]
+            })
+        }
+
+        if (searchParams.interests && searchParams.interests.length > 0 && searchParams.interests[0].length > 0) {
+            searchParams.interests.forEach(interestArray => mongooseParams['$and'].push({ interests: { $in: interestArray } }))
+        }
     }
 
     console.log(`mongooseParams=${JSON.stringify(mongooseParams)}`)

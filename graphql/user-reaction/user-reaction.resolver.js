@@ -112,7 +112,7 @@ module.exports = {
                     userId: user ? user._id : "6188c5ad4c8a87c504b15501",
                     targetId: args.targetId
                 },
-                [{ $set: { value: { $eq: [false, '$value'] } } }],
+                [{ $set: { value: { $ne: [true, '$value'] } } }],
                 {
                     upsert: true,
                     new: true
