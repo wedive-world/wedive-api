@@ -18,7 +18,7 @@ module.exports = {
         },
 
         async findSearchSuggestions(parent, args, context, info) {
-            console.log(`query | getReviewsByCurrentUser: context=${JSON.stringify(context)}`)
+            console.log(`query | findSearchSuggestions: context=${JSON.stringify(context)}`)
 
             return await SearchSuggestion.find({ $text: { $search: args.query } })
                 .lean()
