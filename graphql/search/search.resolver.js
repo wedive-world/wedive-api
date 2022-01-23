@@ -2,7 +2,8 @@ const {
     DiveSite,
     DivePoint,
     DiveCenter,
-    Diving
+    Diving,
+    Interest
 } = require('../../model').schema
 
 const translator = require('../common/util/translator')
@@ -36,17 +37,30 @@ module.exports = {
             let searchParams = args.searchParams
 
             let places = await searchPlaces(searchParams, limit)
-            console.log(JSON.stringify(places))
             let placeIds = places.map(place => place._id)
-            console.log(JSON.stringify(placeIds))
 
-            return await Diving.find({
+            let mongooseParams = {
                 $or: [
-                    { $in: { '_id': placeIds } },
-                    { $in: { diveSites: placeIds } },
-                    { $in: { divePoints: placeIds } }
+                    { _id: { $in: placeIds } },
+                    { diveSites: { $in: placeIds } },
+                    { divePoints: { $in: placeIds } },
+                    { diveCenters: { $in: placeIds } }
                 ]
-            })
+            }
+
+            if (searchParams) {
+                mongooseParams['$or']['$and'] = []
+
+                if (searchParams.interests && searchParams.interests.length > 0 && searchParams.interests[0].length > 0) {
+                    searchParams.interests.forEach(interestArray => mongooseParams['$or']['$and'].push({ interests: { $in: interestArray } }))
+                }
+
+                if (searchParams.query) {
+                    mongooseParams['$or']['$and'].push({ $text: { $search: searchParams.query } })
+                }
+            }
+
+            return await Diving.find(mongooseParams)
         },
     },
 }
@@ -60,6 +74,13 @@ async function searchPlaces(searchParams, limit) {
 
         if (searchParams.query) {
             mongooseParams['$and'].push({ $text: { $search: searchParams.query } })
+
+            let foundInterest = await Interest.find({ $text: { $search: searchParams.query } })
+                .lean()
+
+            if (foundInterest) {
+                mongooseParams['$and'].push({ interests: { $in: foundInterest.map(interest => interest._id) } })
+            }
         }
 
         if (searchParams.divingTypes && searchParams.divingTypes.length > 0) {

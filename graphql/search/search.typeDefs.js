@@ -19,5 +19,8 @@ input SearchParams {
   lat2: Float
   lng2: Float
   interests: [[ID]]
+
+  startedAt: Date
+  finishedAt: Date
 }
 `;

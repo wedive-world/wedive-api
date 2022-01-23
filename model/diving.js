@@ -42,3 +42,8 @@ const schema = new Schema({
 });
 
 module.exports = mongoose.model('Diving', schema);
+
+schema.index({
+    'title': 'text',
+    'description': 'text'
+ }, { default_language: "ngram" })
