@@ -21,7 +21,7 @@ module.exports = {
             let failed = ''
             for (let model of models) {
                 try {
-                    if (model.location) {
+                    if (!args.force && model.location) {
                         continue
                     }
 
