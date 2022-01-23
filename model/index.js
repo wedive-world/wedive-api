@@ -62,4 +62,5 @@ module.exports.schema = {
     Review: require('./review'),
     Notification: require('./notification'),
     Recommendation: require('./recommendation'),
+    SearchSuggestion: require('./search-suggestion'),
 }
