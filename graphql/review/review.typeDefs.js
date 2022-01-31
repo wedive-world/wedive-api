@@ -6,6 +6,7 @@ type Query {
 
   QUERY____________________________Reviews: Review
   getReviewsByCurrentUser: [Review]
+  getReviewsByTargetId(targetId: ID!, skip: Int = 0, limit: Int = 10): [Review]
 }
 
 type Mutation {

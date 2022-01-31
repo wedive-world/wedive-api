@@ -15,6 +15,14 @@ module.exports = {
 
             return await Review.find({ author: user._id })
         },
+        
+        async getReviewsByTargetId(parent, args, context, info) {
+            console.log(`query | getReviewsByTargetId: args=${JSON.stringify(args)}`)
+
+            return await Review.find({ targetId: args.targetId })
+                .skip(args.skip)
+                .limit(args.limit)
+        },
     },
 
     Mutation: {
