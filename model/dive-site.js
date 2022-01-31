@@ -49,7 +49,7 @@ const schema = new Schema({
     searchTermsStringTranslation: { type: Map, of: String },
 
     waterTemperatureScore: { type: Number, default: 0 },
-    adminScore: { type: Number, default: 0 },
+    adminScore: { type: Number, default: 0, index: true },
 
     minDepth: { type: Number, default: 0 },
     maxDepth: { type: Number, default: 0 },

@@ -102,6 +102,7 @@ module.exports = {
                 ]
             })
                 .limit(args.limit)
+                .sort('-adminScore')
                 .lean()
 
             return divePoints.map(divePoint => translator.translateOut(divePoint, languageCode))

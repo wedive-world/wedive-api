@@ -99,6 +99,7 @@ module.exports = {
                 ]
             })
                 .limit(args.limit)
+                .sort('-adminScore')
                 .lean()
 
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))

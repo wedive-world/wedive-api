@@ -69,7 +69,7 @@ const schema = new Schema({
     webPageUrl: String,
     geoAddress: String,
 
-    adminScore: Number,
+    adminScore: { type: Number, default: 0, index: true },
     viewScore: Number,
     educationScore: Number,
     facilityScore: Number,

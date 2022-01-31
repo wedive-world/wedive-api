@@ -8,7 +8,7 @@ type Query {
     getAllDiveCenters: [DiveCenter]
     getDiveCenterById(_id: ID!): DiveCenter
     getDiveCenterByUniqueName(uniqueName: String!): DiveCenter
-    getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 100): [DiveCenter]
+    getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveCenter]
     searchDiveCentersByName(query: String!): [DiveCenter]
     getNearByDiveCenters(lat: Float!, lon: Float!, m: Int): [DiveSite]
 }

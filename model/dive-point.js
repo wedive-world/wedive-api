@@ -51,7 +51,7 @@ const schema = new Schema({
 
     diveSiteId: Schema.Types.ObjectId,
 
-    adminScore: { type: Number, default: 0 },
+    adminScore: { type: Number, default: 0, index: true },
     minDepth: { type: Number, default: 0 },
     maxDepth: { type: Number, default: 0 },
     minSight: { type: Number, default: 0 },
