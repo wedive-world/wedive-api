@@ -6,21 +6,21 @@ const {
 
 module.exports.onDivingCreated = async (diving) => {
 
-    if (!diving.diveCenters) {
+    if (diving.diveCenters && diving.diveCenters.length > 0) {
         diving.diveCenters
             .forEach(async diveCenterId => {
                 await onDivingCreatedInDiveCenter(diving, diveCenterId)
             });
     }
 
-    if (!diving.divePoints) {
+    if (diving.divePoints && diving.divePoints.length > 0) {
         diving.divePoints
             .forEach(async divePointId => {
                 await onDivingCreatedInDivePoint(diving, divePointId)
             });
     }
 
-    if (!diving.diveSites) {
+    if (diving.diveSites && diving.diveSites.length > 0) {
         diving.diveSites
             .forEach(async diveSiteId => {
                 await onDivingCreatedInDiveSite(diving, diveSiteId)
