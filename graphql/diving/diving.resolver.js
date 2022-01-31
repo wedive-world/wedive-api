@@ -96,7 +96,7 @@ module.exports = {
             }
 
             let userUid = context.uid
-            if (diving.hostUser.uid != userUid) {
+            if (diving.hostUser.uid == userUid) {
                 return {
                     success: false,
                     reason: 'hostCannotApply'
