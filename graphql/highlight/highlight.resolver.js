@@ -29,11 +29,11 @@ module.exports = {
 
             let highlight = null
 
-            if (!args.input._id) {
+            if (!args.input.name) {
                 highlight = new Highlight(args.input)
 
             } else {
-                highlight = await Highlight.findOne({ _id: args.input._id })
+                highlight = await Highlight.findOne({ name: args.input.name })
                 Object.assign(highlight, args.input)
                 highlight.updatedAt = Date.now()
             }

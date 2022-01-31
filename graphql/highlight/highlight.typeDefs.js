@@ -16,7 +16,6 @@ type Highlight {
 }
 
 input HighlightInput {
-  _id: ID
   name: String
   description: String
   divePointId: ID
