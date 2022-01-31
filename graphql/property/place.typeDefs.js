@@ -1,9 +1,25 @@
 const { gql } = require('apollo-server')
 
 const fields = `
+    _id: ID
+    name: String
+    description: String
+    highlightDescription: String
+    images: [Image]
     address: String
     latitude: Float
     longitude: Float
+    adminScore: Int
+    countryCode: String
+`
+
+const inputFields = `
+    name: String
+    images: [ID]
+    address: String
+    latitude: Float
+    longitude: Float
+    adminScore: Int
     countryCode: String
 `
 
@@ -18,7 +34,7 @@ type DiveCenter implements Place {
 }
 
 input DiveCenterInput {
-    ${fields}
+    ${inputFields}
 }
 
 type DiveSite implements Place {
@@ -26,7 +42,7 @@ type DiveSite implements Place {
 }
 
 input DiveSiteInput {
-    ${fields}
+    ${inputFields}
 }
 
 type DivePoint implements Place {
@@ -34,7 +50,7 @@ type DivePoint implements Place {
 }
 
 input DivePointInput {
-    ${fields}
+    ${inputFields}
 }
 
 `

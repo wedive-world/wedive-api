@@ -27,7 +27,7 @@ module.exports = {
             let limit = args.limit
             let searchParams = args.searchParams
 
-            let places = await searchPlaces(searchParams, limit)
+            let places = await searchPlaces(searchParams, limit, false)
             return places.map(place => translator.translateOut(place, context.languageCode))
         },
 
@@ -36,52 +36,80 @@ module.exports = {
             let limit = args.limit
             let searchParams = args.searchParams
 
-            let places = await searchPlaces(searchParams, limit)
-            let placeIds = places.map(place => place._id)
 
-            let mongooseParams = {
-                $or: [
-                    { _id: { $in: placeIds } },
-                    { diveSites: { $in: placeIds } },
-                    { divePoints: { $in: placeIds } },
-                    { diveCenters: { $in: placeIds } }
-                ]
-            }
+            let queryMongooseParam = createMongooseParamsByQuery(searchParams)
+            let querySearchResult = await Diving.find(queryMongooseParam)
+                .lean()
 
-            if (searchParams) {
-                mongooseParams['$or']['$and'] = []
+            let interestSearchParams = await createMongooseParamsByInterest(searchParams)
+            let interestSearchResult = await Diving.find(interestSearchParams)
+                .lean()
 
-                if (searchParams.interests && searchParams.interests.length > 0 && searchParams.interests[0].length > 0) {
-                    searchParams.interests.forEach(interestArray => mongooseParams['$or']['$and'].push({ interests: { $in: interestArray } }))
-                }
+            let placeIds = await searchPlaces(searchParams, limit, true)
+            let placeSearchParams = createMongooseParams(searchParams)
+            placeSearchParams['$and'].push(
+                {
+                    $or: [
+                        { _id: { $in: placeIds } },
+                        { diveSites: { $in: placeIds } },
+                        { divePoints: { $in: placeIds } },
+                        { diveCenters: { $in: placeIds } }
+                    ]
+                })
+            let placeSearchResult = await Diving.find(placeSearchParams)
+                .lean()
 
-                if (searchParams.query) {
-                    mongooseParams['$or']['$and'].push({ $text: { $search: searchParams.query } })
-                }
-            }
-
-            return await Diving.find(mongooseParams)
+            return querySearchResult
+                .concat(interestSearchResult)
+                .concat(placeSearchResult)
         },
     },
 }
 
-async function searchPlaces(searchParams, limit) {
+async function searchPlaces(searchParams, limit, onlyIds) {
+
+    let mongooseParams = createMongooseParamsByQuery(searchParams)
+    let querySearchResult = await queryMongoosePlaces(mongooseParams, limit, onlyIds)
+
+    let interestSearchParams = await createMongooseParamsByInterest(searchParams)
+    let interestSearchResult = await queryMongoosePlaces(interestSearchParams, limit, onlyIds)
+
+    return querySearchResult.concat(interestSearchResult)
+}
+
+async function createMongooseParamsByInterest(searchParams) {
+
+    let foundInterest = await Interest.find({ $text: { $search: searchParams.query } })
+        .lean()
+        .select('_id')
+        .distinct('_id')
+
+    if (!foundInterest || foundInterest.length == 0) {
+        return null
+    }
+
+    let interestSearchParams = createMongooseParams(searchParams)
+    interestSearchParams['$and'].push({ interests: { $in: foundInterest } })
+    return interestSearchParams
+}
+
+function createMongooseParamsByQuery(searchParams) {
+
+    let mongooseParams = createMongooseParams(searchParams)
+
+    if (searchParams.query) {
+        mongooseParams['$and'].push({ $text: { $search: searchParams.query } })
+    }
+
+    return mongooseParams
+}
+
+function createMongooseParams(searchParams) {
 
     let mongooseParams = {}
 
     if (searchParams) {
         mongooseParams['$and'] = []
-
-        if (searchParams.query) {
-            mongooseParams['$and'].push({ $text: { $search: searchParams.query } })
-
-            let foundInterest = await Interest.find({ $text: { $search: searchParams.query } })
-                .lean()
-
-            if (foundInterest) {
-                mongooseParams['$and'].push({ interests: { $in: foundInterest.map(interest => interest._id) } })
-            }
-        }
 
         if (searchParams.divingTypes && searchParams.divingTypes.length > 0) {
             mongooseParams['$and'].push({ divingType: { $in: searchParams.divingTypes } })
@@ -115,24 +143,61 @@ async function searchPlaces(searchParams, limit) {
         }
     }
 
-    console.log(`mongooseParams=${JSON.stringify(mongooseParams)}`)
+    return mongooseParams
+}
 
-    let divePoints = await DivePoint.find(mongooseParams)
-        .sort('-adminScore')
-        .limit(limit)
-        .lean()
+async function queryMongoosePlaces(mongooseParams, limit, onlyIds) {
+    
+    if (!mongooseParams) {
+        return []
+    }
 
-    let diveSites = await DiveSite.find(mongooseParams)
-        .sort('-adminScore')
-        .limit(limit)
-        .lean()
+    console.log(`queryMongoosePlaces: mongooseParams=${JSON.stringify(mongooseParams)}`)
+    if (onlyIds) {
 
-    let diveCenters = await DiveCenter.find(mongooseParams)
-        .sort('-adminScore')
-        .limit(limit)
-        .lean()
+        let divePoints = await DivePoint.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .select(onlyIds ? '_id' : null)
+            .distinct(onlyIds ? '_id' : null)
+            .lean()
 
-    return diveCenters
-        .concat(diveSites)
-        .concat(divePoints)
+        let diveSites = await DiveSite.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .select(onlyIds ? '_id' : null)
+            .distinct(onlyIds ? '_id' : null)
+            .lean()
+
+        let diveCenters = await DiveCenter.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .select(onlyIds ? '_id' : null)
+            .distinct(onlyIds ? '_id' : null)
+            .lean()
+
+        return diveCenters
+            .concat(diveSites)
+            .concat(divePoints)
+
+    } else {
+        let divePoints = await DivePoint.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .lean()
+
+        let diveSites = await DiveSite.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .lean()
+
+        let diveCenters = await DiveCenter.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .lean()
+
+        return diveCenters
+            .concat(diveSites)
+            .concat(divePoints)
+    }
 }

@@ -40,6 +40,7 @@ module.exports = mongoose.model('Interest', schema);
 
 schema.index({
     'nameTranslation.ko': 'text',
+    'titleTranslation.ko': 'text',
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
  }, { default_language: "ngram" })
