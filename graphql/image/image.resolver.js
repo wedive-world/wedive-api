@@ -114,7 +114,7 @@ module.exports = {
         async profileImages(parent, args, context, info) {
             return await getImageById(parent.instructorLicenseImage)
         },
-        
+
         async licenseImages(parent, args, context, info) {
             return await getImageById(parent.instructorLicenseImage)
         },
@@ -200,8 +200,13 @@ module.exports = {
             const { createReadStream, filename, mimetype, encoding } = await file;
             console.log(`mutation | singleUpload: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
             let image = await uploadImage(createReadStream, filename, mimetype, encoding)
-            let thumbnailUrl = await getResizedImage(image._id, THUMBNAIL_WIDTH)
-            image.thumbnailUrl = thumbnailUrl;
+
+            if (image.mimeType.includes('gif')) {
+
+                image.thumbnailUrl = `${IMAGE_CDN_DNS}/${image.s3ObjectKey}`
+            } else {
+                image.thumbnailUrl = await getResizedImage(image._id, THUMBNAIL_WIDTH)
+            }
             await image.save()
             return image
         },
@@ -328,6 +333,10 @@ async function getResizedImage(imageId, width) {
 
     console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
 
+    if (image.mimeType.includes('gif')) {
+        return image.thumbnailUrl
+    }
+
     if (!image.contentMap) {
         image.contentMap = new Map()
     }
@@ -341,8 +350,8 @@ async function getResizedImage(imageId, width) {
 
         // console.log(`imageContent=${JSON.stringify(imageContent)}`)
 
-    } 
-    
+    }
+
     if (imageContent == null) {
         const ext = image.s3ObjectKey.split('.').pop()
 
@@ -411,7 +420,7 @@ async function getResizedImage(imageId, width) {
             return null;
         }
     }
-        
+
     return `${IMAGE_CDN_DNS}/${imageContent.s3ObjectKey}`
 }
 
