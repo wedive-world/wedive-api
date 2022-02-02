@@ -34,7 +34,13 @@ module.exports = {
 
             } else {
                 highlight = await Highlight.findOne({ name: args.input.name })
-                Object.assign(highlight, args.input)
+
+                if (!highlight) {
+                    highlight = new Highlight(args.input)
+                } else {
+                    Object.assign(highlight, args.input)
+                }
+
                 highlight.updatedAt = Date.now()
             }
 
