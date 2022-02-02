@@ -56,6 +56,9 @@ type User {
   scubaLicenseLevel: String
   scubaLicenseType: String
 
+  divingHostCount: Int
+  divingParticipantCount: Int
+
   createdAt: Date
   updatedAt: Date
 }
