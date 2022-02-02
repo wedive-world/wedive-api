@@ -93,7 +93,7 @@ module.exports = {
 
             await chatServiceProxy.updateUser({
                 name: user.nickName ? user.nickName : user.uid,
-                profileImageUrl: user.profileImages && user.profileImages.length > 0 ? user.profileImages[0].thumbnail : ""
+                profileImageUrl: user.profileImages && user.profileImages.length > 0 ? user.profileImages[0].thumbnailUrl : ""
             }, context.idToken)
 
             return user
