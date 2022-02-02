@@ -81,6 +81,7 @@ module.exports = {
                 Object.assign(user, args.input)
                 user.updatedAt = Date.now()
             }
+            console.log(`mutation | upsertUser: user=${JSON.stringify(user)}`)
 
             await user.save()
 
@@ -92,8 +93,6 @@ module.exports = {
             } else {
 
             }
-
-            console.log(`mutation | upsertUser: user=${JSON.stringify(user)}`)
 
             await chatServiceProxy.updateUser({
                 name: user.nickName ? user.nickName : user.uid,
