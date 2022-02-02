@@ -66,7 +66,7 @@ class ChatServiceProxy {
         }
 
         try {
-            console.log(`ChatServiceProxy | updateUser: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
+            console.log(`ChatServiceProxy | updateUser: variable=${JSON.stringify(variable)}`)
             const data = await this.client.request(query, variable, { idtoken: idToken })
             console.log(`ChatServiceProxy | updateUser: data=${JSON.stringify(data)}`)
 

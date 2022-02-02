@@ -77,7 +77,7 @@ module.exports = {
             } else {
                 user = await User.findOne({ _id: args.input._id })
                     .populate('profileImages')
-                    
+
                 Object.assign(user, args.input)
                 user.updatedAt = Date.now()
             }
@@ -92,6 +92,8 @@ module.exports = {
             } else {
 
             }
+
+            console.log(`mutation | upsertUser: user=${JSON.stringify(user)}`)
 
             await chatServiceProxy.updateUser({
                 name: user.nickName ? user.nickName : user.uid,
