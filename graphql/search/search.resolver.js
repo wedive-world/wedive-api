@@ -79,6 +79,10 @@ async function searchPlaces(searchParams, limit, onlyIds) {
 
 async function createMongooseParamsByInterest(searchParams) {
 
+    if (!searchParams.query) {
+        return null
+    }
+
     let foundInterest = await Interest.find({ $text: { $search: searchParams.query } })
         .lean()
         .select('_id')
