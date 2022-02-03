@@ -1,7 +1,14 @@
 const {
     User,
-    Review
+    Review,
+    DivePoint,
+    DiveSite,
+    DiveCenter
 } = require('../../model').schema;
+
+const {
+    createHistoryFromReview
+} = require('../../controller/diving-history-manager')
 
 const DEFAULT_REVIEW_COUNT = 5
 
@@ -15,7 +22,7 @@ module.exports = {
 
             return await Review.find({ author: user._id })
         },
-        
+
         async getReviewsByTargetId(parent, args, context, info) {
             console.log(`query | getReviewsByTargetId: args=${JSON.stringify(args)}`)
 
@@ -30,8 +37,11 @@ module.exports = {
             console.log(`mutation | upsertReview: args=${JSON.stringify(args)}`)
 
             let review = null
-            if (args.input._id) {
+            const isNewReview = !args.input._id
+
+            if (!isNewReview) {
                 review = await Review.findById(args.input._id)
+
             } else {
                 review = new Review(args.input)
             }
@@ -40,7 +50,21 @@ module.exports = {
 
             let user = await User.findOne({ uid: context.uid }).lean()
             review.author = user._id
+
+            const Place = getModel()
+
+            if (Place) {
+                let place = await Place.findById(review.targetId)
+                review.location = place.location
+                review.latitude = place.latitude
+                review.longitude = place.longitude
+            }
+
             await review.save()
+
+            if (isNewReview) {
+                await createHistoryFromReview(review._id)
+            }
 
             return review
         },
@@ -103,3 +127,20 @@ module.exports = {
         },
     },
 };
+
+function getModel(targetType) {
+
+    switch (targetType) {
+
+        case 'diveCenter':
+            return DiveCenter
+
+        case 'divePoint':
+            return DivePoint
+
+        case 'diveSite':
+            return DiveSite
+    }
+
+    return null
+}

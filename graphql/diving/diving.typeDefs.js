@@ -19,7 +19,7 @@ type Mutation {
   joinDiving(divingId: ID!): Response!
   acceptParticipant(divingId: ID!, userId: ID!): Response!
   kickParticipant(divingId: ID!, userId: ID!): Response!
-  completeDiving(divingId: ID!): Response!
+  completeDivingIfExist: Response!
 }
 
 type Diving {

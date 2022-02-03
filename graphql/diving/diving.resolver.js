@@ -7,6 +7,10 @@ const notificationManager = require('../../controller/notification-manager')
 const ChatServiceProxy = require('../../proxy/chat-service-proxy')
 const chatServiceProxy = new ChatServiceProxy()
 
+const {
+    createHistoryFromDivingComplete
+} = require('../../controller/diving-history-manager')
+
 module.exports = {
 
     Query: {
@@ -71,7 +75,10 @@ module.exports = {
 
             diving.chatRoomId = chatRoomId
             await diving.save()
-            await notificationManager.onDivingCreated(diving)
+
+            if (isNewDiving) {
+                await notificationManager.onDivingCreated(diving)
+            }
 
             return diving
         },
@@ -174,45 +181,63 @@ module.exports = {
             }
         },
 
-        async completeDiving(parent, args, context, info) {
-            console.log(`mutation | kickParticipant: args=${JSON.stringify(args)}`)
-
-            let diving = await Diving.findOne({ _id: args.divingId })
-                .populate('hostUser')
-
-            if (diving.hostUser.uid != context.uid) {
-                return {
-                    success: false,
-                    reason: 'Only host can complete diving'
-                }
-            }
-
-            if (diving.status == 'divingComplete') {
-                return {
-                    success: false,
-                    reason: 'Diving is already completed'
-                }
-            }
-
-            await User.findOneAndUpdate({
-                _id: diving.hostUser._id
-            }, { $inc: { divingHostCount: 1 } })
-
-            await User.findManyAndUpdate({
-                _id: diving.participant
-                    .map(participant => participant.user)
-            }, { $inc: { divingParticipantCount: 1 } })
-
-            diving.status = 'divingComplete'
-
-            await diving.save()
-
+        async completeDivingIfExist(parent, args, context, info) {
+            console.log(`mutation | completeDivingIfExist: args=${JSON.stringify(args)}`)
+            await completeDivingIfExist()
             return {
                 success: true
             }
         }
     },
 };
+
+async function completeDivingIfExist() {
+    let divingIds = await Diving.find({
+        status: publicEnded,
+        finishedAt: { $lte: Date.now() }
+    })
+        .select('_id')
+        .lean()
+
+    for (let divingId of divingIds) {
+        await completeDiving(divingId)
+    }
+}
+
+async function completeDiving(divingId) {
+
+    let diving = await Diving.findOne({ _id: divingId })
+        .populate('hostUser')
+
+    if (diving.hostUser.uid != context.uid) {
+        return {
+            success: false,
+            reason: 'Only host can complete diving'
+        }
+    }
+
+    if (diving.status == 'divingComplete') {
+        return {
+            success: false,
+            reason: 'Diving is already completed'
+        }
+    }
+
+    await User.findOneAndUpdate({
+        _id: diving.hostUser._id
+    }, { $inc: { divingHostCount: 1 } })
+
+    await User.findManyAndUpdate({
+        _id: diving.participant
+            .map(participant => participant.user)
+    }, { $inc: { divingParticipantCount: 1 } })
+
+    diving.status = 'divingComplete'
+
+    await diving.save()
+
+    await createHistoryFromDivingComplete(divingId)
+}
 
 async function updateParticipantStatus(diving, userUid, participantId, participantStatus) {
 

@@ -63,4 +63,5 @@ module.exports.schema = {
     Notification: require('./notification'),
     Recommendation: require('./recommendation'),
     SearchSuggestion: require('./search-suggestion'),
+    DivingHistory: require('./diving-history'),
 }

@@ -124,7 +124,6 @@ module.exports = {
     }
 };
 
-
 function getModel(targetType) {
 
     switch (targetType) {
