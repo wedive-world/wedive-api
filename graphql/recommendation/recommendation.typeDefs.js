@@ -35,7 +35,7 @@ type Recommendation {
 }
 
 input RecommendationInput {
-  _id: ID!
+  _id: ID
 
   title: String
   description: String
