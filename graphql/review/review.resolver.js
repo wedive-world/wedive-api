@@ -1,9 +1,6 @@
 const {
     User,
     Review,
-    DivePoint,
-    DiveSite,
-    DiveCenter
 } = require('../../model').schema;
 
 const {
@@ -50,15 +47,6 @@ module.exports = {
 
             let user = await User.findOne({ uid: context.uid }).lean()
             review.author = user._id
-
-            const Place = getModel()
-
-            if (Place) {
-                let place = await Place.findById(review.targetId)
-                review.location = place.location
-                review.latitude = place.latitude
-                review.longitude = place.longitude
-            }
 
             await review.save()
 
@@ -127,20 +115,3 @@ module.exports = {
         },
     },
 };
-
-function getModel(targetType) {
-
-    switch (targetType) {
-
-        case 'diveCenter':
-            return DiveCenter
-
-        case 'divePoint':
-            return DivePoint
-
-        case 'diveSite':
-            return DiveSite
-    }
-
-    return null
-}

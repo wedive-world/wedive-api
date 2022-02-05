@@ -64,4 +64,6 @@ module.exports.schema = {
     Recommendation: require('./recommendation'),
     SearchSuggestion: require('./search-suggestion'),
     DivingHistory: require('./diving-history'),
+
+    Forum: require('./forum'),
 }

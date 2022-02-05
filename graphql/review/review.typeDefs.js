@@ -47,6 +47,7 @@ enum ReviewTargetType {
   divePoint
   diveCenter
   review
+  forum
 }
 
 interface Reviewable {
