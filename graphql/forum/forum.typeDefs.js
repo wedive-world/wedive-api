@@ -25,7 +25,7 @@ type Forum {
 }
 
 input ForumInput {
-  _id: ID!
+  _id: ID
   
   name: String
   description: String
