@@ -159,8 +159,8 @@ module.exports = {
                     diveSite.divePoints.push(divePoint._id)
                 }
 
-                await diveSite.populate('divePoints')
-                scoringDiveSite(diveSite)
+                // await diveSite.populate('divePoints')
+                // scoringDiveSite(diveSite)
                 await diveSite.save()
             }
 
@@ -186,8 +186,8 @@ module.exports = {
                 }
             }
 
-            await diveSite.populate('divePoints')
-            diveSite = scoringDiveSite(diveSite)
+            // await diveSite.populate('divePoints')
+            // diveSite = scoringDiveSite(diveSite)
             await diveSite.save()
 
             let result = await DivePoint.deleteOne({ _id: args._id })
