@@ -150,4 +150,13 @@ input RecommendationInput {
     images: [ID]
     backgroundImages: [ID]
 }
+
+type Agenda {
+    images: [Image]
+}
+
+input AgendaInput {
+    images: [ID]
+}
+
 `;

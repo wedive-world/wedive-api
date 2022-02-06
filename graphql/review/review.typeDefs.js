@@ -47,7 +47,7 @@ enum ReviewTargetType {
   divePoint
   diveCenter
   review
-  forum
+  agenda
 }
 
 interface Reviewable {
@@ -81,6 +81,11 @@ type Diving implements Reviewable {
 }
 
 type InstructorProfile implements Reviewable {
+  reviews: [Review]
+  reviewCount: Int
+}
+
+type Agenda implements Reviewable {
   reviews: [Review]
   reviewCount: Int
 }

@@ -135,6 +135,12 @@ module.exports = {
             return await getImagesByIds(parent.images)
         },
     },
+    
+    Agenda: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+    },
 
     Query: {
         getImageUrlById: async (parent, args, context, info) => {

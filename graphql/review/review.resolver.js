@@ -114,4 +114,12 @@ module.exports = {
                 .lean()
         },
     },
+
+    Agenda: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
+                .lean()
+        },
+    },
 };
