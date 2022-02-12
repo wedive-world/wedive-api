@@ -142,6 +142,12 @@ module.exports = {
         },
     },
 
+    Recommendation: {
+        async interests(parent, args, context, info) {
+            return await getInterestListByIds(context.languageCode, parent.interests)
+        },
+    },
+
     Query: {
         async getInterestById(parent, args, context, info) {
             let languageCode = context.languageCode
