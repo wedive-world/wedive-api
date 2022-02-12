@@ -54,6 +54,9 @@ module.exports = {
 
             if (isNewDiving) {
                 diving = new Diving(args.input)
+                diving.hostUser = await User.findOne({ uid: context.uid })
+                    .select('_id')
+                    .lean()
 
             } else {
                 diving = await Diving.findOne({ _id: args.input._id })
