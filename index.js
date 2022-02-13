@@ -5,6 +5,8 @@ const {
   ForbiddenError,
 } = require('apollo-server-express');
 
+const { ApolloServerPluginCacheControl } = require('apollo-server-core')
+
 const {
   GraphQLUpload,
   graphqlUploadExpress, // A Koa implementation is also exported.
@@ -57,7 +59,8 @@ async function startServer() {
         idToken: req.headers.idtoken,
         languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
       }
-    }
+    },
+    plugins: [ApolloServerPluginCacheControl({ defaultMaxAge: 60 })],  //60 seconds
   });
   await server.start();
 
