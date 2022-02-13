@@ -76,9 +76,7 @@ module.exports = {
                 diving.updatedAt = Date.now()
             }
 
-            let chatRoomId = await chatServiceProxy.createChatRoom({
-                title: diving.title
-            })
+            let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, context.idToken)
 
             diving.chatRoomId = chatRoomId
             await diving.save()
