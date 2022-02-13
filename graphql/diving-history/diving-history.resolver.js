@@ -10,7 +10,6 @@ module.exports = {
 
             return await DivingHistory.find({user: parent._id})
                 .select('locations')
-                .distinct()
                 .lean()
         },
     }
