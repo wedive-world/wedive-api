@@ -42,7 +42,12 @@ module.exports = {
             })
                 .skip(args.skip)
                 .limit(args.limit)
-        }
+        },
+
+        async getDivingByChatRoomId(parent, args, context, info) {
+            return await Diving.findOne({ chatRoomId: args.chatRoomId })
+                .lean()
+        },
     },
 
     Mutation: {
@@ -72,8 +77,7 @@ module.exports = {
             }
 
             let chatRoomId = await chatServiceProxy.createChatRoom({
-                name: diving.title,
-                description: diving.description
+                title: diving.title
             })
 
             diving.chatRoomId = chatRoomId

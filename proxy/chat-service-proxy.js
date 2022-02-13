@@ -108,16 +108,15 @@ class ChatServiceProxy {
     async createChatRoom({ name, description }, idToken) {
 
         const query = gql`
-            mutation CreateRoom($name: String!, $description: String!) {
-                createRoom(name: $name, description: $description) {
+            mutation CreateRoom($title: String!) {
+                createRoom(title: $title) {
                     _id
                 }
             }
         `
 
         const variable = {
-            name: name,
-            description: description
+            title: title
         }
 
         try {

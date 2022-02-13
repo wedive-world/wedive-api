@@ -9,6 +9,7 @@ type Query {
   getDivingById(_id: ID!): Diving
   getDivingsByHostUserId(hostUserId: ID!): [Diving]
   getDivingsByCurrentUser(skip: Int! = 0, limit: Int! = 10): [Diving]
+  getDivingByChatRoomId(chatRoomId: String!): Diving
 }
 
 type Mutation {
