@@ -31,6 +31,8 @@ type Diving {
     status: DivingStatus!
     type: [DivingType]
 
+    hostUser: User
+
     participants: [Participant]
     maxPeopleNumber: Int
 
