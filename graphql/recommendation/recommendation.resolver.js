@@ -29,6 +29,10 @@ module.exports = {
         async upsertRecommendation(parent, args, context, info) {
             console.log(`mutation | upsertRecommendation: args=${JSON.stringify(args)}`)
 
+            if (args.input) {
+                args.input.searchParams = JSON.stringify(args.input.searchParams)
+            }
+
             let recommendation = null
             if (args.input._id) {
                 recommendation = await Recommendation.findById(args.input._id)

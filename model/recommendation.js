@@ -18,6 +18,7 @@ const schema = new Schema({
     recommendationType: String,
     targetType: [String],
     arguments: [String],
+    searchParams: String,
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

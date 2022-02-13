@@ -43,6 +43,7 @@ input RecommendationInput {
 
   previewCount: Int
   recommendationType: RecommendationType
+  searchParams: SearchParams
   arguments: [String]
 
   divings: [ID]
