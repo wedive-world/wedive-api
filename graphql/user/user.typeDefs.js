@@ -116,10 +116,6 @@ type Diving {
   hostUser: User!
 }
 
-input DivingInput {
-  hostUser: ID!
-}
-
 type Instructor {
   user: User!
 }
