@@ -220,19 +220,23 @@ async function completeDiving(divingId) {
             reason: 'Diving is already completed'
         }
     }
-    
+
     diving.status = 'divingComplete'
     await diving.save()
 
-    await User.findOneAndUpdate(
-        { _id: diving.hostUser._id },
-        { $inc: { divingHostCount: 1 } }
-    )
+    if (diving.hostUser) {
+        await User.findOneAndUpdate(
+            { _id: diving.hostUser._id },
+            { $inc: { divingHostCount: 1 } }
+        )
+    }
 
-    await User.findManyAndUpdate(
-        { _id: diving.participant.map(participant => participant.user) },
-        { $inc: { divingParticipantCount: 1 } }
-    )
+    if (diving.participant && diving.participant.length > 0) {
+        await User.findManyAndUpdate(
+            { _id: diving.participant.map(participant => participant.user) },
+            { $inc: { divingParticipantCount: 1 } }
+        )
+    }
 
     await createHistoryFromDivingComplete(divingId)
 }
