@@ -210,10 +210,8 @@ async function prepareDivingIfExist() {
 
     let divings = await Diving.find({
         startedAt: {
-            $and: [
-                { $gte: after3Days },
-                { $lte: after3Days10Minutes }
-            ]
+            $gte: after3Days,
+            $lte: after3Days10Minutes
         }
     }).lean()
 
