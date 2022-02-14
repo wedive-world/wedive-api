@@ -4,7 +4,7 @@ module.exports = gql`
 
 type Query {
   QUERY____________________________Notification: Notification
-  getNotifications: [Notification]
+  getNotifications(skip: Int = 0, limit: Int = 10): [Notification]
 }
 
 type Mutation {

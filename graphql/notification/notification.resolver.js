@@ -7,7 +7,8 @@ const {
     User,
     Review,
     Like,
-    Subscribe
+    Subscribe,
+    Notification
 } = require('../../model').schema;
 
 module.exports = {
@@ -17,7 +18,13 @@ module.exports = {
     Query: {
         async getNotifications(parent, args, context, info) {
             let user = await User.findOne({ uid: context.uid })
-            return await Like.findOne({ userId: user._id }).lean()
+                .lean()
+
+            return await Notification.find({ userId: user._id })
+                .lean()
+                .skip(args.skip)
+                .limit(args.limit)
+                .sort('-createdAt')
         },
     },
 
