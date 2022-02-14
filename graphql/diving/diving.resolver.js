@@ -198,7 +198,7 @@ module.exports = {
 
 async function completeDivingIfExist() {
     let divingIds = await Diving.find({
-        status: publicEnded,
+        status: ['searchable', 'publicEnded'],
         finishedAt: { $lte: Date.now() }
     })
         .select('_id')
