@@ -10,7 +10,7 @@ type Query {
 type Mutation {
   MUTATION_________________________Notification: Notification
 
-  read(notificationId: ID!, targetType: UserReactionTargetType!): Response
+  read(notificationId: ID!): Response
   readAll: Response
 }
 

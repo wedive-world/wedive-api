@@ -30,35 +30,27 @@ module.exports = {
 
     Mutation: {
         async read(parent, args, context, info) {
-            console.log(`mutation | view: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
-            await getModel(args.targetType).findOneAndUpdate({ _id: args.targetId }, { $inc: { 'views': 1 } })
-            return true
+            console.log(`mutation | read: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
+
+            let user = await User.findOne({ uid: context.uid })
+                .lean()
+
+            await Notification.updateOne({ userId: user._id, _id: args.notificationId }, { read: true })
+            return {
+                success: true
+            }
         },
 
         async readAll(parent, args, context, info) {
-            console.log(`mutation | like: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
+            console.log(`mutation | readAll: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
 
             let user = await User.findOne({ uid: context.uid })
+                .lean()
 
-            let result = await Like.findOneAndUpdate(
-                {
-                    userId: user ? user._id : "6188c5ad4c8a87c504b15501",
-                    targetId: args.targetId
-                },
-                [{ $set: { value: { $eq: [false, '$value'] } } }],
-                {
-                    upsert: true,
-                    new: true
-                }
-            )
-
-            console.log(`mutation | like: result=${JSON.stringify(result)}`)
-
-            await getModel(args.targetType).findOneAndUpdate(
-                { _id: args.targetId },
-                { $inc: { 'likes': result.value ? 1 : -1 } }
-            )
-            return result.value
+            await Notification.updateMany({ userId: user._id }, { read: true })
+            return {
+                success: true
+            }
         },
     },
 }
