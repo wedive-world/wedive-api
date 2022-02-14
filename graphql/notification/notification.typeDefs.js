@@ -18,8 +18,11 @@ type Notification {
   _id: ID
   userId: ID,
   targetId: ID,
-  event: NotificationEvent,
   targetType: NotificationTargetType,
+  subjectId: ID
+  subjectType: NotificationTargetType
+  
+  event: NotificationEvent,
   read: Boolean,
 
   createdAt: Date,
@@ -32,6 +35,7 @@ enum NotificationTargetType {
   diveSite
   diving
   instructor
+  user
 }
 
 enum NotificationEvent {
