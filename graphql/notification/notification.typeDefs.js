@@ -18,7 +18,7 @@ type Notification {
   _id: ID
   userId: ID,
   targetId: ID,
-  event: String,
+  event: NotificationEvent,
   targetType: NotificationTargetType,
   read: Boolean,
 
@@ -32,5 +32,17 @@ enum NotificationTargetType {
   diveSite
   diving
   instructor
+}
+
+enum NotificationEvent {
+  onParticipantJoined
+  onParticipantAccepted
+  onDivingPreparation
+  onDivingPublicEnded
+  onDivingComplete
+  onDivingCreatedInDiveCenter
+  onDivingCreatedInDivePoint
+  onDivingCreatedInDiveSite
+  onDivingCreatedByInstructor
 }
 `;

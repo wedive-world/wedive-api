@@ -153,7 +153,7 @@ module.exports = {
                 .populate('participants.user', 'hostUser')
 
             await updateParticipantStatus(diving, context.uid, args.userId, 'joined')
-            await notificationManager.onParticipantJoinedDiving(rgs.userId, diving)
+            await notificationManager.onParticipantJoinedDiving(diving, args.userId)
 
             let user = await User.findById(args.userId)
             let inviteResult = await chatServiceProxy.invite({
@@ -185,16 +185,42 @@ module.exports = {
                 success: true
             }
         },
-
         async completeDivingIfExist(parent, args, context, info) {
             console.log(`mutation | completeDivingIfExist: args=${JSON.stringify(args)}`)
             await completeDivingIfExist()
             return {
                 success: true
             }
-        }
+        },
+        async prepareDivingIfExist(parent, args, context, info) {
+            console.log(`mutation | prepareDivingIfExist: args=${JSON.stringify(args)}`)
+            await prepareDivingIfExist()
+            return {
+                success: true
+            }
+        },
     },
 };
+
+async function prepareDivingIfExist() {
+    let after3Days = new Date()
+    after3Days.setDate(after3Days.getDate() + 1)
+
+    let after3Days10Minutes = new Date(after3Days.getTime() + 10 * 60 * 1000)
+
+    let divings = await Diving.find({
+        startedAt: {
+            $and: [
+                { $gte: after3Days },
+                { $lte: after3Days10Minutes }
+            ]
+        }
+    }).lean()
+
+    for (let diving of divings) {
+        await notificationManager.onDivingPreparation(diving)
+    }
+}
 
 async function completeDivingIfExist() {
     let divingIds = await Diving.find({

@@ -21,6 +21,7 @@ type Mutation {
   acceptParticipant(divingId: ID!, userId: ID!): Response!
   kickParticipant(divingId: ID!, userId: ID!): Response!
   completeDivingIfExist: Response!
+  prepareDivingIfExist(days: Int = 3): Response!
 }
 
 type Diving {

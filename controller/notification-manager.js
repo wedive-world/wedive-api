@@ -36,10 +36,12 @@ module.exports.onDivingCreated = async (diving) => {
 }
 
 module.exports.onNewParticipantAtDiving = async (diving, user) => {
-    await sendNotificationByUserIds(user._id, 'user', diving._id, 'diving', 'onParticipantAcceptedAtDiving', user, [diving.hostUser])
+    await sendNotificationByUserIds(user._id, 'user', diving._id, 'diving', 'onParticipantAccepted', user, [diving.hostUser])
 }
 
 module.exports.onParticipantJoinedDiving = async (diving, participantId) => {
+    let user = await User.findById(participantId)
+        .lean()
 
     let participantIds = diving.participants
         .filter(participant => participant.user)
@@ -47,10 +49,39 @@ module.exports.onParticipantJoinedDiving = async (diving, participantId) => {
 
     participantIds.push(diving.hostUser._id)
 
-    await sendNotificationByUserIds(participantId, 'user', diving._id, 'diving', 'onParticipantJoinedDiving', user, participantIds)
+    await sendNotificationByUserIds(participantId, 'user', diving._id, 'diving', 'onParticipantJoined', user, participantIds)
 }
 
-module.exports.onDivingStatusChanged = async (diving) => {
+module.exports.onDivingPreparation = async (diving) => {
+
+    let participantIds = diving.participants
+        .filter(participant => participant.user)
+        .map(participant => participant.user._id)
+
+    participantIds.push(diving.hostUser._id)
+
+    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingPreparation', diving, participantIds)
+}
+
+module.exports.onDivingComplete = async (diving) => {
+
+    let participantIds = diving.participants
+        .filter(participant => participant.user)
+        .map(participant => participant.user._id)
+
+    participantIds.push(diving.hostUser._id)
+
+    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingComplete', diving, participantIds)
+}
+
+module.exports.onDivingPublicEnded = async (diving) => {
+    let participantIds = diving.participants
+        .filter(participant => participant.user)
+        .map(participant => participant.user._id)
+
+    participantIds.push(diving.hostUser._id)
+
+    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingPublicEnded', diving, participantIds)
 }
 
 async function onDivingCreatedInDiveCenter(diving, diveCenterId) {
