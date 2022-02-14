@@ -186,15 +186,15 @@ module.exports = {
             }
         },
         async completeDivingIfExist(parent, args, context, info) {
-            console.log(`mutation | completeDivingIfExist: args=${JSON.stringify(args)}`)
+            // console.log(`mutation | completeDivingIfExist: args=${JSON.stringify(args)}`)
             await completeDivingIfExist()
             return {
                 success: true
             }
         },
         async prepareDivingIfExist(parent, args, context, info) {
-            console.log(`mutation | prepareDivingIfExist: args=${JSON.stringify(args)}`)
-            await prepareDivingIfExist()
+            // console.log(`mutation | prepareDivingIfExist: args=${JSON.stringify(args)}`)
+            await prepareDivingIfExist(args.days)
             return {
                 success: true
             }
@@ -202,16 +202,16 @@ module.exports = {
     },
 };
 
-async function prepareDivingIfExist() {
-    let after3Days = new Date()
-    after3Days.setDate(after3Days.getDate() + 1)
+async function prepareDivingIfExist(days) {
+    let afterDays = new Date()
+    afterDays.setDate(afterDays.getDate() + days)
 
-    let after3Days10Minutes = new Date(after3Days.getTime() + 10 * 60 * 1000)
+    let afterDays10Minutes = new Date(afterDays.getTime() + 10 * 60 * 1000)
 
     let divings = await Diving.find({
         startedAt: {
-            $gte: after3Days,
-            $lte: after3Days10Minutes
+            $gte: afterDays,
+            $lte: afterDays10Minutes
         }
     }).lean()
 
