@@ -214,32 +214,25 @@ async function completeDiving(divingId) {
     let diving = await Diving.findOne({ _id: divingId })
         .populate('hostUser')
 
-    if (diving.hostUser.uid != context.uid) {
-        return {
-            success: false,
-            reason: 'Only host can complete diving'
-        }
-    }
-
     if (diving.status == 'divingComplete') {
         return {
             success: false,
             reason: 'Diving is already completed'
         }
     }
-
-    await User.findOneAndUpdate({
-        _id: diving.hostUser._id
-    }, { $inc: { divingHostCount: 1 } })
-
-    await User.findManyAndUpdate({
-        _id: diving.participant
-            .map(participant => participant.user)
-    }, { $inc: { divingParticipantCount: 1 } })
-
+    
     diving.status = 'divingComplete'
-
     await diving.save()
+
+    await User.findOneAndUpdate(
+        { _id: diving.hostUser._id },
+        { $inc: { divingHostCount: 1 } }
+    )
+
+    await User.findManyAndUpdate(
+        { _id: diving.participant.map(participant => participant.user) },
+        { $inc: { divingParticipantCount: 1 } }
+    )
 
     await createHistoryFromDivingComplete(divingId)
 }
