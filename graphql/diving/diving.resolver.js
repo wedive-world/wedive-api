@@ -139,7 +139,7 @@ module.exports = {
             })
 
             await diving.save()
-            await notificationManager.onNewParticipantAtDiving(diving, user)
+            await notificationManager.onParticipantJoinedDiving(diving, user)
 
             return {
                 success: true
@@ -153,7 +153,7 @@ module.exports = {
                 .populate('participants.user', 'hostUser')
 
             await updateParticipantStatus(diving, context.uid, args.userId, 'joined')
-            await notificationManager.onParticipantJoinedDiving(diving, args.userId)
+            await notificationManager.onParticipantAccepted(diving, args.userId)
 
             let user = await User.findById(args.userId)
             let inviteResult = await chatServiceProxy.invite({
