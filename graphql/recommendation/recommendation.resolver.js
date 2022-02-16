@@ -145,7 +145,7 @@ async function getNewRecommendation(recommend) {
 
 async function getInterestRecommendation(recommend) {
     return await getModel(recommend.targetType)
-        .find({ interests: recommend.interests })
+        .find({ interests: { $in: recommend.interests } })
         .sort('-adminScore')
         .limit(recommend.previewCount)
         .lean()
@@ -153,6 +153,7 @@ async function getInterestRecommendation(recommend) {
 
 async function getSearchRecommendation(recommend) {
     const searchParams = JSON.parse(recommend.searchParams)
+    
 
     switch (recommend.targetType) {
         case 'diving':
