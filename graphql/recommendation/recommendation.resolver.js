@@ -3,10 +3,18 @@ const {
     DiveSite,
     DivePoint,
     DiveCenter,
-    Diving
+    Diving,
+    Instructor
 } = require('../../model').schema;
 
+const SearchResolver = require('../search/search.resolver')
+
 module.exports = {
+    Recommendation: {
+        async previews(parent, args, context, info) {
+            return await getPreviews(parent)
+        }
+    },
 
     Query: {
         async getReviewsByCurrentUser(parent, args, context, info) {
@@ -92,5 +100,59 @@ function getModel(targetType) {
 
         case 'diving':
             return Diving
+
+        case 'instructor':
+            return Instructor
+    }
+}
+
+async function getPreviews(recommend) {
+    switch (recommendation.recommendationType) {
+        case 'new':
+            return await getNewRecommendation(recommend)
+        case 'interest':
+            return await getInterestRecommendation(recommend)
+        case 'search':
+            return await getSearchRecommendation(recommend)
+
+    }
+}
+
+async function getNewRecommendation(recommend) {
+    return await getModel(recommend.recommendationTargetType)
+        .find()
+        .order('-createdAt')
+        .limit(recommend.previewCount)
+        .lean()
+}
+
+async function getInterestRecommendation(recommend) {
+    return await getModel(recommend.recommendationTargetType)
+        .find({ interests: recommend.interest })
+        .order('-adminScore')
+        .limit(recommend.previewCount)
+        .lean()
+}
+
+async function getSearchRecommendation(recommend) {
+    const searchParams = JSON.parse(recommend.searchParams)
+
+    switch (recommend.targetType) {
+        case 'diving':
+            return await SearchResolver.Query.searchDivings(
+                null,
+                { limit: recommend.previewCount, searchParams: searchParams },
+                null,
+                null
+            )
+        case 'diveCenter':
+        case 'diveSite':
+        case 'divePoint':
+            return await SearchResolver.Query.searchPlaces(
+                null,
+                { limit: recommend.previewCount, searchParams: searchParams },
+                null,
+                null
+            )
     }
 }

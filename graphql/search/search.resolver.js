@@ -101,7 +101,7 @@ function createMongooseParamsByQuery(searchParams) {
 
     let mongooseParams = createMongooseParams(searchParams)
 
-    if (searchParams.query) {
+    if (searchParams && searchParams.query) {
         mongooseParams['$and'].push({ $text: { $search: searchParams.query } })
     }
 
