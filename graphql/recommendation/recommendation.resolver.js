@@ -12,18 +12,24 @@ const SearchResolver = require('../search/search.resolver')
 module.exports = {
 
     RecommendationPreview: {
-        __resolveType(obj, context, info) {
-            return capitalizeFirstLetter(obj.targetType)
+        async __resolveType(obj, context, info) {
+            if (obj.hostUser) {
+                return 'Diving'
+            } else if (obj.diveSiteId) {
+                return 'DivePoint'
+            } else if (obj.webPageUrl || obj.email || obj.phoneNumber || obj.educationScore) {
+                return 'DiveCenter'
+            } else if (obj.user) {
+                return 'Instructor'
+            } else {
+                return 'DiveSite'
+            }
         }
     },
 
     Recommendation: {
         async previews(parent, args, context, info) {
-            let previews = await getPreviews(parent)
-            return previews.map(preview => ({
-                ...preview,
-                targetType: args.targetType
-            }))
+            return await getPreviews(parent)
         }
     },
 
@@ -166,8 +172,4 @@ async function getSearchRecommendation(recommend) {
                 null
             )
     }
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
 }
