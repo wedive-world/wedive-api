@@ -39,6 +39,8 @@ type Diving {
 
     startedAt: Date
     finishedAt: Date
+    
+    chatRoomId: String
 
     createdAt: Date
     updatedAt: Date
