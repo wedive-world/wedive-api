@@ -94,6 +94,8 @@ async function createMongooseParamsByInterest(searchParams) {
         return null
     }
 
+    console.log(`search-resolver | createMongooseParamsByInterest: foundInterest=${JSON.stringify(foundInterest)}`)
+
     let interestSearchParams = createMongooseParams(searchParams)
     interestSearchParams['$and'].push({ interests: { $in: foundInterest } })
     return interestSearchParams

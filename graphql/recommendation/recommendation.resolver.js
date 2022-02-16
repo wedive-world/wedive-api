@@ -144,6 +144,7 @@ async function getNewRecommendation(recommend) {
 }
 
 async function getInterestRecommendation(recommend) {
+    console.log(`recommendation-resolver | getInterestRecommendation: recommend=${JSON.stringify(recommend)}`)
     return await getModel(recommend.targetType)
         .find({ interests: { $in: recommend.interests } })
         .sort('-adminScore')
@@ -153,7 +154,7 @@ async function getInterestRecommendation(recommend) {
 
 async function getSearchRecommendation(recommend) {
     const searchParams = JSON.parse(recommend.searchParams)
-    
+
 
     switch (recommend.targetType) {
         case 'diving':
