@@ -36,14 +36,15 @@ module.exports = {
             let limit = args.limit
             let searchParams = args.searchParams
 
-
             let queryMongooseParam = createMongooseParamsByQuery(searchParams)
             let querySearchResult = await Diving.find(queryMongooseParam)
                 .lean()
+            console.log(`query | searchDivings: querySearchResult=${JSON.stringify(querySearchResult)}`)
 
             let interestSearchParams = await createMongooseParamsByInterest(searchParams)
             let interestSearchResult = await Diving.find(interestSearchParams)
                 .lean()
+            console.log(`query | searchDivings: interestSearchResult=${JSON.stringify(interestSearchResult)}`)
 
             let placeIds = await searchPlaces(searchParams, limit, true)
             let placeSearchParams = createMongooseParams(searchParams)
@@ -58,6 +59,7 @@ module.exports = {
                 })
             let placeSearchResult = await Diving.find(placeSearchParams)
                 .lean()
+            console.log(`query | searchDivings: placeSearchResult=${JSON.stringify(placeSearchResult)}`)
 
             return querySearchResult
                 .concat(interestSearchResult)
@@ -151,7 +153,7 @@ function createMongooseParams(searchParams) {
 }
 
 async function queryMongoosePlaces(mongooseParams, limit, onlyIds) {
-    
+
     if (!mongooseParams) {
         return []
     }
