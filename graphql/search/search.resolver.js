@@ -63,9 +63,11 @@ module.exports = {
                 .lean()
             console.log(`query | searchDivings: placeSearchResult=${JSON.stringify(placeSearchResult)}`)
 
-            return querySearchResult
-                .concat(interestSearchResult)
-                .concat(placeSearchResult)
+            return Array.from(new Set(
+                querySearchResult
+                    .concat(interestSearchResult)
+                    .concat(placeSearchResult)
+            ))
         },
     },
 }
@@ -78,7 +80,9 @@ async function searchPlaces(searchParams, limit, onlyIds) {
     let interestSearchParams = await createMongooseParamsByInterest(searchParams)
     let interestSearchResult = await queryMongoosePlaces(interestSearchParams, limit, onlyIds)
 
-    return querySearchResult.concat(interestSearchResult)
+    return Array.from(new Set(
+        querySearchResult.concat(interestSearchResult)
+    ))
 }
 
 async function createMongooseParamsByInterest(searchParams) {
