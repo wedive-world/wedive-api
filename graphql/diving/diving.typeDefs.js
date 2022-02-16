@@ -29,7 +29,7 @@ type Diving {
 
     title: String
     description: String
-    status: DivingStatus!
+    status: DivingStatus
     type: [DivingType]
 
     hostUser: User
