@@ -121,7 +121,7 @@ async function getPreviews(recommend) {
 async function getNewRecommendation(recommend) {
     return await getModel(recommend.targetType)
         .find()
-        .order('-createdAt')
+        .sort('-createdAt')
         .limit(recommend.previewCount)
         .lean()
 }
@@ -129,7 +129,7 @@ async function getNewRecommendation(recommend) {
 async function getInterestRecommendation(recommend) {
     return await getModel(recommend.targetType)
         .find({ interests: recommend.interests })
-        .order('-adminScore')
+        .sort('-adminScore')
         .limit(recommend.previewCount)
         .lean()
 }
