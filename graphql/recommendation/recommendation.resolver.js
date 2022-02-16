@@ -10,9 +10,20 @@ const {
 const SearchResolver = require('../search/search.resolver')
 
 module.exports = {
+
+    RecommendationPreview: {
+        __resolveType(obj, context, info) {
+            return capitalizeFirstLetter(obj.targetType)
+        }
+    },
+
     Recommendation: {
         async previews(parent, args, context, info) {
-            return await getPreviews(parent)
+            let previews = await getPreviews(parent)
+            return previews.map(preview => ({
+                ...preview,
+                targetType: args.targetType
+            }))
         }
     },
 
@@ -155,4 +166,8 @@ async function getSearchRecommendation(recommend) {
                 null
             )
     }
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

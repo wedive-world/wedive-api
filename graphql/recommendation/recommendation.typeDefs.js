@@ -68,17 +68,5 @@ enum RecommendationType {
   nearBy
 }
 
-interface RecommendationPreview {
-  _id: ID
-}
-
-type Diving implements RecommendationPreview 
-
-type DiveSite implements RecommendationPreview 
-
-type DivePoint implements RecommendationPreview 
-
-type DiveCenter implements RecommendationPreview 
-
-type Instructor implements RecommendationPreview
+union RecommendationPreview = Diving | DiveSite | DivePoint | DiveCenter | Instructor
 `;
