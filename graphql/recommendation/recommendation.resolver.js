@@ -107,7 +107,7 @@ function getModel(targetType) {
 }
 
 async function getPreviews(recommend) {
-    switch (recommendation.recommendationType) {
+    switch (recommend.recommendationType) {
         case 'new':
             return await getNewRecommendation(recommend)
         case 'interest':
