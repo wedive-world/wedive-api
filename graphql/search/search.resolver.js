@@ -42,8 +42,10 @@ module.exports = {
             console.log(`query | searchDivings: querySearchResult=${JSON.stringify(querySearchResult)}`)
 
             let interestSearchParams = await createMongooseParamsByInterest(searchParams)
-            let interestSearchResult = await Diving.find(interestSearchParams)
-                .lean()
+            let interestSearchResult = interestSearchParams
+                ? await Diving.find(interestSearchParams)
+                    .lean()
+                : []
             console.log(`query | searchDivings: interestSearchResult=${JSON.stringify(interestSearchResult)}`)
 
             let placeIds = await searchPlaces(searchParams, limit, true)
