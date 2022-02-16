@@ -12,8 +12,35 @@ const {
 } = require('../../model').schema;
 
 module.exports = {
+    NotificationTarget: {
+        async __resolveType(obj, context, info) {
+            if (obj.hostUser) {
+                return 'Diving'
+            } else if (obj.diveSiteId) {
+                return 'DivePoint'
+            } else if (obj.webPageUrl || obj.email || obj.phoneNumber || obj.educationScore) {
+                return 'DiveCenter'
+            } else if (obj.user) {
+                return 'Instructor'
+            } else if (obj.uid) {
+                return 'User'
+            } else {
+                return 'DiveSite'
+            }
+        }
+    },
 
-    //TODO refactor relocate into different resolver
+    Notification: {
+        async target(parent, args, context, info) {
+            return await getModel(parent.targetType).findById(parent.targetId)
+                .lean()
+        },
+
+        async subject(parent, args, context, info) {
+            return await getModel(parent.subjectType).findById(parent.subjectId)
+                .lean()
+        }
+    },
 
     Query: {
         async getNotifications(parent, args, context, info) {
@@ -53,4 +80,28 @@ module.exports = {
             }
         },
     },
+}
+
+function getModel(targetType) {
+
+    switch (targetType) {
+
+        case 'diveCenter':
+            return DiveCenter
+
+        case 'divePoint':
+            return DivePoint
+
+        case 'diveSite':
+            return DiveSite
+
+        case 'diving':
+            return Diving
+
+        case 'instructor':
+            return Instructor
+
+        case 'user':
+            return User
+    }
 }

@@ -17,10 +17,14 @@ type Mutation {
 type Notification {
   _id: ID
   userId: ID,
+
   targetId: ID,
   targetType: NotificationTargetType,
+  target: NotificationTarget
+
   subjectId: ID
   subjectType: NotificationTargetType
+  subject: NotificationTarget
   
   event: NotificationEvent,
   read: Boolean,
@@ -37,6 +41,8 @@ enum NotificationTargetType {
   instructor
   user
 }
+
+union NotificationTarget = DiveCenter | DivePoint | DiveSite | Diving | Instructor | User
 
 enum NotificationEvent {
   onParticipantJoined
