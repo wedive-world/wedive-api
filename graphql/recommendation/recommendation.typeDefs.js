@@ -24,8 +24,10 @@ type Recommendation {
   cssStyle: String
 
   previewCount: Int
-  recommendationType: RecommendationType
-  recommendationTargetType: RecommendationTargetType
+  type: RecommendationType
+  targetType: RecommendationTargetType
+
+  searchParams: String
   arguments: [String]
 
   previews: [RecommendationPreview]
@@ -42,14 +44,11 @@ input RecommendationInput {
   cssStyle: String
 
   previewCount: Int
-  recommendationType: RecommendationType
+  type: RecommendationType
+  targetType: RecommendationTargetType
+
   searchParams: SearchParams
   arguments: [String]
-
-  divings: [ID]
-  diveCenters: [ID]
-  diveSites: [ID]
-  divePoint: [ID]
 }
 
 enum RecommendationTargetType {

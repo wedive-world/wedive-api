@@ -66,10 +66,10 @@ module.exports = {
 };
 
 async function findPreviews(recommendation) {
-    switch (recommendation.recommendationType) {
+    switch (recommendation.type) {
         case 'interest':
             recommendation.preivews = await findPreviewsByInterest(
-                recommendation.recommendationTargetType,
+                recommendation.type,
                 recommendation.interests,
                 recommendation.previewCount
             )
@@ -107,7 +107,7 @@ function getModel(targetType) {
 }
 
 async function getPreviews(recommend) {
-    switch (recommend.recommendationType) {
+    switch (recommend.type) {
         case 'new':
             return await getNewRecommendation(recommend)
         case 'interest':
@@ -119,7 +119,7 @@ async function getPreviews(recommend) {
 }
 
 async function getNewRecommendation(recommend) {
-    return await getModel(recommend.recommendationTargetType)
+    return await getModel(recommend.targetType)
         .find()
         .order('-createdAt')
         .limit(recommend.previewCount)
@@ -127,8 +127,8 @@ async function getNewRecommendation(recommend) {
 }
 
 async function getInterestRecommendation(recommend) {
-    return await getModel(recommend.recommendationTargetType)
-        .find({ interests: recommend.interest })
+    return await getModel(recommend.targetType)
+        .find({ interests: recommend.interests })
         .order('-adminScore')
         .limit(recommend.previewCount)
         .lean()
