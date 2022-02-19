@@ -4,7 +4,8 @@ const {
     DivePoint,
     DiveCenter,
     Diving,
-    Instructor
+    Instructor,
+    User
 } = require('../../model').schema;
 
 const SearchResolver = require('../search/search.resolver')
@@ -52,7 +53,9 @@ module.exports = {
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
 
-            recommendations = recommendations.concat(randomRecommendations)
+            recommendations = Array.from(new Set(
+                recommendations.concat(randomRecommendations)
+            ))
             return recommendations
                 .map(value => ({ value, sort: Math.random() }))
                 .sort((a, b) => a.sort - b.sort)
