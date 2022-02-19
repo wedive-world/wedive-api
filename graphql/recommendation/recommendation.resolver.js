@@ -12,23 +12,23 @@ const RECOMMEND_COUNT = 5
 
 module.exports = {
     Query: {
-        async getUserRecommendation(parent, args, context, info) {
+        async getUserRecommendations(parent, args, context, info) {
             let seed = await User.find({ uid: context.uid })
                 .select('recommendationSeed')
                 .lean()
 
-            let recommendsCount = await Recommendation.count()
             let recommendations = await Recommendation.find()
                 .skip(seed)
                 .limit(RECOMMEND_COUNT)
                 .lean()
 
+            let recommendsCount = await Recommendation.count()
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
 
             return recommendations
-                // .map(value => ({ value, sort: Math.random() }))
-                // .sort((a, b) => a.sort - b.sort)
+            // .map(value => ({ value, sort: Math.random() }))
+            // .sort((a, b) => a.sort - b.sort)
         }
     },
 
