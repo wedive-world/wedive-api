@@ -27,8 +27,8 @@ module.exports = {
             await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
 
             return recommendations
-                .map(value => ({ value, sort: Math.random() }))
-                .sort((a, b) => a.sort - b.sort)
+                // .map(value => ({ value, sort: Math.random() }))
+                // .sort((a, b) => a.sort - b.sort)
         }
     },
 
