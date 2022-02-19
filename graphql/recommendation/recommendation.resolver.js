@@ -55,12 +55,9 @@ module.exports = {
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
 
-            recommendations = Array.from(new Set(
+            return Array.from(new Set(
                 recommendations.concat(randomRecommendations)
             ))
-            return recommendations
-                .map(value => ({ value, sort: Math.random() }))
-                .sort((a, b) => a.sort - b.sort)
         },
 
         // async getUserRecommendations(parent, args, context, info) {
