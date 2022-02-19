@@ -44,6 +44,8 @@ const schema = new Schema({
     divingHostCount: { type: Number, default: 0},
     divingParticipantCount: { type: Number, default: 0},
 
+    recommendationSeed: Number,
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

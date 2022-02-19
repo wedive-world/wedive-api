@@ -8,8 +8,29 @@ const {
 } = require('../../model').schema;
 
 const SearchResolver = require('../search/search.resolver')
+const RECOMMEND_COUNT = 5
 
 module.exports = {
+    Query: {
+        async getUserRecommendation(parent, args, context, info) {
+            let seed = await User.find({ uid: context.uid })
+                .select('recommendationSeed')
+                .lean()
+
+            let recommendsCount = await Recommendation.count()
+            let recommendations = await Recommendation.find()
+                .skip(seed)
+                .limit(RECOMMEND_COUNT)
+                .lean()
+
+            let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
+            await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
+
+            return recommendations
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
+        }
+    },
 
     RecommendationPreview: {
         async __resolveType(obj, context, info) {
