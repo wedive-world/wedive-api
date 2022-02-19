@@ -11,27 +11,6 @@ const SearchResolver = require('../search/search.resolver')
 const RECOMMEND_COUNT = 5
 
 module.exports = {
-    Query: {
-        async getUserRecommendations(parent, args, context, info) {
-            let seed = await User.find({ uid: context.uid })
-                .select('recommendationSeed')
-                .lean()
-
-            let recommendations = await Recommendation.find()
-                .skip(seed)
-                .limit(RECOMMEND_COUNT)
-                .lean()
-
-            let recommendsCount = await Recommendation.count()
-            let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
-            await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
-
-            return recommendations
-            // .map(value => ({ value, sort: Math.random() }))
-            // .sort((a, b) => a.sort - b.sort)
-        }
-    },
-
     RecommendationPreview: {
         async __resolveType(obj, context, info) {
             if (obj.hostUser) {
@@ -55,15 +34,48 @@ module.exports = {
     },
 
     Query: {
-        async getReviewsByCurrentUser(parent, args, context, info) {
+        async getUserRecommendations(parent, args, context, info) {
             console.log(`query | getReviewsByCurrentUser: context=${JSON.stringify(context)}`)
 
             let user = await User.findOne({ uid: context.uid }).lean()
             let recommendations = await Recommendation.find({ interests: { $in: user.interests } })
                 .lean()
 
-            return recommendations.map(async recommendation => { return await findPreviews(recommendation) })
+            let seed = user.recommendationSeed
+
+            let randomRecommendations = await Recommendation.find()
+                .skip(seed)
+                .limit(RECOMMEND_COUNT)
+                .lean()
+
+            let recommendsCount = await Recommendation.count()
+            let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
+            await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
+
+            recommendations = recommendations.concat(randomRecommendations)
+            return recommendations
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
         },
+
+        // async getUserRecommendations(parent, args, context, info) {
+        //     let seed = await User.find({ uid: context.uid })
+        //         .select('recommendationSeed')
+        //         .lean()
+
+        //     let recommendations = await Recommendation.find()
+        //         .skip(seed)
+        //         .limit(RECOMMEND_COUNT)
+        //         .lean()
+
+        //     let recommendsCount = await Recommendation.count()
+        //     let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
+        //     await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
+
+        //     return recommendations
+        //     // .map(value => ({ value, sort: Math.random() }))
+        //     // .sort((a, b) => a.sort - b.sort)
+        // }
 
         async getAllRecommendations(parent, args, context, info) {
             console.log(`query | getAllRecommendations: context=${JSON.stringify(context)}`)
