@@ -44,6 +44,8 @@ module.exports = {
             let recommendations = await Recommendation.find({ interests: { $in: user.interests } })
                 .lean()
 
+            console.log(`query | getUserRecommendations: recommendations=${JSON.stringify(recommendations)}`)
+
             let seed = user.recommendationSeed ? user.recommendationSeed : 0
 
             let randomRecommendations = await Recommendation.find()
@@ -51,6 +53,8 @@ module.exports = {
                 .limit(RECOMMEND_COUNT)
                 .lean()
 
+            console.log(`query | getUserRecommendations: recommendations=${JSON.stringify(randomRecommendations)}`)
+            
             let recommendsCount = await Recommendation.count()
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
