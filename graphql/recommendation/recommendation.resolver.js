@@ -36,13 +36,15 @@ module.exports = {
 
     Query: {
         async getUserRecommendations(parent, args, context, info) {
-            console.log(`query | getReviewsByCurrentUser: context=${JSON.stringify(context)}`)
+            console.log(`query | getUserRecommendations: context=${JSON.stringify(context)}`)
 
-            let user = await User.findOne({ uid: context.uid }).lean()
+            let user = await User.findOne({ uid: context.uid })
+                .lean()
+
             let recommendations = await Recommendation.find({ interests: { $in: user.interests } })
                 .lean()
 
-            let seed = user.recommendationSeed
+            let seed = user.recommendationSeed ? user.recommendationSeed : 0
 
             let randomRecommendations = await Recommendation.find()
                 .skip(seed)
