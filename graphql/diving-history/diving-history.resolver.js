@@ -14,7 +14,7 @@ module.exports = {
 
             console.log(`query | User.divingHistoryLocations: divingLocations=${JSON.stringify(divingLocations)}`)
 
-            return divingLocations
+            return divingLocations.map(divingLocation => divingLocation.location.coordinates)
         },
     }
 }
