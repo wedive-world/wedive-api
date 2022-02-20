@@ -44,7 +44,7 @@ module.exports = {
             let recommendations = await Recommendation.find({ interests: { $in: user.interests } })
                 .lean()
 
-            console.log(`query | getUserRecommendations: recommendations=${JSON.stringify(recommendations)}`)
+            // console.log(`query | getUserRecommendations: recommendations=${JSON.stringify(recommendations)}`)
 
             let seed = user.recommendationSeed ? user.recommendationSeed : 0
 
@@ -53,7 +53,7 @@ module.exports = {
                 .limit(RECOMMEND_COUNT)
                 .lean()
 
-            console.log(`query | getUserRecommendations: randomRecommendations=${JSON.stringify(randomRecommendations)}`)
+            // console.log(`query | getUserRecommendations: randomRecommendations=${JSON.stringify(randomRecommendations)}`)
 
             let recommendsCount = await Recommendation.count()
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
@@ -64,24 +64,39 @@ module.exports = {
             ))
         },
 
-        // async getUserRecommendations(parent, args, context, info) {
-        //     let seed = await User.find({ uid: context.uid })
-        //         .select('recommendationSeed')
-        //         .lean()
+        async getUserRecommendationsByTargetType(parent, args, context, info) {
+            console.log(`query | getUserRecommendationsByTargetType: context=${JSON.stringify(context)}`)
 
-        //     let recommendations = await Recommendation.find()
-        //         .skip(seed)
-        //         .limit(RECOMMEND_COUNT)
-        //         .lean()
+            let user = await User.findOne({ uid: context.uid })
+                .lean()
 
-        //     let recommendsCount = await Recommendation.count()
-        //     let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
-        //     await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
+            let recommendations = await Recommendation.find({
+                interests: { $in: user.interests },
+                targetType: args.targetType
+            })
+                .lean()
 
-        //     return recommendations
-        //     // .map(value => ({ value, sort: Math.random() }))
-        //     // .sort((a, b) => a.sort - b.sort)
-        // }
+            // console.log(`query | getUserRecommendationsByTargetType: recommendations=${JSON.stringify(recommendations)}`)
+
+            let seed = user.recommendationSeed ? user.recommendationSeed : 0
+
+            let randomRecommendations = await Recommendation.find({
+                targetType: args.targetType
+            })
+                .skip(seed)
+                .limit(RECOMMEND_COUNT)
+                .lean()
+
+            // console.log(`query | getUserRecommendationsByTargetType: randomRecommendations=${JSON.stringify(randomRecommendations)}`)
+
+            let recommendsCount = await Recommendation.count()
+            let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
+            await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })
+
+            return Array.from(new Set(
+                recommendations.concat(randomRecommendations)
+            ))
+        },
 
         async getAllRecommendations(parent, args, context, info) {
             console.log(`query | getAllRecommendations: context=${JSON.stringify(context)}`)
