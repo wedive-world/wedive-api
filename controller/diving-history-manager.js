@@ -71,6 +71,7 @@ module.exports.createHistoryFromDivingComplete = async (divingId) => {
         let divingHistory = {}
         Object.assign(divingHistory, diving)
         divingHistory.user = userId
+        delete divingHistory['_id']
 
         let place = null
         if (diving.diveSites && diving.diveSites.length > 0) {
