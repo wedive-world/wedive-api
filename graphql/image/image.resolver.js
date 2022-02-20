@@ -226,7 +226,7 @@ module.exports = {
         updateThmbnailForAllImages: async (parent, args, context, info) => {
             console.log(`mutation | updateThmbnailForAllImages`)
 
-            let imageIds = await Image.find()
+            let imageIds = await Image.find({ mimeType: { $ne: 'image/gif' } })
                 .select('_id')
                 .lean()
 
