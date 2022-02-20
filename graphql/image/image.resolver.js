@@ -135,7 +135,7 @@ module.exports = {
             return await getImagesByIds(parent.images)
         },
     },
-    
+
     Agenda: {
         async images(parent, args, context, info) {
             return await getImagesByIds(parent.images)
@@ -226,11 +226,13 @@ module.exports = {
         updateThmbnailForAllImages: async (parent, args, context, info) => {
             console.log(`mutation | updateThmbnailForAllImages`)
 
-            let images = await Image.find()
-            for (image of images) {
-                let thumbnailUrl = await getResizedImage(image._id, THUMBNAIL_WIDTH)
-                image.thumbnailUrl = thumbnailUrl;
-                await image.save()
+            let imageIds = await Image.find()
+                .select('_id')
+                .lean()
+
+            for (let imageId of imageIds) {
+                let thumbnailUrl = await getResizedImage(imageId, THUMBNAIL_WIDTH)
+                await Image.updateOne({ _id: imageId }, { thumbnailUrl: thumbnailUrl })
             }
 
             return {
