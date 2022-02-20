@@ -18,6 +18,8 @@ module.exports.createHistoryFromReview = async (reviewId) => {
     let divingHistory = {}
     divingHistory.user = review.author
     divingHistory.hostUser = review.author
+    divingHistory.targetId = reviewId
+    divingHistory.targetType = 'review'
 
     const model = getModel(review.targetType)
     let place = await model.findById(review.targetId)
@@ -71,7 +73,8 @@ module.exports.createHistoryFromDivingComplete = async (divingId) => {
         let divingHistory = {}
         Object.assign(divingHistory, diving)
         divingHistory.user = userId
-        divingHistory.divingId = divingHistory._id
+        divingHistory.targetId = divingHistory._id
+        divingHistory.targetType = 'diving'
         delete divingHistory['_id']
 
         let place = null
