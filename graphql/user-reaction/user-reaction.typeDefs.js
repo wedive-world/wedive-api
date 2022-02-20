@@ -36,6 +36,7 @@ enum UserReactionTargetType {
   image
   user
   review
+  forum
 }
 
 interface UserReactionable {

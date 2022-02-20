@@ -15,12 +15,16 @@ type Query {
   getUserByUid(uid: ID!): User
   getUsersByUid(uids: [ID]): [User]
   findUserByNickName(nickName: String!): [User]
+
+  getCurrentUser: User
 }
 
 type Mutation {
   MUTATION_________________________Users: User
   upsertUser(input: UserInput): User!
   updateFcmToken(input: UserInput): Response!
+
+  upsertCurrentUser(input: UserInput): User!
 }
 
 type User {

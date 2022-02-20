@@ -1,6 +1,10 @@
 const { User, Instructor } = require('../../model').schema
 const ChatServiceProxy = require('../../proxy/chat-service-proxy')
-
+const {
+    ApolloServer,
+    AuthenticationError,
+    ForbiddenError,
+  } = require('apollo-server-express');
 module.exports = {
 
     Instructor: {
@@ -61,6 +65,10 @@ module.exports = {
         async findUserByNickName(parent, args, context, info) {
             return await User.find({ $text: { $search: args.nickName } })
         },
+
+        async getCurrentUser(parent, args, context, info) {
+            return await User.findOne({ uid: context.uid });
+        },
     },
 
     Mutation: {
@@ -77,6 +85,10 @@ module.exports = {
             } else {
                 user = await User.findOne({ _id: args.input._id })
                     .populate('profileImages')
+                
+                if (user.uid != context.uid) {
+                    throw new ForbiddenError()
+                }
 
                 Object.assign(user, args.input)
                 user.updatedAt = Date.now()
