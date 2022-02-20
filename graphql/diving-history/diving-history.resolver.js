@@ -12,7 +12,7 @@ module.exports = {
                 .select('location.coordinates')
                 .lean()
 
-            console.log(`query | User.divingHistoryLocations: divingLocations=${JSON.stringify(divingLocations)}`)
+            // console.log(`query | User.divingHistoryLocations: divingLocations=${JSON.stringify(divingLocations)}`)
 
             return divingLocations.map(divingLocation => divingLocation.location.coordinates)
         },
