@@ -7,6 +7,8 @@ const schema = new Schema({
     description: String,
     type: [String],
 
+    divingId: { type: Schema.Types.ObjectId, ref: 'Diving'},
+
     user: { type: Schema.Types.ObjectId, ref: 'User', index: true },
 
     hostUser: { type: Schema.Types.ObjectId, ref: 'User' },

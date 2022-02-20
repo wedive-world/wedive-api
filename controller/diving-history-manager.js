@@ -71,6 +71,7 @@ module.exports.createHistoryFromDivingComplete = async (divingId) => {
         let divingHistory = {}
         Object.assign(divingHistory, diving)
         divingHistory.user = userId
+        divingHistory.divingId = divingHistory._id
         delete divingHistory['_id']
 
         let place = null
