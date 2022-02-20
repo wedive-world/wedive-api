@@ -231,8 +231,12 @@ module.exports = {
                 .lean()
 
             for (let imageId of imageIds) {
-                let thumbnailUrl = await getResizedImage(imageId, THUMBNAIL_WIDTH)
-                await Image.updateOne({ _id: imageId }, { thumbnailUrl: thumbnailUrl })
+                try {
+                    let thumbnailUrl = await getResizedImage(imageId, THUMBNAIL_WIDTH)
+                    await Image.updateOne({ _id: imageId }, { thumbnailUrl: thumbnailUrl })
+                } catch (err) {
+                    console.error(`mutation | updateThmbnailForAllImages: err=${err}`)
+                }
             }
 
             return {
