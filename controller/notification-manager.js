@@ -4,6 +4,10 @@ const {
     Notification
 } = require('../model/index').schema
 
+const {
+    getNotificationMessage
+} = require('./notification-message-manager')
+
 module.exports.onDivingCreated = async (diving) => {
 
     if (diving.diveCenters && diving.diveCenters.length > 0) {
@@ -124,6 +128,7 @@ async function sendNotificationBySubscription(targetId, targetType, subjectId, s
 
 async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, data, userIds) {
     userIds.forEach(async userId => {
+        let message = await getNotificationMessage()
         await Notification.create({
             userId: userId,
             targetId: targetId,
@@ -131,6 +136,7 @@ async function sendNotificationByUserIds(targetId, targetType, subjectId, subjec
             subjectId: subjectId,
             subjectType: subjectType,
             event: event,
+            message: message,
             read: false
         })
     })
@@ -141,6 +147,7 @@ async function sendNotificationByUserIds(targetId, targetType, subjectId, subjec
         subjectId: subjectId,
         subjectType: subjectType,
         event: event,
+        message: message,
         ...data
     })
 }
