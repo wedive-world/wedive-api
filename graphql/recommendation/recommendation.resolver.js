@@ -30,7 +30,7 @@ module.exports = {
 
     Recommendation: {
         async previews(parent, args, context, info) {
-            return await getPreviews(parent)
+            return await getPreviews(parent, context)
         }
     },
 
@@ -177,14 +177,14 @@ function getModel(targetType) {
     }
 }
 
-async function getPreviews(recommend) {
+async function getPreviews(recommend, context) {
     switch (recommend.type) {
         case 'new':
             return await getNewRecommendation(recommend)
         case 'interest':
             return await getInterestRecommendation(recommend)
         case 'search':
-            return await getSearchRecommendation(recommend)
+            return await getSearchRecommendation(recommend, context)
 
     }
 }
@@ -206,7 +206,7 @@ async function getInterestRecommendation(recommend) {
         .lean()
 }
 
-async function getSearchRecommendation(recommend) {
+async function getSearchRecommendation(recommend, context) {
     const searchParams = JSON.parse(recommend.searchParams)
 
 
@@ -224,7 +224,7 @@ async function getSearchRecommendation(recommend) {
             return await SearchResolver.Query.searchPlaces(
                 null,
                 { limit: recommend.previewCount, searchParams: searchParams },
-                null,
+                context,
                 null
             )
     }
