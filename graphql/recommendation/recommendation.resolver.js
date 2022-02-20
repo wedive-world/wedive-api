@@ -53,8 +53,8 @@ module.exports = {
                 .limit(RECOMMEND_COUNT)
                 .lean()
 
-            console.log(`query | getUserRecommendations: recommendations=${JSON.stringify(randomRecommendations)}`)
-            
+            console.log(`query | getUserRecommendations: randomRecommendations=${JSON.stringify(randomRecommendations)}`)
+
             let recommendsCount = await Recommendation.count()
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendSeed: nextSeed })

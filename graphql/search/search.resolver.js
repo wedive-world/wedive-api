@@ -155,6 +155,14 @@ function createMongooseParams(searchParams) {
         if (searchParams.interests && searchParams.interests.length > 0 && searchParams.interests[0].length > 0) {
             searchParams.interests.forEach(interestArray => mongooseParams['$and'].push({ interests: { $in: interestArray } }))
         }
+
+        if (searchParams.startedAt) {
+            mongooseParams['$and'].push({ startedAt: { $gte: searchParams.startedAt } })
+        }
+
+        if (searchParams.finishedAt) {
+            mongooseParams['$and'].push({ finishedAt: { $lte: searchParams.startedAt } })
+        }
     }
 
     return mongooseParams
