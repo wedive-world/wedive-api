@@ -24,12 +24,15 @@ type Agenda {
   title: String
   content: String
 
+  reviewCount: Int
+
   createdAt: Date
   updatedAt: Date
 }
 
 input AgendaInput {
   _id: ID
+  targetId: ID
   type: AgendaType
 
   title: String
