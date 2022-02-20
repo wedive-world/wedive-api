@@ -136,26 +136,6 @@ module.exports = {
     },
 };
 
-async function findPreviews(recommendation) {
-    switch (recommendation.type) {
-        case 'interest':
-            recommendation.preivews = await findPreviewsByInterest(
-                recommendation.type,
-                recommendation.interests,
-                recommendation.previewCount
-            )
-            return recommendataion
-    }
-}
-
-async function findPreviewsByInterest(targetType, targetInterests, previewCount) {
-    const model = getModel(targetType)
-    return await model.find({ interests: { $in: targetInterests } })
-        .limit(previewCount)
-        .sort('-adminScore')
-        .lean()
-}
-
 function getModel(targetType) {
 
     switch (targetType) {

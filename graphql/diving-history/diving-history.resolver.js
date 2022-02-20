@@ -9,7 +9,7 @@ module.exports = {
         async divingHistoryLocations(parent, args, context, info) {
 
             return await DivingHistory.find({user: parent._id})
-                .select('locations')
+                .select('location.coordinates')
                 .lean()
         },
     }
