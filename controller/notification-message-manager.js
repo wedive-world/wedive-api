@@ -6,10 +6,10 @@ const {
 
 module.exports.getNotificationMessage = async function (targetId, targetType, subjectId, subjectType, event) {
     switch (event) {
-        case 'onParticipateAccepted':
+        case 'onParticipantAccepted':
             return await onParticipateAccepted(subjectId, targetId)
 
-        case 'onParticipateJoined':
+        case 'onParticipantJoined':
             return await onParticipateJoined(subjectId, targetId)
 
         case 'onDivingPreparation':
@@ -17,6 +17,9 @@ module.exports.getNotificationMessage = async function (targetId, targetType, su
 
         case 'onDivingComplete':
             return await onDivingComplete(subjectId, targetId)
+
+        default:
+            return `Not defined event, ${event}`
     }
 }
 
