@@ -41,10 +41,10 @@ const schema = new Schema({
     views: Number,
     likes: Number,
 
-    divingHostCount: { type: Number, default: 0},
-    divingParticipantCount: { type: Number, default: 0},
+    divingHostCount: { type: Number, default: 0 },
+    divingParticipantCount: { type: Number, default: 0 },
 
-    recommendationSeed: Number,
+    recommendationSeed: { type: Number, default: 0 },
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
