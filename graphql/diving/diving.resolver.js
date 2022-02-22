@@ -125,7 +125,7 @@ module.exports = {
                 .lean()
 
             let userExist = diving.participants
-                .filter(participant => participant.user == currentUser._id)
+                .filter(participant => participant.user == user._id)
 
             if (userExist && userExist.length > 0) {
                 return {
