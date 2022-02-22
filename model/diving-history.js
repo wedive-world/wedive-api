@@ -7,6 +7,9 @@ const schema = new Schema({
     description: String,
     type: [String],
 
+    targetId: Schema.Types.ObjectId,
+    targetType: String,
+
     user: { type: Schema.Types.ObjectId, ref: 'User', index: true },
 
     hostUser: { type: Schema.Types.ObjectId, ref: 'User' },

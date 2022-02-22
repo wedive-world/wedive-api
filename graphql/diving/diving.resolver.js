@@ -63,6 +63,15 @@ module.exports = {
                     .select('_id')
                     .lean()
 
+                let userIds = diving.participants
+                    .filter(participant => participant.user)
+                    .map(participant => participant.user)
+
+                if (userIds && userIds.length > 0) {
+                    let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, context.idToken)
+                    diving.chatRoomId = chatRoomId
+                }
+
             } else {
                 diving = await Diving.findOne({ _id: args.input._id })
                     .populate('hostUser')
@@ -76,9 +85,6 @@ module.exports = {
                 diving.updatedAt = Date.now()
             }
 
-            let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, context.idToken)
-
-            diving.chatRoomId = chatRoomId
             await diving.save()
 
             if (isNewDiving) {
@@ -151,6 +157,12 @@ module.exports = {
 
             let diving = await Diving.findOne({ _id: args.divingId })
                 .populate('participants.user', 'hostUser')
+
+            if (!diving.chatRoomId) {
+                let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, context.idToken)
+                diving.chatRoomId = chatRoomId
+                await diving.save()
+            }
 
             await updateParticipantStatus(diving, context.uid, args.userId, 'joined')
             await notificationManager.onParticipantAccepted(diving, args.userId)

@@ -77,30 +77,21 @@ module.exports = {
 
     Mutation: {
         async upsertForum(parent, args, context, info) {
-            console.log(`mutation | upsertReview: args=${JSON.stringify(args)}`)
+            console.log(`mutation | upsertForum: args=${JSON.stringify(args)}`)
 
-            let review = null
-            const isNewReview = !args.input._id
+            let forum = null
+            const isNewForum = !args.input._id
 
-            if (!isNewReview) {
-                review = await Review.findById(args.input._id)
+            if (!isNewForum) {
+                forum = await Forum.findById(args.input._id)
 
             } else {
-                review = new Review(args.input)
+                forum = new Forum(args.input)
             }
+            Object.assign(forum, args.input)
 
-            Object.assign(review, args.input)
-
-            let user = await User.findOne({ uid: context.uid }).lean()
-            review.author = user._id
-
-            await review.save()
-
-            if (isNewReview) {
-                await createHistoryFromReview(review._id)
-            }
-
-            return review
+            await forum.save()
+            return forum
         },
     },
 };

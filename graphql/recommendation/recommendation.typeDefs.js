@@ -6,6 +6,7 @@ type Query {
 
   QUERY____________________________Recommendation: Recommendation
   getUserRecommendations: [Recommendation]
+  getUserRecommendationsByTargetType(targetType: RecommendationTargetType): [Recommendation]
   getAllRecommendations: [Recommendation]
 }
 
