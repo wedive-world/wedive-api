@@ -144,7 +144,7 @@ async function sendNotificationByUserIds(targetId, targetType, subjectId, subjec
         })
     })
 
-    sendNotification(userIds, event, {
+    sendNotification(userIds, {
         targetId: targetId,
         targetType: targetType,
         subjectId: subjectId,
