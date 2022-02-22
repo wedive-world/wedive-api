@@ -9,6 +9,7 @@ const schema = new Schema({
     subjectId: Schema.Types.ObjectId,
     subjectType: String,
     event: String,
+    title: String,
     message: String,
     read: Boolean,
 

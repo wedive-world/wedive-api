@@ -3,6 +3,24 @@ const {
     Diving
 } = require('../model/index').schema
 
+module.exports.getNotificationTitle = async function (event) {
+    switch (event) {
+        case 'onParticipantAccepted':
+            return '새로운 다이빙 버디 발견'
+
+        case 'onParticipantJoined':
+            return '다이빙 버디 참가 신청'
+
+        case 'onDivingPreparation':
+            return '다이빙 출발 3일 전'
+
+        case 'onDivingComplete':
+            return '다이빙 완료'
+
+        default:
+            return `Not defined event, ${event}`
+    }
+}
 
 module.exports.getNotificationMessage = async function (targetId, targetType, subjectId, subjectType, event) {
     switch (event) {
