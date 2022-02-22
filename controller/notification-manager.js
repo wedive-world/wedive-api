@@ -150,8 +150,7 @@ async function sendNotificationByUserIds(targetId, targetType, subjectId, subjec
         subjectId: subjectId,
         subjectType: subjectType,
         event: event,
-        message: message,
-        ...data
+        message: message
     })
 }
 
