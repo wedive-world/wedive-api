@@ -112,6 +112,7 @@ function firebaseClient() {
 async function getFcmTokenByUserIds(userIds) {
     return await User.find({ _id: { $in: userIds } })
         .select('fcmToken')
+        .distinct('fcmToken')
         .lean()
 }
 
@@ -129,7 +130,7 @@ async function sendNotificationBySubscription(targetId, targetType, subjectId, s
 async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, data, userIds) {
 
     let message = await getNotificationMessage()
-    
+
     userIds.forEach(async userId => {
         await Notification.create({
             userId: userId,
