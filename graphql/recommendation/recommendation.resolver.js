@@ -30,7 +30,9 @@ module.exports = {
 
     Recommendation: {
         async previews(parent, args, context, info) {
-            return await getPreviews(parent, context)
+            let result = await getPreviews(parent, context)
+            result.sort(item => Math.random() - 0.5)
+            return result
         }
     },
 
@@ -59,9 +61,11 @@ module.exports = {
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendationSeed: nextSeed })
 
-            return Array.from(new Set(
+            let result = Array.from(new Set(
                 recommendations.concat(randomRecommendations)
             ))
+            result.sort(item => Math.random() - 0.5)
+            return result
         },
 
         async getUserRecommendationsByTargetType(parent, args, context, info) {
@@ -93,9 +97,12 @@ module.exports = {
             let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendationSeed: nextSeed })
 
-            return Array.from(new Set(
+
+            let result = Array.from(new Set(
                 recommendations.concat(randomRecommendations)
             ))
+            result.sort(item => Math.random() - 0.5)
+            return result
         },
 
         async getAllRecommendations(parent, args, context, info) {
