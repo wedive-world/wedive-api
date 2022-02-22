@@ -130,7 +130,7 @@ async function sendNotificationBySubscription(targetId, targetType, subjectId, s
 
 async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds) {
 
-    let message = await getNotificationMessage()
+    let message = await getNotificationMessage(targetId, targetType, subjectId, subjectType, event)
 
     userIds.forEach(async userId => {
         await Notification.create({
