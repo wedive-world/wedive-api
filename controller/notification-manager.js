@@ -40,20 +40,11 @@ module.exports.onDivingCreated = async (diving) => {
 }
 
 module.exports.onParticipantAccepted = async (diving, user) => {
-    await sendNotificationByUserIds(user._id, 'user', diving._id, 'diving', 'onParticipantAccepted', user, participantIds)
+    await sendNotificationByUserIds(user._id, 'user', diving._id, 'diving', 'onParticipantAccepted', participantIds)
 }
 
 module.exports.onParticipantJoinedDiving = async (diving, participantId) => {
-    let user = await User.findById(participantId)
-        .lean()
-
-    let participantIds = diving.participants
-        .filter(participant => participant.user)
-        .map(participant => participant.user._id)
-
-    participantIds.push(diving.hostUser._id)
-
-    await sendNotificationByUserIds(participantId, 'user', diving._id, 'diving', 'onParticipantJoined', user, [diving.hostUser])
+    await sendNotificationByUserIds(participantId, 'user', diving._id, 'diving', 'onParticipantJoined', [diving.hostUser])
 }
 
 module.exports.onDivingPreparation = async (diving) => {
@@ -64,7 +55,7 @@ module.exports.onDivingPreparation = async (diving) => {
 
     participantIds.push(diving.hostUser._id)
 
-    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingPreparation', diving, participantIds)
+    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingPreparation', participantIds)
 }
 
 module.exports.onDivingComplete = async (diving) => {
@@ -75,7 +66,7 @@ module.exports.onDivingComplete = async (diving) => {
 
     participantIds.push(diving.hostUser._id)
 
-    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingComplete', diving, participantIds)
+    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingComplete', participantIds)
 }
 
 module.exports.onDivingPublicEnded = async (diving) => {
@@ -85,23 +76,23 @@ module.exports.onDivingPublicEnded = async (diving) => {
 
     participantIds.push(diving.hostUser._id)
 
-    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingPublicEnded', diving, participantIds)
+    await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingPublicEnded', participantIds)
 }
 
 async function onDivingCreatedInDiveCenter(diving, diveCenterId) {
-    await sendNotificationBySubscription(diving._id, 'diving', diveCenterId, 'diveCenter', 'onDivingCreatedInDiveCenter', diving)
+    await sendNotificationBySubscription(diving._id, 'diving', diveCenterId, 'diveCenter', 'onDivingCreatedInDiveCenter')
 }
 
 async function onDivingCreatedInDivePoint(diving, divePointId) {
-    await sendNotificationBySubscription(diving._id, 'diving', divePointId, 'divePoint', 'onDivingCreatedInDivePoint', diving)
+    await sendNotificationBySubscription(diving._id, 'diving', divePointId, 'divePoint', 'onDivingCreatedInDivePoint')
 }
 
 async function onDivingCreatedInDiveSite(diving, diveSiteId) {
-    await sendNotificationBySubscription(diving._id, 'diving', diveSiteId, 'diveSite', 'onDivingCreatedInDiveSite', diving)
+    await sendNotificationBySubscription(diving._id, 'diving', diveSiteId, 'diveSite', 'onDivingCreatedInDiveSite')
 }
 
 async function onDivingCreatedByInstructor(diving, instructorId) {
-    await sendNotificationBySubscription(diving._id, 'diving', instructorId, 'instructor', 'onDivingCreatedByInstructor', diving)
+    await sendNotificationBySubscription(diving._id, 'diving', instructorId, 'instructor', 'onDivingCreatedByInstructor')
 }
 
 function firebaseClient() {
@@ -127,7 +118,7 @@ async function sendNotificationBySubscription(targetId, targetType, subjectId, s
     await sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, data, userIds)
 }
 
-async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, data, userIds) {
+async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds) {
 
     let message = await getNotificationMessage()
 
