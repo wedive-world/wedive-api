@@ -104,7 +104,7 @@ module.exports = {
             console.log(`mutation | joinDiving: args=${JSON.stringify(args)}`)
 
             let diving = await Diving.findOne({ _id: args.divingId })
-                .populate('participants.user', 'hostUser')
+                .populate('hostUser')
 
             if (diving.status != 'searchable') {
                 return {
@@ -121,20 +121,18 @@ module.exports = {
                 }
             }
 
-            let userExist = diving.participants
-                .filter(participant => participant.user)
-                .map(participant => participant.user)
-                .find(user => user.uid == userUid)
+            let user = await User.findOne({ uid: context.uid })
+                .lean()
 
-            if (userExist) {
+            let userExist = diving.participants
+                .filter(participant => participant.user == currentUser._id)
+
+            if (userExist && userExist.length > 0) {
                 return {
                     success: false,
                     reason: 'alreadyApplied'
                 }
             }
-
-            let user = await User.findOne({ uid: userUid })
-                .lean()
 
             diving.participants.push({
                 user: user._id,
@@ -145,7 +143,7 @@ module.exports = {
             })
 
             await diving.save()
-            await notificationManager.onParticipantJoinedDiving(diving, user)
+            await notificationManager.onParticipantJoinedDiving(diving, user._id)
 
             return {
                 success: true

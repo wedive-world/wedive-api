@@ -39,19 +39,24 @@ module.exports.onDivingCreated = async (diving) => {
     }
 }
 
-module.exports.onParticipantAccepted = async (diving, user) => {
-    await sendNotificationByUserIds(user._id, 'user', diving._id, 'diving', 'onParticipantAccepted', participantIds)
+module.exports.onParticipantAccepted = async (diving, userId) => {
+
+    let participantIds = diving.participants
+        .filter(participant => participant.user)
+        .map(participant => participant.user)
+
+    await sendNotificationByUserIds(userId, 'user', diving._id, 'diving', 'onParticipantAccepted', participantIds)
 }
 
-module.exports.onParticipantJoinedDiving = async (diving, participantId) => {
-    await sendNotificationByUserIds(participantId, 'user', diving._id, 'diving', 'onParticipantJoined', [diving.hostUser])
+module.exports.onParticipantJoinedDiving = async (diving, userId) => {
+    await sendNotificationByUserIds(userId, 'user', diving._id, 'diving', 'onParticipantJoined', [diving.hostUser])
 }
 
 module.exports.onDivingPreparation = async (diving) => {
 
     let participantIds = diving.participants
         .filter(participant => participant.user)
-        .map(participant => participant.user._id)
+        .map(participant => participant.user)
 
     participantIds.push(diving.hostUser._id)
 
@@ -110,11 +115,16 @@ async function getFcmTokenByUserIds(userIds) {
 async function getUserIdsBySubjectId(targetId) {
     return await Subscribe.find({ targetId: targetId, value: true })
         .select('userId')
+        .distinct('userId')
         .lean()
 }
 
 async function sendNotificationBySubscription(targetId, targetType, subjectId, subjectType, event, data) {
     let userIds = await getUserIdsBySubjectId(subjectId)
+    if (!userIds || userIds.length == 0) {
+        return
+    }
+
     await sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, data, userIds)
 }
 
