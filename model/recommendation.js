@@ -8,6 +8,7 @@ const schema = new Schema({
     descriptionTranslation: { type: Map, of: String },
 
     cssStyle: String,
+    className: String,
 
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
     backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],

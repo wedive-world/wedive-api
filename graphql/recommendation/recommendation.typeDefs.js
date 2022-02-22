@@ -23,6 +23,7 @@ type Recommendation {
   title: String
   description: String
   cssStyle: String
+  className: String
 
   previewCount: Int
   type: RecommendationType
@@ -43,6 +44,7 @@ input RecommendationInput {
   title: String
   description: String
   cssStyle: String
+  className: String
 
   previewCount: Int
   type: RecommendationType
