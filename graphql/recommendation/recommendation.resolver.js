@@ -33,7 +33,12 @@ module.exports = {
             let result = await getPreviews(parent, context)
             result.sort(item => Math.random() - 0.5)
             return result
-        }
+        },
+
+        async previewsTotalCount(parent, args, context, info) {
+            return await getTotalPreviewsCount(parent, contex)
+        },
+
     },
 
     Query: {
@@ -109,6 +114,14 @@ module.exports = {
             console.log(`query | getAllRecommendations: context=${JSON.stringify(context)}`)
             return await Recommendation.find()
         },
+
+        async getPreviewsByRecommendationId(parent, args, context, info) {
+            console.log(`query | getPreviewsByRecommendationId: context=${JSON.stringify(context)}`)
+            let recommendation = await Recommendation.findById(args._id)
+                .lean()
+                
+            return await getTotalPreviews(recommendation, context)
+        },
     },
 
     Mutation: {
@@ -164,7 +177,29 @@ function getModel(targetType) {
     }
 }
 
+async function getTotalPreviews(recommend, context) {
+    recommend.previewCount = 0
+
+    switch (recommend.type) {
+        case 'new':
+            return await getNewRecommendation(recommend)
+        case 'interest':
+            return await getInterestRecommendation(recommend)
+        case 'search':
+            return await getSearchRecommendation(recommend, context)
+    }
+}
+
+async function getTotalPreviewsCount(recommend, context) {
+    let previews = await getTotalPreviews(recommend, context)
+    return previews.length
+}
+
 async function getPreviews(recommend, context) {
+    if (recommend.previewCount < 1) {
+        return []
+    }
+
     switch (recommend.type) {
         case 'new':
             return await getNewRecommendation(recommend)
@@ -195,7 +230,6 @@ async function getInterestRecommendation(recommend) {
 
 async function getSearchRecommendation(recommend, context) {
     const searchParams = JSON.parse(recommend.searchParams)
-
 
     switch (recommend.targetType) {
         case 'diving':

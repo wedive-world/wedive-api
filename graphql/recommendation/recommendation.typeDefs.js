@@ -8,6 +8,7 @@ type Query {
   getUserRecommendations: [Recommendation]
   getUserRecommendationsByTargetType(targetType: RecommendationTargetType): [Recommendation]
   getAllRecommendations: [Recommendation]
+  getPreviewsByRecommendationId(_id:ID!): [RecommendationPreview]
 }
 
 type Mutation {
@@ -33,7 +34,7 @@ type Recommendation {
   arguments: [String]
 
   previews: [RecommendationPreview]
-  totalCount: Int
+  previewsTotalCount: Int
 
   createdAt: Date
   updatedAt: Date
