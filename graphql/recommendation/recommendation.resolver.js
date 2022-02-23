@@ -119,7 +119,7 @@ module.exports = {
             console.log(`query | getPreviewsByRecommendationId: context=${JSON.stringify(context)}`)
             let recommendation = await Recommendation.findById(args._id)
                 .lean()
-                
+
             return await getTotalPreviews(recommendation, context)
         },
     },
@@ -179,15 +179,7 @@ function getModel(targetType) {
 
 async function getTotalPreviews(recommend, context) {
     recommend.previewCount = 0
-
-    switch (recommend.type) {
-        case 'new':
-            return await getNewRecommendation(recommend)
-        case 'interest':
-            return await getInterestRecommendation(recommend)
-        case 'search':
-            return await getSearchRecommendation(recommend, context)
-    }
+    return await getPreviewsInternal(recommend, context)
 }
 
 async function getTotalPreviewsCount(recommend, context) {
@@ -200,6 +192,11 @@ async function getPreviews(recommend, context) {
         return []
     }
 
+    return await getPreviewsInternal(recommend, context)
+}
+
+async function getPreviewsInternal(recommend, context) {
+
     switch (recommend.type) {
         case 'new':
             return await getNewRecommendation(recommend)
@@ -207,7 +204,8 @@ async function getPreviews(recommend, context) {
             return await getInterestRecommendation(recommend)
         case 'search':
             return await getSearchRecommendation(recommend, context)
-
+        default:
+            return []
     }
 }
 
