@@ -37,6 +37,7 @@ enum UserReactionTargetType {
   user
   review
   forum
+  recommendation
 }
 
 interface UserReactionable {

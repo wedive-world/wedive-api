@@ -8,7 +8,8 @@ const {
     Review,
     Like,
     Dislike,
-    Subscribe
+    Subscribe,
+    View
 } = require('../../model').schema;
 
 module.exports = {
@@ -105,6 +106,16 @@ module.exports = {
         async view(parent, args, context, info) {
             console.log(`mutation | view: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
             await getModel(args.targetType).findOneAndUpdate({ _id: args.targetId }, { $inc: { 'views': 1 } })
+
+            let user = await User.findOne({ uid: context.uid })
+                .select('_id')
+
+            await View.create({
+                userId: user._id,
+                targetId: args.targetId,
+                targetType: args.targetType
+            })
+
             return true
         },
 
@@ -239,6 +250,9 @@ function getModel(targetType) {
             return User
 
         case 'review':
+            return Review
+
+        case 'recommendation':
             return Review
     }
 }

@@ -33,6 +33,7 @@ type Recommendation {
   arguments: [String]
 
   previews: [RecommendationPreview]
+  totalCount: Int
 
   createdAt: Date
   updatedAt: Date
