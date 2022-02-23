@@ -36,7 +36,7 @@ module.exports = {
         },
 
         async previewsTotalCount(parent, args, context, info) {
-            return await getTotalPreviewsCount(parent, contex)
+            return await getTotalPreviewsCount(parent, context)
         },
 
     },
