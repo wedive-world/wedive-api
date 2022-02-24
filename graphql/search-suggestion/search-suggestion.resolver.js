@@ -23,7 +23,7 @@ module.exports = {
         async findSearchSuggestions(parent, args, context, info) {
             console.log(`query | findSearchSuggestions: context=${JSON.stringify(context)}`)
 
-            return await SearchSuggestion.find({ $text: { $search: args.query } })
+            return await SearchSuggestion.find(createMongooseSearchQuery(args.query))
                 .lean()
                 .select('word')
                 .distinct('word')
