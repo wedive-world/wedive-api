@@ -25,6 +25,9 @@ type Notification {
   subjectId: ID
   subjectType: NotificationTargetType
   subject: NotificationTarget
+
+  title: String
+  message: String
   
   event: NotificationEvent,
   read: Boolean,
