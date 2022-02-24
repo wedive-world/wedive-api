@@ -48,6 +48,7 @@ type DiveCenter  {
 
     createdAt: Date
     updatedAt: Date
+    typeDef: String
 }
 
 input DiveCenterInput {

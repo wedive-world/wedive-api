@@ -24,6 +24,7 @@ const schema = new Schema({
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
+    typeDef: { type: String, default: 'DiveSite' },
 });
 
 module.exports = mongoose.model('Instructor', schema);

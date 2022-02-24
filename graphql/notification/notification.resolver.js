@@ -8,6 +8,7 @@ const {
     Review,
     Like,
     Subscribe,
+    Instructor,
     Notification
 } = require('../../model').schema;
 

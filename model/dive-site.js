@@ -74,7 +74,7 @@ const schema = new Schema({
     highlights: [{ type: Schema.Types.ObjectId, ref: 'Highlight' }],
     highlightDescription: String,
     highlightDescriptionTranslation: { type: Map, of: String },
-    
+
     divingType: [String],
 
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
@@ -83,9 +83,10 @@ const schema = new Schema({
     likes: Number,
 
     reviewCount: Number,
-    
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
+    typeDef: { type: String, default: 'DiveSite' }
 });
 
 module.exports = mongoose.model('DiveSite', schema);
@@ -95,4 +96,4 @@ schema.index({
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
     'addressTranslation.ko': 'text',
- }, { default_language: "ngram" })
+}, { default_language: "ngram" })

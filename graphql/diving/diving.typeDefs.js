@@ -44,6 +44,7 @@ type Diving {
 
     createdAt: Date
     updatedAt: Date
+    typeDef: String
   }
 
   input DivingInput {

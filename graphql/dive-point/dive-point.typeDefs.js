@@ -39,6 +39,7 @@ type DivePoint {
 
   createdAt: Date
   updatedAt: Date
+    typeDef: String
 }
 
 input DivePointInput {

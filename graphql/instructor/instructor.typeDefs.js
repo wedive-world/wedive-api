@@ -37,6 +37,7 @@ type Instructor {
 
   createdAt: Date,
   updatedAt: Date,
+  typeDef: String
 }
 
 input InstructorInput {

@@ -65,6 +65,7 @@ type User {
 
   createdAt: Date
   updatedAt: Date
+  typeDef: String
 }
 
 input UserInput {

@@ -65,14 +65,15 @@ const schema = new Schema({
     highlightDescriptionTranslation: { type: Map, of: String },
 
     divingType: [String],
-    
+
     views: Number,
     likes: Number,
-    
+
     reviewCount: Number,
-    
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
+    typeDef: { type: String, default: 'DivePoint' },
 });
 
 module.exports = mongoose.model('DivePoint', schema);
@@ -82,4 +83,4 @@ schema.index({
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
     'addressTranslation.ko': 'text',
- }, { default_language: "ngram" })
+}, { default_language: "ngram" })

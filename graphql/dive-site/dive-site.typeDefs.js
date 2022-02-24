@@ -48,6 +48,7 @@ type DiveSite {
 
   createdAt: Date
   updatedAt: Date
+  typeDef: String
 }
 
 input DiveSiteInput {

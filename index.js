@@ -60,7 +60,7 @@ async function startServer() {
         languageCode: req.headers.langagecode ? req.headers.langagecode : 'ko',
       }
     },
-    plugins: [ApolloServerPluginCacheControl({ defaultMaxAge: 60 })],  //60 seconds
+    plugins: [ApolloServerPluginCacheControl({ defaultMaxAge: 5 })],  //5 seconds
   });
   await server.start();
 
