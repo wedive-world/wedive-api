@@ -15,7 +15,7 @@ type Mutation {
 }
 
 type Instructor {
-  _id: ID,
+  _id: ID!,
 
   user: User!,
   licenseImages: [Image],
