@@ -195,7 +195,7 @@ async function getRecommendationsByTargetType(uid, targetType, count) {
     let recommendsCount = await Recommendation.count()
 
     let resultRecommendations = []
-    let seed = getRandomInt(0, recommendsCount - count - 1)
+    let seed = getRandomInt(0, recommendsCount)
 
     let user = await User.findOne({ uid: uid })
         .lean()
@@ -230,10 +230,10 @@ async function getRecommendationsByTargetType(uid, targetType, count) {
 
     resultRecommendations = resultRecommendations.concat(randomRecommendations)
 
-    if (seed != recommendsCount - 1 && seed + count > recommendsCount) {
+    if (seed + count > recommendsCount) {
         let remainedRecommendations = await Recommendation.find(searchParam)
             .skip(0)
-            .limit(seed + count - recommendsCount - 1)
+            .limit(seed + count - recommendsCount)
             .lean()
 
         resultRecommendations = resultRecommendations.concat(remainedRecommendations)
