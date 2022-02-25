@@ -229,7 +229,7 @@ async function getRecommendationsByTargetType(uid, targetType, count) {
 
     let resultRecommendations = userRecommendation.concat(randomRecommendations)
 
-    if (nextSeed < count) {
+    if (nextSeed > 0 && nextSeed < count) {
         let remainedRecommendations = await Recommendation.find(searchParam)
             .skip(0)
             .limit(nextSeed - 1)
