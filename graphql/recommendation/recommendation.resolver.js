@@ -70,8 +70,7 @@ module.exports = {
             let result = Array.from(new Set(
                 recommendations.concat(randomRecommendations)
             ))
-            result.sort(item => Math.random() - 0.5)
-            return result
+            return result.sort(item => Math.random() - 0.5)
         },
 
         async getUserRecommendationsByTargetType(parent, args, context, info) {
@@ -109,8 +108,7 @@ module.exports = {
             let result = Array.from(new Set(
                 recommendations.concat(randomRecommendations)
             ))
-            result.sort(item => Math.random() - 0.5)
-            return result
+            return result.sort(item => Math.random() - 0.5)
         },
 
         async getAllRecommendations(parent, args, context, info) {
