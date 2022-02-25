@@ -208,10 +208,15 @@ async function getRecommendationsByTargetType(uid, targetType, count) {
         if (targetType) {
             searchParam.targetType = targetType
         }
+        let userRecommendationCount = await Recommendation.count(searchParam)
+        if (userRecommendationCount > 0) {
+            let userRecommendations = await Recommendation.find(searchParam)
+                .skip(getRandomInt(0, userRecommendationCount))
+                .limit(1)
+                .lean()
 
-        let userRecommendation = await Recommendation.find(searchParam)
-            .lean()
-        resultRecommendations = resultRecommendations.concat(userRecommendation)
+            resultRecommendations = resultRecommendations.concat(userRecommendations)
+        }
 
         seed = user.recommendationSeed
 
