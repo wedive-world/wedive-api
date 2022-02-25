@@ -5,10 +5,10 @@ module.exports = gql`
 type Query {
 
   QUERY____________________________Recommendation: Recommendation
-  getUserRecommendations: [Recommendation]
-  getUserRecommendationsByTargetType(targetType: RecommendationTargetType): [Recommendation]
+  getUserRecommendations(count: Int = 8): [Recommendation]
+  getUserRecommendationsByTargetType(targetType: RecommendationTargetType, count: Int = 8): [Recommendation]
   getAllRecommendations: [Recommendation]
-  getPreviewsByRecommendationId(_id:ID!): [RecommendationPreview]
+  getPreviewsByRecommendationId(_id: ID!): [RecommendationPreview]
 }
 
 type Mutation {

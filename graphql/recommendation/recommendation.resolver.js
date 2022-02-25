@@ -9,7 +9,6 @@ const {
 } = require('../../model').schema;
 
 const SearchResolver = require('../search/search.resolver')
-const RECOMMEND_COUNT = 5
 
 module.exports = {
     RecommendationPreview: {
@@ -45,6 +44,8 @@ module.exports = {
         async getUserRecommendations(parent, args, context, info) {
             console.log(`query | getUserRecommendations: context=${JSON.stringify(context)}`)
 
+            let count = args.count
+
             let user = await User.findOne({ uid: context.uid })
                 .lean()
 
@@ -57,13 +58,13 @@ module.exports = {
 
             let randomRecommendations = await Recommendation.find()
                 .skip(seed)
-                .limit(RECOMMEND_COUNT)
+                .limit(count)
                 .lean()
 
             // console.log(`query | getUserRecommendations: randomRecommendations=${JSON.stringify(randomRecommendations)}`)
 
             let recommendsCount = await Recommendation.count()
-            let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
+            let nextSeed = (seed + count) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendationSeed: nextSeed })
 
             let result = Array.from(new Set(
@@ -75,6 +76,8 @@ module.exports = {
 
         async getUserRecommendationsByTargetType(parent, args, context, info) {
             console.log(`query | getUserRecommendationsByTargetType: context=${JSON.stringify(context)}`)
+
+            let count = args.count
 
             let user = await User.findOne({ uid: context.uid })
                 .lean()
@@ -93,13 +96,13 @@ module.exports = {
                 targetType: args.targetType
             })
                 .skip(seed)
-                .limit(RECOMMEND_COUNT)
+                .limit(count)
                 .lean()
 
             // console.log(`query | getUserRecommendationsByTargetType: randomRecommendations=${JSON.stringify(randomRecommendations)}`)
 
             let recommendsCount = await Recommendation.count()
-            let nextSeed = (seed + RECOMMEND_COUNT) % recommendsCount
+            let nextSeed = (seed + count) % recommendsCount
             await User.updateOne({ uid: context.uid }, { recommendationSeed: nextSeed })
 
 
