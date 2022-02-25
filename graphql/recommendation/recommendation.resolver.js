@@ -201,23 +201,24 @@ async function getRecommendationsByTargetType(uid, targetType, count) {
         .lean()
 
     if (user) {
-        let searchParam = {
-            interests: { $in: user.interests }
-        }
+        if (Math.random() <= 0.4) {
+            let searchParam = {
+                interests: { $in: user.interests }
+            }
 
-        if (targetType) {
-            searchParam.targetType = targetType
-        }
-        let userRecommendationCount = await Recommendation.count(searchParam)
-        if (userRecommendationCount > 0) {
-            let userRecommendations = await Recommendation.find(searchParam)
-                .skip(getRandomInt(0, userRecommendationCount))
-                .limit(1)
-                .lean()
+            if (targetType) {
+                searchParam.targetType = targetType
+            }
+            let userRecommendationCount = await Recommendation.count(searchParam)
+            if (userRecommendationCount > 0) {
+                let userRecommendations = await Recommendation.find(searchParam)
+                    .skip(getRandomInt(0, userRecommendationCount))
+                    .limit(1)
+                    .lean()
 
-            resultRecommendations = resultRecommendations.concat(userRecommendations)
+                resultRecommendations = resultRecommendations.concat(userRecommendations)
+            }
         }
-
         seed = user.recommendationSeed
 
         let nextSeed = (seed + count) % recommendsCount
