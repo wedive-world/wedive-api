@@ -209,7 +209,7 @@ async function getRecommendationsByTargetType(uid, targetType, count) {
             searchParam.targetType = targetType
         }
 
-        userRecommendation = await Recommendation.find(targetType)
+        userRecommendation = await Recommendation.find(searchParam)
             .lean()
 
         seed = user.recommendationSeed
