@@ -105,11 +105,11 @@ class ChatServiceProxy {
         }
     }
 
-    async createChatRoom(title, idToken) {
+    async createChatRoom(title, memberUids, idToken) {
 
         const query = gql`
-            mutation CreateRoom($title: String!) {
-                createRoom(title: $title) {
+            mutation Mutation($title: String!, $membersUids: [String]) {
+                createRoom(title: $title, membersUids: $membersUids) {
                     _id
                 }
             }

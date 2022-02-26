@@ -68,7 +68,12 @@ module.exports = {
                     .map(participant => participant.user)
 
                 if (userIds && userIds.length > 0) {
-                    let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, context.idToken)
+                    let memberUids = await User.find({ _id: userIds })
+                        .select('uid')
+                        .lean()
+                        .map(user => user.uid)
+
+                    let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, memberUids, usercontext.idToken)
                     diving.chatRoomId = chatRoomId
                 }
 
@@ -156,22 +161,26 @@ module.exports = {
             let diving = await Diving.findOne({ _id: args.divingId })
                 .populate('participants.user', 'hostUser')
 
+            let user = await User.findById(args.userId)
+
             if (!diving.chatRoomId) {
-                let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, context.idToken)
+                let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, [user.uid], context.idToken)
+                console.log(`diving-resolver | acceptParticipant: chatRoomId=${JSON.stringify(chatRoomId)}`)
+
                 diving.chatRoomId = chatRoomId
                 await diving.save()
+            } else {
+                let inviteResult = await chatServiceProxy.invite({
+                    roomId: args.roomId,
+                    uid: user.uid
+                }, context.idToken)
+
+                console.log(`diving-resolver | acceptParticipant: inviteResult=${JSON.stringify(inviteResult)}`)
             }
 
             await updateParticipantStatus(diving, context.uid, args.userId, 'joined')
             await notificationManager.onParticipantAccepted(diving, args.userId)
 
-            let user = await User.findById(args.userId)
-            let inviteResult = await chatServiceProxy.invite({
-                roomId: args.roomId,
-                uid: user.uid
-            }, context.idToken)
-
-            console.log(`diving-resolver | acceptParticipant: inviteResult=${JSON.stringify(inviteResult)}`)
             return {
                 success: true
             }
