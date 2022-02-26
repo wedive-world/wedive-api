@@ -35,8 +35,8 @@ const schema = new Schema({
 
     reviewCount: Number,
 
-    chatRoomId: String,
-    
+    chatRoomId: { type: String, index: true },
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     typeDef: { type: String, default: 'Diving' },
@@ -47,4 +47,4 @@ module.exports = mongoose.model('Diving', schema);
 schema.index({
     'title': 'text',
     'description': 'text'
- }, { default_language: "ngram" })
+}, { default_language: "ngram" })
