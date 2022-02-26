@@ -118,15 +118,15 @@ module.exports = {
             console.log(`mutation | updateFcmToken: args=${JSON.stringify(args)}`)
 
             let user = await User.findOne({ uid: args.input.uid })
-            console.log(`mutation | updateFcmToken: args=${JSON.stringify(user)}`)
+            // console.log(`mutation | updateFcmToken: args=${JSON.stringify(user)}`)
             const isNewUser = user == null
 
             if (isNewUser) {
-                console.log(`mutation | updateFcmToken: isNewUser=${isNewUser}`)
+                // console.log(`mutation | updateFcmToken: isNewUser=${isNewUser}`)
 
                 user = new User(args.input)
             } else {
-                console.log(`mutation | updateFcmToken: found user=${JSON.stringify(user)}`)
+                // console.log(`mutation | updateFcmToken: found user=${JSON.stringify(user)}`)
 
                 Object.assign(user, args.input)
                 user.updatedAt = Date.now()
