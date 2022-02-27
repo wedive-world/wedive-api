@@ -88,7 +88,7 @@ module.exports = {
     Query: {
         async getUserLikes(parent, args, context, info) {
             let user = await User.findOne({ uid: context.uid })
-            return await Like.find({ userId: user._id }).lean()
+            return await Like.find({ userId: user._id, value: true }).lean()
         },
 
         async getUserDislikes(parent, args, context, info) {
@@ -98,7 +98,12 @@ module.exports = {
 
         async getUserSubsciption(parent, args, context, info) {
             let user = await User.findOne({ uid: context.uid })
-            return await Subscribe.find({ userId: user._id }).lean()
+            return {
+                targetIds: await Subscribe.find({ userId: user._id, value: true })
+                    .select('_id')
+                    .distinct('_id')
+                    .lean()
+            }
         },
     },
 
@@ -149,10 +154,15 @@ module.exports = {
             console.log(`mutation | like: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
 
             let user = await User.findOne({ uid: context.uid })
+                .lean()
+
+            if (!user) {
+                return null
+            }
 
             let result = await Like.findOneAndUpdate(
                 {
-                    userId: user ? user._id : "6188c5ad4c8a87c504b15501",
+                    userId: user._id,
                     targetId: args.targetId
                 },
                 [{ $set: { value: { $ne: [true, '$value'] } } }],
@@ -174,6 +184,10 @@ module.exports = {
         async subscribe(parent, args, context, info) {
             console.log(`mutation | subscribe: args=${JSON.stringify(args)} context=${JSON.stringify(context)}`)
             let user = await User.findOne({ uid: context.uid })
+
+            if (!user) {
+                return null
+            }
 
             let result = await Subscribe.findOneAndUpdate(
                 {
