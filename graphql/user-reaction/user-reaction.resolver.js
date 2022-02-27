@@ -131,7 +131,7 @@ module.exports = {
 
             let result = await Dislike.findOneAndUpdate(
                 {
-                    userId: user ? user._id : "6188c5ad4c8a87c504b15501",
+                    userId: user._id,
                     targetId: args.targetId
                 },
                 [{ $set: { value: { $ne: [true, '$value'] } } }],
@@ -191,10 +191,10 @@ module.exports = {
 
             let result = await Subscribe.findOneAndUpdate(
                 {
-                    userId: user ? user._id : "6188c5ad4c8a87c504b15501",
+                    userId: user._id,
                     targetId: args.targetId
                 },
-                [{ $set: { value: { $eq: [false, '$value'] } } }],
+                [{ $set: { value: { $ne: [true, '$value'] } } }],
                 {
                     upsert: true,
                     new: true
