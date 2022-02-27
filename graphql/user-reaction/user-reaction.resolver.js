@@ -100,8 +100,8 @@ module.exports = {
             let user = await User.findOne({ uid: context.uid })
             return {
                 targetIds: await Subscribe.find({ userId: user._id, value: true })
-                    .select('_id')
-                    .distinct('_id')
+                    .select('targetId')
+                    .distinct('targetId')
                     .lean()
             }
         },
