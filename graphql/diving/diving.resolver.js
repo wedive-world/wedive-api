@@ -15,7 +15,8 @@ const {
 module.exports = {
     Diving: {
         async participants(parent, args, context, info) {
-            const divintParticipants = await DivingParticipant.find({ diving: parent._id })
+            const divingParticipants = await DivingParticipant.find({ diving: parent._id })
+                .populate('user')
                 .lean()
 
             return parent.participants
