@@ -40,17 +40,12 @@ module.exports.onDivingCreated = async (diving) => {
     }
 }
 
-module.exports.onParticipantAccepted = async (diving, userId) => {
-
-    let participantIds = diving.participants
-        .filter(participant => participant.user)
-        .map(participant => participant.user)
-
-    await sendNotificationByUserIds(userId, 'user', diving._id, 'diving', 'onParticipantAccepted', participantIds)
+module.exports.onParticipantAccepted = async (divingId, participantId, participantIds) => {
+    await sendNotificationByUserIds(participantId, 'user', divingId, 'diving', 'onParticipantAccepted', participantIds)
 }
 
-module.exports.onParticipantJoinedDiving = async (diving, userId) => {
-    await sendNotificationByUserIds(userId, 'user', diving._id, 'diving', 'onParticipantJoined', [diving.hostUser])
+module.exports.onParticipantJoinedDiving = async (divingId, hostUserId, userId) => {
+    await sendNotificationByUserIds(userId, 'user', divingId, 'diving', 'onParticipantJoined', [hostUserId])
 }
 
 module.exports.onDivingPreparation = async (diving) => {
