@@ -14,6 +14,12 @@ module.exports = {
                 .skip(args.skip)
                 .limit(args.limit)
         },
+
+        async getAllAgendaTypes(parent, args, context, info) {
+            console.log(`query | getAllAgendaTypes: args=${JSON.stringify(args)}`)
+
+            return await Agenda.find()
+        },
     },
 
     Mutation: {
@@ -48,7 +54,7 @@ module.exports = {
                 success: true
             }
         },
-        
+
         async upsertAgendaType(parent, args, context, info) {
             console.log(`mutation | upsertAgendaType: args=${JSON.stringify(args)}`)
 
