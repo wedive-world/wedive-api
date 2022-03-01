@@ -11,7 +11,7 @@ const schema = new Schema({
 
     title: String,
     content: String,
-    hashTags: String,
+    hashTags: [{ name: String }],
 
     images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
 
@@ -19,7 +19,7 @@ const schema = new Schema({
 
     views: Number,
     likes: Number,
-    
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

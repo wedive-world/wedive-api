@@ -23,7 +23,7 @@ type Agenda {
   _id: ID!
   types: [AgendaType]
   author: User!
-  hashTags: String
+  hashTags: [HashTag]
   languageCode: String
 
   title: String
@@ -42,7 +42,7 @@ input AgendaInput {
 
   title: String
   content: String
-  hashTags: String
+  hashTags: [HashTagInput]
 }
  
 type AgendaType {
@@ -52,6 +52,14 @@ type AgendaType {
 
 input AgendaTypeInput {
   _id: ID
+  name: String
+}
+
+type HashTag {
+  name: String
+}
+
+input HashTagInput {
   name: String
 }
 
