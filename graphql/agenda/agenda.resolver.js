@@ -18,7 +18,7 @@ module.exports = {
         async getAllAgendaTypes(parent, args, context, info) {
             console.log(`query | getAllAgendaTypes: args=${JSON.stringify(args)}`)
 
-            return await Agenda.find()
+            return await AgendaType.find()
         },
     },
 
