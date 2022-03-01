@@ -1,6 +1,7 @@
 const {
     User,
     Agenda,
+    AgendaType
 } = require('../../model').schema;
 
 module.exports = {
@@ -43,6 +44,34 @@ module.exports = {
             console.log(`mutation | deleteAgendaById: args=${JSON.stringify(args)}`)
 
             await Agenda.findByIdAndDelete(args._id)
+            return {
+                success: true
+            }
+        },
+        
+        async upsertAgendaType(parent, args, context, info) {
+            console.log(`mutation | upsertAgendaType: args=${JSON.stringify(args)}`)
+
+            let agendaType = null
+            const isNewAgendaType = !args.input._id
+
+            if (!isNewAgendaType) {
+                agendaType = await AgendaType.findById(args.input._id)
+
+            } else {
+                agendaType = new AgendaType(args.input)
+            }
+
+            Object.assign(agendaType, args.input)
+            await agendaType.save()
+
+            return agendaType
+        },
+
+        async deleteAgendaTypeById(parent, args, context, info) {
+            console.log(`mutation | deleteAgendaTypeById: args=${JSON.stringify(args)}`)
+
+            await AgendaType.findByIdAndDelete(args._id)
             return {
                 success: true
             }
