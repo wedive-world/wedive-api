@@ -6,6 +6,7 @@ type Query {
 
   QUERY____________________________Agendas: Agenda
   getAgendasByTargetId(targetId: ID!, agendaTypes: [ID], skip: Int = 0, limit: Int = 10): [Agenda]
+  getUserAgendas(agendaTypes: [ID], skip: Int = 0, limit: Int = 10): [Agenda]
   getAllAgendaTypes: [AgendaType]
 }
 
@@ -22,6 +23,7 @@ type Agenda {
   _id: ID!
   types: [AgendaType]
   author: User!
+  hashTags: String
   languageCode: String
 
   title: String
@@ -40,6 +42,7 @@ input AgendaInput {
 
   title: String
   content: String
+  hashTags: String
 }
  
 type AgendaType {

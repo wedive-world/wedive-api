@@ -11,11 +11,15 @@ const schema = new Schema({
 
     title: String,
     content: String,
+    hashTags: String,
 
     images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
 
     reviewCount: Number,
 
+    views: Number,
+    likes: Number,
+    
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

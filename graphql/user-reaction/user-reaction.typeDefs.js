@@ -114,4 +114,12 @@ type User implements UserReactionable {
   isUserSubscribe: Boolean
 }
 
+type Agenda implements UserReactionable {
+  views: Int
+  likes: Int
+  dislikes: Int
+  isUserDislike: Boolean
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
+}
 `;

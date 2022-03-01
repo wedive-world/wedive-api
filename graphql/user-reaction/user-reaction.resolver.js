@@ -89,6 +89,15 @@ module.exports = {
         }
     },
 
+    Agenda: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
+
     Query: {
         async getUserLikes(parent, args, context, info) {
             let user = await User.findOne({ uid: context.uid })
