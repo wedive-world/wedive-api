@@ -5,7 +5,8 @@ module.exports = gql`
 type Query {
 
   QUERY____________________________Agendas: Agenda
-  getAgendasByTargetId(targetId: ID!, skip: Int = 0, limit: Int = 10): [Agenda]
+  getAgendasByTargetId(targetId: ID!, agendaTypes: [ID], skip: Int = 0, limit: Int = 10): [Agenda]
+  getAllAgendaTypes: [AgendaType]
 }
 
 type Mutation {
@@ -13,11 +14,13 @@ type Mutation {
   MUTATION_________________________Agendas: Agenda
   upsertAgenda(input: AgendaInput): Agenda!
   deleteAgendaById(_id: ID!): Response!
+  upsertAgendaType(input: AgendaTypeInput): AgendaType!
+  deleteAgendaTypeById(_id: ID!): Response!
 }
 
 type Agenda {
   _id: ID!
-  type: AgendaType
+  types: [AgendaType]
   author: User!
   languageCode: String
 
@@ -33,16 +36,20 @@ type Agenda {
 input AgendaInput {
   _id: ID
   targetId: ID
-  type: AgendaType
+  types: [ID]
 
   title: String
   content: String
-  rating: Int
+}
+ 
+type AgendaType {
+  _id: ID
+  name: String
 }
 
-enum AgendaType {
-  agenda
-  question
+input AgendaTypeInput {
+  _id: ID
+  name: String
 }
 
 type Forum {

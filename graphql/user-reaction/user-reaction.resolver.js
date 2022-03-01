@@ -9,7 +9,8 @@ const {
     Like,
     Dislike,
     Subscribe,
-    View
+    View,
+    Community
 } = require('../../model').schema;
 
 module.exports = {
@@ -33,6 +34,9 @@ module.exports = {
         },
         async users(parent, args, context, info) {
             return await User.find({ _id: { $in: parent.targetIds } }).lean()
+        },
+        async communities(parent, args, context, info) {
+            return await Community.find({ _id: { $in: parent.targetIds } }).lean()
         },
     },
 

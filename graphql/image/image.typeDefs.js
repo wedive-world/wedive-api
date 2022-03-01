@@ -159,4 +159,12 @@ input AgendaInput {
     images: [ID]
 }
 
+type Community {
+    images: [Image]
+}
+
+input CommunityInput {
+    images: [ID]
+}
+
 `;

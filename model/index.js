@@ -68,5 +68,7 @@ module.exports.schema = {
     DivingHistory: require('./diving-history'),
 
     Forum: require('./forum'),
+    Community: require('./community'),
     Agenda: require('./agenda'),
+    AgendaType: require('./agenda-type'),
 }

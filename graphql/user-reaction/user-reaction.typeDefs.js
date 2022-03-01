@@ -26,6 +26,7 @@ type UserReaction {
   divings: [Diving]
   images: [Image]
   users: [User]
+  communities: [Community]
 }
 
 enum UserReactionTargetType {
@@ -37,6 +38,7 @@ enum UserReactionTargetType {
   user
   review
   forum
+  community
   recommendation
 }
 

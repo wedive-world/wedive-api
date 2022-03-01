@@ -142,6 +142,12 @@ module.exports = {
         },
     },
 
+    Community: {
+        async images(parent, args, context, info) {
+            return await getImagesByIds(parent.images)
+        },
+    },
+
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
             let result = await getResizedImage(args._id, args.width)
