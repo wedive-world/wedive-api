@@ -4,6 +4,7 @@ module.exports = gql`
 
 type Query {
   searchCommunities(query: String): [Community]
+  getAllCommunities: [Community]
 }
 
 type Mutation {

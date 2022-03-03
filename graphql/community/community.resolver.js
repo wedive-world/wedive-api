@@ -21,6 +21,9 @@ module.exports = {
 
             return await Community.find({ $text: { $search: args.query } })
         },
+        async getAllCommunities(parent, args, context, info) {
+            return await Community.find()
+        },
     },
 
     Mutation: {
