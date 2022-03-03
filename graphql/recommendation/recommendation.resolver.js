@@ -60,8 +60,15 @@ module.exports = {
             console.log(`query | getPreviewsByRecommendationId: context=${JSON.stringify(context)}`)
             let recommendation = await Recommendation.findById(args._id)
                 .lean()
+            
+            if (!recommendation) {
+                return null
+            }
 
-            return await getTotalPreviews(recommendation, context)
+            return {
+                recommendationTitle: recommendation.title,
+                previews: await getTotalPreviews(recommendation, context)
+            }
         },
     },
 

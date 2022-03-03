@@ -8,7 +8,7 @@ type Query {
   getUserRecommendations(count: Int = 8): [Recommendation]
   getUserRecommendationsByTargetType(targetType: RecommendationTargetType, count: Int = 8): [Recommendation]
   getAllRecommendations: [Recommendation]
-  getPreviewsByRecommendationId(_id: ID!): [RecommendationPreview]
+  getPreviewsByRecommendationId(_id: ID!): PreviewResult
 }
 
 type Mutation {
@@ -80,4 +80,9 @@ enum RecommendationType {
 }
 
 union RecommendationPreview = Diving | DiveSite | DivePoint | DiveCenter | Instructor
+
+type PreviewResult {
+  recommendationTitle: String
+  previews: [RecommendationPreview]
+}
 `;
