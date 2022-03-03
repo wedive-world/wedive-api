@@ -44,8 +44,16 @@ module.exports = {
             }
 
             Object.assign(community, args.input)
-
             await community.save()
+
+            if (isNewCommunity) {
+                await Subscribe.create({
+                    userId: user._id,
+                    targetId: community._id,
+                    targetType: 'community',
+                    value: true
+                })
+            }
 
             return community
         },
