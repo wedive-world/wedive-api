@@ -119,8 +119,9 @@ function getModel(targetType) {
 }
 
 async function getTotalPreviews(recommend, context) {
-    recommend.previewCount = 0
-    return await getPreviewsInternal(recommend, context)
+    let clone = JSON.parse(JSON.stringify(recommend))
+    clone.previewCount = 0
+    return await getPreviewsInternal(clone, context)
 }
 
 async function getTotalPreviewsCount(recommend, context) {
