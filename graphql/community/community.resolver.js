@@ -8,7 +8,7 @@ module.exports = {
     Community: {
         async subscriptionCount(parent, args, context, info) {
             return await Subscribe.count({
-                targetId: parent_id,
+                targetId: parent._id,
                 value: true
             })
         }
