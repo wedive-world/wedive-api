@@ -23,11 +23,12 @@ type Agenda {
   _id: ID!
   types: [AgendaType]
   author: User!
-  hashTags: [HashTag]
   languageCode: String
 
   title: String
   content: String
+  agendaPlaces: [AgendaPlace]
+  hashTags: [HashTag]
 
   reviewCount: Int
 
@@ -42,6 +43,7 @@ input AgendaInput {
 
   title: String
   content: String
+  agendaPlaces: [ID]
   hashTags: [HashTagInput]
 }
  
@@ -66,4 +68,6 @@ input HashTagInput {
 type Forum {
   agendas: [Agenda]
 }
+
+union AgendaPlace = DiveCenter | Diving | DiveSite | DivePoint
 `;

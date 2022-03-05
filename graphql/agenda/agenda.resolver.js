@@ -1,10 +1,40 @@
 const {
     User,
     Agenda,
-    AgendaType
+    AgendaType,
+    Diving,
+    DiveCenter,
+    DivePoint,
+    DiveSite
 } = require('../../model').schema;
 
 module.exports = {
+    Agenda: {
+        async agendaPlaces(parent, args, context, info) {
+            let divings = await Diving.find({ _id: { $in: parent.agendaPlaces } })
+            let diveCenters = await DiveCenter.find({ _id: { $in: parent.agendaPlaces } })
+            let diveSites = await DiveSite.find({ _id: { $in: parent.agendaPlaces } })
+            let divePoints = await DivePoint.find({ _id: { $in: parent.agendaPlaces } })
+
+            return divings.concat(diveCenters)
+                .concat(divePoints)
+                .concat(diveSites)
+        },
+    },
+
+    AgendaPlace: {
+        async __resolveType(obj, context, info) {
+            if (obj.hostUser) {
+                return 'Diving'
+            } else if (obj.diveSiteId) {
+                return 'DivePoint'
+            } else if (obj.webPageUrl || obj.email || obj.phoneNumber || obj.educationScore) {
+                return 'DiveCenter'
+            } else {
+                return 'DiveSite'
+            }
+        },
+    },
 
     Query: {
         async getAgendasByTargetId(parent, args, context, info) {
