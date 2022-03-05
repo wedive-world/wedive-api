@@ -5,7 +5,7 @@ const schema = new Schema({
 
     userId: { type: Schema.Types.ObjectId, index: true },
     targetId: { type: Schema.Types.ObjectId, index: true },
-    targetType: Schema.Types.ObjectId,
+    targetType: String,
     value: Boolean,
 
     createdAt: { type: Date, default: Date.now },
