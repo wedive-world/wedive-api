@@ -6,6 +6,9 @@ const schema = new Schema({
     title: String,
     description: String,
 
+    visibility: String,
+    password: String,
+
     notices: [{ type: Schema.Types.ObjectId, ref: "Agenda" }],
 
     images: [{ type: Schema.Types.ObjectId, ref: "Image" }],

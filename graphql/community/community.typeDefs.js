@@ -21,6 +21,8 @@ type Community {
 
   title: String
   description: String
+  visibility: VisibilityType
+  password: String
 
   notices: [Agenda]
   owners: [User]
@@ -38,5 +40,12 @@ input CommunityInput {
   
   title: String
   description: String
+  visibility: VisibilityType
+  password: String
+}
+
+enum VisibilityType {
+  public
+  private
 }
 `;
