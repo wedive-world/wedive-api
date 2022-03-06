@@ -152,16 +152,6 @@ module.exports = {
         async acceptParticipant(parent, args, context, info) {
             console.log(`mutation | acceptParticipant: args=${JSON.stringify(args)}`)
 
-            const currentUser = await User.findOne({ uid: context.uid })
-                .lean()
-
-            if (currentUser._id != diving.hostUser._id) {
-                return {
-                    success: false,
-                    reason: 'onlyHostCanAccept'
-                }
-            }
-
             const diving = await Diving.findById(args.divingId)
                 .populate('participants.user', 'hostUser')
                 .lean()
@@ -170,6 +160,23 @@ module.exports = {
                 return {
                     success: false,
                     reason: "unkownDiving"
+                }
+            }
+
+            if (diving.status != 'publicEnded') {
+                return {
+                    success: false,
+                    reason: 'publicEnded'
+                }
+            }
+
+            const currentUser = await User.findOne({ uid: context.uid })
+                .lean()
+
+            if (currentUser._id != diving.hostUser._id) {
+                return {
+                    success: false,
+                    reason: 'onlyHostCanAccept'
                 }
             }
 
