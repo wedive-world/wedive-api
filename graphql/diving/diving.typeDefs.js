@@ -77,6 +77,7 @@ enum DivingStatus {
 enum DivingType {
   scubaDiving
   freeDiving
+  leaveABoard
 }
 
 enum ParticipantStatus {
