@@ -24,6 +24,9 @@ module.exports = {
         async getAllCommunities(parent, args, context, info) {
             return await Community.find()
         },
+        async getCommunityById(parent, args, context, info) {
+            return await Community.findById(args._id)
+        },
     },
 
     Mutation: {
