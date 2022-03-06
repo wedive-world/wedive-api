@@ -163,10 +163,10 @@ module.exports = {
                 }
             }
 
-            if (diving.status != 'publicEnded') {
+            if (diving.status != 'searchable') {
                 return {
                     success: false,
-                    reason: 'publicEnded'
+                    reason: 'searchable'
                 }
             }
 
