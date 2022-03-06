@@ -41,6 +41,7 @@ module.exports = {
             console.log(`query | getAgendasByTargetId: args=${JSON.stringify(args)}`)
 
             return await Agenda.find({ targetId: args.targetId })
+                .sort('-createdAt')
                 .skip(args.skip)
                 .limit(args.limit)
         },
