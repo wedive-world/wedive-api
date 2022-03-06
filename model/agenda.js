@@ -25,3 +25,8 @@ const schema = new Schema({
 });
 
 module.exports = mongoose.model('Agenda', schema);
+
+schema.index({
+    'title': 'text',
+    'content': 'text',
+}, { default_language: "ngram" })

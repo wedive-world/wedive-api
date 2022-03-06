@@ -9,6 +9,7 @@ type Query {
   getUserAgendas(agendaTypes: [ID], skip: Int = 0, limit: Int = 10): [Agenda]
   getAllAgendaTypes: [AgendaType]
   getAgendaById(_id: ID!): Agenda
+  searchAgenda(query: String, skip: Int = 0, limit: Int = 10): [Agenda]
 }
 
 type Mutation {
