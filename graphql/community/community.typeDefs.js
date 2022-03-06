@@ -26,6 +26,7 @@ type Community {
 
   notices: [Agenda]
   owners: [User]
+  users: [User]
   
   languageCode: String
 

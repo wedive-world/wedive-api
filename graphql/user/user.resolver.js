@@ -1,10 +1,14 @@
-const { User, Instructor } = require('../../model').schema
+const {
+    User,
+    Instructor,
+    Subscribe
+} = require('../../model').schema
 const ChatServiceProxy = require('../../proxy/chat-service-proxy')
 const {
     ApolloServer,
     AuthenticationError,
     ForbiddenError,
-  } = require('apollo-server-express');
+} = require('apollo-server-express');
 module.exports = {
 
     Instructor: {
@@ -40,6 +44,17 @@ module.exports = {
     Agenda: {
         async author(parent, args, context, info) {
             return await User.findById(parent.author);
+        },
+    },
+
+    Community: {
+        async users(parent, args, context, info) {
+            let userIds = await Subscribe.find({ targetId: parent._id, value: true })
+                .sort('-createdAt')
+                .select('userId')
+                .distinct('userId')
+                .lean()
+            return await User.find({ _id: { $in: userIds } });
         },
     },
 
@@ -91,7 +106,7 @@ module.exports = {
             } else {
                 user = await User.findOne({ _id: args.input._id })
                     .populate('profileImages')
-                
+
                 if (user.uid != context.uid) {
                     throw new ForbiddenError()
                 }
