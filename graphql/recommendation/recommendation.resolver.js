@@ -38,6 +38,9 @@ module.exports = {
             return await getTotalPreviewsCount(parent, context)
         },
 
+        async searchParams(parent, args, context, info) {
+            return JSON.parse(parent.searchParams)
+        },
     },
 
     Query: {
