@@ -40,6 +40,7 @@ enum UserReactionTargetType {
   forum
   community
   recommendation
+  agenda
 }
 
 interface UserReactionable {
