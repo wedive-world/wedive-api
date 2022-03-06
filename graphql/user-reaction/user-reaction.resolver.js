@@ -10,7 +10,8 @@ const {
     Dislike,
     Subscribe,
     View,
-    Community
+    Community,
+    Agenda
 } = require('../../model').schema;
 
 module.exports = {
@@ -281,5 +282,8 @@ function getModel(targetType) {
 
         case 'recommendation':
             return Review
+
+        case 'agenda':
+            return Agenda
     }
 }
