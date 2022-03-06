@@ -240,7 +240,7 @@ async function isUserSubscribe(context, parent) {
 async function isUserLike(context, parent) {
     let user = await User.findOne({ uid: context.uid });
 
-    if (user == null) {
+    if (!user) {
         console.log(`user-reaction-resolver | isUserLike: cannot find user, uid=${context.uid}`)
     }
 
@@ -251,7 +251,7 @@ async function isUserLike(context, parent) {
         }
     ).lean();
 
-    return like != null && like.value
+    return like && like.value
 }
 
 function getModel(targetType) {
