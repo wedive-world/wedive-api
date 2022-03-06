@@ -51,6 +51,12 @@ module.exports = {
 
             return await AgendaType.find()
         },
+
+        async getAgendaById(parent, args, context, info) {
+            console.log(`query | getAgendaById: args=${JSON.stringify(args)}`)
+
+            return await Agenda.findById(args._id)
+        },
     },
 
     Mutation: {
