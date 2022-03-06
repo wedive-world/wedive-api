@@ -200,7 +200,7 @@ module.exports = {
             let user = await User.findOne({ uid: context.uid })
 
             if (!user) {
-                return null
+                return false
             }
 
             let result = await Subscribe.findOneAndUpdate(
@@ -222,10 +222,15 @@ module.exports = {
 };
 
 async function isUserSubscribe(context, parent) {
+    if (!context.uid) {
+        return false
+    }
+
     let user = await User.findOne({ uid: context.uid });
 
-    if (user == null) {
+    if (!user) {
         console.log(`user-reaction-resolver | isUserSubscribe: cannot find user, uid=${context.uid}`)
+        return false
     }
 
     let subscribe = await Subscribe.findOne(
@@ -239,6 +244,10 @@ async function isUserSubscribe(context, parent) {
 }
 
 async function isUserLike(context, parent) {
+    if (!context.uid) {
+        return false
+    }
+
     let user = await User.findOne({ uid: context.uid });
 
     if (!user) {
