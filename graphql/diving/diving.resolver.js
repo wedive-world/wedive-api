@@ -153,7 +153,7 @@ module.exports = {
             console.log(`mutation | acceptParticipant: args=${JSON.stringify(args)}`)
 
             const diving = await Diving.findById(args.divingId)
-                .populate('participants.user', 'hostUser')
+                .populate('participants.user')
                 .lean()
 
             if (!diving) {
@@ -173,7 +173,7 @@ module.exports = {
             const currentUser = await User.findOne({ uid: context.uid })
                 .lean()
 
-            if (currentUser._id != diving.hostUser._id) {
+            if (!currentUser || currentUser._id != diving.hostUser) {
                 return {
                     success: false,
                     reason: 'onlyHostCanAccept'
