@@ -174,6 +174,7 @@ module.exports = {
                 .lean()
 
             if (!currentUser || currentUser._id != diving.hostUser) {
+                console.log(`diving-resolver | acceptParticipant: hostUser=${JSON.stringify(diving.hostUser)}currentUser=${JSON.stringify(currentUser)}`)
                 return {
                     success: false,
                     reason: 'onlyHostCanAccept'
