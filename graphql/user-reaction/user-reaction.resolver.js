@@ -98,6 +98,15 @@ module.exports = {
             return await isUserSubscribe(context, parent);
         }
     },
+    
+    Review: {
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
 
     Query: {
         async getUserLikes(parent, args, context, info) {
@@ -240,7 +249,7 @@ async function isUserSubscribe(context, parent) {
         }
     ).lean();
 
-    return subscribe != null && subscribe.value
+    return subscribe && subscribe.value
 }
 
 async function isUserLike(context, parent) {
@@ -252,6 +261,7 @@ async function isUserLike(context, parent) {
 
     if (!user) {
         console.log(`user-reaction-resolver | isUserLike: cannot find user, uid=${context.uid}`)
+        return false
     }
 
     let like = await Like.findOne(

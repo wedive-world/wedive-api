@@ -6,8 +6,11 @@ const {
     DiveCenter,
     DiveSite,
     DivePoint,
-    Subscribe
+    Subscribe,
+    Agenda
 } = require('../../model').schema;
+
+const Mongoose = require('mongoose');
 
 module.exports = {
 
@@ -18,6 +21,38 @@ module.exports = {
                 .lean()
         },
 
+        async getHotHashTags(parent, args, context, info) {
+            console.log(`query | getHotHashTags: args=${JSON.stringify(args)}`)
+            let date = new Date()
+            date.setDate(date.getDate() - args.days);
+            let hashTags = await Agenda.aggregate([
+                { $match: { createdAt: { $gte: date } } },
+                { $unwind: "$hashTags" },
+                { $sortByCount: "$hashTags" }
+            ])
+                .limit(args.limit)
+
+            return hashTags.map(hashTag => hashTag._id.name)
+        },
+
+        async getHotHashTagsById(parent, args, context, info) {
+            console.log(`query | getHotHashTagsById: args=${JSON.stringify(args)}`)
+            let date = new Date()
+            date.setDate(date.getDate() - args.days);
+            let hashTags = await Agenda.aggregate([
+                {
+                    $match: {
+                        targetId: Mongoose.Types.ObjectId(args.targetId),
+                        createdAt: { $gte: date }
+                    }
+                },
+                { $unwind: "$hashTags" },
+                { $sortByCount: "$hashTags" }
+            ])
+                .limit(args.limit)
+
+            return hashTags.map(hashTag => hashTag._id.name)
+        },
     },
 
     Mutation: {

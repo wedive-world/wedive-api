@@ -5,7 +5,8 @@ const {
     Diving,
     DiveCenter,
     DivePoint,
-    DiveSite
+    DiveSite,
+    HashTagUsage
 } = require('../../model').schema;
 
 module.exports = {
@@ -86,6 +87,16 @@ module.exports = {
             agenda.author = user._id
 
             await agenda.save()
+
+            let hashTags = JSON.parse(JSON.stringify(agenda.hashTags))
+            await HashTagUsage.insertMany(
+                hashTags.map(hashTag => {
+                    return {
+                        hashTag: hashTag,
+                        forumId: agenda.targetId,
+                        languageCode: context.languageCode
+                    }
+                }))
 
             return agenda
         },

@@ -6,6 +6,8 @@ type Query {
 
   QUERY____________________________Forum: Forum
   getForums: [Forum]
+  getHotHashTags(days: Int = 7, limit: Int = 10): [String]
+  getHotHashTagsById(targetId: ID!, days: Int = 7, limit: Int = 10): [String]
 }
 
 type Mutation {
