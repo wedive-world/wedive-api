@@ -173,7 +173,7 @@ module.exports = {
             const currentUser = await User.findOne({ uid: context.uid })
                 .lean()
 
-            if (!currentUser || currentUser._id != diving.hostUser) {
+            if (!currentUser || currentUser._id != diving.hostUser.toString()) {
                 console.log(`diving-resolver | acceptParticipant: hostUser=${JSON.stringify(diving.hostUser)}currentUser=${JSON.stringify(currentUser)}`)
                 return {
                     success: false,
