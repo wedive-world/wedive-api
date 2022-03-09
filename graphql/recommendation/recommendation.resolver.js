@@ -39,7 +39,7 @@ module.exports = {
         },
 
         async searchParams(parent, args, context, info) {
-            return JSON.parse(parent.searchParams)
+            return parent.searchParams
         },
     },
 
