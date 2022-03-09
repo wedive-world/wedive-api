@@ -39,13 +39,13 @@ module.exports.createHistoryFromReview = async (reviewId) => {
     divingHistory.location = place.location
 
     if (review.targetType == 'diveCenter') {
-        divingHistory.diveCenters = [targetId]
+        divingHistory.diveCenters = [review.targetId]
 
     } else if (review.targetType == 'diveSite') {
-        divingHistory.diveSites = [targetId]
+        divingHistory.diveSites = [review.targetId]
 
     } else if (review.targetType == 'divePoint') {
-        divingHistory.divePoints = [targetId]
+        divingHistory.divePoints = [review.targetId]
     }
 
     await DivingHistory.create(divingHistory)
