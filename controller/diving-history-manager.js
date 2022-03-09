@@ -22,6 +22,11 @@ module.exports.createHistoryFromReview = async (reviewId) => {
     divingHistory.targetType = 'review'
 
     const model = getModel(review.targetType)
+    
+    if (!model) {
+        return
+    }
+    
     let place = await model.findById(review.targetId)
 
     if (!place) {
