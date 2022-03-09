@@ -18,14 +18,17 @@ module.exports = {
             let user = await User.findOne({ uid: context.uid }).lean()
 
             return await Review.find({ author: user._id })
+                .lean()
         },
 
         async getReviewsByTargetId(parent, args, context, info) {
             console.log(`query | getReviewsByTargetId: args=${JSON.stringify(args)}`)
 
             return await Review.find({ targetId: args.targetId })
+                .sort('-createdAt')
                 .skip(args.skip)
                 .limit(args.limit)
+                .lean()
         },
     },
 
