@@ -71,14 +71,6 @@ enum RecommendationType {
   custom
   search
   nearBy
-  peopleLeft 
-  peopleCountGte 
-  peopleCountLte 
-  daysLeft 
-  daysGte 
-  daysLte 
-  genderOnly 
-  daysOf 
 }
 
 union RecommendationPreview = Diving | DiveSite | DivePoint | DiveCenter | Instructor
