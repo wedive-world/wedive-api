@@ -20,6 +20,16 @@ input SearchParams {
   lng2: Float
   interests: [[ID]]
 
+  divingStatus: DivingStatus
+  peopleLeft : Int
+  peopleCountGte : Int
+  peopleCountLte: Int
+  daysLeft: Int
+  daysGte: Int
+  daysLte: Int
+  genderOnly: Gender
+  daysOf7: [Int]
+  
   startedAt: Date
   finishedAt: Date
 }

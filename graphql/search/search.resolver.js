@@ -163,6 +163,39 @@ function createMongooseParams(searchParams) {
         if (searchParams.finishedAt) {
             mongooseParams['$and'].push({ finishedAt: { $lte: searchParams.startedAt } })
         }
+        
+        //         peopleLeft : Int
+        //   daysGte: Int
+        //   daysLte: Int
+        //   daysOf7: [Int]
+
+        if (searchParams.divingStatus) {
+            mongooseParams['$and'].push({ status: searchParams.divingStatus })
+        }
+
+        if (searchParams.peopleCountGte) {
+            const key = `participants.${searchParams.peopleCountGte}`
+            let param = {}
+            param[key] = { $exist: true }
+            mongooseParams['$and'].push(param)
+        }
+
+        if (searchParams.peopleCountLte) {
+            const key = `participants.${searchParams.peopleCountLte + 1}`
+            let param = {}
+            param[key] = { $exist: false }
+            mongooseParams['$and'].push(param)
+        }
+
+        if (searchParams.genderOnly) {
+            mongooseParams['$and'].push({ 'participants.gender': { $elemMatch: searchParams.genderOnly } })
+        }
+
+        if (searchParams.daysLeft) {
+            let date = new Date()
+            date.setDate(date + searchParams.daysLeft)
+            mongooseParams['$and'].push({ startedAt: { $lte: date } })
+        }
     }
 
     return mongooseParams
