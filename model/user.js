@@ -38,8 +38,8 @@ const schema = new Schema({
     instructorVerifications: [{ type: Schema.Types.ObjectId, ref: 'InstructorVerification' }],
     instructor: { type: Schema.Types.ObjectId, ref: 'Instructor' },
 
-    views: Number,
-    likes: Number,
+    views: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
 
     divingHostCount: { type: Number, default: 0 },
     divingParticipantCount: { type: Number, default: 0 },

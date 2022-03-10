@@ -30,8 +30,8 @@ const schema = new Schema({
 
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
 
-    views: Number,
-    likes: Number,
+    views: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
 
     reviewCount: Number,
 

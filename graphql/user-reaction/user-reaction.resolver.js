@@ -42,48 +42,156 @@ module.exports = {
     },
 
     DiveCenter: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
         }
     },
     DivePoint: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
         }
     },
     DiveSite: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
         }
     },
     Diving: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
         }
     },
     Image: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
         }
     },
     User: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
@@ -91,17 +199,53 @@ module.exports = {
     },
 
     Agenda: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
         }
     },
-    
+
     Review: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
         async isUserLike(parent, args, context, info) {
             return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
         },
         async isUserSubscribe(parent, args, context, info) {
             return await isUserSubscribe(context, parent);
@@ -247,9 +391,11 @@ async function isUserSubscribe(context, parent) {
             userId: user._id,
             targetId: parent._id
         }
-    ).lean();
+    )
+        .select('value')
+        .lean()
 
-    return subscribe && subscribe.value
+    return subscribe != null && subscribe.value
 }
 
 async function isUserLike(context, parent) {
@@ -269,9 +415,35 @@ async function isUserLike(context, parent) {
             userId: user._id,
             targetId: parent._id
         }
-    ).lean();
+    )
+        .select('value')
+        .lean()
 
-    return like && like.value
+    return like != null && like.value
+}
+
+async function isUserDislike(context, parent) {
+    if (!context.uid) {
+        return false
+    }
+
+    let user = await User.findOne({ uid: context.uid });
+
+    if (!user) {
+        console.log(`user-reaction-resolver | isUserDislike: cannot find user, uid=${context.uid}`)
+        return false
+    }
+
+    let dislike = await Dislike.findOne(
+        {
+            userId: user._id,
+            targetId: parent._id
+        }
+    )
+        .select('value')
+        .lean()
+
+    return dislike != null && dislike.value
 }
 
 function getModel(targetType) {

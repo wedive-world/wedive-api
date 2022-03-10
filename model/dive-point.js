@@ -66,8 +66,8 @@ const schema = new Schema({
 
     divingType: [String],
 
-    views: Number,
-    likes: Number,
+    views: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
 
     reviewCount: Number,
 
