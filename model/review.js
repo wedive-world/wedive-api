@@ -14,7 +14,7 @@ const schema = new Schema({
     rating: Number,
     images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
     
-    reviewCount: Number,
+    reviewCount: { type: Number, default: 0 },
     
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },

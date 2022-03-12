@@ -1,6 +1,17 @@
-const {
+const { 
+    Diving,
+    DivePoint,
+    DiveSite,
+    DiveCenter,
+    Image,
     User,
     Review,
+    Like,
+    Dislike,
+    Subscribe,
+    View,
+    Community,
+    Agenda,
 } = require('../../model').schema;
 
 const {
@@ -54,6 +65,10 @@ module.exports = {
             await review.save()
 
             if (isNewReview) {
+                await getModel(review.targetType).findOneAndUpdate(
+                    { _id: args.targetId },
+                    { $inc: { 'reviewCount': 1 } }
+                )
                 await createHistoryFromReview(review._id)
             }
 
@@ -62,8 +77,15 @@ module.exports = {
 
         async deleteReviewById(parent, args, context, info) {
             console.log(`mutation | deleteReviewById: args=${JSON.stringify(args)}`)
+            const review = await Review.findById(args._id)
+                .lean()
 
             await Review.findByIdAndDelete(args._id)
+
+            await getModel(review.targetType).findOneAndUpdate(
+                { _id: args.targetId },
+                { $inc: { 'reviewCount': -1 } }
+            )
             return {
                 success: true
             }
@@ -133,3 +155,36 @@ module.exports = {
         },
     },
 };
+
+function getModel(targetType) {
+
+    switch (targetType) {
+
+        case 'diveCenter':
+            return DiveCenter
+
+        case 'divePoint':
+            return DivePoint
+
+        case 'diveSite':
+            return DiveSite
+
+        case 'diving':
+            return Diving
+
+        case 'image':
+            return Image
+
+        case 'user':
+            return User
+
+        case 'review':
+            return Review
+
+        case 'recommendation':
+            return Review
+
+        case 'agenda':
+            return Agenda
+    }
+}

@@ -15,7 +15,7 @@ const schema = new Schema({
 
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
 
-    previewCount: Number,
+    previewCount: { type: Number, default: 0 },
     type: String,
     targetType: String,
     arguments: [String],
