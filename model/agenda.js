@@ -9,7 +9,7 @@ const schema = new Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     languageCode: String,
 
-    agendaPlace: [Schema.Types.ObjectId],
+    agendaPlaces: [Schema.Types.ObjectId],
 
     title: String,
     content: String,
