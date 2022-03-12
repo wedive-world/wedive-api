@@ -20,6 +20,9 @@ module.exports = {
                 .concat(divePoints)
                 .concat(diveSites)
         },
+        async types(parent, args, context, info) {
+            return await AgendaType.find({ _id: { $in: parent.types } })
+        }
     },
 
     AgendaPlace: {
