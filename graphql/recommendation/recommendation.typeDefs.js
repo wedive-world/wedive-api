@@ -68,10 +68,7 @@ enum RecommendationTargetType {
 enum RecommendationType {
   interest
   new
-  onePersonLeft
-  custom
   search
-  nearBy
 }
 
 union RecommendationPreview = Diving | DiveSite | DivePoint | DiveCenter | Instructor
