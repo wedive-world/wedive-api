@@ -10,6 +10,7 @@ type Query {
   getAllAgendaTypes: [AgendaType]
   getAgendaById(_id: ID!): Agenda
   searchAgenda(query: String, skip: Int = 0, limit: Int = 10): [Agenda]
+  getRecentAgendaBySubscribedCommunity(skip: Int = 0, limit: Int = 10): [Agenda]
 }
 
 type Mutation {
@@ -26,6 +27,8 @@ type Agenda {
   types: [AgendaType]
   author: User!
   languageCode: String
+
+  agendaParent: AgendaParent
 
   title: String
   content: String
@@ -72,4 +75,5 @@ type Forum {
 }
 
 union AgendaPlace = DiveCenter | Diving | DiveSite | DivePoint
+union AgendaParent = Community | Forum
 `;

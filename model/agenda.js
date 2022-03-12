@@ -3,11 +3,13 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
 
-    targetId: Schema.Types.ObjectId,
+    targetId: { type: Schema.Types.ObjectId, index: true },
     types: [{ type: Schema.Types.ObjectId, ref: 'AgendaType' }],
 
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     languageCode: String,
+
+    agendaParent: { type: Schema.Types.ObjectId, index: true },
 
     title: String,
     content: String,

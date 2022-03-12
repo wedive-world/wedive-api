@@ -5,7 +5,8 @@ const {
     Diving,
     DiveCenter,
     DivePoint,
-    DiveSite
+    DiveSite,
+    Subscribe
 } = require('../../model').schema;
 
 module.exports = {
@@ -22,7 +23,15 @@ module.exports = {
         },
         async types(parent, args, context, info) {
             return await AgendaType.find({ _id: { $in: parent.types } })
-        }
+        },
+        async agendaParent(parent, args, context, info) {
+            let forum = await Forum.findById(parent.agendaParent)
+            if (forum) {
+                return forum
+            }
+
+            return await Community.findById(parent.agendaParent)
+        },
     },
 
     AgendaPlace: {
@@ -35,6 +44,16 @@ module.exports = {
                 return 'DiveCenter'
             } else {
                 return 'DiveSite'
+            }
+        },
+    },
+
+    AgendaParent: {
+        async __resolveType(obj, context, info) {
+            if (obj.owners) {
+                return 'Community'
+            } else {
+                return 'Forum'
             }
         },
     },
@@ -66,6 +85,14 @@ module.exports = {
 
             return await DiveSite.find({ $text: { $search: args.query } })
                 .lean()
+        },
+
+        async getRecentAgendaBySubscribedCommunity(parent, args, context, info) {
+            console.log(`query | getRecentAgendaBySubscribedCommunity: args=${JSON.stringify(args)}`)
+            let user = await User.findOne({ uid: context.uid })
+                .select('_id')
+                .lean()
+            return await getRecentAgendaBySubscribedCommunity(user._id, args.skip, args.limit)
         },
     },
 
@@ -138,3 +165,20 @@ module.exports = {
         },
     },
 };
+
+async function getRecentAgendaBySubscribedCommunity(userId, skip, limit) {
+    let subscribeIds = await Subscribe.find({
+        userId: userId,
+        targetType: 'community',
+        value: true
+    })
+        .select('targetId')
+        .distinct('targetId')
+        .lean()
+
+    return await Agenda.find({ targetId: { $in: subscribeIds } })
+        .sort('-createdAt')
+        .skip(skip)
+        .limit(limit)
+        .lean()
+}
