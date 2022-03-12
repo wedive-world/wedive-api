@@ -25,12 +25,12 @@ module.exports = {
             return await AgendaType.find({ _id: { $in: parent.types } })
         },
         async agendaParent(parent, args, context, info) {
-            let forum = await Forum.findById(parent.agendaParent)
+            let forum = await Forum.findById(parent.targetId)
             if (forum) {
                 return forum
             }
 
-            return await Community.findById(parent.agendaParent)
+            return await Community.findById(parent.targetId)
         },
     },
 

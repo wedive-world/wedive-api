@@ -9,7 +9,7 @@ const schema = new Schema({
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     languageCode: String,
 
-    agendaParent: { type: Schema.Types.ObjectId, index: true },
+    agendaPlace: [Schema.Types.ObjectId],
 
     title: String,
     content: String,
