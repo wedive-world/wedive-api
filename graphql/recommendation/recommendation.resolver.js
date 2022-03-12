@@ -73,6 +73,11 @@ module.exports = {
                 previews: await getTotalPreviews(recommendation, context)
             }
         },
+
+        async getRecommendationById(parent, args, context, info) {
+            console.log(`query | getRecommendationById: args=${JSON.stringify(args)}`)
+            return await Recommendation.findById(args._id)
+        },
     },
 
     Mutation: {
