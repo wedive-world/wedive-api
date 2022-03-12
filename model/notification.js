@@ -11,6 +11,7 @@ const schema = new Schema({
     event: String,
     title: String,
     message: String,
+    image: String,
     read: Boolean,
 
     createdAt: { type: Date, default: Date.now },

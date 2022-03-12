@@ -28,6 +28,7 @@ type Notification {
 
   title: String
   message: String
+  image: String
   
   event: NotificationEvent,
   read: Boolean,

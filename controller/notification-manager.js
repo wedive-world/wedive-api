@@ -9,6 +9,10 @@ const {
     getNotificationTitle
 } = require('./notification-message-manager')
 
+const {
+    getNotificationImage
+} = require('./notification-image-manager')
+
 module.exports.onDivingCreated = async (diving) => {
 
     if (diving.diveCenters && diving.diveCenters.length > 0) {
@@ -125,8 +129,16 @@ async function sendNotificationBySubscription(targetId, targetType, subjectId, s
 }
 
 async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds) {
+    try {
+        await sendNotificationByUserIdsInternal(targetId, targetType, subjectId, subjectType, event, data, userIds)
+    } catch (err) {
+        console.error(`notification-manager | sendNotificationByUserIdsInternal: ${err}`)
+    }
+}
+async function sendNotificationByUserIdsInternal(targetId, targetType, subjectId, subjectType, event, userIds) {
     let title = await getNotificationTitle(event)
     let message = await getNotificationMessage(targetId, targetType, subjectId, subjectType, event)
+    let image = await getNotificationImage(targetId, targetType, subjectId, subjectType, event)
 
     userIds.forEach(async userId => {
         await Notification.create({
@@ -138,6 +150,7 @@ async function sendNotificationByUserIds(targetId, targetType, subjectId, subjec
             event: event,
             title: title,
             message: message,
+            image: image,
             read: false
         })
     })
@@ -149,7 +162,8 @@ async function sendNotificationByUserIds(targetId, targetType, subjectId, subjec
         subjectType: subjectType,
         event: event,
         title: title,
-        message: message
+        message: message,
+        image: image,
     })
 }
 
