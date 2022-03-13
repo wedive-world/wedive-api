@@ -101,6 +101,15 @@ module.exports = {
                 diving.updatedAt = Date.now()
             }
 
+            if (diving.startedAt && diving.finishedAt) {
+                let days = diving.finishedAt.getTime() - diving.startedAt.getTime()
+                days /= 86400000
+                days = Math.round(days)
+                days += 1
+
+                diving.days = days
+            }
+
             await diving.save()
 
             if (isNewDiving) {

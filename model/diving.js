@@ -27,6 +27,7 @@ const schema = new Schema({
 
     startedAt: { type: Date, default: Date.now },
     finishedAt: { type: Date, default: Date.now },
+    days: { type: Number, default: 0 },
 
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
 
