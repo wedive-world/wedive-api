@@ -63,7 +63,7 @@ module.exports = {
             console.log(`query | getPreviewsByRecommendationId: context=${JSON.stringify(context)}`)
             let recommendation = await Recommendation.findById(args._id)
                 .lean()
-            
+
             if (!recommendation) {
                 return null
             }
@@ -208,7 +208,7 @@ async function getSearchRecommendation(recommend, context) {
 
 async function getRecommendationsByTargetType(uid, targetType, count) {
 
-    let recommendsCount = await Recommendation.count()
+    let recommendsCount = await Recommendation.count({ targetType: targetType })
 
     let resultRecommendations = []
     let seed = getRandomInt(0, recommendsCount)
