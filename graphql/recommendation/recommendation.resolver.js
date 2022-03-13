@@ -167,17 +167,37 @@ async function getPreviewsInternal(recommend, context) {
 }
 
 async function getNewRecommendation(recommend) {
-    return await getModel(recommend.targetType)
-        .find()
-        .sort('-createdAt')
-        .limit(recommend.previewCount)
-        .lean()
+
+    const searchParams = JSON.parse(recommend.searchParams)
+    if (searchParams.divingStatus) {
+        return await getModel(recommend.targetType)
+            .find({ status: searchParams.divingStatus })
+            .sort('-createdAt')
+            .limit(recommend.previewCount)
+            .lean()
+    } else {
+        return await getModel(recommend.targetType)
+            .find()
+            .sort('-createdAt')
+            .limit(recommend.previewCount)
+            .lean()
+    }
 }
 
 async function getInterestRecommendation(recommend) {
     console.log(`recommendation-resolver | getInterestRecommendation: recommend=${JSON.stringify(recommend)}`)
+
+    const searchParams = JSON.parse(recommend.searchParams)
+    let findParams = { interests: { $in: recommend.interests } }
+    if (searchParams.divingStatus) {
+        findParams = {
+            ...findParams,
+            status: searchParams.divingStatus
+        }
+    }
+
     return await getModel(recommend.targetType)
-        .find({ interests: { $in: recommend.interests } })
+        .find(findParams)
         .sort('-adminScore')
         .limit(recommend.previewCount)
         .lean()
