@@ -163,7 +163,7 @@ function createMongooseParams(searchParams) {
         if (searchParams.finishedAt) {
             mongooseParams['$and'].push({ finishedAt: { $lte: searchParams.startedAt } })
         }
-        
+
         //         peopleLeft : Int
         //   daysGte: Int
         //   daysLte: Int
@@ -193,7 +193,7 @@ function createMongooseParams(searchParams) {
 
         if (searchParams.daysLeft) {
             let date = new Date()
-            date.setDate(date + searchParams.daysLeft)
+            date.setDate(date.getDate() + searchParams.daysLeft)
             mongooseParams['$and'].push({ startedAt: { $lte: date } })
         }
     }
