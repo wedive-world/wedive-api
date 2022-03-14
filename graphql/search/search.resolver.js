@@ -196,11 +196,11 @@ function createMongooseParams(searchParams) {
         }
 
         if (searchParams.daysLte) {
-            mongooseParams['$and'].push({ days: { $lte: daysLte } })
+            mongooseParams['$and'].push({ days: { $lte: searchParams.daysLte } })
         }
 
         if (searchParams.daysGte) {
-            mongooseParams['$and'].push({ days: { $lte: daysGte } })
+            mongooseParams['$and'].push({ days: { $lte: searchParams.daysGte } })
         }
     }
 
