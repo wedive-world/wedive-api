@@ -185,14 +185,17 @@ async function getNewRecommendation(recommend) {
 }
 
 async function getInterestRecommendation(recommend) {
-    console.log(`recommendation-resolver | getInterestRecommendation: recommend=${JSON.stringify(recommend)}`)
+    // console.log(`recommendation-resolver | getInterestRecommendation: recommend=${JSON.stringify(recommend)}`)
 
-    const searchParams = JSON.parse(recommend.searchParams)
+
     let findParams = { interests: { $in: recommend.interests } }
-    if (searchParams.divingStatus) {
-        findParams = {
-            ...findParams,
-            status: searchParams.divingStatus
+    if (recommend.searchParams) {
+        const searchParams = JSON.parse(recommend.searchParams)
+        if (searchParams.divingStatus) {
+            findParams = {
+                ...findParams,
+                status: searchParams.divingStatus
+            }
         }
     }
 
@@ -229,6 +232,10 @@ async function getSearchRecommendation(recommend, context) {
 async function getRecommendationsByTargetType(uid, targetType, count) {
 
     let recommendsCount = await Recommendation.count({ targetType: targetType })
+
+    if (recommendsCount == 0) {
+        return []
+    }
 
     let resultRecommendations = []
     let seed = getRandomInt(0, recommendsCount)

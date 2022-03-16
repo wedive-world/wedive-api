@@ -17,7 +17,7 @@ const schema = new Schema({
         birth: Number,
         gender: String,
     }],
-    applicants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    peopleLeft: [{ type: Number, default: 0 }],
 
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
 

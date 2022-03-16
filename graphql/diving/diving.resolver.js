@@ -91,6 +91,7 @@ module.exports = {
             } else {
                 diving = await Diving.findOne({ _id: args.input._id })
                     .populate('hostUser')
+                    .populate('participants')
 
                 if (context.uid != diving.hostUser.uid) {
                     console.log(`mutation | upsertDiving: invalid user`)
@@ -108,6 +109,14 @@ module.exports = {
                 days += 1
 
                 diving.days = days
+            }
+
+            if (diving.maxPeopleNumber) {
+                let applicantsNumber = diving.participants
+                    .filter(participant => participant.status == 'joined')
+                    .count()
+
+                diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
             }
 
             await diving.save()
@@ -214,8 +223,17 @@ module.exports = {
 
             await updateParticipantStatus(diving._id, participant._id, 'joined')
 
+            if (diving.maxPeopleNumber) {
+                let applicantsNumber = diving.participants
+                    .filter(participant => participant.status == 'joined')
+                    .count()
+
+                diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
+            }
+
             let participantIds = diving.participants
                 .filter(participant => participant.user)
+                .filter(participant => participant.stats == 'joined')
                 .map(user => user._id)
 
             participantIds = participantIds.concat(
