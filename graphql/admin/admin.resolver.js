@@ -15,29 +15,74 @@ module.exports = {
         async updateAddressByLocation(parent, args, context, info) {
             console.log(`mutation | updateAddressByLocation: args=${JSON.stringify(args)}`)
 
-            let models = await getModel(args.targetType).find()
+            const count = await getModel(args.targetType).count()
+            const limit = 10
+
             let failed = ''
-            for (let model of models) {
-                try {
-                    if (!args.force && model.location) {
+
+            for await (let skip of asyncGenerator(limit, count)) {
+                let models = await getModel(args.targetType).find()
+                    .skip(skip)
+                    .limit(limit)
+
+                for (let model of models) {
+                    try {
+                        if (!args.force && model.location) {
+                            continue
+                        }
+
+                        let result = await queryReverseGeocoding(model.latitude, model.longitude, context.languageCode)
+
+                        if (!model.addressTranslation) {
+                            model.addressTranslation = new Map()
+                        }
+                        model.addressTranslation.set(context.languageCode, result.refinedAddress)
+
+                        model.location.type = 'Point'
+                        model.location.coordinates = [model.latitude, model.longitude]
+                        model.countryCode = result.countryCode
+
+                        await model.save()
+                    } catch (err) {
+                        failed += model.name + ' '
                         continue
                     }
+                }
+            }
 
-                    let result = await queryReverseGeocoding(model.latitude, model.longitude, context.languageCode)
+            return {
+                success: true,
+                reason: failed
+            }
+        },
+        async updateCountryCodeByLocation(parent, args, context, info) {
+            console.log(`mutation | updateAddressByLocation: args=${JSON.stringify(args)}`)
 
-                    if (!model.addressTranslation) {
-                        model.addressTranslation = new Map()
+            const count = await getModel(args.targetType).count()
+            const limit = 10
+
+            let failed = ''
+
+            for await (let skip of asyncGenerator(limit, count)) {
+                let models = await getModel(args.targetType).find()
+                    .skip(skip)
+                    .limit(limit)
+
+                for (let model of models) {
+                    try {
+                        if (!args.force && model.location) {
+                            continue
+                        }
+
+                        let result = await queryReverseGeocoding(model.latitude, model.longitude, context.languageCode)
+
+                        model.countryCode = result.countryCode
+                        await model.save()
+                        
+                    } catch (err) {
+                        failed += model.name + ' '
+                        continue
                     }
-                    let refinedAddress = result.refinedAddress
-                    model.addressTranslation.set(context.languageCode, refinedAddress)
-
-                    model.location.type = 'Point'
-                    model.location.coordinates = [model.latitude, model.longitude]
-
-                    await model.save()
-                } catch (err) {
-                    failed += model.name + ' '
-                    continue
                 }
             }
 
@@ -136,5 +181,13 @@ function getModel(targetType) {
 
         case 'diveSite':
             return DiveSite
+    }
+}
+
+async function* asyncGenerator(limit, count) {
+    let skip = 0;
+    while (skip <= count) {
+        yield skip;
+        skip += limit
     }
 }

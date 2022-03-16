@@ -22,12 +22,12 @@ module.exports.queryReverseGeocoding = async function (lat, lon, language) {
     // let location = data.results[0].geometry.location
     // console.log(`location=${JSON.stringify(location)}`)
 
-    let refinedAddress = extractRefinedAddress(data);
+    let countryCode = extractCountryCode(data)
+    console.log(`countryCode=${JSON.stringify(countryCode)}`)
 
-    console.log(`refinedAddress=${refinedAddress}`)
     return {
-        // location: location,
-        refinedAddress: refinedAddress
+        countryCode: countryCode,
+        refinedAddress: extractRefinedAddress(data)
     }
 }
 
@@ -47,15 +47,13 @@ module.exports.queryGeocoding = async function (address, language) {
         return null
     }
 
-    let location = data.results[0].geometry.location
-    // console.log(`location=${JSON.stringify(location)}`)
+    let countryCode = extractCountryCode(data)
+    console.log(`countryCode=${JSON.stringify(countryCode)}`)
 
-    let refinedAddress = extractRefinedAddress(data);
-
-    console.log(`refinedAddress=${refinedAddress}`)
     return {
-        location: location,
-        refinedAddress: refinedAddress
+        location: data.results[0].geometry.location,
+        refinedAddress: extractRefinedAddress(data),
+        countryCode: countryCode
     }
 }
 
@@ -76,4 +74,13 @@ function extractRefinedAddress(data) {
 
     let refinedAddress = `${country ? country.long_name : ''} ${administrative_area_level_1 ? administrative_area_level_1.long_name : ''}${locality ? ' ' + locality.long_name : ''}${sublocality_level_1 ? ' ' + sublocality_level_1.long_name : ''}`;
     return refinedAddress;
+}
+
+function extractCountryCode(data) {
+    let addressComponents = data.results[0].address_components;
+
+    let country = addressComponents
+        .find(component => component.types.includes('country'));
+
+    return country.short_name;
 }
