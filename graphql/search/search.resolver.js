@@ -164,7 +164,6 @@ function createMongooseParams(searchParams) {
             mongooseParams['$and'].push({ finishedAt: { $lte: searchParams.startedAt } })
         }
 
-        //         peopleLeft : Int
         //   daysOf7: [Int]
 
         if (searchParams.divingStatus) {
@@ -205,6 +204,14 @@ function createMongooseParams(searchParams) {
 
         if (searchParams.peopleLeft) {
             mongooseParams['$and'].push({ peopleLeft: { $gt: 0, $lte: searchParams.peopleLeft } })
+        }
+
+        if (searchParams.countryCodeEq) {
+            mongooseParams['$and'].push({ countryCode: { $in: searchParams.countryCodeEq } })
+        }
+
+        if (searchParams.countryCodeNe) {
+            mongooseParams['$and'].push({ countryCode: { $nin: searchParams.countryCodeNe } })
         }
     }
 

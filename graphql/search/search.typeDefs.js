@@ -29,6 +29,8 @@ input SearchParams {
   daysLte: Int
   genderOnly: Gender
   daysOf7: [Int]
+  countryCodeEq: [String]
+  countryCodeNe: [String]
   
   startedAt: Date
   finishedAt: Date
