@@ -6,7 +6,7 @@ type Query {
 
   QUERY____________________________Recommendation: Recommendation
   getUserRecommendations(count: Int = 8): [Recommendation]
-  getUserRecommendationsByTargetType(targetType: RecommendationTargetType!, count: Int = 8): [Recommendation]
+  getUserRecommendationsByTargetType(targetType: RecommendationTargetType, count: Int = 8): [Recommendation]
   getAllRecommendations: [Recommendation]
   getPreviewsByRecommendationId(_id: ID!): PreviewResult
   getRecommendationById(_id: ID!): Recommendation
