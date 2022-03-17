@@ -116,7 +116,8 @@ class ChatServiceProxy {
         `
 
         const variable = {
-            title: title
+            title: title,
+            membersUids: memberUids
         }
 
         try {
