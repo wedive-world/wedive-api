@@ -22,7 +22,15 @@ class FirebaseClient {
 
         let result = await getMessaging(getApp()).sendMulticast({
             data: JSON.parse(JSON.stringify(data)),
-            tokens: tokenList
+            tokens: tokenList,
+            android: {
+                priority: "normal"
+            },
+            apns: {
+                headers: {
+                    "apns-priority": "5"
+                }
+            },
         })
 
         console.log(`FirebaseClient | sendMulticast: result=${JSON.stringify(result)}`)
