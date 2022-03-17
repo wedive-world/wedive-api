@@ -114,7 +114,7 @@ module.exports = {
             if (diving.maxPeopleNumber) {
                 let applicantsNumber = diving.participants
                     .filter(participant => participant.status == 'joined')
-                    .count()
+                    .length
 
                 diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
             }
