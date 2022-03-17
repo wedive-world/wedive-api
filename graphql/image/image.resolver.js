@@ -151,7 +151,7 @@ module.exports = {
     Query: {
         getImageUrlById: async (parent, args, context, info) => {
             let result = await getResizedImage(args._id, args.width)
-            console.log(`query | getImageUrlById: _id=${args._id}, width=${args.width}, result=${result}`)
+            // console.log(`query | getImageUrlById: _id=${args._id}, width=${args.width}, result=${result}`)
             return result
         },
 
@@ -165,7 +165,7 @@ module.exports = {
                 resultList.push(result)
             }
 
-            console.log(`query | getImageUrlsByIds: _ids=${args._ids}, widths=${args.widths}, resultList=${resultList}`)
+            // console.log(`query | getImageUrlsByIds: _ids=${args._ids}, widths=${args.widths}, resultList=${resultList}`)
 
             return resultList
         },
@@ -179,7 +179,7 @@ module.exports = {
                 ...image
             }
 
-            console.log(`query | getResizedImageById: _id=${args._id}, width=${args.width}, result=${JSON.stringify(result)}`)
+            // console.log(`query | getResizedImageById: _id=${args._id}, width=${args.width}, result=${JSON.stringify(result)}`)
             return result
         },
 
@@ -200,7 +200,7 @@ module.exports = {
                 resultList.push(result)
             }
 
-            console.log(`query | getResizedImagesByIds: _ids=${args._ids}, widths=${args.widths}, resultList=${resultList}`)
+            // console.log(`query | getResizedImagesByIds: _ids=${args._ids}, widths=${args.widths}, resultList=${resultList}`)
 
             return resultList
         },
@@ -210,7 +210,7 @@ module.exports = {
         uploadImage: async (parent, { file }) => {
 
             const { createReadStream, filename, mimetype, encoding } = await file;
-            console.log(`mutation | singleUpload: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
+            // console.log(`mutation | singleUpload: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
             let image = await uploadImage(createReadStream, filename, mimetype, encoding)
 
             if (image.mimeType.includes('gif')) {
@@ -224,7 +224,7 @@ module.exports = {
         },
 
         updateImage: async (parent, args, context, info) => {
-            console.log(`mutation | updateImage: input=${JSON.stringify(args.input)}`)
+            // console.log(`mutation | updateImage: input=${JSON.stringify(args.input)}`)
 
             return await updateImage(args.input)
         },
