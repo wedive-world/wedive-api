@@ -91,6 +91,8 @@ enum InterestType {
   """센터 지원언어"""language,
   """센터 결재방법"""payment,
   """교육 product 포함사항"""eduInclude,
+  """사이트 방문 추천 레벨"""recommendLevel,
+  """기타"""etc,
 }
 
 interface MonthlyInterest {
