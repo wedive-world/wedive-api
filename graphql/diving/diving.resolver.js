@@ -1,6 +1,9 @@
 const {
     Diving,
     DivingParticipant,
+    DiveSite,
+    DivePoint,
+    DiveCenter,
     User
 } = require('../../model').schema;
 
@@ -124,10 +127,12 @@ module.exports = {
                     .lean()
                     .select('interests')
 
-                let divingInterests = diveCenters.interests
+                let divingInterests = diveCenters.map(diveCenter => diveCenter.interests)
                     .reduce((a, b) => a.concat(b))
 
-                diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+                if (divingInterests && divingInterests.length > 0) {
+                    diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+                }
             }
 
             if (diving.diveSites) {
@@ -135,10 +140,12 @@ module.exports = {
                     .lean()
                     .select('interests')
 
-                let divingInterests = diveSites.interests
+                let divingInterests = diveSites.map(diveSite => diveSite.interests)
                     .reduce((a, b) => a.concat(b))
 
-                diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+                if (divingInterests && divingInterests.length > 0) {
+                    diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+                }
             }
 
             if (diving.divePoints) {
@@ -146,10 +153,12 @@ module.exports = {
                     .lean()
                     .select('interests')
 
-                let divingInterests = divePoints.interests
+                let divingInterests = divePoints.map(divePoint => divePoint.interests)
                     .reduce((a, b) => a.concat(b))
 
-                diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+                if (divingInterests && divingInterests.length > 0) {
+                    diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+                }
             }
 
             await diving.save()
