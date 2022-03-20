@@ -1,7 +1,8 @@
 const {
     User,
     Community,
-    Subscribe
+    Subscribe,
+    Agenda
 } = require('../../model').schema;
 
 module.exports = {
