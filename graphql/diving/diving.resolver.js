@@ -119,6 +119,39 @@ module.exports = {
                 diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
             }
 
+            if (diving.diveCenters) {
+                let diveCenters = await DiveCenter.find({ _id: { $in: diving.diveCenters } })
+                    .lean()
+                    .select('interests')
+
+                let divingInterests = diveCenters.interests
+                    .reduce((a, b) => a.concat(b))
+
+                diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+            }
+
+            if (diving.diveSites) {
+                let diveSites = await DiveSite.find({ _id: { $in: diving.diveSites } })
+                    .lean()
+                    .select('interests')
+
+                let divingInterests = diveSites.interests
+                    .reduce((a, b) => a.concat(b))
+
+                diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+            }
+
+            if (diving.divePoints) {
+                let divePoints = await DivePoint.find({ _id: { $in: diving.divePoints } })
+                    .lean()
+                    .select('interests')
+
+                let divingInterests = divePoints.interests
+                    .reduce((a, b) => a.concat(b))
+
+                diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+            }
+
             await diving.save()
 
             if (isNewDiving) {
