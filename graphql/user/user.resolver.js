@@ -56,6 +56,10 @@ module.exports = {
                 .lean()
             return await User.find({ _id: { $in: userIds } });
         },
+
+        async owners(parent, args, context, info) {
+            return await User.find({ _id: { $in: parent.owners } });
+        }
     },
 
     Query: {
