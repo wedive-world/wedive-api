@@ -199,7 +199,7 @@ function createMongooseParams(searchParams) {
         }
 
         if (searchParams.daysGte) {
-            mongooseParams['$and'].push({ days: { $lte: searchParams.daysGte } })
+            mongooseParams['$and'].push({ days: { $gte: searchParams.daysGte } })
         }
 
         if (searchParams.peopleLeft) {
