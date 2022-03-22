@@ -83,7 +83,7 @@ module.exports = {
         async searchAgenda(parent, args, context, info) {
             console.log(`query | searchAgenda: args=${JSON.stringify(args)}`)
 
-            return await DiveSite.find({ $text: { $search: args.query } })
+            return await Agenda.find({ $text: { $search: args.query } })
                 .lean()
         },
 
