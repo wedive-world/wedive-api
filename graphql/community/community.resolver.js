@@ -76,7 +76,7 @@ module.exports = {
                 }
             }
             await Community.findOneAndUpdate(args.communityId, {
-                $push: { notices: agendaId }
+                $push: { notices: args.agendaId }
             })
             return {
                 success: true
