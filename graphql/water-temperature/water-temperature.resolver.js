@@ -64,7 +64,7 @@ async function getNearWaterTemperature(latitude, longitude) {
     return await WaterTemperature.find({
         location: {
             $near: {
-                $maxDistance: 10000,
+                // $maxDistance: 10000,
                 $geometry: {
                     type: "Point",
                     coordinates: [longitude, latitude]
