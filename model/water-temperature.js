@@ -33,4 +33,4 @@ const schema = new Schema({
 
 module.exports = mongoose.model('WaterTemperature', schema);
 
-schema.createIndex({ "location": "2d" })
+schema.createIndex({ "location": "2dsphere" })
