@@ -61,7 +61,7 @@ module.exports = {
 };
 
 async function getNearWaterTemperature(latitude, longitude) {
-    return await WaterTemperature.find({
+    let waterTemperatures = await WaterTemperature.find({
         location: {
             $near: {
                 // $maxDistance: 10000,
@@ -74,6 +74,12 @@ async function getNearWaterTemperature(latitude, longitude) {
     })
         .sort('-creatdAt')
         .limit(1)
+
+    if (!waterTemperatures || waterTemperatures.length == 0) {
+        return null
+    }
+
+    return waterTemperatures[0]
 }
 
 async function collectWaterTemperature() {
