@@ -27,8 +27,10 @@ const schema = new Schema({
         type: { type: String, enum: ['Point'], required: true },
         coordinates: { type: [Number], required: true }
     },
-    
+
     createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('WaterTemperature', schema);
+
+schema.createIndex({ "location": "2d" })
