@@ -71,7 +71,9 @@ async function getNearWaterTemperature(latitude, longitude) {
                 }
             }
         }
-    }).limit(1)
+    })
+        .sort('-creatdAt')
+        .limit(1)
 }
 
 async function collectWaterTemperature() {
