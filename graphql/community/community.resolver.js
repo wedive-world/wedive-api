@@ -94,7 +94,7 @@ module.exports = {
                 }
             }
             await Community.findOneAndUpdate(args.communityId, {
-                $pull: { notices: agendaId }
+                $pull: { notices: args.agendaId }
             })
             return {
                 success: true
