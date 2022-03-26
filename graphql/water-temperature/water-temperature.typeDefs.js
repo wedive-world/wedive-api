@@ -33,6 +33,7 @@ type WaterTemperature {
   weatherDescription: String
   weatherIcon: String
   humidity: String
+  windSpeed: String
   temperatureDetail: TemperatureDetail
   weekTideForecast: weekTideForecast
 
