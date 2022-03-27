@@ -157,7 +157,7 @@ module.exports = {
             }
 
             diveSite.location.type = 'Point'
-            diveSite.location.coordinates = [diveSite.latitude, diveSite.longitude]
+            diveSite.location.coordinates = [diveSite.longitude, diveSite.latitude]
 
             let geocoding = await queryReverseGeocoding(diveSite.latitude, diveSite.longitude, context.languageCode)
             diveSite.address = geocoding.refinedAddress
