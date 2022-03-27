@@ -68,13 +68,15 @@ module.exports = {
         async registerNotice(parent, args, context, info) {
             console.log(`mutation | registerNotice: args=${JSON.stringify(args)}`)
 
-            const agenda = await Agenda.findById(args.agendaId)
+            let agenda = await Agenda.findById(args.agendaId)
             if (!agenda) {
                 return {
                     success: false,
                     reason: 'agendaNotFound'
                 }
             }
+            agenda.types.push('624017f9abe6e467bdc55cb4')
+            await agenda.save()
             await Community.findOneAndUpdate(args.communityId, {
                 $push: { notices: args.agendaId }
             })
