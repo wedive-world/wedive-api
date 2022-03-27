@@ -39,7 +39,7 @@ module.exports = {
                         model.addressTranslation.set(context.languageCode, result.refinedAddress)
 
                         model.location.type = 'Point'
-                        model.location.coordinates = [model.latitude, model.longitude]
+                        model.location.coordinates = [model.longitude, model.latitude]
                         model.countryCode = result.countryCode
 
                         await model.save()
@@ -147,7 +147,7 @@ module.exports = {
                     model.longitude = location.lng
                 }
                 model.location.type = 'Point'
-                model.location.coordinates = [model.latitude, model.longitude]
+                model.location.coordinates = [model.longitude, model.latitude]
                 if (!model.addressTranslation) {
                     model.addressTranslation = new Map()
                 }
