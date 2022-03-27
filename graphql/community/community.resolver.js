@@ -5,6 +5,9 @@ const {
     Agenda
 } = require('../../model').schema;
 
+const Mongoose = require('mongoose');
+const NoticeAgendaType = Mongoose.Types.ObjectId('624017f9abe6e467bdc55cb4')
+
 module.exports = {
     Community: {
         async subscriptionCount(parent, args, context, info) {
@@ -75,7 +78,7 @@ module.exports = {
                     reason: 'agendaNotFound'
                 }
             }
-            agenda.types.push('624017f9abe6e467bdc55cb4')
+            agenda.types.push(NoticeAgendaType)
             await agenda.save()
             await Community.findOneAndUpdate(args.communityId, {
                 $push: { notices: args.agendaId }
@@ -97,6 +100,9 @@ module.exports = {
             }
             await Community.findOneAndUpdate(args.communityId, {
                 $pull: { notices: args.agendaId }
+            })
+            await Agenda.findOneAndUpdate(args.agendaId, {
+                $pull: { types: NoticeAgendaType }
             })
             return {
                 success: true
