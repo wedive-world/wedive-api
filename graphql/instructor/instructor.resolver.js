@@ -38,26 +38,29 @@ module.exports = {
     //     },
     // },
 
-    // Mutation: {
-    //     async upsertReview(parent, args, context, info) {
-    //         console.log(`mutation | upsertReview: args=${JSON.stringify(args)}`)
+    Mutation: {
+        async upsertInstructor(parent, args, context, info) {
+            console.log(`mutation | upsertInstructor: args=${JSON.stringify(args)}`)
 
-    //         let review = null
-    //         if (args.input._id) {
-    //             review = await Review.findById(args.input._id)
-    //         } else {
-    //             review = new Review(args.input)
-    //         }
+            let instructor = null
+            if (args.input._id) {
+                instructor = await Instructor.findById(args.input._id)
+            } else {
+                instructor = new Instructor(args.input)
+            }
 
-    //         Object.assign(review, args.input)
+            Object.assign(instructor, args.input)
 
-    //         let user = await User.findOne({ uid: context.uid }).lean()
-    //         review.author = user._id
-    //         await review.save()
+            let user = await User.findOne({ uid: context.uid })
+                .select('_id')
+                .lean()
+            instructor.user = user._id
 
-    //         return review
-    //     },
+            await instructor.save()
 
+            return instructor
+        },
+    }
     //     async deleteReviewById(parent, args, context, info) {
     //         console.log(`mutation | deleteReviewById: args=${JSON.stringify(args)}`)
 

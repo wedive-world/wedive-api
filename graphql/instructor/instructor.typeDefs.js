@@ -10,7 +10,7 @@ type Query {
 type Mutation {
   
   MUTATION_________________________Instructor: Instructor
-  updateInstructor(input: InstructorInput): Instructor!
+  upsertInstructor(input: InstructorInput): Instructor!
   deleteInstructor(_id: ID!): Response!
 }
 
@@ -19,7 +19,6 @@ type Instructor {
 
   user: User!,
   licenseImages: [Image],
-  licenses: [License],
   instructorType: [DivingType],
 
   phoneNumber: String,
@@ -42,6 +41,9 @@ type Instructor {
 
 input InstructorInput {
   _id: ID,
+
+  licenseImages: [ID],
+  instructorType: [DivingType],
 
   phoneNumber: String,
   email: String,
