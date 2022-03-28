@@ -8,7 +8,6 @@ const schema = new Schema({
     temperatureC: Number,
     temperatureF: Number,
     weatherDescription: String,
-    weatherIcon: String,
     humidity: String,
     windSpeed: String,
     temperatureDetail: {
