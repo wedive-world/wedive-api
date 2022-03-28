@@ -17,6 +17,7 @@ const schema = new Schema({
     careers: [String],
 
     profileImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
+    modifedProfileImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
 
     diveCenters: [{ type: Schema.Types.ObjectId, ref: 'DiveCenter' }],
     diveSites: [{ type: Schema.Types.ObjectId, ref: 'DiveSite' }],

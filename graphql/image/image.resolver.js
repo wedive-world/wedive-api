@@ -122,11 +122,15 @@ module.exports = {
 
     Instructor: {
         async profileImages(parent, args, context, info) {
-            return await getImageById(parent.instructorLicenseImage)
+            return await getImageById(parent.profileImages)
+        },
+
+        async modifiedProfileImages(parent, args, context, info) {
+            return await getImageById(parent.modifiedProfileImages)
         },
 
         async licenseImages(parent, args, context, info) {
-            return await getImageById(parent.instructorLicenseImage)
+            return await getImageById(parent.licenseImages)
         },
     },
 

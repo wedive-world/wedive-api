@@ -29,6 +29,7 @@ type Instructor {
   careers: [String]
 
   profileImages: [Image]
+  modifiedProfileImages: [Image]
 
   diveCenters: [DiveCenter],
   diveSites: [DiveSite],
@@ -43,22 +44,23 @@ input InstructorInput {
   _id: ID,
 
   licenseImages: [ID],
-  instructorType: [DivingType],
+  instructorType: [DivingType]
 
-  phoneNumber: String,
-  email: String,
-  gender: Gender,
+  phoneNumber: String
+  email: String
+  gender: Gender
 
   introduction: String
   careers: [String]
 
-  profileImages: [ID],
+  profileImages: [ID]
+  modifiedProfileImages: [ID]
 
-  languageCodes: [String],
+  languageCodes: [String]
 
-  diveCenters: [ID],
-  diveSite: [ID],
-  divePoint: [ID],
+  diveCenters: [ID]
+  diveSite: [ID]
+  divePoint: [ID]
 }
 
 type DiveCenter {
