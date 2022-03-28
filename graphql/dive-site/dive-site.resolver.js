@@ -19,6 +19,21 @@ module.exports = {
 
             return diveSites.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
+
+        async nearDiveSite(parent, args, context, info) {
+            return await DiveSite.find({
+                location: {
+                    $near: {
+                        // $maxDistance: 10000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [parent.longitude, parent.latitude]
+                        }
+                    }
+                }
+            })
+                .limit(1)
+        }
     },
 
     DivePoint: {

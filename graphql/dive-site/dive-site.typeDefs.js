@@ -70,6 +70,7 @@ input DiveSiteInput {
 
 type DiveCenter {
   diveSites: [DiveSite]
+  nearDiveSite: DiveSite
 }
 
 input DiveCenterInput {
