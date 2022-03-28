@@ -2,6 +2,10 @@ const { Interest } = require('../../model').schema;
 
 const translator = require('../common/util/translator')
 
+// 무관 (gender), 남자(gender), 여자(gender), 커플(gender)
+// 뒷풀이(amity), 초보환영(amity), 상급레벨(amity)
+const DivingInterestTypes = ['gender', 'amity']
+
 module.exports = {
 
     DiveCenter: {
@@ -132,10 +136,10 @@ module.exports = {
 
     Diving: {
         async interests(parent, args, context, info) {
-            return await getInterestListByIds(context.languageCode, parent.interests)
+            return await getInterestListByDivingInterestTypes(context.languageCode, parent.interests)
         },
     },
-    
+
     User: {
         async interests(parent, args, context, info) {
             return await getInterestListByIds(context.languageCode, parent.interests)
@@ -263,6 +267,17 @@ module.exports = {
 async function getInterestListByIds(languageCode, interestIds) {
 
     let interests = await Interest.find({ _id: { $in: interestIds } })
+        .lean()
+
+    return interests.map(interest => translator.translateOut(interest, languageCode))
+}
+
+async function getInterestListByDivingInterestTypes(languageCode, interestIds) {
+
+    let interests = await Interest.find({
+        _id: { $in: interestIds },
+        type: { $in: DivingInterestTypes }
+    })
         .lean()
 
     return interests.map(interest => translator.translateOut(interest, languageCode))
