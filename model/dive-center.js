@@ -98,6 +98,7 @@ schema.index({
     'nameTranslation.ko': 'text',
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
-    'addressTranslation.ko': 'text',
-    "location": "2dsphere",
+    'addressTranslation.ko': 'text'
 }, { default_language: "ngram" })
+
+schema.index({ "location": "2dsphere", })
