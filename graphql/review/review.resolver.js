@@ -1,4 +1,4 @@
-const { 
+const {
     Diving,
     DivePoint,
     DiveSite,
@@ -12,6 +12,7 @@ const {
     View,
     Community,
     Agenda,
+    Reservation
 } = require('../../model').schema;
 
 const {
@@ -186,5 +187,8 @@ function getModel(targetType) {
 
         case 'agenda':
             return Agenda
+
+        case 'reservation':
+            return Reservation
     }
 }

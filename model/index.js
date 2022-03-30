@@ -62,6 +62,7 @@ module.exports.schema = {
     View: require('./view'),
 
     Review: require('./review'),
+    Reservation: require('./reservation'),
     Notification: require('./notification'),
     Recommendation: require('./recommendation'),
     SearchSuggestion: require('./search-suggestion'),
