@@ -31,6 +31,7 @@ type WaterTemperature {
   temperatureC: Float
   temperatureF: Float
   weatherDescription: String
+  weatherIcon: String
   humidity: String
   windSpeed: String
   temperatureDetail: TemperatureDetail
