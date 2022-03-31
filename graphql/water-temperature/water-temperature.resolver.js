@@ -1,3 +1,26 @@
+const AWS = require('aws-sdk');
+
+require('dotenv').config({ path: process.env.PWD + '/wedive-secret/s3-config.env' })
+require('dotenv').config({ path: process.env.PWD + '/wedive-secret/aws-secret.env' })
+
+const END_POINT = process.env.WATER_TEMPERATURE_LOG_BUCKET_END_POINT
+const REGION = process.env.WATER_TEMPERATURE_LOG_BUCKET_REGION
+const BUCKET_NAME = process.env.WATER_TEMPERATURE_LOG_BUCKET_NAME
+
+console.log(`============ENV_LIST of image-resolver.js============`)
+console.log(`pwd=${process.env.PWD}`)
+console.log(`REGION=${REGION}`)
+console.log(`BUCKET_NAME=${BUCKET_NAME}`)
+console.log(`=====================================================`)
+
+const s3 = new AWS.S3({
+    region: REGION,
+    accesKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
+const fs = require('fs')
+
 const {
     User,
     Instructor,
@@ -22,6 +45,7 @@ module.exports = {
         async collectWaterTemperature(parent, args, context, info) {
 
             log(`mutation | collectWaterTemperature: args=${JSON.stringify(args)}`)
+            await backupPrevLog()
             let result = await collectWaterTemperature()
 
             return {
@@ -247,4 +271,61 @@ async function extractWaterTemperature(html) {
     }
 
     return result
+}
+
+async function backupPrevLog() {
+
+    var date = new Date();
+    date.setDate(date.getDate() - 2);
+
+    const searchParam = { createdAt: { $lte: date } }
+    const countToBackup = await WaterTemperature.count(searchParam)
+    const limit = 5000
+    for await (let skip of asyncGenerator(limit, countToBackup)) {
+        let waterTemperatures = await WaterTemperature.find(searchParam)
+            .sort('createdAt')
+            .limit(limit)
+            .skip(skip)
+            .lean()
+
+        console.log(`${JSON.stringify(waterTemperatures, 0, 2)}`)
+        let fileContent = JSON.stringify(waterTemperatures, 0, 2)
+        waterTemperatures = null
+
+        const now = new Date()
+        const fileName = `water-temperature-log-${now}.log`
+        await fs.writeFileSync(fileName, fileContent)
+        let content = await fs.readFileSync(fileName)
+        console.log(`file created! ${JSON.stringify(content, 0, 2)}`)
+        fileContent = null
+        // await uploadSingleFile(fileName)
+        await fs.rmSync(fileName)
+        console.log(`removed!`)
+    }
+}
+
+async function uploadSingleFile(fileName) {
+
+    var uploadParams = {
+        Bucket: BUCKET_NAME,
+        Key: fileName,
+        ACL: 'private',
+        Body: fs.createReadStream(fileName),
+    };
+
+    try {
+        let result = await s3.putObject(uploadParams).promise()
+        console.log(`mutation | uploadSingleFile: result=${JSON.stringify(result.$response.data)}`)
+
+    } catch (err) {
+        console.log(`mutation | uploadSingleFile: putObject err=${err}}`)
+    }
+}
+
+async function* asyncGenerator(limit, count) {
+    let skip = 0;
+    while (skip <= count) {
+        yield skip;
+        skip += limit
+    }
 }
