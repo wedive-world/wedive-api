@@ -7,7 +7,7 @@ const END_POINT = process.env.WATER_TEMPERATURE_LOG_BUCKET_END_POINT
 const REGION = process.env.WATER_TEMPERATURE_LOG_BUCKET_REGION
 const BUCKET_NAME = process.env.WATER_TEMPERATURE_LOG_BUCKET_NAME
 
-console.log(`============ENV_LIST of image-resolver.js============`)
+console.log(`============ENV_LIST of water-temperature-resolver.js============`)
 console.log(`pwd=${process.env.PWD}`)
 console.log(`REGION=${REGION}`)
 console.log(`BUCKET_NAME=${BUCKET_NAME}`)
@@ -20,6 +20,7 @@ const s3 = new AWS.S3({
 });
 
 const fs = require('fs')
+const { Parser } = require('json2csv');
 
 const {
     User,
@@ -278,30 +279,44 @@ async function backupPrevLog() {
     var date = new Date();
     date.setDate(date.getDate() - 2);
 
-    const searchParam = { createdAt: { $lte: date } }
+    const searchParam = {}//{ createdAt: { $lte: date } }
     const countToBackup = await WaterTemperature.count(searchParam)
+
+    if (countToBackup == 0) {
+        return
+    }
+
     const limit = 5000
     for await (let skip of asyncGenerator(limit, countToBackup)) {
+
+        console.log(`skip=${skip} countToBackup=${countToBackup}`)
         let waterTemperatures = await WaterTemperature.find(searchParam)
             .sort('createdAt')
             .limit(limit)
             .skip(skip)
             .lean()
 
-        console.log(`${JSON.stringify(waterTemperatures, 0, 2)}`)
-        let fileContent = JSON.stringify(waterTemperatures, 0, 2)
-        waterTemperatures = null
+        // console.log(`${JSON.stringify(waterTemperatures, 0, 2)}`)
+        try {
+            const parser = new Parser(Object.keys(waterTemperatures));
+            const csv = parser.parse(waterTemperatures);
+            // console.log(csv);
 
-        const now = new Date()
-        const fileName = `water-temperature-log-${now}.log`
-        await fs.writeFileSync(fileName, fileContent)
-        let content = await fs.readFileSync(fileName)
-        console.log(`file created! ${JSON.stringify(content, 0, 2)}`)
-        fileContent = null
-        // await uploadSingleFile(fileName)
-        await fs.rmSync(fileName)
-        console.log(`removed!`)
+            waterTemperatures = null
+
+            const now = new Date()
+            const fileName = `water-temperature-log-${now.toISOString()}.csv`
+            fs.writeFileSync(fileName, csv)
+
+            await uploadSingleFile(fileName)
+            fs.rmSync(fileName)
+        } catch (err) {
+            console.error(err);
+            return
+        }
     }
+
+    await WaterTemperature.deleteMany(searchParam)
 }
 
 async function uploadSingleFile(fileName) {
