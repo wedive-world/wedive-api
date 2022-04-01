@@ -288,19 +288,15 @@ async function backupPrevLog() {
 
     const limit = 5000
     for await (let skip of asyncGenerator(limit, countToBackup)) {
-
-        console.log(`skip=${skip} countToBackup=${countToBackup}`)
         let waterTemperatures = await WaterTemperature.find(searchParam)
             .sort('createdAt')
             .limit(limit)
             .skip(skip)
             .lean()
 
-        // console.log(`${JSON.stringify(waterTemperatures, 0, 2)}`)
         try {
             const parser = new Parser(Object.keys(waterTemperatures));
             const csv = parser.parse(waterTemperatures);
-            // console.log(csv);
 
             waterTemperatures = null
 
@@ -311,8 +307,7 @@ async function backupPrevLog() {
             await uploadSingleFile(fileName)
             fs.rmSync(fileName)
         } catch (err) {
-            console.error(err);
-            return
+            console.error(`backupPrevLog: ${err}`)
         }
     }
 
