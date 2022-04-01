@@ -21,6 +21,7 @@ type Forum {
 
   name: String
   description: String
+  priority: Int
 
   createdAt: Date
   updatedAt: Date
@@ -31,5 +32,6 @@ input ForumInput {
   
   name: String
   description: String
+  priority: Int
 }
 `;
