@@ -279,7 +279,7 @@ async function backupPrevLog() {
     var date = new Date();
     date.setDate(date.getDate() - 2);
 
-    const searchParam = {}//{ createdAt: { $lte: date } }
+    const searchParam = { createdAt: { $lte: date } }
     const countToBackup = await WaterTemperature.count(searchParam)
 
     if (countToBackup == 0) {
