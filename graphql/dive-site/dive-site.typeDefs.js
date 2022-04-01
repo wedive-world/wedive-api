@@ -35,7 +35,7 @@ type DiveSite {
   maxSight: Int
   flowRateScore: Int
   waterEnvironmentScore: Int
-  eyeSightScore: Int
+  
 
   visitTimeDescription: String
   waterTemperatureDescription: String
@@ -57,6 +57,9 @@ input DiveSiteInput {
   waterTemperatureScore: Int
   eyeSightScore: Int
   adminScore: Int
+
+  flowRateScore: Int
+  waterEnvironmentScore: Int
 
   visitTimeDescription: String
   waterTemperatureDescription: String
