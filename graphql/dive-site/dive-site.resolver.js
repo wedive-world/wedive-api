@@ -175,7 +175,10 @@ module.exports = {
             diveSite.location.coordinates = [diveSite.longitude, diveSite.latitude]
 
             let geocoding = await queryReverseGeocoding(diveSite.latitude, diveSite.longitude, context.languageCode)
-            diveSite.address = geocoding.refinedAddress
+            if (geocoding) {
+                diveSite.address = geocoding.refinedAddress
+            }
+            
 
             diveSite = translator.translateIn(diveSite, args.input, languageCode)
             await diveSite.save()
