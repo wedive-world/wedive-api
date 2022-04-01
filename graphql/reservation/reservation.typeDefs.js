@@ -14,7 +14,7 @@ type Mutation {
   MUTATION_________________________Reservations: Reservation
   upsertReservation(input: ReservationInput): Reservation!
   cancelReservationById(_id: ID!, reason: String): Response!
-  assignReservationById(_id: ID!): Response!
+  acceptReservationById(_id: ID!): Response!
   completeReservationById(_id: ID!): Response!
   rejectReservationById(_id: ID!, reason: String): Response!
 }
