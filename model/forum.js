@@ -5,6 +5,7 @@ const schema = new Schema({
 
     name : String,
     description: String,
+    priority: Number,
     
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

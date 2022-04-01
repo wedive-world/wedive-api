@@ -18,6 +18,7 @@ module.exports = {
         async getForums(parent, args, context, info) {
             console.log(`query | getForums: context=${JSON.stringify(context)}`)
             return await Forum.find()
+                .order('priority')
                 .lean()
         },
 
