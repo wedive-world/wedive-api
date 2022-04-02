@@ -97,14 +97,20 @@ async function getNearWaterTemperature(latitude, longitude) {
             }
         }
     })
-        .limit(5)
+        .select('latitude longitude')
+        .lean()
+        .limit(1)
 
     if (!waterTemperatures || waterTemperatures.length == 0) {
         return null
     }
-    waterTemperatures.sort((a, b) => b.createdAt - a.createdAt)
 
-    return waterTemperatures[0]
+    const nearPlace = waterTemperatures[0]
+
+    return await WaterTemperature.findOne({ latitude: nearPlace.latitude, longitude: nearPlace.longitude })
+        .lean()
+        .sort('-createdAt')
+        .limit(1)
 }
 
 async function collectWaterTemperature() {
