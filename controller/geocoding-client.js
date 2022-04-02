@@ -82,5 +82,9 @@ function extractCountryCode(data) {
     let country = addressComponents
         .find(component => component.types.includes('country'));
 
-    return country.short_name ? country.short_name : ''
+    if (!country || country.short_name) {
+        return ''
+    }
+
+    return country.short_name
 }
