@@ -296,7 +296,7 @@ async function backupPrevLog() {
             const parser = new Parser(Object.keys(waterTemperatures));
             const csv = parser.parse(waterTemperatures);
 
-            await WaterTemperature.deleteMany(waterTemperatures)
+            await WaterTemperature.deleteMany({ _id: { $in: waterTemperatures.map(waterTemperature => waterTemperature._id) } })
             waterTemperatures = null
 
             const now = new Date()
