@@ -6,7 +6,8 @@ const {
 } = require('../../model').schema;
 
 const Mongoose = require('mongoose');
-const NoticeAgendaType = Mongoose.Types.ObjectId('624017f9abe6e467bdc55cb4')
+const NoticeAgendaTypeID = '624017f9abe6e467bdc55cb4'
+const NoticeAgendaType = Mongoose.Types.ObjectId(NoticeAgendaTypeID)
 
 module.exports = {
     Community: {
@@ -102,7 +103,7 @@ module.exports = {
                 $pull: { notices: args.agendaId }
             })
             await Agenda.findOneAndUpdate(args.agendaId, {
-                $pull: { types: NoticeAgendaType }
+                $pull: { types: NoticeAgendaTypeID }
             })
             return {
                 success: true
