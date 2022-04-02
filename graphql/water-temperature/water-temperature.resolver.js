@@ -275,7 +275,11 @@ async function extractWaterTemperature(html) {
 }
 
 async function backupPrevLog() {
-    const countToBackup = await WaterTemperature.count()
+    const date = new Date()
+    date.setDate(date - 1)
+
+    const searchParams = { createdAt: { $lte: date } }
+    const countToBackup = await WaterTemperature.count(searchParams)
 
     if (countToBackup == 0) {
         return
@@ -283,7 +287,7 @@ async function backupPrevLog() {
 
     const limit = 5000
     for await (let skip of asyncGenerator(limit, countToBackup)) {
-        let waterTemperatures = await WaterTemperature.find()
+        let waterTemperatures = await WaterTemperature.find(searchParams)
             .limit(limit)
             .skip(skip)
             .lean()
@@ -292,6 +296,7 @@ async function backupPrevLog() {
             const parser = new Parser(Object.keys(waterTemperatures));
             const csv = parser.parse(waterTemperatures);
 
+            await WaterTemperature.deleteMany(waterTemperatures)
             waterTemperatures = null
 
             const now = new Date()
@@ -303,11 +308,6 @@ async function backupPrevLog() {
         } catch (err) {
             console.error(`backupPrevLog: ${err}`)
         }
-    }
-    try {
-        await WaterTemperature.deleteMany(searchParam)
-    } catch (err) {
-        console.error(`backupPrevLog: delete failed, ${err}`)
     }
     
     console.log(`backupPrevLog: success!`)
