@@ -99,10 +99,10 @@ module.exports = {
                     reason: 'agendaNotFound'
                 }
             }
-            await Community.findOneAndUpdate(args.communityId, {
+            await Community.findByIdAndUpdate(args.communityId, {
                 $pull: { notices: args.agendaId }
             })
-            await Agenda.findOneAndUpdate(args.agendaId, {
+            await Agenda.findByIdAndUpdate(args.agendaId, {
                 $pull: { types: NoticeAgendaTypeID }
             })
             return {
