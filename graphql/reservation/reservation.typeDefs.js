@@ -12,7 +12,7 @@ type Query {
 type Mutation {
   
   MUTATION_________________________Reservations: Reservation
-  upsertReservation(input: ReservationInput): Reservation!
+  upsertReservation(input: !ReservationInput): Reservation!
   cancelReservationById(_id: ID!, reason: String): Response!
   acceptReservationById(_id: ID!): Response!
   completeReservationById(_id: ID!): Response!
