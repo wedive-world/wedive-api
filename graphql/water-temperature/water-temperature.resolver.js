@@ -283,7 +283,7 @@ async function backupPrevLog() {
 
     const limit = 5000
     for await (let skip of asyncGenerator(limit, countToBackup)) {
-        let waterTemperatures = await WaterTemperature.find(searchParam)
+        let waterTemperatures = await WaterTemperature.find()
             .limit(limit)
             .skip(skip)
             .lean()

@@ -353,7 +353,7 @@ async function getResizedImage(imageId, width) {
         return null
     }
 
-    console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
+    // console.log(`query | getResizedImage: image=${JSON.stringify(image)}`)
 
     if (image.mimeType.includes('gif')) {
         return image.thumbnailUrl
