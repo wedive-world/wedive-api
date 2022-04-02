@@ -87,6 +87,9 @@ const schema = new Schema({
 
     reviewCount: { type: Number, default: 0 },
 
+    reservationType: String,
+    
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     typeDef: { type: String, default: 'DiveCenter' },
