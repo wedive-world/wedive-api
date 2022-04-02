@@ -74,7 +74,7 @@ enum ReservationAdminStatus {
 type DiveCenter {
   reservationType: ReservationType
   reservationHourUnit: Int
-  reservationPeriod: [ReservationPeriod]
+  reservationPeriods: [ReservationPeriod]
 }
 
 enum ReservationType {

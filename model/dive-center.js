@@ -122,6 +122,16 @@ const schema = new Schema({
         description: String
     }],
 
+    reservationType: String,
+    reservationHourUnit: Number,
+    reservationPeriods: [{
+        startHour: Number,
+        startMinute: Number,
+        finishHour: Number,
+        finishMinute: Number,
+        name: String
+    }],
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     typeDef: { type: String, default: 'DiveCenter' },
