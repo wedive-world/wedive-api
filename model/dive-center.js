@@ -88,7 +88,39 @@ const schema = new Schema({
     reviewCount: { type: Number, default: 0 },
 
     reservationType: String,
-    
+
+    weeklyHolidays: [String],
+    monthlyHolidays: [{
+        nWeek: Number,
+        dayTypes: [String],
+    }],
+    annualHolidays: [{
+        month: Number,
+        day: Number
+    }],
+    customHolidays: [{
+        year: Number,
+        month: Number,
+        day: Number
+    }],
+    openingTimes: [{
+        dayType: String,
+        startHour: Number,
+        startMinute: Number,
+        finishHour: Number,
+        finishMinute: Number,
+        description: String
+    }],
+    cucstomOpeningTimes: [{
+        year: Number,
+        month: Number,
+        day: Number,
+        startHour: Number,
+        startMinute: Number,
+        finishHour: Number,
+        finishMinute: Number,
+        description: String
+    }],
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

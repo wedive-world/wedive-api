@@ -46,6 +46,14 @@ type DiveCenter  {
 
     wediveComments: [String]
 
+    weeklyHolidays: [DayType]
+    monthlyHolidays: [MonthlyHoliday]
+    annualHolidays: [AnnualHoliday]
+    customHolidays: [CustomHoliday]
+    openingTimes: [OpeningTime]
+    customOpeningTimes: [CustomOpeningTime]
+    isOpened: Boolean
+
     createdAt: Date
     updatedAt: Date
     typeDef: String
@@ -78,6 +86,13 @@ input DiveCenterInput {
     serviceScore: Int
 
     wediveComments: [String]
+
+    weeklyHolidays: [DayType]
+    monthlyHolidays: [MonthlyHolidayInput]
+    annualHolidays: [AnnualHolidayInput]
+    customHolidays: [CustomHolidayInput]
+    openingTimes: [OpeningTimeInput]
+    customOpeningTimes: [CustomOpeningTimeInput]
 }
 
 type DiveSite {
@@ -95,4 +110,92 @@ type Diving {
 input DivingInput {
     diveCenters: [ID]
 }
+
+enum DayType {
+    mon
+    tue
+    wed
+    thu
+    fri
+    sat
+    sun
+    holiday
+}
+
+type MonthlyHoliday {
+    nWeek: Int
+    dayTypes: [DayType]
+}
+
+input MonthlyHolidayInput {
+    nWeek: Int
+    dayTypes: [DayType]
+}
+
+type AnnualHoliday {
+    month: Int
+    day: Int
+}
+
+input AnnualHolidayInput {
+    month: Int
+    day: Int
+}
+
+type CustomHoliday {
+    year: Int
+    month: Int
+    day: Int
+}
+
+input CustomHolidayInput {
+    year: Int
+    month: Int
+    day: Int
+}
+
+type OpeningTime {
+    dayType: DayType
+    startHour: Int
+    startMinute: Int
+    finishHour: Int
+    finishMinute: Int
+    description: String
+}
+
+input OpeningTimeInput {
+    dayType: DayType
+    startHour: Int
+    startMinute: Int
+    finishHour: Int
+    finishMinute: Int
+    description: String
+}
+
+type CustomOpeningTime {
+
+    year: Int
+    month: Int
+    day: Int
+
+    startHour: Int
+    startMinute: Int
+    finishHour: Int
+    finishMinute: Int
+    description: String
+}
+
+input CustomOpeningTimeInput {
+    year: Int
+    month: Int
+    day: Int
+
+    dayType: DayType
+    startHour: Int
+    startMinute: Int
+    finishHour: Int
+    finishMinute: Int
+    description: String
+}
+
 `;
