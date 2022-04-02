@@ -155,14 +155,15 @@ module.exports = {
 
 
             let geocoding = await queryGeocoding(diveCenter.geoAddress, context.languageCode)
+            if (geocoding) {
+                let location = geocoding.location
+                diveCenter.address = geocoding.refinedAddress
 
-            let location = geocoding.location
-            diveCenter.address  = geocoding.refinedAddress
-
-            diveCenter.latitude = location.lat
-            diveCenter.longitude = location.lng
-            diveCenter.location.type = 'Point'
-            diveCenter.location.coordinates = [location.lng, location.lat]
+                diveCenter.latitude = location.lat
+                diveCenter.longitude = location.lng
+                diveCenter.location.type = 'Point'
+                diveCenter.location.coordinates = [location.lng, location.lat]
+            }
 
             diveCenter = translator.translateIn(diveCenter, args.input, languageCode)
             await diveCenter.save()
