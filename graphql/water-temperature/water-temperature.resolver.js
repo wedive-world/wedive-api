@@ -304,8 +304,13 @@ async function backupPrevLog() {
             console.error(`backupPrevLog: ${err}`)
         }
     }
-
-    await WaterTemperature.deleteMany(searchParam)
+    try {
+        await WaterTemperature.deleteMany(searchParam)
+    } catch (err) {
+        console.error(`backupPrevLog: delete failed, ${err}`)
+    }
+    
+    console.log(`backupPrevLog: success!`)
 }
 
 async function uploadSingleFile(fileName) {
