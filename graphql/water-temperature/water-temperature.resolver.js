@@ -275,12 +275,7 @@ async function extractWaterTemperature(html) {
 }
 
 async function backupPrevLog() {
-
-    var date = new Date();
-    date.setDate(date.getDate() - 2);
-
-    const searchParam = { createdAt: { $lte: date } }
-    const countToBackup = await WaterTemperature.count(searchParam)
+    const countToBackup = await WaterTemperature.count()
 
     if (countToBackup == 0) {
         return
@@ -289,7 +284,6 @@ async function backupPrevLog() {
     const limit = 5000
     for await (let skip of asyncGenerator(limit, countToBackup)) {
         let waterTemperatures = await WaterTemperature.find(searchParam)
-            .sort('createdAt')
             .limit(limit)
             .skip(skip)
             .lean()
