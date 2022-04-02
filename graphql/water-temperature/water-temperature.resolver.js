@@ -290,6 +290,7 @@ async function backupPrevLog() {
         let waterTemperatures = await WaterTemperature.find(searchParams)
             .limit(limit)
             .skip(skip)
+            .sort('createdAt')
             .lean()
 
         try {
@@ -297,7 +298,6 @@ async function backupPrevLog() {
             const csv = parser.parse(waterTemperatures);
 
             await WaterTemperature.deleteMany({ _id: { $in: waterTemperatures.map(waterTemperature => waterTemperature._id) } })
-            waterTemperatures = null
 
             const now = new Date()
             const fileName = `water-temperature-log-${now.toISOString()}.csv`
