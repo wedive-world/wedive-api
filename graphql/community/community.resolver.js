@@ -81,7 +81,7 @@ module.exports = {
             }
             agenda.types.push(NoticeAgendaType)
             await agenda.save()
-            await Community.findOneAndUpdate(args.communityId, {
+            await Community.findByIdAndUpdate(args.communityId, {
                 $push: { notices: args.agendaId }
             })
             return {
