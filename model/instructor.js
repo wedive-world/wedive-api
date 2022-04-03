@@ -9,6 +9,7 @@ const schema = new Schema({
     licenses: [{ type: Schema.Types.ObjectId, ref: 'License' }],
     instructorType: [String],
 
+    name: String,
     phoneNumber: String,
     email: String,
     gender: String,
@@ -29,3 +30,9 @@ const schema = new Schema({
 });
 
 module.exports = mongoose.model('Instructor', schema);
+
+schema.index({
+    'name': 'text',
+    'introduction': 'text',
+    'careers': 'text',
+}, { default_language: "ngram" })

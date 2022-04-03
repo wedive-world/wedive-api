@@ -5,6 +5,7 @@ module.exports = gql`
 type Query {
 
   QUERY____________________________Instructor: Instructor
+  searchInstructor(searchParams: SearchParams): [Instructor]
 }
 
 type Mutation {
@@ -21,6 +22,7 @@ type Instructor {
   licenseImages: [Image],
   instructorType: [DivingType],
 
+  name: String
   phoneNumber: String,
   email: String,
   gender: Gender,
@@ -46,6 +48,7 @@ input InstructorInput {
   licenseImages: [ID],
   instructorType: [DivingType]
 
+  name: String
   phoneNumber: String
   email: String
   gender: Gender

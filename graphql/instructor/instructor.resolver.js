@@ -28,15 +28,18 @@ module.exports = {
         }
     },
 
-    // Query: {
-    //     async (parent, args, context, info) {
-    //         console.log(`query | getReviewsByCurrentUser: context=${JSON.stringify(context)}`)
+    Query: {
+        async searchInstructor(parent, args, context, info) {
+            console.log(`query | searchInstructor: context=${JSON.stringify(context)}`)
 
-    //         let user = await User.findOne({ uid: context.uid }).lean()
+            if (args.searchParams) {
+                let mongooseParams = createMongooseParams(args.searchParams)
+                return await Instructor.find(mongooseParams)
+            }
 
-    //         return await Review.find({ author: user._id })
-    //     },
-    // },
+            return await Instructor.find()
+        },
+    },
 
     Mutation: {
         async upsertInstructor(parent, args, context, info) {
@@ -113,3 +116,18 @@ module.exports = {
     //     },
     // },
 };
+
+async function createMongooseParams(searchParams) {
+
+    let mongooseParams = { $and: [] }
+
+    if (args.searchParams.query) {
+        mongooseParams['$and'].push({ $text: { $search: searchParams.query } })
+    }
+
+    if (searchParams.divingTypes && searchParams.divingTypes.length > 0) {
+        mongooseParams['$and'].push({ divingType: { $in: searchParams.divingTypes } })
+    }
+
+    return mongooseParams
+}
