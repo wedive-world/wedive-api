@@ -61,8 +61,16 @@ module.exports = {
     Query: {
         async getAgendasByTargetId(parent, args, context, info) {
             console.log(`query | getAgendasByTargetId: args=${JSON.stringify(args)}`)
+            let searchParam = { targetId: args.targetId }
+            if (args.agendaTypes && args.agendaTypes.length > 0) {
+                searchParam.types = { $in: args.agendaTypes }
+            }
 
-            return await Agenda.find({ targetId: args.targetId })
+            if (args.hashTags && args.hashTags.length > 0) {
+                searchParam['hashTags.name'] = { $in: args.hashTags }
+            }
+
+            return await Agenda.find(searchParam)
                 .sort('-createdAt')
                 .skip(args.skip)
                 .limit(args.limit)
