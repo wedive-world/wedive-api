@@ -18,6 +18,11 @@ const schema = new Schema({
     adminStatus: { type: String, default: 'opened' },
     admin: { type: Schema.Types.ObjectId, ref: 'User' },
 
+    receipts: [{
+        product: { type: Schema.Types.ObjectId, ref: 'Product' },
+        quantity: { type: Number, default: 1 }
+    }],
+
     reviewCount: { type: Number, default: 0 },
 
     createdAt: { type: Date, default: Date.now },

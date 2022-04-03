@@ -36,6 +36,8 @@ type Reservation {
   adminStatus: ReservationAdminStatus
   admin: User
 
+  receipts: [Receipt]
+
   createdAt: Date
   updatedAt: Date
 }
@@ -47,6 +49,8 @@ input ReservationInput {
 
   startedAt: Date
   finishedAt: Date
+
+  receipts: [ReceiptInput]
 
   name: String
   phoneNumber: String
@@ -94,5 +98,15 @@ input ReservationPeriodInput {
     finishHour: Int
     finishMinute: Int
     name: String
+}
+
+type Receipt {
+  product: Product
+  quantity: Int
+}
+
+input ReceiptInput {
+  product: ID
+  quantity: Int
 }
 `;
