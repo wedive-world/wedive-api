@@ -20,6 +20,7 @@ const schema = new Schema({
     courseInformations: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
 
     price: Number,
+    discountPercent: Number,
     type: [String],
 
     amount: Number,
@@ -30,13 +31,16 @@ const schema = new Schema({
     days: Number,
 
     interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
-    
+
     briefIcon: { type: Schema.Types.ObjectId, ref: 'Image' },
     cautions: [String],
 
-    createdAt: Date,
-    updatedAt: Date,
-
+    description: String,
+    divingTypes: [String],
+    availableTime: [String],
+    availableAnnualPeriod: [String],
+    availableDayType: [String],
+    cancelPenalty: [String],
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

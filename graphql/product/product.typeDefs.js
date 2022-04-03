@@ -23,6 +23,7 @@ type Product {
   options: [Product]
 
   price: Int
+  discountPercent: Int
   type: [ProductType]
 
   amount: Int
@@ -36,6 +37,13 @@ type Product {
   briefIcon: Image
   preCaution: String
   cautions: [String]
+
+  description: String
+  divingTypes: [DivingType]
+  availableTime: [String]
+  availableAnnualPeriod: [String]
+  availableDayType: [DayType]
+  cancelPenalty: [String]
 
   createdAt: Date
   updatedAt: Date
@@ -60,6 +68,13 @@ input ProductInput {
   briefIcon: ID
   preCaution: String
   cautions: [String]
+
+  description: String
+  divingTypes: [DivingType]
+  availableTime: [String]
+  availableAnnualPeriod: [String]
+  availableDayType: [DayType]
+  cancelPenalty: [String]
 }
 
 type DiveCenter {
@@ -83,7 +98,6 @@ enum ProductType {
   course
   rental
   ticket
+  discount
 }
-
-
 `;
