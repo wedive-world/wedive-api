@@ -103,6 +103,15 @@ const schema = new Schema({
         month: Number,
         day: Number
     }],
+    annualLunarHolidays: [{
+        month: Number,
+        day: Number
+    }],
+    customLunarHolidays: [{
+        year: Number,
+        month: Number,
+        day: Number
+    }],
     openingTimes: [{
         dayType: String,
         startHour: Number,

@@ -50,6 +50,8 @@ type DiveCenter  {
     monthlyHolidays: [MonthlyHoliday]
     annualHolidays: [AnnualHoliday]
     customHolidays: [CustomHoliday]
+    annualLunarHolidays: [AnnualHoliday]
+    customLunarHolidays: [CustomHoliday]
     openingTimes: [OpeningTime]
     customOpeningTimes: [CustomOpeningTime]
     isOpened: Boolean
@@ -86,10 +88,12 @@ input DiveCenterInput {
     serviceScore: Int
 
     wediveComments: [String]
-
+    
     weeklyHolidays: [DayType]
     monthlyHolidays: [MonthlyHolidayInput]
     annualHolidays: [AnnualHolidayInput]
+    customLunarHolidays: [CustomHolidayInput]
+    annualLunarHolidays: [AnnualHolidayInput]
     customHolidays: [CustomHolidayInput]
     openingTimes: [OpeningTimeInput]
     customOpeningTimes: [CustomOpeningTimeInput]
