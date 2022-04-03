@@ -42,6 +42,16 @@ module.exports = {
         }
     },
 
+    Reservation: {
+        async diveCenter(parent, args, context, info) {
+            let languageCode = context.languageCode
+            let diveCenter = await DiveCenter.findById(parent.diveCenter)
+                .lean()
+
+            return translator.translateOut(diveCenter, languageCode)
+        }
+    },
+
     Query: {
         // async ___DiveCenters(parent, args, context, info) { },
         async getAllDiveCenters(parent, args, context, info) {

@@ -22,7 +22,6 @@ type Mutation {
 type Reservation {
   _id: ID!
 
-  diveCenter: DiveCenter
   peopleNumber: Int
 
   startedAt: Date
@@ -44,7 +43,6 @@ type Reservation {
 input ReservationInput {
   _id: ID
   
-  diveCenter: ID!
   peopleNumber: Int
 
   startedAt: Date

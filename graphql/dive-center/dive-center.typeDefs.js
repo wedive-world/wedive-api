@@ -111,6 +111,14 @@ input DivingInput {
     diveCenters: [ID]
 }
 
+type Reservation {
+    diveCenter: DiveCenter
+}
+
+input ReservationInput {
+    diveCenter: ID!
+}
+
 enum DayType {
     mon
     tue
