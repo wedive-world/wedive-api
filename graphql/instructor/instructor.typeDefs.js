@@ -37,6 +37,10 @@ type Instructor {
   diveSites: [DiveSite],
   divePoints: [DivePoint],
 
+  educations: [Product]
+  courses: [Product]
+  services: [Product]
+
   createdAt: Date,
   updatedAt: Date,
   typeDef: String
@@ -60,6 +64,10 @@ input InstructorInput {
   modifiedProfileImages: [ID]
 
   languageCodes: [String]
+
+  educations: [ID]
+  courses: [ID]
+  services: [ID]
 
   diveCenters: [ID]
   diveSite: [ID]

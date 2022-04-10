@@ -22,6 +22,18 @@ module.exports = {
         },
     },
 
+    Instructor: {
+        async educations(parent, args, context, info) {
+            return await getProductsByIds(parent.educations, context.languageCode)
+        },
+        async courses(parent, args, context, info) {
+            return await getProductsByIds(parent.courses, context.languageCode)
+        },
+        async services(parent, args, context, info) {
+            return await getProductsByIds(parent.courses, context.languageCode)
+        },
+    },
+
     Query: {
         async getAllProducts(parent, args, context, info) {
             return await getAllProducts()

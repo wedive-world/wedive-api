@@ -24,6 +24,10 @@ const schema = new Schema({
     diveSites: [{ type: Schema.Types.ObjectId, ref: 'DiveSite' }],
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
 
+    educations: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    courses: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    services: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     typeDef: { type: String, default: 'Instructor' },
