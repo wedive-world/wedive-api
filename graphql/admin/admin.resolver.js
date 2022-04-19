@@ -9,6 +9,11 @@ const {
     queryReverseGeocoding
 } = require('../../controller/geocoding-client')
 
+const {
+    searchDiveResort,
+    queryDiveResortByLocation
+} = require('../../controller/google-place-client')
+
 module.exports = {
 
     Mutation: {
@@ -78,7 +83,7 @@ module.exports = {
 
                         model.countryCode = result.countryCode
                         await model.save()
-                        
+
                     } catch (err) {
                         failed += model.name + ' '
                         continue
@@ -166,6 +171,29 @@ module.exports = {
                 reason: failed
             }
         },
+
+        async queryDiveResort(parent, args, context, info) {
+            let totalSize = 0
+
+            const count = await DiveSite.count({ countryCode: { $in: ['KR', 'kr'] } })
+            const limit = 10
+            console.log(`count=${count}`)
+
+            for await (let skip of asyncGenerator(limit, count)) {
+                let diveSites = await DiveSite.find({ countryCode: { $in: ['KR', 'kr'] } })
+                    .select('latitude longitude')
+                    .limit(limit)
+                    .skip(skip)
+
+                for (let diveSite of diveSites) {
+                    totalSize += await queryDiveResortByLocation(diveSite.latitude, diveSite.longitude)
+                }
+            }
+            return {
+                success: true,
+                reason: totalSize
+            }
+        }
     }
 };
 

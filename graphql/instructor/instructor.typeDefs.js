@@ -6,6 +6,8 @@ type Query {
 
   QUERY____________________________Instructor: Instructor
   searchInstructor(searchParams: SearchParams): [Instructor]
+  getInstructorByCurrentUser: Instructor
+  getInstructorById(_id: ID!): Instructor
 }
 
 type Mutation {

@@ -30,7 +30,6 @@ module.exports = {
 
     Query: {
         async searchInstructor(parent, args, context, info) {
-            console.log(`query | searchInstructor: context=${JSON.stringify(context)}`)
 
             if (args.searchParams) {
                 let mongooseParams = createMongooseParams(args.searchParams)
@@ -39,6 +38,22 @@ module.exports = {
 
             return await Instructor.find()
         },
+        async getInstructorByCurrentUser(parent, args, context, info) {
+
+            const user = await User.findOne({ uid: context.uid })
+                .lean()
+                .select('_id')
+
+            if (!user) {
+                return null
+            }
+
+            return await Instructor.find({ user: user._id })
+        },
+        async getInstructorById(parent, args, context, info) {
+            return await Instructor.find(args._id)
+        },
+
     },
 
     Mutation: {
