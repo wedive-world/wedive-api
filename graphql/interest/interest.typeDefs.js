@@ -92,6 +92,7 @@ enum InterestType {
   """센터 결재방법"""payment,
   """교육 product 포함사항"""eduInclude,
   """사이트 방문 추천 레벨"""recommendLevel,
+  """강사 추천사항"""instructorOption,
   """기타"""etc,
 }
 
