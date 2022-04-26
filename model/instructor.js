@@ -28,6 +28,8 @@ const schema = new Schema({
     courses: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     services: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     
+    interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     typeDef: { type: String, default: 'Instructor' },

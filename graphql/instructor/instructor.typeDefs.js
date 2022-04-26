@@ -43,6 +43,8 @@ type Instructor {
   courses: [Product]
   services: [Product]
 
+  insterests: [Interest]
+
   createdAt: Date,
   updatedAt: Date,
   typeDef: String
@@ -70,6 +72,8 @@ input InstructorInput {
   educations: [ID]
   courses: [ID]
   services: [ID]
+
+  insterests: [ID]
 
   diveCenters: [ID]
   diveSite: [ID]
