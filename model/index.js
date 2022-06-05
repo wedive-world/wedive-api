@@ -72,6 +72,7 @@ module.exports.schema = {
     Community: require('./community'),
     Agenda: require('./agenda'),
     AgendaType: require('./agenda-type'),
+    Report: require('./report'),
 
     WaterTemperature: require('./water-temperature'),
 }
