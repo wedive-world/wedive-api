@@ -130,7 +130,7 @@ async function sendNotificationBySubscription(targetId, targetType, subjectId, s
 
 async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds) {
     try {
-        await sendNotificationByUserIdsInternal(targetId, targetType, subjectId, subjectType, event, data, userIds)
+        await sendNotificationByUserIdsInternal(targetId, targetType, subjectId, subjectType, event, userIds)
     } catch (err) {
         console.error(`notification-manager | sendNotificationByUserIdsInternal: ${err}`)
     }
