@@ -39,6 +39,22 @@ module.exports = {
         }
     },
 
+    Query: {
+        async getReportCodes(parent, args, context, info) {
+            return [
+                ['0', '음란물이에요'],
+                ['1', '불법내용이 포함되어있어요'],
+                ['2', '정치적인 글이에요'],
+                ['3', '종교적인 글이에요'],
+                ['4', '특정인을 혐오해요'],
+                ['5', '욕설이 포함되어요'],
+                ['6', '도배 글이에요'],
+                ['7', '광고 글이에요'],
+                ['8', '사기 글이에요'],
+            ]
+        }
+    },
+
     Mutation: {
         async createReport(parent, args, context, info) {
             console.log(`mutation | createReport: args=${JSON.stringify(args)}`)

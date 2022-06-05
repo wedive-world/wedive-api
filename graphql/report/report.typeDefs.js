@@ -4,6 +4,7 @@ module.exports = gql`
 
 type Query {
   QUERY_________________________Report: Report
+  getReportCodes: [[String]]
 }
 
 type Mutation {
