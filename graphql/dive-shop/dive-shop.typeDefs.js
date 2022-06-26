@@ -3,23 +3,23 @@ const { gql } = require('apollo-server')
 module.exports = gql`
 
 type Query {
-    QUERY____________________________DiveCenters: DiveCenter
-    getDiveCenters(skip: Int = 0, limit: Int = 100): [DiveCenter]
-    getAllDiveCenters: [DiveCenter]
-    getDiveCenterById(_id: ID!): DiveCenter
-    getDiveCenterByUniqueName(uniqueName: String!): DiveCenter
-    getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveCenter]
-    searchDiveCentersByName(query: String!): [DiveCenter]
-    getNearByDiveCenters(lat: Float!, lon: Float!, m: Int): [DiveSite]
+    QUERY____________________________DiveShops: DiveShop
+    getDiveShops(skip: Int = 0, limit: Int = 100): [DiveShop]
+    getAllDiveShops: [DiveShop]
+    getDiveShopById(_id: ID!): DiveShop
+    getDiveShopByUniqueName(uniqueName: String!): DiveShop
+    getDiveShopsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveShop]
+    searchDiveShopsByName(query: String!): [DiveShop]
+    getNearByDiveShops(lat: Float!, lon: Float!, m: Int): [DiveSite]
 }
 
 type Mutation {
-    MUTATION_______DiveCenters_______: DiveCenter
-    upsertDiveCenter(input: DiveCenterInput!): DiveCenter!
-    deleteDiveCenterById(_id: ID!): ID
+    MUTATION_______DiveShops_______: DiveShop
+    upsertDiveShop(input: DiveShopInput!): DiveShop!
+    deleteDiveShopById(_id: ID!): ID
 }
 
-type DiveCenter  {
+type DiveShop  {
 
     _id: ID!
 
@@ -61,7 +61,7 @@ type DiveCenter  {
     typeDef: String
 }
 
-input DiveCenterInput {
+input DiveShopInput {
     _id: ID
 
     publishStatus: PublishStatus
@@ -101,30 +101,26 @@ input DiveCenterInput {
 
 type DiveSite {
     diveShops: [DiveShop]
-    diveCenters: [DiveCenter]
 }
 
 type DivePoint {
     diveShops: [DiveShop]
-    diveCenters: [DiveCenter]
 }
 
 type Diving {
     diveShops: [DiveShop]
-    diveCenters: [DiveCenter]
 }
 
 input DivingInput {
     diveShops: [ID]
-    diveCenters: [ID]
 }
 
 type Reservation {
-    diveCenter: DiveCenter
+    diveShop: DiveShop
 }
 
 input ReservationInput {
-    diveCenter: ID!
+    diveShop: ID!
 }
 
 enum DayType {

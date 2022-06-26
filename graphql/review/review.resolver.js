@@ -3,6 +3,7 @@ const {
     DivePoint,
     DiveSite,
     DiveCenter,
+    DiveShop,
     Image,
     User,
     Review,
@@ -102,6 +103,15 @@ module.exports = {
         },
     },
 
+    DiveShop: {
+        async reviews(parent, args, context, info) {
+            return await Review.find({ targetId: { $in: parent._id } })
+                .limit(DEFAULT_REVIEW_COUNT)
+                .sort('-createdAt')
+                .lean()
+        },
+    },
+
     DivePoint: {
         async reviews(parent, args, context, info) {
             return await Review.find({ targetId: { $in: parent._id } })
@@ -163,6 +173,9 @@ function getModel(targetType) {
 
         case 'diveCenter':
             return DiveCenter
+
+        case 'diveShop':
+            return DiveShop
 
         case 'divePoint':
             return DivePoint

@@ -91,6 +91,20 @@ input DiveCenterInput {
   rentals: [ID]
 }
 
+type DiveShop {
+  tickets: [Product]
+  educations: [Product]
+  courses: [Product]
+  rentals: [Product]
+}
+
+input DiveShopInput {
+  tickets: [ID]
+  educations: [ID]
+  courses: [ID]
+  rentals: [ID]
+}
+
 enum ProductType {
   education
   fun

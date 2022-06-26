@@ -36,6 +36,7 @@ type Instructor {
   modifiedProfileImages: [Image]
 
   diveCenters: [DiveCenter],
+  diveShops: [DiveShop],
   diveSites: [DiveSite],
   divePoints: [DivePoint],
 
@@ -75,12 +76,17 @@ input InstructorInput {
 
   insterests: [ID]
 
-  diveCenters: [ID]
+  diveCenters: [ID],
+  diveShops: [ID]
   diveSite: [ID]
   divePoint: [ID]
 }
 
 type DiveCenter {
+  instructors: [Instructor]
+}
+
+type DiveShop {
   instructors: [Instructor]
 }
 

@@ -93,6 +93,16 @@ input DiveCenterInput {
     backgroundImages: [ID]
 }
 
+type DiveShop {
+    images: [Image]
+    backgroundImages: [Image]
+}
+
+input DiveShopInput {
+    images: [ID]
+    backgroundImages: [ID]
+}
+
 type Highlight {
     images: [Image]
 }

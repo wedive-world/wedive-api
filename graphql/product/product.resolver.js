@@ -22,6 +22,24 @@ module.exports = {
         },
     },
 
+    DiveShop: {
+        async tickets(parent, args, context, info) {
+            return await getProductsByIds(parent.tickets, context.languageCode)
+        },
+
+        async educations(parent, args, context, info) {
+            return await getProductsByIds(parent.educations, context.languageCode)
+        },
+
+        async courses(parent, args, context, info) {
+            return await getProductsByIds(parent.courses, context.languageCode)
+        },
+
+        async rentals(parent, args, context, info) {
+            return await getProductsByIds(parent.rentals, context.languageCode)
+        },
+    },
+
     Instructor: {
         async educations(parent, args, context, info) {
             return await getProductsByIds(parent.educations, context.languageCode)

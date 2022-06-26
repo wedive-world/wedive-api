@@ -21,6 +21,12 @@ module.exports = {
             return await Instructor.find({ diveCenters: parent._id })
         }
     },
+    
+    DiveShop: {
+        async instructors(parent, args, context, info) {
+            return await Instructor.find({ diveCenters: parent._id })
+        }
+    },
 
     DivePoint: {
         async instructors(parent, args, context, info) {

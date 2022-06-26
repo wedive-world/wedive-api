@@ -128,6 +128,14 @@ input DiveCenterInput {
   interests: [ID]
 }
 
+type DiveShop {
+  interests: [Interest]
+}
+
+input DiveShopInput {
+  interests: [ID]
+}
+
 type Highlight {
   interests: [Interest]
 }

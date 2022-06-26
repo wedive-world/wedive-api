@@ -61,6 +61,11 @@ type DiveCenter implements Reviewable {
   reviewCount: Int
 }
 
+type DiveShop implements Reviewable {
+  reviews: [Review]
+  reviewCount: Int
+}
+
 type DivePoint implements Reviewable {
   reviews: [Review]
   reviewCount: Int
