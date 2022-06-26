@@ -186,7 +186,8 @@ module.exports = {
                     .skip(skip)
 
                 for (let diveSite of diveSites) {
-                    totalSize += await queryDiveResortByLocation(diveSite.latitude, diveSite.longitude)
+                    const query = '다이브 샵'
+                    totalSize += await queryDiveResortByLocation(diveSite.latitude, diveSite.longitude, query)
                 }
             }
             return {

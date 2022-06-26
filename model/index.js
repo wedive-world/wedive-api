@@ -39,6 +39,7 @@ module.exports.schema = {
     DivePoint: require('./dive-point'),
     DiveSite: require('./dive-site'),
     DiveCenter: require('./dive-center'),
+    DiveShop: require('./dive-shop'),
     Diving: require('./diving'),
     DivingParticipant: require('./diving-participant'),
 

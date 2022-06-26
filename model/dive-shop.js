@@ -6,6 +6,7 @@ const schema = new Schema({
 
     name: String,
     uniqueName: { type: String, index: true, unique: true },
+    
     nameTranslation: { type: Map, of: String },
     description: String,
     descriptionTranslation: { type: Map, of: String },
@@ -140,6 +141,19 @@ const schema = new Schema({
         finishMinute: Number,
         name: String
     }],
+    
+    placeName: String,
+    placeAddress: String,
+    placeProvider: String,
+    placeProviderId: String,
+    placeRating: String,
+    placeRatingsTotal: Number,
+    placeBusinessStatus: String,
+    placeAddress: String,
+    placeTypes: [String],
+    placePhoneNumber: String,
+    placeWebSite: String,
+    placeOpeningHours: [String],
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
