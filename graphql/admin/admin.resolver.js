@@ -194,6 +194,16 @@ module.exports = {
                 success: true,
                 reason: totalSize
             }
+        },
+
+        async updateTypeDef(parent, args, context, info) {
+            await DiveSite.updateMany({}, { typeDef: 'DiveSite' })
+            await DivePoint.updateMany({}, { typeDef: 'DivePoint' })
+            await DiveCenter.updateMany({}, { typeDef: 'DiveCenter' })
+
+            return {
+                success: true
+            }
         }
     }
 };

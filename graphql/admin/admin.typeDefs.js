@@ -10,6 +10,7 @@ type Mutation {
   updateDiveCenterLatLngByAddress: Response!
   updateLatLngByAddress(targetType: String): Response!
   queryDiveResort: Response!
+  updateTypeDef: Response
 }
 
 `;

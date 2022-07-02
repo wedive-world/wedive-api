@@ -166,7 +166,9 @@ schema.index({
     'nameTranslation.ko': 'text',
     'aliasesStringTranslation.ko': 'text',
     'searchTermsStringTranslation.ko': 'text',
-    'addressTranslation.ko': 'text'
+    'addressTranslation.ko': 'text',
+    'placeName': 'text',
+    'placeAddress': 'text'
 }, { default_language: "ngram" })
 
 schema.index({ "location": "2dsphere", })

@@ -2,6 +2,7 @@ const {
     DiveSite,
     DivePoint,
     DiveCenter,
+    DiveShop,
     Diving,
     Interest
 } = require('../../model').schema
@@ -11,7 +12,9 @@ const translator = require('../common/util/translator')
 module.exports = {
     Place: {
         __resolveType(place, context, info) {
-            if (place.diveSiteId) {
+            if (place.typeDef) {
+                return place.typeDef
+            } else if (place.diveSiteId) {
                 return 'DivePoint'
             } else if (place.webPageUrl || place.email || place.phoneNumber || place.educationScore) {
                 return 'DiveCenter'
@@ -248,9 +251,17 @@ async function queryMongoosePlaces(mongooseParams, limit, onlyIds) {
             .distinct(onlyIds ? '_id' : null)
             .lean()
 
+        let diveShops = await DiveShop.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .select(onlyIds ? '_id' : null)
+            .distinct(onlyIds ? '_id' : null)
+            .lean()
+
         return diveCenters
             .concat(diveSites)
             .concat(divePoints)
+            .concat(diveShops)
 
     } else {
         let divePoints = await DivePoint.find(mongooseParams)
@@ -268,8 +279,14 @@ async function queryMongoosePlaces(mongooseParams, limit, onlyIds) {
             .limit(limit)
             .lean()
 
+        let diveShops = await DiveShop.find(mongooseParams)
+            .sort('-adminScore')
+            .limit(limit)
+            .lean()
+
         return diveCenters
             .concat(diveSites)
             .concat(divePoints)
+            .concat(diveShops)
     }
 }
