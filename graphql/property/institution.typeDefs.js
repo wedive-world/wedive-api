@@ -64,6 +64,14 @@ input DiveCenterInput {
     institutionTypes: [InstitutionType]
 }
 
+type DiveShop {
+    institutionTypes: [InstitutionType]
+}
+
+input DiveShopInput {
+    institutionTypes: [InstitutionType]
+}
+
 enum ScubaLicenseType {
     PADI
     NAUI

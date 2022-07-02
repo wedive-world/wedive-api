@@ -80,6 +80,15 @@ input DiveCenterInput {
   divesites: [ID]
 }
 
+type DiveShop {
+  diveSites: [DiveSite]
+  nearDiveSite: DiveSite
+}
+
+input DiveShopInput {
+  divesites: [ID]
+}
+
 type Diving {
   diveSites: [DiveSite]
 }
