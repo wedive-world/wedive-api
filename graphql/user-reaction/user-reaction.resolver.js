@@ -67,6 +67,34 @@ module.exports = {
             return await isUserSubscribe(context, parent);
         }
     },
+
+    DiveShop: {
+        async views(parent, args, context, info) {
+            return parent.views != null
+                ? parent.views
+                : 0
+        },
+        async likes(parent, args, context, info) {
+            return parent.likes != null
+                ? parent.likes
+                : 0
+        },
+        async dislikes(parent, args, context, info) {
+            return parent.dislikes != null
+                ? parent.dislikes
+                : 0
+        },
+        async isUserLike(parent, args, context, info) {
+            return await isUserLike(context, parent);
+        },
+        async isUserDislike(parent, args, context, info) {
+            return await isUserDislike(context, parent);
+        },
+        async isUserSubscribe(parent, args, context, info) {
+            return await isUserSubscribe(context, parent);
+        }
+    },
+
     DivePoint: {
         async views(parent, args, context, info) {
             return parent.views != null

@@ -29,6 +29,14 @@ input DiveCenterInput {
     ${inputFields}
 }
 
+type DiveShop implements Publishable {
+    ${fields}
+}
+
+input DiveShopInput {
+    ${inputFields}
+}
+
 type DiveSite implements Publishable {
     ${fields}
 }

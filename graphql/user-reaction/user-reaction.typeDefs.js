@@ -61,6 +61,15 @@ type DiveCenter implements UserReactionable {
   isUserSubscribe: Boolean
 }
 
+type DiveShop implements UserReactionable {
+  views: Int
+  likes: Int
+  dislikes: Int
+  isUserDislike: Boolean
+  isUserLike: Boolean
+  isUserSubscribe: Boolean
+}
+
 type DivePoint implements UserReactionable {
   views: Int
   likes: Int
