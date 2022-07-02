@@ -52,6 +52,41 @@ module.exports = {
         }
     },
 
+
+    // placeName: String,
+    // placeAddress: String,
+    // placeProvider: String,
+    // placeProviderId: String,
+    // placeRating: String,
+    // placeRatingsTotal: Number,
+    // placeBusinessStatus: String,
+    // placeAddress: String,
+    // placeTypes: [String],
+    // placePhoneNumber: String,
+    // placeWebSite: String,
+    // placeOpeningHours: [String],
+    DiveShop: {
+        async name(parent, args, context, info) {
+            return parent.name ? parent.name : parent.placeName
+        },
+        async geoAddress(parent, args, context, info) {
+            return parent.geoAddress ? parent.geoAddress : parent.placeAddress
+        },
+        async adminScore(parent, args, context, info) {
+            console.log(`parent.placeRating=${parent.placeRating}`)
+            return parent.adminScore ? parent.adminScore : parent.placeRating ? parent.placeRating * 20 : 0
+        },
+        async phoneNumber(parent, args, context, info) {
+            return parent.phoneNumber ? parent.phoneNumber : parent.placePhoneNumber
+        },
+        async webPageUrl(parent, args, context, info) {
+            return parent.webPageUrl ? parent.webPageUrl : parent.placeWebSite
+        },
+        async openingHours(parent, args, context, info) {
+            return parent.openingHours ? parent.openingHours : parent.placeOpeningHours
+        },
+    },
+
     Query: {
         // async ___DiveShops(parent, args, context, info) { },
         async getAllDiveShops(parent, args, context, info) {

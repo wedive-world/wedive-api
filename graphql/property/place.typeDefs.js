@@ -37,6 +37,14 @@ input DiveCenterInput {
     ${inputFields}
 }
 
+type DiveShop implements Place {
+    ${fields}
+}
+
+input DiveShopInput {
+    ${inputFields}
+}
+
 type DiveSite implements Place {
     ${fields}
 }

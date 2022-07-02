@@ -55,6 +55,7 @@ type DiveShop  {
     openingTimes: [OpeningTime]
     customOpeningTimes: [CustomOpeningTime]
     isOpened: Boolean
+    placeOpeningHours: [String]
 
     createdAt: Date
     updatedAt: Date
