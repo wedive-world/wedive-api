@@ -193,7 +193,7 @@ module.exports = {
         uploadImage: async (parent, { file }) => {
 
             const { createReadStream, filename, mimetype, encoding } = await file;
-            // console.log(`mutation | singleUpload: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
+            console.log(`mutation | singleUpload: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
             let image = await uploadImage(createReadStream, filename, mimetype, encoding)
 
             if (image.mimeType.includes('gif')) {
