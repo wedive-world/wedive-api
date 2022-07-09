@@ -73,7 +73,6 @@ module.exports = {
             return parent.geoAddress ? parent.geoAddress : parent.placeAddress
         },
         async adminScore(parent, args, context, info) {
-            console.log(`parent.placeRating=${parent.placeRating}`)
             return parent.adminScore ? parent.adminScore : parent.placeRating ? parent.placeRating * 20 : 0
         },
         async phoneNumber(parent, args, context, info) {
