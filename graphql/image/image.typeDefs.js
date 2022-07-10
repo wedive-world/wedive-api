@@ -13,7 +13,7 @@ type Query {
     getImageUrlById(_id: ID!, width: Int): String @cacheControl(maxAge: 60)
     getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] @cacheControl(maxAge: 60)
 
-    getResizedImageById(_id: ID!, width: Int): ResizedImage @cacheControl(maxAge: 60)
+    getResizedImageById(_id: ID!, width: Int = 640): ResizedImage @cacheControl(maxAge: 60)
     getResizedImagesByIds(_ids: [ID], widths: [Int]): [ResizedImage] @cacheControl(maxAge: 60)
 }
 

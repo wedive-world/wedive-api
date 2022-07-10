@@ -66,7 +66,7 @@ module.exports.updateImage = async function ({
     return image
 }
 
-module.exports.uploadImage = async function (createReadStream, filename, mimetype, encoding) {
+module.exports.uploadImage = async function (stream, filename, mimetype, encoding) {
 
     let image = new Image({
         s3EndPoint: END_POINT,
@@ -86,7 +86,7 @@ module.exports.uploadImage = async function (createReadStream, filename, mimetyp
 
     // Invoking the `createReadStream` will return a Readable Stream.
     // See https://nodejs.org/api/stream.html#stream_readable_streams
-    const stream = createReadStream();
+    // const stream = createReadStream();
 
     // This is purely for demonstration purposes and will overwrite the
     // local-file-output.txt in the current working directory on EACH upload.

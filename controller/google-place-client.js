@@ -1,4 +1,7 @@
 const axios = require('axios').default
+const { Readable } = require('stream')
+const stream = require('stream')
+const { uploadImage } = require('../controller/image-congtroller')
 
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/google-place-secret.env' })
 
@@ -10,14 +13,9 @@ console.log(`API_KEY=${API_KEY}`)
 console.log(`=====================================================`)
 
 const {
-    DiveShop
+    DiveShop,
+    Image
 } = require('../model/index').schema
-
-const sleep = (ms) => {
-    return new Promise(resolve => {
-        setTimeout(resolve, ms)
-    })
-}
 
 module.exports.queryDiveResortByLocation = async (lat, lng, query) => {
     const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?` +
@@ -90,10 +88,23 @@ async function upsertDiveShop(placeDetail) {
             type: 'Point',
             coordinates: [placeDetail.geometry.location.lng, placeDetail.geometry.location.lat]
         } : null,
-        placeOpeningHours: placeDetail.opening_hours ? placeDetail.opening_hours.weekday_text : null
+        placeOpeningHours: placeDetail.opening_hours ? placeDetail.opening_hours.weekday_text : null,
+        backgroundImages: []
     }
 
-    // console.log(JSON.stringify(diveShop, null, 2))
+    if (placeDetail.photos && placeDetail.photos.length > 0) {
+        let count = 0
+        for (let photo of placeDetail.photos) {
+            if (++count > 3) {
+                break
+            }
+
+            let image = await fetchPhoto(photo.photo_reference)
+            diveShop.backgroundImages.push(image._id)
+        }
+    }
+
+    console.log(JSON.stringify(diveShop, null, 2))
 
     let result = await DiveShop.findOneAndUpdate(
         { placeProviderId: diveShop.placeProviderId },
@@ -102,12 +113,6 @@ async function upsertDiveShop(placeDetail) {
     )
     // console.log(`result=${result}`)
 
-    // if (placeDetail.photos && placeDetail.photos.length > 0) {
-    //     console.log(`start fetch photo!`)
-    //     for (let photo of placeDetail.photos) {
-    //         await fetchPhoto(photo.photo_reference)
-    //     }
-    // }
 }
 
 async function queryPlaceDetailByPlaceId(placeId) {
@@ -135,11 +140,27 @@ async function fetchPhoto(photoReference) {
         `&photo_reference=${photoReference}` +
         `&key=${API_KEY}`
 
-    const { status, statusText, data } = await axios.get(url, {
+    console.log(`start fetch photo!\n${url}`)
+
+    const { headers, status, statusText, data, content } = await axios.get(url, {
         headers: {
             'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4'
-        }
+        },
+        responseType: 'stream'
     })
 
-    // console.log(`fetchPhoto: url=${url}`)
+    // console.log(`fetchPhoto: headers=${JSON.stringify(headers, null, 2)} \ndata.length=${data.length}`)
+
+    const contentDisposition = headers['content-disposition']
+    const contentType = headers['content-type']
+    const fileName = contentDisposition.split('filename=')[1].split(';')[0].replaceAll('"', '')
+
+
+    // let stream = new Readable()
+    // stream.push(data)
+    // stream.push(null)
+
+    console.log(`fetchPhoto: stream created! fileName=${fileName} contentType=${contentType}`)
+
+    return await uploadImage(data, fileName, contentType, null)
 }

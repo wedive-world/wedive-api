@@ -190,10 +190,6 @@ module.exports = {
                     totalSize += await queryDiveResortByLocation(diveSite.latitude, diveSite.longitude, query)
                 }
             }
-            return {
-                success: true,
-                reason: totalSize
-            }
         },
 
         async updateTypeDef(parent, args, context, info) {

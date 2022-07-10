@@ -194,7 +194,7 @@ module.exports = {
 
             const { createReadStream, filename, mimetype, encoding } = await file;
             console.log(`mutation | singleUpload: file=${JSON.stringify(file)} filename=${filename}, mimetype=${mimetype}, encoding=${encoding}`)
-            let image = await uploadImage(createReadStream, filename, mimetype, encoding)
+            let image = await uploadImage(createReadStream(), filename, mimetype, encoding)
 
             if (image.mimeType.includes('gif')) {
                 image.thumbnailUrl = `${IMAGE_CDN_DNS}/${image.s3ObjectKey}`
