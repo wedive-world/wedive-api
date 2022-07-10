@@ -89,15 +89,15 @@ module.exports = {
             return parent.openingHours ? parent.openingHours : parent.placeOpeningHours
         },
 
-        backgroundImages: async (parent, args, context, info) => {
-            if (parent.backgroundImages && parent.backgroundImages.length > 2) {
-                return parent.backgroundImages
-            }
+        // backgroundImages: async (parent, args, context, info) => {
+        //     if (parent.backgroundImages && parent.backgroundImages.length > 2) {
+        //         return parent.backgroundImages
+        //     }
 
-            let backgroundImages = await getBackgroundImages(parent.placeProviderId)
-            await DiveShop.findByIdAndUpdate(parent._id, { backgroundImages: backgroundImages })
-            return backgroundImages
-        },
+        //     let backgroundImages = await getBackgroundImages(parent.placeProviderId)
+        //     await DiveShop.findByIdAndUpdate(parent._id, { backgroundImages: backgroundImages })
+        //     return backgroundImages
+        // },
     },
 
     Query: {

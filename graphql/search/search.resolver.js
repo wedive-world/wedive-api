@@ -42,14 +42,14 @@ module.exports = {
             let queryMongooseParam = createMongooseParamsByQuery(searchParams)
             let querySearchResult = await Diving.find(queryMongooseParam)
                 .lean()
-            // console.log(`query | searchDivings: querySearchResult=${JSON.stringify(querySearchResult)}`)
+            console.log(`query | searchDivings: querySearchResult=${JSON.stringify(querySearchResult)}`)
 
             let interestSearchParams = await createMongooseParamsByInterest(searchParams)
             let interestSearchResult = interestSearchParams
                 ? await Diving.find(interestSearchParams)
                     .lean()
                 : []
-            // console.log(`query | searchDivings: interestSearchResult=${JSON.stringify(interestSearchResult)}`)
+            console.log(`query | searchDivings: interestSearchResult=${JSON.stringify(interestSearchResult)}`)
 
             let placeIds = await searchPlaces(searchParams, limit, true)
             let placeSearchParams = createMongooseParams(searchParams)
@@ -64,13 +64,13 @@ module.exports = {
                 })
             let placeSearchResult = await Diving.find(placeSearchParams)
                 .lean()
-            // console.log(`query | searchDivings: placeSearchResult=${JSON.stringify(placeSearchResult)}`)
+            console.log(`query | searchDivings: placeSearchResult=${JSON.stringify(placeSearchResult)}`)
+            
+            let resultDivings = querySearchResult
+                .concat(interestSearchResult)
+                .concat(placeSearchResult)
 
-            return Array.from(new Set(
-                querySearchResult
-                    .concat(interestSearchResult)
-                    .concat(placeSearchResult)
-            ))
+            return [...new Set(resultDivings)]
         },
     },
 }
