@@ -8,6 +8,10 @@ const {
     queryGeocoding,
     queryReverseGeocoding
 } = require('../../controller/geocoding-client')
+const {
+    fetchPhotoByReference,
+    queryPlaceDetailByPlaceId
+} = require('../../controller/google-place-client')
 
 module.exports = {
     DiveSite: {
@@ -83,6 +87,16 @@ module.exports = {
         },
         async openingHours(parent, args, context, info) {
             return parent.openingHours ? parent.openingHours : parent.placeOpeningHours
+        },
+
+        backgroundImages: async (parent, args, context, info) => {
+            if (parent.backgroundImages && parent.backgroundImages.length > 2) {
+                return parent.backgroundImages
+            }
+
+            let backgroundImages = await getBackgroundImages(parent.placeProviderId)
+            await DiveShop.findByIdAndUpdate(parent._id, { backgroundImages: backgroundImages })
+            return backgroundImages
         },
     },
 
@@ -225,3 +239,22 @@ module.exports = {
         },
     }
 };
+
+async function getBackgroundImages(placeId) {
+    let placeDetail = await queryPlaceDetailByPlaceId(placeId)
+    let backgroundImages = []
+    if (placeDetail.photos && placeDetail.photos.length > 0) {
+        let count = 0
+        for (let photo of placeDetail.photos) {
+            if (++count > 3) {
+                break
+            }
+
+            let image = await fetchPhotoByReference(photo.photo_reference)
+            backgroundImages.push(image._id)
+        }
+    }
+    console.log(`getBackgroundImages: found ${backgroundImages.length}`)
+
+    return backgroundImages
+}

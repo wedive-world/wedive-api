@@ -121,7 +121,7 @@ async function upsertDiveShop(placeDetail, force) {
                 break
             }
 
-            let image = await fetchPhoto(photo.photo_reference)
+            let image = await fetchPhotoByReference(photo.photo_reference)
             diveShop.backgroundImages.push(image._id)
         }
     }
@@ -137,9 +137,9 @@ async function upsertDiveShop(placeDetail, force) {
 
 }
 
+module.exports.queryPlaceDetailByPlaceId = queryPlaceDetailByPlaceId
 async function queryPlaceDetailByPlaceId(placeId) {
-
-    console.log(`google-place-client | searchDiveResort: ${placeId}`)
+    console.log(`google-place-client | queryPlaceDetailByPlaceId: ${placeId}`)
 
     let url = `https://maps.googleapis.com/maps/api/place/details/json?` +
         `fields=name%2Cgeometry%2Ctypes%2Cformatted_phone_number%2Copening_hours%2Cprice_level%2Cwebsite%2Cformatted_address%2Crating%2Cuser_ratings_total%2Cbusiness_status%2Cplace_id%2Cphotos&` +
@@ -156,7 +156,8 @@ async function queryPlaceDetailByPlaceId(placeId) {
     return data.result
 }
 
-async function fetchPhoto(photoReference) {
+module.exports.fetchPhotoByReference = fetchPhotoByReference
+async function fetchPhotoByReference(photoReference) {
     let url = `https://maps.googleapis.com/maps/api/place/photo` +
         `?maxwidth=640` +
         `&photo_reference=${photoReference}` +
