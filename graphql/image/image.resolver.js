@@ -29,10 +29,10 @@ module.exports = {
                 return parent.thumbnailUrl
             }
 
-            let isGif = parent.mimeType.includes('gif')
+            let isGif = parent.mimeType && parent.mimeType.includes('gif')
             let thumbnailUrl = isGif
-                ? `${IMAGE_CDN_DNS}/${image.s3ObjectKey}`
-                : await getResizedImage(image._id, THUMBNAIL_WIDTH)
+                ? `${IMAGE_CDN_DNS}/${parent.s3ObjectKey}`
+                : await getResizedImage(parent._id, THUMBNAIL_WIDTH)
 
             await Image.findByIdAndUpdate(parent._id, { thumbnailUrl: thumbnailUrl })
 
