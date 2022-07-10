@@ -29,7 +29,7 @@ module.exports = {
                 return parent.thumbnailUrl
             }
 
-            let isGif = image.mimeType.includes('gif')
+            let isGif = parent.mimeType.includes('gif')
             let thumbnailUrl = isGif
                 ? `${IMAGE_CDN_DNS}/${image.s3ObjectKey}`
                 : await getResizedImage(image._id, THUMBNAIL_WIDTH)
