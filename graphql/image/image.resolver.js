@@ -23,112 +23,21 @@ const {
 module.exports = {
     Upload: GraphQLUpload,
 
-    DiveSite: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
+    Image: {
+        thumbnailUrl: async (parent, args, context, info) => {
+            if (parent.thumbnailUrl) {
+                return parent.thumbnailUrl
+            }
 
-        async backgroundImages(parent, args, context, info) {
-            return await getImagesByIds(parent.backgroundImages)
-        },
-    },
+            let isGif = image.mimeType.includes('gif')
+            let thumbnailUrl = isGif
+                ? `${IMAGE_CDN_DNS}/${image.s3ObjectKey}`
+                : await getResizedImage(image._id, THUMBNAIL_WIDTH)
 
-    DivePoint: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
+            await Image.findByIdAndUpdate(parent._id, { thumbnailUrl: thumbnailUrl })
 
-        async backgroundImages(parent, args, context, info) {
-            return await getImagesByIds(parent.backgroundImages)
-        },
-    },
-
-    DiveCenter: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
-
-        async backgroundImages(parent, args, context, info) {
-            return await getImagesByIds(parent.backgroundImages)
-        },
-    },
-
-    Highlight: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
-    },
-
-    Product: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
-
-        async backgroundImages(parent, args, context, info) {
-            return await getImagesByIds(parent.backgroundImages)
-        },
-
-        async courseInformations(parent, args, context, info) {
-            return await getImagesByIds(parent.courseInformations)
-        },
-
-        async briefIcon(parent, args, context, info) {
-            return await getImageById(parent.briefIcon)
-        },
-    },
-
-    User: {
-        async profileImages(parent, args, context, info) {
-            return await getImagesByIds(parent.profileImages)
-        },
-    },
-
-    Diving: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
-    },
-
-    InstructorVerification: {
-        async profileImages(parent, args, context, info) {
-            return await getImageById(parent.instructorLicenseImage)
-        },
-
-        async licenseImages(parent, args, context, info) {
-            return await getImageById(parent.instructorLicenseImage)
-        },
-    },
-
-    Instructor: {
-        async profileImages(parent, args, context, info) {
-            return await getImageById(parent.profileImages)
-        },
-
-        async modifiedProfileImages(parent, args, context, info) {
-            return await getImageById(parent.modifiedProfileImages)
-        },
-
-        async licenseImages(parent, args, context, info) {
-            return await getImageById(parent.licenseImages)
-        },
-    },
-
-    Review: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
-    },
-
-    Agenda: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
-    },
-
-    Community: {
-        async images(parent, args, context, info) {
-            return await getImagesByIds(parent.images)
-        },
+            return thumbnailUrl
+        }
     },
 
     Query: {
