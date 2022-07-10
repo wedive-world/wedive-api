@@ -42,14 +42,14 @@ module.exports = {
             let queryMongooseParam = createMongooseParamsByQuery(searchParams)
             let querySearchResult = await Diving.find(queryMongooseParam)
                 .lean()
-            console.log(`query | searchDivings: querySearchResult=${JSON.stringify(querySearchResult)}`)
+            // console.log(`query | searchDivings: querySearchResult=${JSON.stringify(querySearchResult, null, 2)}`)
 
             let interestSearchParams = await createMongooseParamsByInterest(searchParams)
             let interestSearchResult = interestSearchParams
                 ? await Diving.find(interestSearchParams)
                     .lean()
                 : []
-            console.log(`query | searchDivings: interestSearchResult=${JSON.stringify(interestSearchResult)}`)
+            // console.log(`query | searchDivings: interestSearchResult=${JSON.stringify(interestSearchResult)}`)
 
             let placeIds = await searchPlaces(searchParams, limit, true)
             let placeSearchParams = createMongooseParams(searchParams)
@@ -64,13 +64,26 @@ module.exports = {
                 })
             let placeSearchResult = await Diving.find(placeSearchParams)
                 .lean()
-            console.log(`query | searchDivings: placeSearchResult=${JSON.stringify(placeSearchResult)}`)
+            // console.log(`query | searchDivings: placeSearchResult=${JSON.stringify(placeSearchResult, null, 2)}`)
             
-            let resultDivings = querySearchResult
-                .concat(interestSearchResult)
-                .concat(placeSearchResult)
+            querySearchResult = JSON.parse(JSON.stringify(querySearchResult))
+            interestSearchResult = JSON.parse(JSON.stringify(interestSearchResult))
+            placeSearchResult = JSON.parse(JSON.stringify(placeSearchResult))
 
-            return [...new Set(resultDivings)]
+            let resultArray = []
+            querySearchResult = querySearchResult.filter(diving => !resultArray.some(saved => diving._id == saved._id))
+            resultArray = resultArray.concat(querySearchResult)
+            interestSearchResult = querySearchResult.filter(diving => !resultArray.some(saved => diving._id == saved._id))
+            resultArray = resultArray.concat(interestSearchResult)
+            placeSearchResult = querySearchResult.filter(diving => !resultArray.some(saved => diving._id == saved._id))
+            resultArray = resultArray.concat(placeSearchResult)
+
+            // return Array.from(new Set(
+            //     querySearchResult
+            //         .concat(interestSearchResult)
+            //         .concat(placeSearchResult)
+            // ))
+            return resultArray
         },
     },
 }
