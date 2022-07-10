@@ -1,6 +1,4 @@
 const axios = require('axios').default
-const { Readable } = require('stream')
-const stream = require('stream')
 const { uploadImage } = require('../controller/image-congtroller')
 
 require('dotenv').config({ path: process.env.PWD + '/wedive-secret/google-place-secret.env' })
@@ -17,7 +15,13 @@ const {
     Image
 } = require('../model/index').schema
 
-module.exports.queryDiveResortByLocation = async (lat, lng, query) => {
+const sleep = (ms) => {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms)
+    })
+}
+
+module.exports.queryDiveResortByLocation = async (lat, lng, query, force) => {
     let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?` +
         `query=${encodeURI(query)}&region=ko&location=${encodeURI(`${lat},${lng}`)}&radius=10000&key=${API_KEY}`
 
@@ -36,8 +40,13 @@ module.exports.queryDiveResortByLocation = async (lat, lng, query) => {
     dataSize += data.results.length
 
     for (let placeResult of data.results) {
+
+        if (!force && await isDiveShopUpdated(placeResult.place_id)) {
+            continue
+        }
+
         let placeDetail = await queryPlaceDetailByPlaceId(placeResult.place_id)
-        await upsertDiveShop(placeDetail)
+        await upsertDiveShop(placeDetail, force)
         // console.log(`google-place-client | searchDiveResort: placeDetail=${JSON.stringify(placeDetail, null, 2)}`)
     }
 
@@ -54,6 +63,11 @@ module.exports.queryDiveResortByLocation = async (lat, lng, query) => {
         }
 
         for (let placeResult of data.results) {
+
+            if (!force && await isDiveShopUpdated(placeResult.place_id)) {
+                continue
+            }
+
             let placeDetail = await queryPlaceDetailByPlaceId(placeResult.place_id)
             await upsertDiveShop(placeDetail)
             // console.log(`google-place-client | searchDiveResort: placeDetail=${JSON.stringify(placeDetail, 2, null)}`)
@@ -68,7 +82,16 @@ module.exports.queryDiveResortByLocation = async (lat, lng, query) => {
     return dataSize
 }
 
-async function upsertDiveShop(placeDetail) {
+async function upsertDiveShop(placeDetail, force) {
+    if (!force) {
+        let diveShop = await DiveShop.findOne({ placeProviderId: placeDetail.place_id })
+            .select('backgroundImages')
+
+        if (diveShop && diveShop.backgroundImages && diveShop.backgroundImages.length > 2) {
+            return
+        }
+    }
+
     const diveShop = {
         uniqueName: placeDetail.place_id,
         placeProvider: 'google',
@@ -123,7 +146,7 @@ async function queryPlaceDetailByPlaceId(placeId) {
         `place_id=${placeId}&` +
         `key=${API_KEY}`
 
-        let { status, statusText, data } = await axios.get(url, {
+    let { status, statusText, data } = await axios.get(url, {
         headers: {
             'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4'
         }
@@ -154,12 +177,12 @@ async function fetchPhoto(photoReference) {
     let contentType = headers['content-type']
     let fileName = contentDisposition.split('filename=')[1].split(';')[0].replaceAll('"', '')
 
-
-    // let stream = new Readable()
-    // stream.push(data)
-    // stream.push(null)
-
-    // console.log(`fetchPhoto: stream created! fileName=${fileName} contentType=${contentType}`)
-
     return await uploadImage(data, fileName, contentType, null)
+}
+
+async function isDiveShopUpdated(placeId) {
+    let diveShop = await DiveShop.findOne({ placeProviderId: placeId })
+        .select('backgroundImages')
+
+    return diveShop && diveShop.backgroundImages && diveShop.backgroundImages.length > 2
 }

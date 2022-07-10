@@ -9,7 +9,7 @@ type Mutation {
   updateCountryCodeByLocation(targetType: String, force: Boolean = false): Response!
   updateDiveCenterLatLngByAddress: Response!
   updateLatLngByAddress(targetType: String): Response!
-  queryDiveResort: Response!
+  queryDiveResort(force: Boolean! = false): Response!
   updateTypeDef: Response
 }
 
