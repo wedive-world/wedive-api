@@ -77,12 +77,12 @@ module.exports.uploadImage = async function (stream, filename, mimetype, encodin
         encoding: encoding
     })
 
-    const ext = filename.split('.').pop()
+    let ext = filename.split('.').pop()
     console.log(`mutation | singleUpload: ext=${ext}`)
 
     await fs.mkdirSync(TMP_DIR_PATH, { recursive: true })
 
-    const tmpFilePath = `${TMP_DIR_PATH}${image._id}.${ext}`
+    let tmpFilePath = `${TMP_DIR_PATH}${image._id}.${ext}`
 
     // Invoking the `createReadStream` will return a Readable Stream.
     // See https://nodejs.org/api/stream.html#stream_readable_streams
@@ -91,7 +91,7 @@ module.exports.uploadImage = async function (stream, filename, mimetype, encodin
     // This is purely for demonstration purposes and will overwrite the
     // local-file-output.txt in the current working directory on EACH upload.
 
-    const out = fs.createWriteStream(tmpFilePath);
+    let out = fs.createWriteStream(tmpFilePath);
     stream.pipe(out);
     await finished(out);
 

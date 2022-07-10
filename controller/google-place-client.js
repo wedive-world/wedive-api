@@ -18,11 +18,10 @@ const {
 } = require('../model/index').schema
 
 module.exports.queryDiveResortByLocation = async (lat, lng, query) => {
-    const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?` +
-        // `fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry%2Cformatted_phone_number` +
+    let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?` +
         `query=${encodeURI(query)}&region=ko&location=${encodeURI(`${lat},${lng}`)}&radius=10000&key=${API_KEY}`
 
-    const { status, statusText, data } = await axios.get(url, {
+    let { status, statusText, data } = await axios.get(url, {
         headers: {
             'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4'
         }
@@ -46,8 +45,8 @@ module.exports.queryDiveResortByLocation = async (lat, lng, query) => {
     while (pageToken) {
         await sleep(1000)
 
-        const nextPageUrl = `${url}&pagetoken=${encodeURI(pageToken)}`
-        const { status, statusText, data } = await axios.get((nextPageUrl))
+        let nextPageUrl = `${url}&pagetoken=${encodeURI(pageToken)}`
+        let { status, statusText, data } = await axios.get(nextPageUrl)
         console.log(`google-place-client | searchDiveResort: statusText=${statusText} data=${JSON.stringify(data)}`)
         if (data.status == 'INVALID_REQUEST') {
             await sleep(1000)
@@ -104,7 +103,7 @@ async function upsertDiveShop(placeDetail) {
         }
     }
 
-    console.log(JSON.stringify(diveShop, null, 2))
+    // console.log(JSON.stringify(diveShop, null, 2))
 
     let result = await DiveShop.findOneAndUpdate(
         { placeProviderId: diveShop.placeProviderId },
@@ -119,12 +118,12 @@ async function queryPlaceDetailByPlaceId(placeId) {
 
     console.log(`google-place-client | searchDiveResort: ${placeId}`)
 
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?` +
+    let url = `https://maps.googleapis.com/maps/api/place/details/json?` +
         `fields=name%2Cgeometry%2Ctypes%2Cformatted_phone_number%2Copening_hours%2Cprice_level%2Cwebsite%2Cformatted_address%2Crating%2Cuser_ratings_total%2Cbusiness_status%2Cplace_id%2Cphotos&` +
         `place_id=${placeId}&` +
         `key=${API_KEY}`
 
-    const { status, statusText, data } = await axios.get(url, {
+        let { status, statusText, data } = await axios.get(url, {
         headers: {
             'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4'
         }
@@ -135,14 +134,14 @@ async function queryPlaceDetailByPlaceId(placeId) {
 }
 
 async function fetchPhoto(photoReference) {
-    const url = `https://maps.googleapis.com/maps/api/place/photo` +
+    let url = `https://maps.googleapis.com/maps/api/place/photo` +
         `?maxwidth=640` +
         `&photo_reference=${photoReference}` +
         `&key=${API_KEY}`
 
-    console.log(`start fetch photo!\n${url}`)
+    // console.log(`start fetch photo!\n${url}`)
 
-    const { headers, status, statusText, data, content } = await axios.get(url, {
+    let { headers, data } = await axios.get(url, {
         headers: {
             'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4'
         },
@@ -151,16 +150,16 @@ async function fetchPhoto(photoReference) {
 
     // console.log(`fetchPhoto: headers=${JSON.stringify(headers, null, 2)} \ndata.length=${data.length}`)
 
-    const contentDisposition = headers['content-disposition']
-    const contentType = headers['content-type']
-    const fileName = contentDisposition.split('filename=')[1].split(';')[0].replaceAll('"', '')
+    let contentDisposition = headers['content-disposition']
+    let contentType = headers['content-type']
+    let fileName = contentDisposition.split('filename=')[1].split(';')[0].replaceAll('"', '')
 
 
     // let stream = new Readable()
     // stream.push(data)
     // stream.push(null)
 
-    console.log(`fetchPhoto: stream created! fileName=${fileName} contentType=${contentType}`)
+    // console.log(`fetchPhoto: stream created! fileName=${fileName} contentType=${contentType}`)
 
     return await uploadImage(data, fileName, contentType, null)
 }
