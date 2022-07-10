@@ -125,6 +125,10 @@ module.exports = {
             return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
         },
 
+        getNearByDiveCenters: async (parent, args, context, info) => {
+            return await getNearByDiveCenters(args.lat, args.lng, args.maxDistance, args.limit)
+        },
+
     },
 
     Mutation: {
@@ -191,3 +195,18 @@ module.exports = {
         },
     }
 };
+
+async function getNearByDiveCenters(lat, lng, maxDist, limit) {
+    return await DiveCenter.find({
+        location: {
+            $near: {
+                $maxDistance: maxDist,
+                $geometry: {
+                    type: "Point",
+                    coordinates: [lng, lat]
+                }
+            }
+        }
+    })
+        .limit(limit)
+}

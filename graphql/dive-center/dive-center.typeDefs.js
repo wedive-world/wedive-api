@@ -10,7 +10,7 @@ type Query {
     getDiveCenterByUniqueName(uniqueName: String!): DiveCenter
     getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveCenter]
     searchDiveCentersByName(query: String!): [DiveCenter]
-    getNearByDiveCenters(lat: Float!, lon: Float!, m: Int): [DiveSite]
+    getNearByDiveCenters(lat: Float!, lng: Float!, limit: Int! = 5, maxDistance: Int! = 30000): [DiveCenter]
 }
 
 type Mutation {
