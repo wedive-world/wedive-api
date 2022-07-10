@@ -75,14 +75,20 @@ module.exports = {
         async upsertDiving(parent, args, context, info) {
             console.log(`mutation | upsertDiving: args=${JSON.stringify(args)}`)
 
+            let currentUser = await User.findOne({ uid: context.uid })
+                .select('_id')
+                .lean()
+
+            if (!currentUser) {
+                throw new Error('User not exist!')
+            }
+
             let diving = null
             const isNewDiving = !args.input._id
 
             if (isNewDiving) {
                 diving = new Diving(args.input)
-                diving.hostUser = await User.findOne({ uid: context.uid })
-                    .select('_id')
-                    .lean()
+                diving.hostUser = currentUser
 
                 let userIds = args.input.participants
                     .filter(participant => participant.user)
@@ -104,8 +110,7 @@ module.exports = {
                     .populate('participants')
 
                 if (context.uid != diving.hostUser.uid) {
-                    console.log(`mutation | upsertDiving: invalid user`)
-                    return null
+                    throw new Error('invalid user')
                 }
 
                 Object.assign(diving, args.input)
