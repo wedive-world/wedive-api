@@ -176,7 +176,7 @@ module.exports = {
             let totalSize = 0
 
             const count = await DiveSite.count({ countryCode: { $in: ['KR', 'kr'] } })
-            const limit = 10
+            const limit = 1
             console.log(`count=${count}`)
 
             for await (let skip of asyncGenerator(limit, count)) {
