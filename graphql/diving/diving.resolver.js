@@ -62,6 +62,13 @@ module.exports = {
             return await Diving.findOne({ chatRoomId: args.chatRoomId })
                 .lean()
         },
+
+        async getNearByDivings(parent, args, context, info) {
+            return await getNearByDivings(args.lat, args.lng, args.skip, args.limit)
+        },
+        async getDivingsByPlaceId(parent, args, context, info) {
+            return await getDivingsByPlaceId(args.placeId, args.activated, args.skip, args.limit)
+        },
     },
 
     Mutation: {
@@ -105,62 +112,7 @@ module.exports = {
                 diving.updatedAt = Date.now()
             }
 
-            if (diving.startedAt && diving.finishedAt) {
-                let days = diving.finishedAt.getTime() - diving.startedAt.getTime()
-                days /= 86400000
-                days = Math.round(days)
-                days += 1
-
-                diving.days = days
-            }
-
-            if (diving.maxPeopleNumber) {
-                let applicantsNumber = diving.participants
-                    .filter(participant => participant.status == 'joined')
-                    .length
-
-                diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
-            }
-
-            if (diving.diveCenters) {
-                let diveCenters = await DiveCenter.find({ _id: { $in: diving.diveCenters } })
-                    .lean()
-                    .select('interests')
-
-                let divingInterests = diveCenters.map(diveCenter => diveCenter.interests)
-                    .reduce((a, b) => a.concat(b))
-
-                if (divingInterests && divingInterests.length > 0) {
-                    diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
-                }
-            }
-
-            if (diving.diveSites) {
-                let diveSites = await DiveSite.find({ _id: { $in: diving.diveSites } })
-                    .lean()
-                    .select('interests')
-
-                let divingInterests = diveSites.map(diveSite => diveSite.interests)
-                    .reduce((a, b) => a.concat(b))
-
-                if (divingInterests && divingInterests.length > 0) {
-                    diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
-                }
-            }
-
-            if (diving.divePoints) {
-                let divePoints = await DivePoint.find({ _id: { $in: diving.divePoints } })
-                    .lean()
-                    .select('interests')
-
-                let divingInterests = divePoints.map(divePoint => divePoint.interests)
-                    .reduce((a, b) => a.concat(b))
-
-                if (divingInterests && divingInterests.length > 0) {
-                    diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
-                }
-            }
-
+            await updateDivingProperties(diving)
             await diving.save()
 
             if (isNewDiving) {
@@ -324,6 +276,23 @@ module.exports = {
                 success: true
             }
         },
+        async updateDivingProperties(parent, args, context, info) {
+
+            let divingCount = await Diving.count()
+            for await (let skip of asyncGenerator(divingCount)) {
+                let divings = await Diving.find()
+                    .skip(skip)
+                    .limit(1)
+
+                let diving = divings[0]
+                await updateDivingProperties(diving)
+                await diving.save()
+            }
+
+            return {
+                success: true
+            }
+        },
     },
 };
 
@@ -409,4 +378,141 @@ async function updateParticipantStatus(divingId, participantId, participantStatu
             upsert: true
         }
     )
+}
+
+async function updateDivingProperties(diving) {
+
+    if (diving.startedAt && diving.finishedAt) {
+        let days = diving.finishedAt.getTime() - diving.startedAt.getTime()
+        days /= 86400000
+        days = Math.round(days)
+        days += 1
+
+        diving.days = days
+    }
+
+    if (diving.maxPeopleNumber) {
+        let applicantsNumber = diving.participants
+            .filter(participant => participant.status == 'joined')
+            .length
+
+        diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
+    }
+
+    if (diving.divePoints && diving.divePoints.length > 0) {
+        let divePoints = await DivePoint.find({ _id: { $in: diving.divePoints } })
+            .lean()
+            .select('interests location address')
+
+        console.log(`diving.divePoints=${JSON.stringify(diving.divePoints, null, 2)} \ndivePoints=${JSON.stringify(divePoints, null, 2)}`)
+
+        let divingInterests = divePoints.map(divePoint => divePoint.interests)
+            .reduce((a, b) => a.concat(b))
+
+        if (divingInterests && divingInterests.length > 0) {
+            diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+        }
+
+        diving.address = divePoints[0].address
+        diving.location = divePoints[0].location
+    }
+
+    if (diving.diveCenters && diving.diveCenters.length > 0) {
+        let diveCenters = await DiveCenter.find({ _id: { $in: diving.diveCenters } })
+            .lean()
+            .select('interests location address')
+
+        let divingInterests = diveCenters.map(diveCenter => diveCenter.interests)
+            .reduce((a, b) => a.concat(b))
+
+        if (divingInterests && divingInterests.length > 0) {
+            diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+        }
+
+        diving.address = diveCenters[0].address
+        diving.location = diveCenters[0].location
+    }
+
+    if (diving.diveSites && diving.diveSites.length > 0) {
+        let diveSites = await DiveSite.find({ _id: { $in: diving.diveSites } })
+            .lean()
+            .select('interests location address')
+
+        let divingInterests = diveSites.map(diveSite => diveSite.interests)
+            .reduce((a, b) => a.concat(b))
+
+        if (divingInterests && divingInterests.length > 0) {
+            diving.interests = diving.interests.concat(Array.from(new Set(divingInterests)))
+        }
+
+        diving.address = diveSites[0].address
+        diving.location = diveSites[0].location
+    }
+
+    console.log(`diving=${JSON.stringify(diving, null, 2)}`)
+}
+
+async function* asyncGenerator(n) {
+    let i = 0;
+    while (i < n) {
+        yield i++;
+    }
+}
+
+async function getNearByDivings(lat, lng, skip, limit) {
+    return await Diving.find({
+        startedAt: {
+            $gt: Date.now()
+        },
+        location: {
+            $near: {
+                $maxDistance: 1000000,
+                $geometry: {
+                    type: "Point",
+                    coordinates: [lng, lat]
+                }
+            }
+        }
+    })
+        .skip(skip)
+        .limit(limit)
+}
+
+async function getDivingsByPlaceId(placeId, activated, skip, limit) {
+    let findArgs = {
+        $or: [
+            {
+                diveCenters: {
+                    $elemMatch: {
+                        $eq: placeId
+                    }
+                }
+            },
+            {
+                diveSites: {
+                    $elemMatch: {
+                        $eq: placeId
+                    }
+                }
+            },
+            {
+                divePoints: {
+                    $elemMatch: {
+                        $eq: placeId
+                    }
+                }
+            }
+        ]
+    }
+
+    if (activated) {
+        findArgs.startedAt = {
+            $gt: Date.now()
+        }
+    }
+
+    return await Diving.find(findArgs)
+        .sort('-updatedAt')
+        .skip(skip)
+        .limit(limit)
 }

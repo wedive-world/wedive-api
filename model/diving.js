@@ -25,6 +25,12 @@ const schema = new Schema({
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
     diveCenters: [{ type: Schema.Types.ObjectId, ref: 'DiveCenter' }],
 
+    location: {
+        type: { type: String, enum: ['Point'], required: true },
+        coordinates: { type: [Number], required: true }
+    },
+    address: String,
+    
     startedAt: { type: Date, default: Date.now },
     finishedAt: { type: Date, default: Date.now },
     days: { type: Number, default: 0 },
@@ -47,5 +53,8 @@ module.exports = mongoose.model('Diving', schema);
 
 schema.index({
     'title': 'text',
-    'description': 'text'
+    'description': 'text',
+    'address': 'text',
 }, { default_language: "ngram" })
+
+schema.index({ "location": "2dsphere", })

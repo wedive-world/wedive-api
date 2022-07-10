@@ -10,6 +10,8 @@ type Query {
   getDivingsByHostUserId(hostUserId: ID!): [Diving]
   getDivingsByCurrentUser(skip: Int! = 0, limit: Int! = 10): [Diving]
   getDivingByChatRoomId(chatRoomId: String!): Diving
+  getNearByDivings(lat: Float!, lng:Float!, skip:Int! = 0, limit: Int! = 10): [Diving]
+  getDivingsByPlaceId(placeId: String!, activated:Boolean! = false, skip:Int! = 0, limit: Int! = 10): [Diving]
 }
 
 type Mutation {
@@ -22,6 +24,7 @@ type Mutation {
   kickParticipant(divingId: ID!, userId: ID!): Response!
   completeDivingIfExist: Response!
   prepareDivingIfExist(days: Int = 3): Response!
+  updateDivingProperties: Response!
 }
 
 type Diving {
