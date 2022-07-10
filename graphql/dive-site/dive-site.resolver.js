@@ -66,6 +66,23 @@ module.exports = {
         }
     },
 
+    DiveShop: {
+        diveSites: async (parent, args, context, info) => {
+            return await DiveSite.find({
+                location: {
+                    $near: {
+                        $maxDistance: 15000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [parent.longitude, parent.latitude]
+                        }
+                    }
+                }
+            })
+                .limit(3)
+        }
+    },
+
     Query: {
         async getAllDiveSites(parent, args, context, info) {
 

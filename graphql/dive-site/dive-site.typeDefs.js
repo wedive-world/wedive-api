@@ -96,4 +96,8 @@ type Diving {
 input DivingInput {
   diveSites: [ID]
 }
+
+type DiveShop {
+  nearByDiveSites: [DiveSite]
+}
 `;
