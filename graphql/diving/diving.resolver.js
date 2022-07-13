@@ -41,6 +41,8 @@ module.exports = {
 
         async getDivingsByHostUserId(parent, args, context, info) {
             return await Diving.find({ hostUser: args.hostUserId })
+                .skip(args.skip)
+                .limit(args.limit)
                 .lean()
         },
 

@@ -7,7 +7,7 @@ type Query {
   QUERY____________________________Divings: Diving
   getAllDivings: [Diving]
   getDivingById(_id: ID!): Diving
-  getDivingsByHostUserId(hostUserId: ID!): [Diving]
+  getDivingsByHostUserId(hostUserId: ID!, skip: Int! = 0, limit: Int! = 100): [Diving]
   getDivingsByCurrentUser(skip: Int! = 0, limit: Int! = 10): [Diving]
   getDivingByChatRoomId(chatRoomId: String!): Diving
   getNearByDivings(lat: Float!, lng:Float!, skip:Int! = 0, limit: Int! = 10): [Diving]
