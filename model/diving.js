@@ -24,6 +24,7 @@ const schema = new Schema({
     diveSites: [{ type: Schema.Types.ObjectId, ref: 'DiveSite' }],
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
     diveCenters: [{ type: Schema.Types.ObjectId, ref: 'DiveCenter' }],
+    diveShops: [{ type: Schema.Types.ObjectId, ref: 'DiveShop' }],
 
     location: {
         type: { type: String, enum: ['Point'], required: true },

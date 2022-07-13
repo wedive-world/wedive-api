@@ -21,7 +21,7 @@ const sleep = (ms) => {
     })
 }
 
-module.exports.queryDiveResortByLocation = async (lat, lng, query, force) => {
+module.exports.queryDiveResortByLocation = async (lat, lng, query, force, countryCode) => {
     let url = `https://maps.googleapis.com/maps/api/place/textsearch/json?` +
         `query=${encodeURI(query)}&region=ko&location=${encodeURI(`${lat},${lng}`)}&radius=10000&key=${API_KEY}`
 
@@ -46,7 +46,7 @@ module.exports.queryDiveResortByLocation = async (lat, lng, query, force) => {
         }
 
         let placeDetail = await queryPlaceDetailByPlaceId(placeResult.place_id)
-        await upsertDiveShop(placeDetail, force)
+        await upsertDiveShop(placeDetail, force, countryCode)
         // console.log(`google-place-client | searchDiveResort: placeDetail=${JSON.stringify(placeDetail, null, 2)}`)
     }
 
@@ -69,7 +69,7 @@ module.exports.queryDiveResortByLocation = async (lat, lng, query, force) => {
             }
 
             let placeDetail = await queryPlaceDetailByPlaceId(placeResult.place_id)
-            await upsertDiveShop(placeDetail)
+            await upsertDiveShop(placeDetail, force, countryCode)
             // console.log(`google-place-client | searchDiveResort: placeDetail=${JSON.stringify(placeDetail, 2, null)}`)
         }
 
@@ -82,7 +82,7 @@ module.exports.queryDiveResortByLocation = async (lat, lng, query, force) => {
     return dataSize
 }
 
-async function upsertDiveShop(placeDetail, force) {
+async function upsertDiveShop(placeDetail, force, countryCode) {
     if (!force) {
         let diveShop = await DiveShop.findOne({ placeProviderId: placeDetail.place_id })
             .select('backgroundImages')
@@ -111,7 +111,8 @@ async function upsertDiveShop(placeDetail, force) {
             coordinates: [placeDetail.geometry.location.lng, placeDetail.geometry.location.lat]
         } : null,
         placeOpeningHours: placeDetail.opening_hours ? placeDetail.opening_hours.weekday_text : null,
-        backgroundImages: []
+        backgroundImages: [],
+        countryCode: countryCode
     }
 
     if (placeDetail.photos && placeDetail.photos.length > 0) {

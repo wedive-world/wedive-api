@@ -187,7 +187,9 @@ module.exports = {
 
                 for (let diveSite of diveSites) {
                     const query = '다이브 샵'
-                    totalSize += await queryDiveResortByLocation(diveSite.latitude, diveSite.longitude, query, args.force)
+
+                    let result = await queryReverseGeocoding(diveSite.latitude, diveSite.longitude, context.languageCode)
+                    totalSize += await queryDiveResortByLocation(diveSite.latitude, diveSite.longitude, query, args.force, result.countryCode)
                 }
             }
         },

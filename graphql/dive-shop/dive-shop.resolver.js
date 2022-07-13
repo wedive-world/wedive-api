@@ -73,8 +73,8 @@ module.exports = {
         async name(parent, args, context, info) {
             return parent.name ? parent.name : parent.placeName
         },
-        async geoAddress(parent, args, context, info) {
-            return parent.geoAddress ? parent.geoAddress : parent.placeAddress
+        async address(parent, args, context, info) {
+            return parent.address ? parent.address : parent.placeAddress
         },
         async adminScore(parent, args, context, info) {
             return parent.adminScore ? parent.adminScore : parent.placeRating ? parent.placeRating * 20 : 0

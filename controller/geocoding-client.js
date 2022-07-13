@@ -12,14 +12,14 @@ console.log(`=====================================================`)
 module.exports.queryReverseGeocoding = async function (lat, lon, language) {
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${API_KEY}&language=${language}`
     const { status, statusText, data } = await axios.get(url)
-    // console.log(`statusText=${statusText} data=${JSON.stringify(data)}`)
+    // console.log(`statusText=${statusText} data=${JSON.stringify(data, null, 2)}`)
 
     if (data.status != 'OK') {
         console.log(`admin-resolver | queryReverseGeocoding: failed!`)
         return null
     }
 
-    // let location = data.results[0].geometry.location
+    let location = data.results[0].geometry.location
     // console.log(`location=${JSON.stringify(location)}`)
 
     let countryCode = extractCountryCode(data)
@@ -48,7 +48,7 @@ module.exports.queryGeocoding = async function (address, language) {
     }
 
     let countryCode = extractCountryCode(data)
-    console.log(`countryCode=${JSON.stringify(countryCode)}`)
+    // console.log(`countryCode=${JSON.stringify(countryCode)}`)
 
     return {
         location: data.results[0].geometry.location,
@@ -82,7 +82,9 @@ function extractCountryCode(data) {
     let country = addressComponents
         .find(component => component.types.includes('country'));
 
-    if (!country || country.short_name) {
+    // console.log(`country=${JSON.stringify(country)}`)
+
+    if (!country || !country.short_name) {
         return ''
     }
 

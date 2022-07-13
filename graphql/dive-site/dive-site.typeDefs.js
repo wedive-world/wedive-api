@@ -77,16 +77,11 @@ type DiveCenter {
 }
 
 input DiveCenterInput {
-  divesites: [ID]
+  diveSites: [ID]
 }
 
 type DiveShop {
   diveSites: [DiveSite]
-  nearDiveSite: DiveSite
-}
-
-input DiveShopInput {
-  divesites: [ID]
 }
 
 type Diving {
@@ -95,9 +90,5 @@ type Diving {
 
 input DivingInput {
   diveSites: [ID]
-}
-
-type DiveShop {
-  nearByDiveSites: [DiveSite]
 }
 `;
