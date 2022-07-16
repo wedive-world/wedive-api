@@ -58,6 +58,7 @@ module.exports = {
             })
                 .skip(args.skip)
                 .limit(args.limit)
+                .lean()
         },
 
         async getDivingByChatRoomId(parent, args, context, info) {
@@ -473,7 +474,7 @@ async function getNearByDivings(lat, lng, skip, limit) {
         },
         location: {
             $near: {
-                $maxDistance: 1000000,
+                $maxDistance: 100000,
                 $geometry: {
                     type: "Point",
                     coordinates: [lng, lat]
