@@ -44,6 +44,8 @@ const schema = new Schema({
     reviewCount: { type: Number, default: 0 },
 
     chatRoomId: { type: String, index: true },
+    
+    referenceUrl: String,
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },

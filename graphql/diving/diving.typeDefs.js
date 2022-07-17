@@ -48,6 +48,8 @@ type Diving {
     
     chatRoomId: String
 
+    referenceUrl: String
+
     createdAt: Date
     updatedAt: Date
     typeDef: String
@@ -67,6 +69,8 @@ type Diving {
     startedAt: Date
     finishedAt: Date
 
+    referenceUrl: String
+    
     createdAt: Date
     updatedAt: Date
 }
