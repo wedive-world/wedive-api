@@ -11,7 +11,10 @@ type Query {
   getDivingsByCurrentUser(skip: Int! = 0, limit: Int! = 10): [Diving]
   getDivingByChatRoomId(chatRoomId: String!): Diving
   getNearByDivings(lat: Float!, lng:Float!, skip:Int! = 0, limit: Int! = 10): [Diving]
-  getDivingsByPlaceId(placeId: String!, activated:Boolean! = false, skip:Int! = 0, limit: Int! = 10): [Diving]
+  getDivingsByPlaceId(placeId: String!, activated: Boolean! = false, skip: Int! = 0, limit: Int! = 10): [Diving]
+  getDivingsJoinedByCurrentUser(skip: Int! = 0, limit: Int! = 5): [Diving]
+  getDivingsHostedByCurrentUser(skip: Int! = 0, limit: Int! = 5): [Diving]
+  getDivingsRelatedWithCurrentUser(skip: Int! = 0, limit: Int! = 5): [Diving]
 }
 
 type Mutation {

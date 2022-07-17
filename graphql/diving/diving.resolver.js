@@ -18,6 +18,7 @@ const {
 module.exports = {
     Diving: {
         async participants(parent, args, context, info) {
+
             const divingParticipants = await DivingParticipant.find({ diving: parent._id })
                 .populate('user')
                 .lean()
@@ -47,12 +48,12 @@ module.exports = {
         },
 
         async getDivingsByCurrentUser(parent, args, context, info) {
-            let userUid = context.uid
-            let user = await User.findOne({ uid: userUid })
+
+            let userId = await getUserIdFromUid(context.uid)
             return await Diving.find({
                 participant: {
                     user: {
-                        '_id': user._id
+                        '_id': userId
                     }
                 }
             })
@@ -67,10 +68,31 @@ module.exports = {
         },
 
         async getNearByDivings(parent, args, context, info) {
+
             return await getNearByDivings(args.lat, args.lng, args.skip, args.limit)
         },
+
         async getDivingsByPlaceId(parent, args, context, info) {
+
             return await getDivingsByPlaceId(args.placeId, args.activated, args.skip, args.limit)
+        },
+
+        getDivingsJoinedByCurrentUser: async (parent, args, context, info) => {
+
+            let userId = await getUserIdFromUid(context.uid)
+            return await getDivingsJoinedByUserId(userId, args.skip, args.limit)
+        },
+
+        getDivingsHostedByCurrentUser: async (parent, args, context, info) => {
+
+            let userId = await getUserIdFromUid(context.uid)
+            return await getDivingsHostedByUserId(userId, args.skip, args.limit)
+        },
+
+        getDivingsRelatedWithCurrentUser: async (parent, args, context, info) => {
+
+            let userId = await getUserIdFromUid(context.uid)
+            return await getDivingsRelatedWithUserId(userId, args.skip, args.limit)
         },
     },
 
@@ -523,4 +545,72 @@ async function getDivingsByPlaceId(placeId, activated, skip, limit) {
         .sort('-updatedAt')
         .skip(skip)
         .limit(limit)
+}
+
+async function getDivingsJoinedByUserId(userId, skip, limit) {
+    if (!userId) {
+        throw Error('user not found')
+    }
+
+    return await Diving.find({ hostUser: userId })
+        .skip(skip)
+        .limit(limit)
+        .sort('-startedAt')
+        .lean()
+}
+
+async function getDivingsHostedByUserId(userId, skip, limit) {
+    if (!userId) {
+        throw Error('user not found')
+    }
+
+    return await Diving.find({
+        participant: {
+            user: {
+                '_id': userId
+            }
+        }
+    })
+        .skip(skip)
+        .limit(limit)
+        .sort('-startedAt')
+        .lean()
+}
+
+async function getDivingsRelatedWithUserId(userId, skip, limit) {
+    if (!userId) {
+        throw Error('user not found')
+    }
+
+    return await Diving.find({
+        $or: [
+            {
+                participant: {
+                    user: {
+                        '_id': userId
+                    }
+                }
+            },
+            {
+                hostUser: userId
+            }
+
+        ]
+    })
+        .skip(skip)
+        .limit(limit)
+        .sort('-startedAt')
+        .lean()
+}
+
+async function getUserIdFromUid(uid) {
+    let user = await User.findOne({ uid: uid })
+        .select('_id')
+        .lean()
+
+    if (!user || !user._id) {
+        throw Error('user not found')
+    }
+
+    return user._id
 }
