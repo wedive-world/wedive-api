@@ -552,7 +552,13 @@ async function getDivingsJoinedByUserId(userId, skip, limit) {
         throw Error('user not found')
     }
 
-    return await Diving.find({ hostUser: userId })
+    return await Diving.find({
+        participants: {
+            user: {
+                '_id': userId
+            }
+        }
+    })
         .skip(skip)
         .limit(limit)
         .sort('-startedAt')
@@ -564,13 +570,7 @@ async function getDivingsHostedByUserId(userId, skip, limit) {
         throw Error('user not found')
     }
 
-    return await Diving.find({
-        participant: {
-            user: {
-                '_id': userId
-            }
-        }
-    })
+    return await Diving.find({ hostUser: userId })
         .skip(skip)
         .limit(limit)
         .sort('-startedAt')
@@ -585,11 +585,11 @@ async function getDivingsRelatedWithUserId(userId, skip, limit) {
     return await Diving.find({
         $or: [
             {
-                participant: {
+                participants: {
                     user: {
                         '_id': userId
                     }
-                }
+                },
             },
             {
                 hostUser: userId
