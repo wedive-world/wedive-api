@@ -55,6 +55,7 @@ type DiveCenter  {
     openingTimes: [OpeningTime]
     customOpeningTimes: [CustomOpeningTime]
     isOpened: Boolean
+    isBookable: Booelan
 
     createdAt: Date
     updatedAt: Date
@@ -88,6 +89,8 @@ input DiveCenterInput {
     serviceScore: Int
 
     wediveComments: [String]
+    
+    isBookable: Booelan
     
     weeklyHolidays: [DayType]
     monthlyHolidays: [MonthlyHolidayInput]

@@ -140,6 +140,7 @@ const schema = new Schema({
         finishMinute: Number,
         name: String
     }],
+    isBookable: Booelan,
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
