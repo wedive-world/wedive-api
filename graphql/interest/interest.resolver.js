@@ -122,6 +122,12 @@ module.exports = {
         },
     },
 
+    DiveShop: {
+        async interests(parent, args, context, info) {
+            return await getInterestListByIds(context.languageCode, parent.interests)
+        },
+    },
+
     Highlight: {
         async interests(parent, args, context, info) {
             return await getInterestListByIds(context.languageCode, parent.interests)
