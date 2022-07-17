@@ -24,6 +24,7 @@ const schema = new Schema({
         product: { type: Schema.Types.ObjectId, ref: 'Product' },
         quantity: { type: Number, default: 1 }
     }],
+    requirementText: String,
 
     reviewCount: { type: Number, default: 0 },
 

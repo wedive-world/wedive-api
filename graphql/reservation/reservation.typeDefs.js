@@ -39,6 +39,8 @@ type Reservation {
 
   receipts: [Receipt]
 
+  requirementText: String
+
   createdAt: Date
   updatedAt: Date
 }
@@ -53,6 +55,8 @@ input ReservationInput {
 
   receipts: [ReceiptInput]
 
+  requirementText: String
+  
   name: String
   email: String
   phoneNumber: String
