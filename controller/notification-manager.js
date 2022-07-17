@@ -84,6 +84,24 @@ module.exports.onDivingPublicEnded = async (diving) => {
     await sendNotificationByUserIds(diving._id, 'diving', diving._id, 'diving', 'onDivingPublicEnded', participantIds)
 }
 
+module.exports.onReservationCreated = async (reservation) => {
+    let adminUsers = await User.find({ isAdmin: true })
+        .select('_id')
+        .lean()
+    
+    let adminUserIds = adminUsers.map(adminUser => adminUser._id)
+    await sendNotificationByUserIds(reservation._id, 'reservation', reservation._id, 'reservation', 'onReservationCreated', adminUserIds)
+}
+
+module.exports.onReservationUpdated = async (reservation) => {
+    let adminUsers = await User.find({ isAdmin: true })
+        .select('_id')
+        .lean()
+    
+    let adminUserIds = adminUsers.map(adminUser => adminUser._id)
+    await sendNotificationByUserIds(reservation._id, 'reservation', reservation._id, 'reservation', 'onReservationUpdated', adminUserIds)
+}
+
 async function onDivingCreatedInDiveCenter(diving, diveCenterId) {
     await sendNotificationBySubscription(diving._id, 'diving', diveCenterId, 'diveCenter', 'onDivingCreatedInDiveCenter')
 }

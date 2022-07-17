@@ -6,6 +6,10 @@ const {
 
 const Mongoose = require('mongoose');
 const WEDIVES_ID = Mongoose.Types.ObjectId('61c90d4d63207bf94901c3fa')
+const {
+    onReservationCreated,
+    onReservationUpdated
+} = require('../../controller/notification-manager')
 
 module.exports = {
 
@@ -54,7 +58,9 @@ module.exports = {
             reservation.user = user._id
             await reservation.save()
 
-            if (!isNewReservation) {
+            if (isNewReservation) {
+                await onReservationCreated(reservation)
+            } else {
                 await Review.create({
                     title: '예약 변경',
                     content: `예약이 변경되었습니다.`,
@@ -62,6 +68,8 @@ module.exports = {
                     targetType: 'reservation',
                     targetId: args._id
                 })
+
+                await onReservationUpdated(reservation)
             }
 
             return reservation
@@ -114,7 +122,7 @@ module.exports = {
                     reason: `Unknown stats, ${status}`
                 }
             }
-            
+
             const nextStatus = status == 'accepted'
                 ? 'complete'
                 : 'canceled'

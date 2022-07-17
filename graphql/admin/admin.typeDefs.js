@@ -11,6 +11,7 @@ type Mutation {
   updateLatLngByAddress(targetType: String): Response!
   queryDiveResort(force: Boolean! = false): Response!
   updateTypeDef: Response
+  updateDiveShopInfoByNaver: Response
 }
 
 `;

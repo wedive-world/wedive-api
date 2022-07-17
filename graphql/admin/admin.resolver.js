@@ -15,6 +15,10 @@ const {
     queryDiveResortByLocation
 } = require('../../controller/google-place-client')
 
+const {
+    queryNaverPlace
+} = require('../../controller/naver-search-client')
+
 module.exports = {
 
     Mutation: {
@@ -202,6 +206,14 @@ module.exports = {
             return {
                 success: true
             }
+        },
+
+        updateDiveShopInfoByNaver: async (parent, args, context, info) => {
+            let data = await updateDiveShopByNaver()
+            return {
+                success: true,
+                reason: JSON.stringify(data, null, 2)
+            }
         }
     }
 };
@@ -230,4 +242,9 @@ async function* asyncGenerator(limit, count) {
         yield skip;
         skip += limit
     }
+}
+
+async function updateDiveShopByNaver() {
+    const query = 'ok다이브리조트'
+    return await queryNaverPlace(query)
 }
