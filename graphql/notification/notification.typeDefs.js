@@ -44,6 +44,7 @@ enum NotificationTargetType {
   diving
   instructor
   user
+  reservation
 }
 
 union NotificationTarget = DiveCenter | DivePoint | DiveSite | Diving | Instructor | User

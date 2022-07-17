@@ -9,13 +9,16 @@ const {
     Like,
     Subscribe,
     Instructor,
-    Notification
+    Notification,
+    Reservation
 } = require('../../model').schema;
 
 module.exports = {
     NotificationTarget: {
         async __resolveType(obj, context, info) {
-            if (obj.hostUser) {
+            if (obj.typeDef) {
+                return obj.typeDef
+            } else if (obj.hostUser) {
                 return 'Diving'
             } else if (obj.diveSiteId) {
                 return 'DivePoint'
@@ -104,5 +107,8 @@ function getModel(targetType) {
 
         case 'user':
             return User
+
+        case 'reservation':
+            return Reservation
     }
 }
