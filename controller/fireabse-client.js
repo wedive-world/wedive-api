@@ -20,7 +20,17 @@ class FirebaseClient {
             return
         }
 
-        let result = await getMessaging(getApp()).sendMulticast({
+        try {
+            await sendMulticastInternal(tokenList, data)
+        } catch (e) {
+            console.error(e)
+        }
+
+        // console.log(`FirebaseClient | sendMulticast: result=${JSON.stringify(result)}`)
+    }
+
+    async sendMulticastInternal(tokenList, data) {
+        await getMessaging(getApp()).sendMulticast({
             data: JSON.parse(JSON.stringify(data)),
             tokens: tokenList,
             android: {
@@ -32,8 +42,6 @@ class FirebaseClient {
                 }
             },
         })
-
-        console.log(`FirebaseClient | sendMulticast: result=${JSON.stringify(result)}`)
     }
 }
 
