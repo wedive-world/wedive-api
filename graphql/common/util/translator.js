@@ -38,6 +38,9 @@ module.exports.translateIn = (originalObject, inputObject, languageCode) => {
 }
 
 module.exports.translateOut = (object, languageCode) => {
+    if (!object) {
+        return object
+    }
 
     translatableProperties
         .filter(property => object.hasOwnProperty(property + 'Translation'))

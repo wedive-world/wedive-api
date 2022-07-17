@@ -46,17 +46,6 @@ module.exports = {
         }
     },
 
-    Reservation: {
-        async diveShop(parent, args, context, info) {
-            let languageCode = context.languageCode
-            let diveShop = await DiveShop.findById(parent.diveShop)
-                .lean()
-
-            return translator.translateOut(diveShop, languageCode)
-        }
-    },
-
-
     // placeName: String,
     // placeAddress: String,
     // placeProvider: String,
