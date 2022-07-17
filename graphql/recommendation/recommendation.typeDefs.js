@@ -29,6 +29,7 @@ type Recommendation {
 
   previewCount: Int
   type: RecommendationType
+  shownType: String
   targetType: RecommendationTargetType
 
   searchParams: String
@@ -51,6 +52,7 @@ input RecommendationInput {
 
   previewCount: Int
   type: RecommendationType
+  shownType: String
   targetType: RecommendationTargetType
 
   searchParams: SearchParams
