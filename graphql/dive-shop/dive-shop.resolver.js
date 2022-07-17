@@ -237,6 +237,28 @@ module.exports = {
             console.log(`mutation | deleteDiveShopById: result=${JSON.stringify(result)}`)
             return args._id
         },
+
+        updateDiveShopBasicInformation: async (parent, args, context, info) => {
+            const basicInterestId = [
+                '618783c21c0ba2dcbb0564d4', //주차
+                '618783cd1c0ba2dcbb0564d8', //남녀화장실
+                '618784411c0ba2dcbb0564ef', //현금
+                '618784481c0ba2dcbb0564f1', //VISA
+                '6187844e1c0ba2dcbb0564f3', //MasterCard
+                '618784531c0ba2dcbb0564f5', //UnionPay
+                '6187845b1c0ba2dcbb0564f7', //JCB
+                '618784621c0ba2dcbb0564f9', //American Express
+                '618784691c0ba2dcbb0564fb', //Discover card
+                '618784861c0ba2dcbb056503', //한국어
+                '61b05ba7825fd1ce4cdb4ccb', //계좌이체
+            ]
+
+            await DiveShop.updateMany({ countryCode: 'KR' }, { interests: basicInterestId })
+
+            return {
+                success: true
+            }
+        },
     }
 };
 

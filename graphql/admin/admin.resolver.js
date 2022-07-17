@@ -1,7 +1,8 @@
 const {
     DiveCenter,
     DivePoint,
-    DiveSite
+    DiveSite,
+    DiveShop
 } = require('../../model').schema;
 
 const {
@@ -75,12 +76,11 @@ module.exports = {
 
                 for (let model of models) {
                     try {
-                        if (!args.force && model.location) {
+                        if (!args.force && model.countryCode) {
                             continue
                         }
 
                         let result = await queryReverseGeocoding(model.latitude, model.longitude, context.languageCode)
-
                         model.countryCode = result.countryCode
                         await model.save()
 
@@ -218,6 +218,9 @@ function getModel(targetType) {
 
         case 'diveSite':
             return DiveSite
+
+        case 'diveShop':
+            return DiveShop
     }
 }
 

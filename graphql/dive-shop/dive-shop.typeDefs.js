@@ -17,6 +17,7 @@ type Mutation {
     MUTATION_______DiveShops_______: DiveShop
     upsertDiveShop(input: DiveShopInput!): DiveShop!
     deleteDiveShopById(_id: ID!): ID
+    updateDiveShopBasicInformation: Response!
 }
 
 type DiveShop  {
