@@ -4,7 +4,8 @@ const {
     DiveCenter,
     DiveSite,
     DivePoint,
-    Interest
+    Interest,
+    DiveShop
 } = require('../../model').schema;
 
 const {
@@ -14,14 +15,14 @@ module.exports = {
 
     Query: {
         async getAllSearchSuggestions(parent, args, context, info) {
-            console.log(`query | getAllSearchSuggestions: context=${JSON.stringify(context)}`)
+            // console.log(`query | getAllSearchSuggestions: context=${JSON.stringify(context)}`)
             return await SearchSuggestion.find()
                 .select('word')
                 .distinct('word')
         },
 
         async findSearchSuggestions(parent, args, context, info) {
-            console.log(`query | findSearchSuggestions: context=${JSON.stringify(context)}`)
+            // console.log(`query | findSearchSuggestions: context=${JSON.stringify(context)}`)
 
             return await SearchSuggestion.find(createMongooseSearchQuery(args.query))
                 .lean()
@@ -35,18 +36,37 @@ module.exports = {
             console.log(`mutation | updateSearchSuggestions: args=${JSON.stringify(args)}`)
 
             await SearchSuggestion.deleteMany()
-            const modelList = [DiveCenter, DiveSite, DivePoint, Interest]
+            const modelList = [DiveCenter, DiveSite, DivePoint, Interest, DiveShop]
+            const fieldList = [
+                'name',
+                'nameTranslation.ko',
+                'placeName',
+                'titleTranslation.ko',
+                'addressTranslation.ko',
+                'address',
+                'placeAddress',
+                'aliasesStringTranslation.ko',
+                'searchTermsStringTranslation.ko',
+            ]
 
             for (model of modelList) {
-                let wordList = await extractWordList(model)
-                await SearchSuggestion.insertMany(
-                    wordList.map(word => {
-                        return {
-                            word: word
-                        }
-                    }),
-                    { ordered: false }
-                )
+                for (let field of fieldList) {
+                    let wordList = await extractWordList(model, field)
+                    if (!wordList || wordList.length < 1) {
+                        continue
+                    }
+
+                    // console.log(`model=${model} field=${field} wordList=${wordList}`)
+
+                    await SearchSuggestion.insertMany(
+                        wordList.map(word => {
+                            return {
+                                word: word
+                            }
+                        }),
+                        { ordered: false }
+                    )
+                }
             }
 
             return {
@@ -56,37 +76,27 @@ module.exports = {
     },
 };
 
-async function extractWordList(model) {
+async function extractWordList(model, field) {
+
+    let valueList = await model.find()
+        .lean()
+        .select(field)
+        .distinct(field)
 
     let wordList = []
-
-    let nameList = await model.find()
-        .lean()
-        .select('nameTranslation.ko')
-        .distinct('nameTranslation.ko')
-
-    wordList = wordList.concat(nameList)
-
-    let titleList = await model.find()
-        .lean()
-        .select('titleTranslation.ko')
-        .distinct('titleTranslation.ko')
-
-    wordList = wordList.concat(titleList)
-
-    let addressList = await model.find()
-        .lean()
-        .select('addressTranslation.ko')
-        .distinct('addressTranslation.ko')
-
-    addressList.forEach(address => {
-        if (!address || address.length == 0) {
-            return;
+    valueList.forEach(value => {
+        if (!value || value.length == 0) {
+            return
         }
 
-        address.split(' ').forEach(addressWord => wordList.push(addressWord))
+        let split = value.split(/[\s,]/)
+        if (!split || split.length < 2) {
+            wordList.push(value)
+        } else {
+            split.forEach(valueWord => wordList.push(valueWord))
+        }
     })
 
-    console.log(`wordList=${wordList}`)
+    // return valueList.concat(wordList)
     return wordList
 }

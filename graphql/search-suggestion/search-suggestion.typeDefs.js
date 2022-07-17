@@ -6,7 +6,7 @@ type Query {
 
   QUERY____________________________SearchSuggestion: Response
   getAllSearchSuggestions: [String]
-  findSearchSuggestions(query: String!, limit: Int = 30): [String]
+  findSearchSuggestions(query: String!, limit: Int = 20): [String]
 }
 
 type Mutation {
