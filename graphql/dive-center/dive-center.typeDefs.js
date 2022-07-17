@@ -124,7 +124,7 @@ type Reservation {
 }
 
 input ReservationInput {
-    diveCenter: ID!
+    diveCenter: ID
 }
 
 enum DayType {

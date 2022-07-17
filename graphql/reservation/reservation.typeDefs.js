@@ -28,6 +28,7 @@ type Reservation {
   finishedAt: Date
 
   name: String
+  email: String
   phoneNumber: String
   
   user: User
@@ -53,6 +54,7 @@ input ReservationInput {
   receipts: [ReceiptInput]
 
   name: String
+  email: String
   phoneNumber: String
 }
 

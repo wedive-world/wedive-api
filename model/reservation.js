@@ -4,12 +4,14 @@ const { Schema } = mongoose;
 const schema = new Schema({
 
     diveCenter: { type: Schema.Types.ObjectId, ref: 'DiveCenter' },
+    diveShop: { type: Schema.Types.ObjectId, ref: 'DiveShop'},
     peopleNumber: Number,
 
     startedAt: Date,
     finishedAt: Date,
 
     name: String,
+    email: String,
     phoneNumber: String,
 
     user: { type: Schema.Types.ObjectId, ref: 'User' },
