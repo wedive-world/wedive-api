@@ -20,13 +20,8 @@ class ChatServiceProxy {
             mutation Mutation($id: String!, $email: String!, $name: String!) {
                 createChatUser(_id: $id, email: $email, name: $name) {
                     _id
-                    active
                     name
                     email
-                    utcOffset
-                    avatarOrigin
-                    createdAt
-                    updatedAt
                 }
             }
         `
