@@ -9,6 +9,7 @@ const schema = new Schema({
 
     cssStyle: String,
     className: String,
+    shownType: String,
 
     images: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
     backgroundImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
