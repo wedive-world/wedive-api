@@ -46,6 +46,12 @@ module.exports = {
         }
     },
 
+    Reservation: {
+        diveShop: async (parent, args, context, info) => {
+            return await DiveShop.findById(parent.diveShop).lean()
+        }
+    },
+
     // placeName: String,
     // placeAddress: String,
     // placeProvider: String,
