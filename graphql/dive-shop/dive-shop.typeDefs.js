@@ -103,6 +103,7 @@ input DiveShopInput {
 
 type DiveSite {
     diveShops: [DiveShop]
+    nearByDiveShops: [DiveShop]
 }
 
 type DivePoint {

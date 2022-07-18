@@ -85,12 +85,8 @@ module.exports = {
 
     Query: {
         async getAllDiveSites(parent, args, context, info) {
-
-            let languageCode = context.languageCode
-            let diveSiteList = await DiveSite.find()
+            return await DiveSite.find()
                 .lean()
-
-            return diveSiteList.map(diveSite => translator.translateOut(diveSite, languageCode))
         },
 
         async getDiveSites(parent, args, context, info) {

@@ -19,6 +19,21 @@ module.exports = {
             let languageCode = context.languageCode
             let diveShops = await DiveShop.find({ diveSites: parent._id }).lean()
             return diveShops.map(diveShop => translator.translateOut(diveShop, languageCode))
+        },
+        
+        nearByDiveShops: async (parent, args, context, info) => {
+            return await DiveShop.find({
+                location: {
+                    $near: {
+                        $maxDistance: 15000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: [parent.longitude, parent.latitude]
+                        }
+                    }
+                }
+            })
+                .limit(5)
         }
     },
 
