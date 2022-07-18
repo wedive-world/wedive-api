@@ -164,14 +164,7 @@ module.exports = {
             if (isNewUser) {
                 await chatServiceProxy.createUser(user, context.idToken)
 
-            } else {
-
             }
-
-            await chatServiceProxy.updateFcmToken({
-                uid: args.input.uid,
-                fcmToken: args.input.fcmToken
-            }, context.idToken)
 
             return {
                 success: true

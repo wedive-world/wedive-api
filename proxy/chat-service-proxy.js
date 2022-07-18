@@ -70,34 +70,6 @@ class ChatServiceProxy {
         }
     }
 
-    async updateFcmToken({ uid, fcmToken }, idToken) {
-
-        const query = gql`
-            mutation Mutation($id: String!, $fcmToken: String!) {
-                updateFcmToken(_id: $id, fcmToken: $fcmToken) {
-                    success
-                    reason
-                }
-            }
-        `
-
-        const variable = {
-            id: uid,
-            fcmToken: fcmToken
-        }
-
-        try {
-            console.log(`ChatServiceProxy | updateFcmToken: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
-            const data = await this.client.request(query, variable, { idtoken: idToken })
-            console.log(`ChatServiceProxy | updateFcmToken: data=${JSON.stringify(data)}`)
-
-            return data
-
-        } catch (err) {
-            console.log(`ChatServiceProxy | updateFcmToken: ERROR, ${err}`)
-        }
-    }
-
     async createChatRoom(title, memberUids, idToken) {
 
         const query = gql`
