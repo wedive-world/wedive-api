@@ -10,7 +10,6 @@ type Query {
     getDiveShopByUniqueName(uniqueName: String!): DiveShop
     getDiveShopsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveShop]
     searchDiveShopsByName(query: String!): [DiveShop]
-    getNearByDiveShops(lat: Float!, lon: Float!, m: Int): [DiveSite]
 }
 
 type Mutation {
