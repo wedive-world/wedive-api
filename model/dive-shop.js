@@ -90,6 +90,8 @@ const schema = new Schema({
 
     reservationType: String,
 
+    isBookable: Boolean,
+    
     weeklyHolidays: [String],
     monthlyHolidays: [{
         nWeek: Number,
