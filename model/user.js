@@ -15,7 +15,7 @@ const schema = new Schema({
     phoneNumberVerified: Boolean,
 
     profileImages: [{ type: Schema.Types.ObjectId, ref: 'Image' }],
-    nickName: String,
+    nickName: { type: String, maxLength: 12 },
     name: String,
 
     birthAge: { type: Number, min: 1900, max: 2100 },
