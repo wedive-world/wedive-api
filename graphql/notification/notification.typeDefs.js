@@ -59,5 +59,8 @@ enum NotificationEvent {
   onDivingCreatedInDivePoint
   onDivingCreatedInDiveSite
   onDivingCreatedByInstructor
+  onReservationCreated
+  onReservationUpdated
+  
 }
 `;
