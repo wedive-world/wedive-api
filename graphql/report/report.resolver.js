@@ -56,7 +56,7 @@ module.exports = {
     },
 
     Mutation: {
-        async createReport(parent, args, context, info) {
+        report: async (parent, args, context, info) => {
             console.log(`mutation | createReport: args=${JSON.stringify(args)}`)
 
             if (!context.uid) {
