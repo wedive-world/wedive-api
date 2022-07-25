@@ -149,7 +149,7 @@ module.exports = {
         },
 
         deleteCurrentUser: async (parent, args, context, info) => {
-            await deleteUserByUid(args.input)
+            await deleteUserByUid(context.uid)
             return {
                 success: true
             }
