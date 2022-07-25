@@ -67,8 +67,8 @@ module.exports = {
             await review.save()
 
             if (isNewReview) {
-                await getModel(review.targetType).findOneAndUpdate(
-                    { _id: args.targetId },
+                await getModel(review.targetType).findByIdAndUpdate(
+                    args.targetId,
                     { $inc: { 'reviewCount': 1 } }
                 )
                 await createHistoryFromReview(review._id)
@@ -84,8 +84,8 @@ module.exports = {
 
             await Review.findByIdAndDelete(args._id)
 
-            await getModel(review.targetType).findOneAndUpdate(
-                { _id: args.targetId },
+            await getModel(review.targetType).findByIdAndUpdate(
+                args.targetId,
                 { $inc: { 'reviewCount': -1 } }
             )
             return {

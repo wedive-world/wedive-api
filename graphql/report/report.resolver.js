@@ -6,6 +6,9 @@ const {
 const {
     getUserIdByUid
 } = require('../../controller/user-controller')
+const {
+    ObjectId
+} = require('mongoose').Types;
 
 module.exports = {
     Diving: {
@@ -198,7 +201,7 @@ async function unblock(uid, targetId) {
     }
 
     await Report.findOneAndDelete({
-        userId: userId,
-        targetId: targetId
+        userId: new ObjectId(userId),
+        targetId: new ObjectId(targetId)
     })
 }
