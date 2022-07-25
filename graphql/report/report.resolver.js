@@ -84,7 +84,7 @@ module.exports = {
         },
         unblock: async (parent, args, context, info) => {
             console.log(`mutation | unblock: args=${JSON.stringify(args)}`)
-            await report(context.uid, args.targetId, args.reason)
+            await unblock(context.uid, args.targetId)
 
             return {
                 success: true
@@ -98,7 +98,7 @@ async function isBlockedAuthor(uid, agenda) {
         throw new Error('uid is null')
     }
 
-    let userId = getUserIdByUid(uid)
+    let userId = await getUserIdByUid(uid)
     let isBlockedAgenda = await isBlockedByUserId(userId, agenda._id)
     if (isBlockedAgenda) {
         return true
@@ -117,7 +117,7 @@ async function isBlockedDiving(uid, diving) {
         throw new Error('uid is null')
     }
 
-    let userId = getUserIdByUid(uid)
+    let userId = await getUserIdByUid(uid)
     let isBlockedDiving = await isBlockedByUserId(userId, diving._id)
     if (isBlockedDiving) {
         return true
@@ -138,7 +138,7 @@ async function isBlockedByUid(uid, targetId) {
         throw new Error('uid is null')
     }
 
-    let userId = getUserIdByUid(uid)
+    let userId = await getUserIdByUid(uid)
     return isBlockedByUserId(userId, targetId)
 }
 
@@ -165,7 +165,7 @@ async function report(uid, targetId, reason) {
         throw new Error('uid is null')
     }
 
-    let userId = getUserIdByUid(uid)
+    let userId = await getUserIdByUid(uid)
 
     if (!userId) {
         throw new Error('user not found')
@@ -187,7 +187,7 @@ async function unblock(uid, targetId) {
         throw new Error('uid is null')
     }
 
-    let userId = getUserIdByUid(uid)
+    let userId = await getUserIdByUid(uid)
 
     if (!userId) {
         throw new Error('user not found')
