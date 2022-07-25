@@ -9,8 +9,11 @@ const {
     AuthenticationError,
     ForbiddenError,
 } = require('apollo-server-express');
-module.exports = {
+const {
+    getUserIdByUid
+} = require('../../controller/user-controller')
 
+module.exports = {
     Instructor: {
         async user(parent, args, context, info) {
             return await User.findOne({ _id: parent.user });
@@ -139,36 +142,46 @@ module.exports = {
             return user
         },
         async updateFcmToken(parent, args, context, info) {
-
-            console.log(`mutation | updateFcmToken: args=${JSON.stringify(args)}`)
-
-            let user = await User.findOne({ uid: args.input.uid })
-            // console.log(`mutation | updateFcmToken: args=${JSON.stringify(user)}`)
-            const isNewUser = user == null
-
-            if (isNewUser) {
-                // console.log(`mutation | updateFcmToken: isNewUser=${isNewUser}`)
-
-                user = new User(args.input)
-            } else {
-                // console.log(`mutation | updateFcmToken: found user=${JSON.stringify(user)}`)
-
-                Object.assign(user, args.input)
-                user.updatedAt = Date.now()
+            await updateUserFcmTokenByUid(args.input)
+            return {
+                success: true
             }
+        },
 
-            await user.save()
-
-            const chatServiceProxy = new ChatServiceProxy()
-
-            if (isNewUser) {
-                await chatServiceProxy.createUser(user, context.idToken)
-
-            }
-
+        deleteCurrentUser: async (parent, args, context, info) => {
+            await deleteUserByUid(args.input)
             return {
                 success: true
             }
         },
     },
 };
+
+async function updateUserFcmTokenByUid(userInput) {
+
+    let user = await User.findOne({ uid: userInput.uid })
+    // console.log(`mutation | updateFcmToken: args=${JSON.stringify(user)}`)
+    const isNewUser = user == null
+
+    if (isNewUser) {
+        // console.log(`mutation | updateFcmToken: isNewUser=${isNewUser}`)
+
+        user = new User(userInput)
+    } else {
+        // console.log(`mutation | updateFcmToken: found user=${JSON.stringify(user)}`)
+        Object.assign(user, userInput)
+        user.updatedAt = Date.now()
+    }
+
+    await user.save()
+
+    if (isNewUser) {
+        const chatServiceProxy = new ChatServiceProxy()
+        await chatServiceProxy.createUser(user, context.idToken)
+    }
+}
+
+async function deleteUserByUid(uid) {
+    let userId = await getUserIdByUid(uid)
+    await User.findByIdAndDelete(userId)
+}

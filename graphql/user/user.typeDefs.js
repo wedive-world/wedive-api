@@ -25,6 +25,7 @@ type Mutation {
   updateFcmToken(input: UserInput): Response!
 
   upsertCurrentUser(input: UserInput): User!
+  deleteCurrentUser: Response
 }
 
 type User {
