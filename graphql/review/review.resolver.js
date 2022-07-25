@@ -20,6 +20,10 @@ const {
     createHistoryFromReview
 } = require('../../controller/diving-history-manager')
 
+const {
+    getUserIdByUid
+} = require('../../controller/user-controller')
+
 const DEFAULT_REVIEW_COUNT = 5
 
 module.exports = {
@@ -54,22 +58,20 @@ module.exports = {
 
             if (!isNewReview) {
                 review = await Review.findById(args.input._id)
+                Object.assign(review, args.input)
 
             } else {
                 review = new Review(args.input)
-            }
-
-            Object.assign(review, args.input)
-
-            let user = await User.findOne({ uid: context.uid }).lean()
-            review.author = user._id
+                review.author = await getUserIdByUid(context.uid)
+            }            
 
             await review.save()
+            console.log(`isNewReview=${isNewReview} args.targetId=${args.targetId}`)
 
             if (isNewReview) {
                 await getModel(review.targetType).findByIdAndUpdate(
-                    args.targetId,
-                    { $inc: { 'reviewCount': 1 } }
+                    review.targetId,
+                    { $inc: { reviewCount: 1 } }
                 )
                 await createHistoryFromReview(review._id)
             }
@@ -85,8 +87,8 @@ module.exports = {
             await Review.findByIdAndDelete(args._id)
 
             await getModel(review.targetType).findByIdAndUpdate(
-                args.targetId,
-                { $inc: { 'reviewCount': -1 } }
+                review.targetId,
+                { $inc: { reviewCount: -1 } }
             )
             return {
                 success: true
