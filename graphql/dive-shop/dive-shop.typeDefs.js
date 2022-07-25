@@ -43,6 +43,8 @@ type DiveShop  {
     educationScore: Int
     facilityScore: Int
     serviceScore: Int
+    
+    isBookable: Boolean
 
     wediveComments: [String]
 
