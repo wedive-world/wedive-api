@@ -3,39 +3,57 @@ const {
     Report
 } = require('../../model').schema;
 
-const Mongoose = require('mongoose');
-const NoticeAgendaTypeID = '624017f9abe6e467bdc55cb4'
-const NoticeAgendaType = Mongoose.Types.ObjectId(NoticeAgendaTypeID)
+const {
+    getUserIdByUid
+} = require('../../controller/user-controller')
 
 module.exports = {
     Diving: {
         async reportCount(parent, args, context, info) {
             return await Report.count({ targetId: parent._id })
+        },
+        isBlocked: async (parent, args, context, info) => {
+            return await isBlockedDiving(context.uid, parent)
         }
     },
     Agenda: {
         async reportCount(parent, args, context, info) {
             return await Report.count({ targetId: parent._id })
+        },
+        isBlocked: async (parent, args, context, info) => {
+            return await isBlockedAuthor(context.uid, parent)
         }
     },
     User: {
         async reportCount(parent, args, context, info) {
             return await Report.count({ targetId: parent._id })
+        },
+        isBlocked: async (parent, args, context, info) => {
+            return await isBlockedByUid(context.uid, parent._id)
         }
     },
     Community: {
         async reportCount(parent, args, context, info) {
             return await Report.count({ targetId: parent._id })
+        },
+        isBlocked: async (parent, args, context, info) => {
+            return await isBlockedByUid(context.uid, parent._id)
         }
     },
     Instructor: {
         async reportCount(parent, args, context, info) {
             return await Report.count({ targetId: parent._id })
+        },
+        isBlocked: async (parent, args, context, info) => {
+            return await isBlockedByUid(context.uid, parent._id)
         }
     },
     Review: {
         async reportCount(parent, args, context, info) {
             return await Report.count({ targetId: parent._id })
+        },
+        isBlocked: async (parent, args, context, info) => {
+            return await isBlockedAuthor(context.uid, parent)
         }
     },
 
@@ -57,30 +75,130 @@ module.exports = {
 
     Mutation: {
         report: async (parent, args, context, info) => {
-            console.log(`mutation | createReport: args=${JSON.stringify(args)}`)
+            console.log(`mutation | report: args=${JSON.stringify(args)}`)
+            await report(context.uid, args.targetId, args.reason)
 
-            if (!context.uid) {
-                return {
-                    success: false
-                }
+            return {
+                success: true
             }
-
-            const user = await User.find({ uid: context.uid })
-                .lean()
-                .select('_id')
-
-            let input = args.input
-            input.userId = user._id
-
-            await Report.findOneAndUpdate(
-                { userId: user._id, targetId: input.targetId },
-                input,
-                { upsert: true }
-            )
+        },
+        unblock: async (parent, args, context, info) => {
+            console.log(`mutation | unblock: args=${JSON.stringify(args)}`)
+            await report(context.uid, args.targetId, args.reason)
 
             return {
                 success: true
             }
         },
     }
+}
+
+async function isBlockedAuthor(uid, agenda) {
+    if (!uid) {
+        throw new Error('uid is null')
+    }
+
+    let userId = getUserIdByUid(uid)
+    let isBlockedAgenda = await isBlockedByUserId(userId, agenda._id)
+    if (isBlockedAgenda) {
+        return true
+    }
+
+    let isBlockedAuthor = await isBlockedByUserId(userId, agenda.author)
+    if (isBlockedAuthor) {
+        return true
+    }
+
+    return false
+}
+
+async function isBlockedDiving(uid, diving) {
+    if (!uid) {
+        throw new Error('uid is null')
+    }
+
+    let userId = getUserIdByUid(uid)
+    let isBlockedDiving = await isBlockedByUserId(userId, diving._id)
+    if (isBlockedDiving) {
+        return true
+    }
+
+    let isBlockedHostUser = await isBlockedByUserId(userId, diving.hostUser)
+    if (isBlockedHostUser) {
+        return true
+    }
+
+    //TODO participant check
+
+    return false
+}
+
+async function isBlockedByUid(uid, targetId) {
+    if (!uid) {
+        throw new Error('uid is null')
+    }
+
+    let userId = getUserIdByUid(uid)
+    return isBlockedByUserId(userId, targetId)
+}
+
+async function isBlockedByUserId(userId, targetId) {
+
+    if (!userId) {
+        throw new Error('user not found')
+    }
+
+    if (!targetId) {
+        throw new Error('targetId is null')
+    }
+
+    let count = await Report.count({
+        userId: userId,
+        targetId: targetId
+    })
+
+    return count > 0
+}
+
+async function report(uid, targetId, reason) {
+    if (!uid) {
+        throw new Error('uid is null')
+    }
+
+    let userId = getUserIdByUid(uid)
+
+    if (!userId) {
+        throw new Error('user not found')
+    }
+
+    if (!targetId) {
+        throw new Error('targetId is null')
+    }
+
+    await Report.create({
+        userId: userId,
+        targetId: targetId,
+        reason: reason
+    })
+}
+
+async function unblock(uid, targetId) {
+    if (!uid) {
+        throw new Error('uid is null')
+    }
+
+    let userId = getUserIdByUid(uid)
+
+    if (!userId) {
+        throw new Error('user not found')
+    }
+
+    if (!targetId) {
+        throw new Error('targetId is null')
+    }
+
+    await Report.findOneAndDelete({
+        userId: userId,
+        targetId: targetId
+    })
 }

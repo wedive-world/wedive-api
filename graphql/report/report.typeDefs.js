@@ -10,40 +10,41 @@ type Query {
 type Mutation {
   MUTATION_________________________Report: Response
   report(targetId: ID!, reason: String!): Response
+  unblock(targetId: ID!): Response
 }
 
 interface Reportable {
   reportCount: Int
-  isblocked: Boolean
+  isBlocked: Boolean
 }
 
 type Diving implements Reportable {
   reportCount: Int
-  isblocked: Boolean
+  isBlocked: Boolean
 }
 
 type Agenda implements Reportable {
   reportCount: Int
-  isblocked: Boolean
+  isBlocked: Boolean
 }
 
 type User implements Reportable {
   reportCount: Int
-  isblocked: Boolean
+  isBlocked: Boolean
 }
 
 type Community implements Reportable {
   reportCount: Int
-  isblocked: Boolean
+  isBlocked: Boolean
 }
 
 type Instructor implements Reportable {
   reportCount: Int
-  isblocked: Boolean
+  isBlocked: Boolean
 }
 
 type Review implements Reportable {
   reportCount: Int
-  isblocked: Boolean
+  isBlocked: Boolean
 }
 `;
