@@ -197,6 +197,7 @@ async function findUserById(userId) {
 
 function getResignedUser() {
     return {
+        _id: 'resigned',
         nickName: '탈퇴한 유저입니다'
     }
 }
