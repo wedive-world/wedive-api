@@ -16,37 +16,37 @@ const {
 module.exports = {
     Instructor: {
         async user(parent, args, context, info) {
-            return await User.findOne({ _id: parent.user });
+            return await findUserById(parent.user)
         },
     },
 
     InstructorVerification: {
         async user(parent, args, context, info) {
-            return await User.findOne({ _id: parent.user });
+            return await findUserById(parent.user)
         },
     },
 
     Diving: {
         async hostUser(parent, args, context, info) {
-            return await User.findOne({ _id: parent.hostUser });
+            return await findUserById(parent.hostUser)
         },
     },
 
     Participant: {
         async user(parent, args, context, info) {
-            return await User.findById(parent.user);
+            return await findUserById(parent.user)
         },
     },
 
     Review: {
         async author(parent, args, context, info) {
-            return await User.findById(parent.author);
+            return await findUserById(parent.author)
         },
     },
 
     Agenda: {
         async author(parent, args, context, info) {
-            return await User.findById(parent.author);
+            return await findUserById(parent.author)
         },
     },
 
@@ -184,4 +184,19 @@ async function updateUserFcmTokenByUid(userInput) {
 async function deleteUserByUid(uid) {
     let userId = await getUserIdByUid(uid)
     await User.findByIdAndDelete(userId)
+}
+
+async function findUserById(userId) {
+    let user = await User.findById(userId)
+    if (!user) {
+        return getResignedUser()
+    }
+
+    return user
+}
+
+function getResignedUser() {
+    return {
+        nickName: '탈퇴한 유저입니다'
+    }
 }

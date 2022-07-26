@@ -119,19 +119,19 @@ input InstructorVerificationInput {
 }
 
 type Diving {
-  hostUser: User
+  hostUser: User!
 }
 
 type Instructor {
-  user: User
+  user: User!
 }
 
 type Review {
-  author: User
+  author: User!
 }
 
 type Agenda {
-  author: User
+  author: User!
 }
 
 
