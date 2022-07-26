@@ -25,7 +25,6 @@ type Mutation {
 type Agenda {
   _id: ID!
   types: [AgendaType]
-  author: User!
   languageCode: String
 
   agendaParent: AgendaParent

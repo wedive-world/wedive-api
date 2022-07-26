@@ -20,7 +20,6 @@ type Mutation {
 type Instructor {
   _id: ID!,
 
-  user: User!,
   licenseImages: [Image],
   instructorType: [DivingType],
 

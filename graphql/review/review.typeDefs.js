@@ -20,7 +20,6 @@ type Review {
   _id: ID!
   targetId: ID!
   targetType: ReviewTargetType!
-  author: User!
   languageCode: String
 
   title: String
