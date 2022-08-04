@@ -79,10 +79,9 @@ jobs:
         # be deployed to ECS.
         docker build \
           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-          --build-arg \
-            NODE_ENV=${{ env.NODE_ENV }} \
-            GRAPHQL_KEY=${{ env.GRAPHQL_KEY }} \
-            APOLLO_GRAPH_REF=${{ env.APOLLO_GRAPH_REF }} \
+          --build-arg NODE_ENV=${{ env.NODE_ENV }} \
+          --build-arg GRAPHQL_KEY=${{ env.GRAPHQL_KEY }} \
+          --build-arg APOLLO_GRAPH_REF=${{ env.APOLLO_GRAPH_REF }} \
           .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
