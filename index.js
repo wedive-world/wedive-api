@@ -30,10 +30,14 @@ async function startServer() {
   const firebaseApp = initializeApp()
   const firebaseAuth = getAuth(firebaseApp)
 
+  const isProduction = process.env.NODE_ENV == 'production'
+  console.log(`process.env.NODE_ENV=${process.env.NODE_ENV}`)
+  console.log(`process.env.GRAPHQL_KEY=${process.env.GRAPHQL_KEY}`)
+  console.log(`process.env.APOLLO_GRAPH_REF=${process.env.APOLLO_GRAPH_REF}`)
+
   const server = new ApolloServer({
     schema: schema,
-    playground: true,
-    introspection: true,
+    introspection: !isProduction,
     context: async ({ req }) => {
 
       // if (!req.headers.authorization) {
