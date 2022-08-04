@@ -77,12 +77,13 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build . \
+        docker build \
           -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
           --build-arg \
             NODE_ENV=${{ env.NODE_ENV }} \
             GRAPHQL_KEY=${{ env.GRAPHQL_KEY }} \
-            APOLLO_GRAPH_REF=${{ env.APOLLO_GRAPH_REF }}
+            APOLLO_GRAPH_REF=${{ env.APOLLO_GRAPH_REF }} \
+          .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
