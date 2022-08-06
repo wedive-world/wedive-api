@@ -1,35 +1,5 @@
 const { gql } = require('apollo-server')
 
-const monthlyInterestFields = `
-  month1: [Interest]
-  month2: [Interest]
-  month3: [Interest]
-  month4: [Interest]
-  month5: [Interest]
-  month6: [Interest]
-  month7: [Interest]
-  month8: [Interest]
-  month9: [Interest]
-  month10: [Interest]
-  month11: [Interest]
-  month12: [Interest]
-`
-
-const monthlyInterestInputFields = `
-  month1: [ID]
-  month2: [ID]
-  month3: [ID]
-  month4: [ID]
-  month5: [ID]
-  month6: [ID]
-  month7: [ID]
-  month8: [ID]
-  month9: [ID]
-  month10: [ID]
-  month11: [ID]
-  month12: [ID]
-`
-
 module.exports = gql`
 
 type Query {
@@ -37,8 +7,8 @@ type Query {
   QUERY____________________________Interests: Interest
   getAllInterests(type: String): [Interest]
   getInterests(skip: Int = 0, limit: Int = 100): [Interest]
-  getInterestById(_id: ID!): Interest
-  getInterestByUniqueName(uniqueName: String!): Interest
+  getInterestById(_id: ID!): Interest @cacheControl(maxAge: 60)
+  getInterestByUniqueName(uniqueName: String!): Interest @cacheControl(maxAge: 60)
   searchInterestsByName(query: String!, type: String): [Interest]
 }
 
@@ -97,31 +67,86 @@ enum InterestType {
 }
 
 interface MonthlyInterest {
-  ${monthlyInterestFields}
+  month1: [Interest] @cacheControl(maxAge: 60)
+  month2: [Interest] @cacheControl(maxAge: 60)
+  month3: [Interest] @cacheControl(maxAge: 60)
+  month4: [Interest] @cacheControl(maxAge: 60)
+  month5: [Interest] @cacheControl(maxAge: 60)
+  month6: [Interest] @cacheControl(maxAge: 60)
+  month7: [Interest] @cacheControl(maxAge: 60)
+  month8: [Interest] @cacheControl(maxAge: 60)
+  month9: [Interest] @cacheControl(maxAge: 60)
+  month10: [Interest] @cacheControl(maxAge: 60)
+  month11: [Interest] @cacheControl(maxAge: 60)
+  month12: [Interest] @cacheControl(maxAge: 60)
 }
 
 type DivePoint implements MonthlyInterest {
-  interests: [Interest]
-  ${monthlyInterestFields}
+  interests: [Interest] @cacheControl(maxAge: 60)
+  month1: [Interest] @cacheControl(maxAge: 60)
+  month2: [Interest] @cacheControl(maxAge: 60)
+  month3: [Interest] @cacheControl(maxAge: 60)
+  month4: [Interest] @cacheControl(maxAge: 60)
+  month5: [Interest] @cacheControl(maxAge: 60)
+  month6: [Interest] @cacheControl(maxAge: 60)
+  month7: [Interest] @cacheControl(maxAge: 60)
+  month8: [Interest] @cacheControl(maxAge: 60)
+  month9: [Interest] @cacheControl(maxAge: 60)
+  month10: [Interest] @cacheControl(maxAge: 60)
+  month11: [Interest] @cacheControl(maxAge: 60)
+  month12: [Interest] @cacheControl(maxAge: 60)
 }
 
 input DivePointInput {
   interests: [ID]
-  ${monthlyInterestInputFields}
+  month1: [ID]
+  month2: [ID]
+  month3: [ID]
+  month4: [ID]
+  month5: [ID]
+  month6: [ID]
+  month7: [ID]
+  month8: [ID]
+  month9: [ID]
+  month10: [ID]
+  month11: [ID]
+  month12: [ID]
 }
 
 type DiveSite implements MonthlyInterest {
-  interests: [Interest]
-  ${monthlyInterestFields}
+  interests: [Interest] @cacheControl(maxAge: 60)
+  month1: [Interest] @cacheControl(maxAge: 60)
+  month2: [Interest] @cacheControl(maxAge: 60)
+  month3: [Interest] @cacheControl(maxAge: 60)
+  month4: [Interest] @cacheControl(maxAge: 60)
+  month5: [Interest] @cacheControl(maxAge: 60)
+  month6: [Interest] @cacheControl(maxAge: 60)
+  month7: [Interest] @cacheControl(maxAge: 60)
+  month8: [Interest] @cacheControl(maxAge: 60)
+  month9: [Interest] @cacheControl(maxAge: 60)
+  month10: [Interest] @cacheControl(maxAge: 60)
+  month11: [Interest] @cacheControl(maxAge: 60)
+  month12: [Interest] @cacheControl(maxAge: 60)
 }
 
 input DiveSiteInput {
   interests: [ID]
-  ${monthlyInterestInputFields}
+  month1: [ID]
+  month2: [ID]
+  month3: [ID]
+  month4: [ID]
+  month5: [ID]
+  month6: [ID]
+  month7: [ID]
+  month8: [ID]
+  month9: [ID]
+  month10: [ID]
+  month11: [ID]
+  month12: [ID]
 }
 
 type DiveCenter {
-  interests: [Interest]
+  interests: [Interest] @cacheControl(maxAge: 60)
 }
 
 input DiveCenterInput {
@@ -129,7 +154,7 @@ input DiveCenterInput {
 }
 
 type DiveShop {
-  interests: [Interest]
+  interests: [Interest] @cacheControl(maxAge: 60)
 }
 
 input DiveShopInput {
@@ -137,7 +162,7 @@ input DiveShopInput {
 }
 
 type Highlight {
-  interests: [Interest]
+  interests: [Interest] @cacheControl(maxAge: 60)
 }
 
 input HighlightInput {
@@ -145,7 +170,7 @@ input HighlightInput {
 }
 
 type Product {
-  interests: [Interest]
+  interests: [Interest] @cacheControl(maxAge: 60)
 }
 
 input ProductInput {
@@ -153,7 +178,7 @@ input ProductInput {
 }
 
 type Diving {
-  interests: [Interest]
+  interests: [Interest] @cacheControl(maxAge: 60)
 }
 
 input DivingInput {
@@ -161,7 +186,7 @@ input DivingInput {
 }
 
 type Recommendation {
-  interests: [Interest]
+  interests: [Interest] @cacheControl(maxAge: 60)
 }
 
 input RecommendationInput {

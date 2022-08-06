@@ -10,11 +10,11 @@ scalar Upload
 type Query {
 
     QUERY____________________________Images: Image
-    getImageUrlById(_id: ID!, width: Int): String @cacheControl(maxAge: 60)
-    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] @cacheControl(maxAge: 60)
+    getImageUrlById(_id: ID!, width: Int): String @cacheControl(maxAge: 600)
+    getImageUrlsByIds(_ids: [ID], widths: [Int]): [String] @cacheControl(maxAge: 600)
 
-    getResizedImageById(_id: ID!, width: Int = 640): ResizedImage @cacheControl(maxAge: 60)
-    getResizedImagesByIds(_ids: [ID], widths: [Int]): [ResizedImage] @cacheControl(maxAge: 60)
+    getResizedImageById(_id: ID!, width: Int = 640): ResizedImage @cacheControl(maxAge: 600)
+    getResizedImagesByIds(_ids: [ID], widths: [Int]): [ResizedImage] @cacheControl(maxAge: 600)
 }
 
 type Mutation {
@@ -64,8 +64,8 @@ type ResizedImage {
 }
 
 type DiveSite {
-    images: [Image]
-    backgroundImages: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
+    backgroundImages: [Image] @cacheControl(maxAge: 60)
 }
 
 input DiveSiteInput {
@@ -74,8 +74,8 @@ input DiveSiteInput {
 }
 
 type DivePoint {
-    images: [Image]
-    backgroundImages: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
+    backgroundImages: [Image] @cacheControl(maxAge: 60)
 }
 
 input DivePointInput {
@@ -84,8 +84,8 @@ input DivePointInput {
 }
 
 type DiveCenter {
-    images: [Image]
-    backgroundImages: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
+    backgroundImages: [Image] @cacheControl(maxAge: 60)
 }
 
 input DiveCenterInput {
@@ -94,8 +94,8 @@ input DiveCenterInput {
 }
 
 type DiveShop {
-    images: [Image]
-    backgroundImages: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
+    backgroundImages: [Image] @cacheControl(maxAge: 60)
 }
 
 input DiveShopInput {
@@ -104,7 +104,7 @@ input DiveShopInput {
 }
 
 type Highlight {
-    images: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
 }
 
 input HighlightInput {
@@ -112,8 +112,8 @@ input HighlightInput {
 }
 
 type Interest {
-    images: [Image]
-    backgroundImages: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
+    backgroundImages: [Image] @cacheControl(maxAge: 60)
 }
 
 input InterestInput {
@@ -122,8 +122,8 @@ input InterestInput {
 }
 
 type Product {
-    images: [Image]
-    backgroundImages: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
+    backgroundImages: [Image] @cacheControl(maxAge: 60)
 }
 
 input ProductInput {
@@ -136,7 +136,7 @@ type User {
 }
 
 type Diving {
-    images: [Image]
+    images: [Image] @cacheControl(maxAge: 60)
 }
 
 input DivingInput {

@@ -6,11 +6,11 @@ type Query {
   QUERY____________________________DivePoints: DivePoint
   getDivePoints(skip: Int = 0, limit: Int = 100): [DivePoint]
   getAllDivePoints: [DivePoint]
-  getDivePointById(_id: ID!): DivePoint
-  getDivePointByUniqueName(uniqueName: String!): DivePoint
-  getDivePointsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DivePoint]
-  searchDivePointsByName(query: String!): [DivePoint]
-  getNearByDivePoints(lat: Float!, lon: Float!, m: Int): [DivePoint]
+  getDivePointById(_id: ID!): DivePoint @cacheControl(maxAge: 60)
+  getDivePointByUniqueName(uniqueName: String!): DivePoint @cacheControl(maxAge: 60)
+  getDivePointsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DivePoint] @cacheControl(maxAge: 60)
+  searchDivePointsByName(query: String!): [DivePoint] @cacheControl(maxAge: 60)
+  getNearByDivePoints(lat: Float!, lon: Float!, m: Int): [DivePoint] @cacheControl(maxAge: 60)
 }
 
 type Mutation {

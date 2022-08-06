@@ -12,15 +12,15 @@ type Mutation {
 }
 
 type DiveSite {
-  waterTemperature: WaterTemperature
+  waterTemperature: WaterTemperature @cacheControl(maxAge: 3600)
 }
 
 type DivePoint {
-  waterTemperature: WaterTemperature
+  waterTemperature: WaterTemperature @cacheControl(maxAge: 3600)
 }
 
 type DiveCenter {
-  waterTemperature: WaterTemperature
+  waterTemperature: WaterTemperature @cacheControl(maxAge: 3600)
 }
 
 type WaterTemperature {

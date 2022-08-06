@@ -6,11 +6,11 @@ type Query {
     QUERY____________________________DiveCenters: DiveCenter
     getDiveCenters(skip: Int = 0, limit: Int = 100): [DiveCenter]
     getAllDiveCenters: [DiveCenter]
-    getDiveCenterById(_id: ID!): DiveCenter
-    getDiveCenterByUniqueName(uniqueName: String!): DiveCenter
-    getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveCenter]
-    searchDiveCentersByName(query: String!): [DiveCenter]
-    getNearByDiveCenters(lat: Float!, lng: Float!, limit: Int! = 5, maxDistance: Int! = 30000): [DiveCenter]
+    getDiveCenterById(_id: ID!): DiveCenter @cacheControl(maxAge: 60)
+    getDiveCenterByUniqueName(uniqueName: String!): DiveCenter @cacheControl(maxAge: 60)
+    getDiveCentersNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveCenter] @cacheControl(maxAge: 60)
+    searchDiveCentersByName(query: String!): [DiveCenter] @cacheControl(maxAge: 60)
+    getNearByDiveCenters(lat: Float!, lng: Float!, limit: Int! = 5, maxDistance: Int! = 30000): [DiveCenter] @cacheControl(maxAge: 60)
 }
 
 type Mutation {

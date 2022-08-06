@@ -6,7 +6,7 @@ type Query {
 
   QUERY____________________________Divings: Diving
   getAllDivings: [Diving]
-  getDivingById(_id: ID!): Diving
+  getDivingById(_id: ID!): Diving @cacheControl(maxAge: 5)
   getDivingsByHostUserId(hostUserId: ID!, skip: Int! = 0, limit: Int! = 100): [Diving]
   getDivingsByCurrentUser(skip: Int! = 0, limit: Int! = 10): [Diving]
   getDivingByChatRoomId(chatRoomId: String!): Diving
@@ -15,6 +15,7 @@ type Query {
   getDivingsJoinedByCurrentUser(skip: Int! = 0, limit: Int! = 5): [Diving]
   getDivingsHostedByCurrentUser(skip: Int! = 0, limit: Int! = 5): [Diving]
   getDivingsRelatedWithCurrentUser(skip: Int! = 0, limit: Int! = 5): [Diving]
+  getRecentDivings(asc: Boolean! = true, skip: Int! = 0, limit: Int! = 10): [Diving] @cacheControl(maxAge: 10)
 }
 
 type Mutation {

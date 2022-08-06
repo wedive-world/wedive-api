@@ -6,10 +6,10 @@ type Query {
     QUERY____________________________DiveShops: DiveShop
     getDiveShops(skip: Int = 0, limit: Int = 100): [DiveShop]
     getAllDiveShops: [DiveShop]
-    getDiveShopById(_id: ID!): DiveShop
-    getDiveShopByUniqueName(uniqueName: String!): DiveShop
-    getDiveShopsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveShop]
-    searchDiveShopsByName(query: String!): [DiveShop]
+    getDiveShopById(_id: ID!): DiveShop @cacheControl(maxAge: 60)
+    getDiveShopByUniqueName(uniqueName: String!): DiveShop @cacheControl(maxAge: 60)
+    getDiveShopsNearBy(lat1: Float!, lon1: Float!, lat2: Float!, lon2: Float!, limit: Int = 20): [DiveShop] @cacheControl(maxAge: 60)
+    searchDiveShopsByName(query: String!): [DiveShop] @cacheControl(maxAge: 60)
 }
 
 type Mutation {

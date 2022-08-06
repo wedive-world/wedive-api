@@ -94,6 +94,9 @@ module.exports = {
             let userId = await getUserIdFromUid(context.uid)
             return await getDivingsRelatedWithUserId(userId, args.skip, args.limit)
         },
+        getRecentDivings: async (parent, args, context, info) => {
+            return await getRecentDivings(args.asc, args.skip, args.limit)
+        },
     },
 
     Mutation: {
@@ -613,4 +616,16 @@ async function getUserIdFromUid(uid) {
     }
 
     return user._id
+}
+
+async function getRecentDivings(asc, skip, limit) {
+    let order = asc
+        ? '+startedAt'
+        : '-startedAt'
+
+    return await Diving.find()
+        .skip(skip)
+        .limit(limit)
+        .sort(order)
+        .lean()
 }
