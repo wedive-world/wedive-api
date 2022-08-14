@@ -98,7 +98,7 @@ module.exports = {
 
 async function isBlockedAuthor(uid, agenda) {
     if (!uid) {
-        throw new Error('uid is null')
+        return false
     }
 
     let userId = await getUserIdByUid(uid)
@@ -117,7 +117,7 @@ async function isBlockedAuthor(uid, agenda) {
 
 async function isBlockedDiving(uid, diving) {
     if (!uid) {
-        throw new Error('uid is null')
+        return false
     }
 
     let userId = await getUserIdByUid(uid)
@@ -138,7 +138,7 @@ async function isBlockedDiving(uid, diving) {
 
 async function isBlockedByUid(uid, targetId) {
     if (!uid) {
-        throw new Error('uid is null')
+        return false
     }
 
     let userId = await getUserIdByUid(uid)
