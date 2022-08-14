@@ -6,7 +6,7 @@ module.exports.getUserIdByUid = getUserIdByUid
 
 async function getUserIdByUid(uid) {
     if (!uid) {
-        throw Error('uid is null')
+        return null
     }
     
     let user = await User.findOne({ uid: uid })

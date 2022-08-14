@@ -148,11 +148,11 @@ async function isBlockedByUid(uid, targetId) {
 async function isBlockedByUserId(userId, targetId) {
 
     if (!userId) {
-        throw new Error('user not found')
+        return false
     }
 
     if (!targetId) {
-        throw new Error('targetId is null')
+        return false
     }
 
     let count = await Report.count({
