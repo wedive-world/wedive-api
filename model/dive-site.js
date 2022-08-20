@@ -75,6 +75,8 @@ const schema = new Schema({
     highlightDescription: String,
     highlightDescriptionTranslation: { type: Map, of: String },
 
+    hashTag: String,
+
     divingType: [String],
 
     divePoints: [{ type: Schema.Types.ObjectId, ref: 'DivePoint' }],
