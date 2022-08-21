@@ -34,6 +34,10 @@ module.exports = {
 
     Participant: {
         async user(parent, args, context, info) {
+            if (!parent.user) {
+                return await getAnonymousParticipant(parent)
+            }
+
             return await findUserById(parent.user)
         },
     },
@@ -199,5 +203,14 @@ function getResignedUser() {
     return {
         _id: 'resigned',
         nickName: '탈퇴한 유저입니다'
+    }
+}
+
+function getAnonymousParticipant(participant) {
+    return {
+        _id: 'anonymous',
+        nickName: participant.gender == 'm'
+            ? "남성 다이버"
+            : "여성 다이버"
     }
 }
