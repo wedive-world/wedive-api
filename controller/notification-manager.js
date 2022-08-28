@@ -88,7 +88,7 @@ module.exports.onReservationCreated = async (reservation) => {
     let adminUsers = await User.find({ isAdmin: true })
         .select('_id')
         .lean()
-    
+
     let adminUserIds = adminUsers.map(adminUser => adminUser._id)
     await sendNotificationByUserIds(reservation._id, 'reservation', reservation._id, 'reservation', 'onReservationCreated', adminUserIds)
 }
@@ -97,7 +97,7 @@ module.exports.onReservationUpdated = async (reservation) => {
     let adminUsers = await User.find({ isAdmin: true })
         .select('_id')
         .lean()
-    
+
     let adminUserIds = adminUsers.map(adminUser => adminUser._id)
     await sendNotificationByUserIds(reservation._id, 'reservation', reservation._id, 'reservation', 'onReservationUpdated', adminUserIds)
 }
@@ -188,5 +188,5 @@ async function sendNotificationByUserIdsInternal(targetId, targetType, subjectId
 async function sendNotification(userIds, data) {
     let tokenList = await getFcmTokenByUserIds(userIds)
     let result = await firebaseClient().sendMulticast(tokenList, data)
-    console.log(`notification-manager | sendNotification: result=${JSON.stringify(result)}`)
+    console.log(`notification-manager | sendNotification: userIds=${JSON.stringify(userIds)} data=${JSON.stringify(data)} result=${JSON.stringify(result)}`)
 }
