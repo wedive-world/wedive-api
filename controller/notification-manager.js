@@ -137,13 +137,13 @@ async function getUserIdsBySubjectId(targetId) {
         .lean()
 }
 
-async function sendNotificationBySubscription(targetId, targetType, subjectId, subjectType, event, data) {
+async function sendNotificationBySubscription(targetId, targetType, subjectId, subjectType, event) {
     let userIds = await getUserIdsBySubjectId(subjectId)
     if (!userIds || userIds.length == 0) {
         return
     }
 
-    await sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, data, userIds)
+    await sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds)
 }
 
 async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds) {
