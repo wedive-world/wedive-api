@@ -158,6 +158,10 @@ async function sendNotificationByUserIdsInternal(targetId, targetType, subjectId
     let message = await getNotificationMessage(targetId, targetType, subjectId, subjectType, event)
     let image = await getNotificationImage(targetId, targetType, subjectId, subjectType, event)
 
+    if (!userIds || userIds.length == 0) {
+        return
+    }
+
     userIds.forEach(async userId => {
         await Notification.create({
             userId: userId,
@@ -187,6 +191,6 @@ async function sendNotificationByUserIdsInternal(targetId, targetType, subjectId
 
 async function sendNotification(userIds, data) {
     let tokenList = await getFcmTokenByUserIds(userIds)
-    let result = await firebaseClient().sendMulticast(tokenList, data)
-    console.log(`notification-manager | sendNotification: userIds=${JSON.stringify(userIds)} data=${JSON.stringify(data)} result=${JSON.stringify(result)}`)
+    await firebaseClient().sendMulticast(tokenList, data)
+    console.log(`notification-manager | sendNotification: userIds=${JSON.stringify(userIds)} data=${JSON.stringify(data)}`)
 }

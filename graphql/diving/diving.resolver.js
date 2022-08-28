@@ -122,15 +122,13 @@ module.exports = {
                     .filter(participant => participant.user)
                     .map(participant => participant.user)
 
-                if (userIds && userIds.length > 0) {
-                    let memberUids = await User.find({ _id: userIds })
-                        .select('uid')
-                        .lean()
-                        .map(user => user.uid)
+                let memberUids = await User.find({ _id: userIds })
+                    .select('uid')
+                    .lean()
+                    .map(user => user.uid)
 
-                    let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, memberUids, usercontext.idToken)
-                    diving.chatRoomId = chatRoomId
-                }
+                let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, memberUids, usercontext.idToken)
+                diving.chatRoomId = chatRoomId
 
             } else {
                 diving = await Diving.findOne({ _id: args.input._id })
@@ -219,7 +217,7 @@ module.exports = {
                 .lean()
 
             if (!currentUser || currentUser._id != diving.hostUser.toString()) {
-                console.log(`diving-resolver | acceptParticipant: hostUser=${JSON.stringify(diving.hostUser)}currentUser=${JSON.stringify(currentUser)}`)
+                console.log(`diving-resolver | acceptParticipant: hostUser=${JSON.stringify(diving.hostUser)} currentUser=${JSON.stringify(currentUser)}`)
                 return {
                     success: false,
                     reason: 'onlyHostCanAccept'
@@ -481,8 +479,6 @@ async function updateDivingProperties(diving) {
         diving.address = diveSites[0].address
         diving.location = diveSites[0].location
     }
-
-    console.log(`diving=${JSON.stringify(diving, null, 2)}`)
 }
 
 async function* asyncGenerator(n) {

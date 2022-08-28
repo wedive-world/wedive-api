@@ -22,11 +22,10 @@ class FirebaseClient {
 
         try {
             await this.sendMulticastInternal(tokenList, data)
+            console.log(`FirebaseClient | sendMulticast: result=${JSON.stringify(result)}`)
         } catch (e) {
-            console.error(e)
+            console.error(`FirebaseClient | sendMulticast: error: `, e)
         }
-
-        // console.log(`FirebaseClient | sendMulticast: result=${JSON.stringify(result)}`)
     }
 
     async sendMulticastInternal(tokenList, data) {
