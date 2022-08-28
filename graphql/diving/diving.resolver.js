@@ -395,8 +395,7 @@ async function updateParticipantStatus(divingId, participantId, participantStatu
     const participant = await User.findById(participantId)
     await DivingParticipant.updateOne(
         {
-            diving: divingId,
-            user: participantId
+            diving: divingId
         },
         {
             status: participantStatus,
