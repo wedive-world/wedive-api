@@ -46,7 +46,7 @@ async function onParticipateAccepted(subjectId, targetId) {
     let user = await User.findById(targetId)
 
     const message = '[%s] %s님이 새롭게 참여하였습니다.'
-    return parse(message, diving.title, user.name)
+    return parse(message, diving.title, user.nickName ? user.nickName : user.name)
 }
 
 async function onParticipateJoined(subjectId, targetId) {
@@ -54,7 +54,7 @@ async function onParticipateJoined(subjectId, targetId) {
     let user = await User.findById(targetId)
 
     const message = '[%s] %s님이 참여 신청하였습니다. 함께 하시려면 승인해주세요.'
-    return parse(message, diving.title, user.name)
+    return parse(message, diving.title, user.nickName ? user.nickName : user.name)
 }
 
 async function onDivingPreparation(subjectId, targetId) {
