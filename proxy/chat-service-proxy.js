@@ -100,27 +100,28 @@ class ChatServiceProxy {
     async invite({ roomId, uid }, idToken) {
 
         const query = gql`
-        mutation CreateRoom($roomId: String!, $uid: String!) {
-            invite(roomId: $roomId, uid: $uid) {
-                success
+            mutation CreateRoom($roomId: String!, $userId: String!) {
+                invite(roomId: $roomId, userId: $userId) {
+                    success
+                    reason
+                }
             }
-        }
         `
 
         const variable = {
             roomId: roomId,
-            uid: uid
+            userId: uid
         }
 
         try {
-            console.log(`ChatServiceProxy | createChatRoom: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
+            console.log(`ChatServiceProxy | invite: variable=${JSON.stringify(variable)}, idToken=${idToken}`)
             const data = await this.client.request(query, variable, { idtoken: idToken })
-            console.log(`ChatServiceProxy | createChatRoom: data=${JSON.stringify(data)}`)
+            console.log(`ChatServiceProxy | invite: data=${JSON.stringify(data)}`)
 
             return data.createRoom._id
 
         } catch (err) {
-            console.log(`ChatServiceProxy | createChatRoom: ERROR, ${err}`)
+            console.log(`ChatServiceProxy | invite: ERROR, ${err}`)
         }
     }
 
