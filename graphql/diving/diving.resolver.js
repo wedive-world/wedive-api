@@ -122,11 +122,15 @@ module.exports = {
                     .filter(participant => participant.user)
                     .map(participant => participant.user)
 
-                let memberUids = await User.find({ _id: userIds })
+                let users = await User.find({ _id: userIds })
                     .select('uid')
                     .lean()
-                    .map(user => user.uid)
-
+                
+                let memberUids = []
+                if (users && users.length > 0) {
+                    memberUids = users.map(user => user.uid)
+                }
+                    
                 let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, memberUids, usercontext.idToken)
                 diving.chatRoomId = chatRoomId
 
