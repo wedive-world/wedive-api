@@ -131,7 +131,7 @@ module.exports = {
                     memberUids = users.map(user => user.uid)
                 }
                     
-                let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, memberUids, usercontext.idToken)
+                let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, memberUids, context.idToken)
                 diving.chatRoomId = chatRoomId
 
             } else {
