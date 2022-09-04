@@ -143,7 +143,11 @@ async function sendNotificationBySubscription(targetId, targetType, subjectId, s
         return
     }
 
-    await sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds)
+    try {
+        await sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds)
+    } catch (e) {
+        console.error(`sendNotificationBySubscription | err: `, e)
+    }
 }
 
 async function sendNotificationByUserIds(targetId, targetType, subjectId, subjectType, event, userIds) {
