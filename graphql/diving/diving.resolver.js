@@ -447,7 +447,8 @@ async function getNearByDivings(lat, lng, skip, limit) {
                     coordinates: [lng, lat]
                 }
             }
-        }
+        },
+        status: 'searchable'
     })
         .skip(skip)
         .limit(limit)
