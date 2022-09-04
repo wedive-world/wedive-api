@@ -613,7 +613,7 @@ async function acceptParticipant(divingId, currentUserUid, userId) {
         }
     }
 
-    let divingParticipant = await DivingParticipant({
+    let divingParticipant = await DivingParticipant.findOne({
         diving: Mongoose.Types.ObjectId(divingId),
         user: Mongoose.Types.ObjectId(userId)
     })
