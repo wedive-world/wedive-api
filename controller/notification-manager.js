@@ -44,8 +44,8 @@ module.exports.onDivingCreated = async (diving) => {
     }
 }
 
-module.exports.onParticipantAccepted = async (divingId, participantId, participantIds) => {
-    await sendNotificationByUserIds(participantId, 'user', divingId, 'diving', 'onParticipantAccepted', participantIds)
+module.exports.onParticipantAccepted = async (divingId, participantId) => {
+    await sendNotificationByUserIds(participantId, 'user', divingId, 'diving', 'onParticipantAccepted', [participantId])
 }
 
 module.exports.onParticipantJoinedDiving = async (divingId, hostUserId, userId) => {

@@ -14,7 +14,7 @@ const ChatServiceProxy = require('../../proxy/chat-service-proxy')
 const chatServiceProxy = new ChatServiceProxy()
 
 const {
-    createHistoryFromDivingComplete
+    createHistoryFromDivingComplete뎃
 } = require('../../controller/diving-history-manager')
 
 module.exports = {
@@ -173,84 +173,7 @@ module.exports = {
         async acceptParticipant(parent, args, context, info) {
             console.log(`mutation | acceptParticipant: args=${JSON.stringify(args)}`)
 
-            const diving = await Diving.findById(args.divingId)
-                .populate('participants.user')
-                .lean()
 
-            if (!diving) {
-                return {
-                    success: false,
-                    reason: "unkownDiving"
-                }
-            }
-
-            if (diving.status != 'searchable') {
-                return {
-                    success: false,
-                    reason: 'searchable'
-                }
-            }
-
-            const currentUser = await User.findOne({ uid: context.uid })
-                .lean()
-
-            if (!currentUser || currentUser._id != diving.hostUser.toString()) {
-                console.log(`diving-resolver | acceptParticipant: hostUser=${JSON.stringify(diving.hostUser)} currentUser=${JSON.stringify(currentUser)}`)
-                return {
-                    success: false,
-                    reason: 'onlyHostCanAccept'
-                }
-            }
-
-            let participant = await User.findById(args.userId)
-            if (!participant) {
-                return {
-                    success: false,
-                    reason: "unknownParticipant"
-                }
-            }
-
-            if (!diving.chatRoomId) {
-                let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, [participant.uid], context.idToken)
-                console.log(`diving-resolver | acceptParticipant: chatRoomId=${JSON.stringify(chatRoomId)}`)
-                await Diving.findByIdAndUpdate(diving._id, { chatRoomId: chatRoomId })
-
-            } else {
-                let inviteResult = await chatServiceProxy.invite({
-                    roomId: args.roomId,
-                    uid: participant.uid
-                }, context.idToken)
-
-                console.log(`diving-resolver | acceptParticipant: inviteResult=${JSON.stringify(inviteResult)}`)
-            }
-
-            await updateParticipantStatus(diving._id, participant._id, 'joined')
-
-            if (diving.maxPeopleNumber) {
-                let applicantsNumber = diving.participants
-                    .filter(participant => participant.status == 'joined')
-                    .count()
-
-                diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
-            }
-
-            let participantIds = diving.participants
-                .filter(participant => participant.user)
-                .filter(participant => participant.stats == 'joined')
-                .map(user => user._id)
-
-            participantIds = participantIds.concat(
-                await DivingParticipant.find({ diving: diving._id })
-                    .select('user')
-                    .distinct('user')
-                    .lean()
-            )
-
-            await notificationManager.onParticipantAccepted(diving._id, participant._id, participantIds)
-
-            return {
-                success: true
-            }
         },
 
         async kickParticipant(parent, args, context, info) {
@@ -647,4 +570,99 @@ async function getRecentDivings(asc, skip, limit) {
         .limit(limit)
         .sort(order)
         .lean()
+}
+
+async function acceptParticipant(divingId, currentUserUid, userId) {
+    const diving = await Diving.findById(divingId)
+        .populate('participants.user')
+        .lean()
+
+    if (!diving) {
+        return {
+            success: false,
+            reason: "unkownDiving"
+        }
+    }
+
+    if (diving.status != 'searchable') {
+        return {
+            success: false,
+            reason: 'searchable'
+        }
+    }
+
+    const currentUser = await User.findOne({ uid: currentUserUid })
+        .lean()
+
+    if (!currentUser || currentUser._id != diving.hostUser.toString()) {
+        console.log(`diving-resolver | acceptParticipant: hostUser=${JSON.stringify(diving.hostUser)} currentUser=${JSON.stringify(currentUser)}`)
+        return {
+            success: false,
+            reason: 'onlyHostCanAccept'
+        }
+    }
+
+    let user = await User.findById(userId)
+        .lean()
+
+    if (!user) {
+        return {
+            success: false,
+            reason: "unknownParticipant"
+        }
+    }
+
+    let divingParticipant = await DivingParticipant({
+        diving: Mongoose.Types.ObjectId(divingId),
+        user: Mongoose.Types.ObjectId(userId)
+    })
+        .lean()
+
+    if (!divingParticipant) {
+        return {
+            success: false,
+            reason: "unknownParticipant"
+        }
+    }
+
+    if (divingParticipant.status == 'joined') {
+        return {
+            success: false,
+            reason: "alredayJoined"
+        }
+    }
+
+
+    // if (!diving.chatRoomId) {
+    //     let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, [user.uid], context.idToken)
+    //     console.log(`diving-resolver | acceptParticipant: chatRoomId=${JSON.stringify(chatRoomId)}`)
+    //     await Diving.findByIdAndUpdate(diving._id, { chatRoomId: chatRoomId })
+
+    // } else {
+    try {
+        await chatServiceProxy.invite({
+            roomId: chatRoomId,
+            uid: user.uid
+        }, context.idToken)
+
+    } catch (e) {
+        console.error(`diving-resolver | acceptParticipant: chat invite error, `, e)
+    }
+    // }
+
+    await updateParticipantStatus(diving._id, userId, 'joined')
+
+    if (diving.maxPeopleNumber) {
+        let applicantsNumber = diving.participants
+            .filter(participant => participant.status == 'joined')
+            .count()
+
+        diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
+    }
+
+    await notificationManager.onParticipantAccepted(diving._id, user._id)
+
+    return {
+        success: true
+    }
 }
