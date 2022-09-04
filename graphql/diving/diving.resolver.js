@@ -21,7 +21,7 @@ module.exports = {
     Diving: {
         async participants(parent, args, context, info) {
 
-            const divingParticipants = await DivingParticipant.find({ diving: Mongoose.Types.ObjectID(parent._id) })
+            const divingParticipants = await DivingParticipant.find({ diving: Mongoose.Types.ObjectId(parent._id) })
                 .populate('user')
                 .lean()
 
