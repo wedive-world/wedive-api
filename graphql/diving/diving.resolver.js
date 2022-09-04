@@ -173,7 +173,7 @@ module.exports = {
         async acceptParticipant(parent, args, context, info) {
             console.log(`mutation | acceptParticipant: args=${JSON.stringify(args)}`)
 
-
+            return await acceptParticipant(args.divingId, context.uid, args.userId)
         },
 
         async kickParticipant(parent, args, context, info) {
