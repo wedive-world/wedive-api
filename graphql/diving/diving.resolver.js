@@ -1,3 +1,5 @@
+const Mongoose = require('mongoose');
+
 const {
     Diving,
     DivingParticipant,
@@ -19,7 +21,7 @@ module.exports = {
     Diving: {
         async participants(parent, args, context, info) {
 
-            const divingParticipants = await DivingParticipant.find({ diving: parent._id })
+            const divingParticipants = await DivingParticipant.find({ diving: Mongoose.Types.ObjectID(parent._id) })
                 .populate('user')
                 .lean()
 
@@ -125,12 +127,12 @@ module.exports = {
                 let users = await User.find({ _id: userIds })
                     .select('uid')
                     .lean()
-                
+
                 let memberUids = []
                 if (users && users.length > 0) {
                     memberUids = users.map(user => user.uid)
                 }
-                    
+
                 let chatRoomId = await chatServiceProxy.createChatRoom(diving.title, memberUids, context.idToken)
                 diving.chatRoomId = chatRoomId
 
@@ -165,35 +167,7 @@ module.exports = {
 
         async joinDiving(parent, args, context, info) {
             console.log(`mutation | joinDiving: args=${JSON.stringify(args)}`)
-
-            const diving = await Diving.findOne({ _id: args.divingId })
-                .populate('hostUser')
-                .lean()
-
-            if (diving.status != 'searchable') {
-                return {
-                    success: false,
-                    reason: 'publicEnded'
-                }
-            }
-
-            const userUid = context.uid
-            if (diving.hostUser.uid == userUid) {
-                return {
-                    success: false,
-                    reason: 'hostCannotApply'
-                }
-            }
-
-            const user = await User.findOne({ uid: context.uid })
-                .lean()
-
-            await updateParticipantStatus(diving._id, user._id, 'applied')
-            await notificationManager.onParticipantJoinedDiving(diving._id, diving.hostUser._id, user._id)
-
-            return {
-                success: true
-            }
+            return await joinDiving(args.divingId, context.uid)
         },
 
         async acceptParticipant(parent, args, context, info) {
@@ -397,12 +371,14 @@ async function completeDiving(divingId) {
 async function updateParticipantStatus(divingId, participantId, participantStatus) {
 
     const participant = await User.findById(participantId)
+        .lean()
     await DivingParticipant.updateOne(
         {
             diving: divingId
         },
         {
             status: participantStatus,
+            user: participantId,
             name: participant.nickName,
             birth: participant.birth,
             gender: participant.gender,
@@ -412,6 +388,50 @@ async function updateParticipantStatus(divingId, participantId, participantStatu
             upsert: true
         }
     )
+}
+
+async function joinDiving(divingId, userUid) {
+
+    const diving = await Diving.findOne({ _id: divingId })
+        .populate('hostUser')
+        .lean()
+
+    if (diving.status != 'searchable') {
+        return {
+            success: false,
+            reason: 'publicEnded'
+        }
+    }
+
+    if (diving.hostUser.uid == userUid) {
+        return {
+            success: false,
+            reason: 'hostCannotApply'
+        }
+    }
+
+
+    const user = await User.findOne({ uid: userUid })
+        .lean()
+
+    let participantCount = await DivingParticipant.count({
+        diving: Mongoose.Types.ObjectId(divingId),
+        user: Mongoose.Types.ObjectId(user._id)
+    })
+
+    if (participantCount > 0) {
+        return {
+            success: false,
+            reason: 'alreadyJoined'
+        }
+    }
+
+    await updateParticipantStatus(diving._id, user._id, 'applied')
+    await notificationManager.onParticipantJoinedDiving(diving._id, diving.hostUser._id, user._id)
+
+    return {
+        success: true
+    }
 }
 
 async function updateDivingProperties(diving) {
