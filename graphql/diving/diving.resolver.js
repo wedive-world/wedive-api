@@ -653,13 +653,13 @@ async function acceptParticipant(divingId, currentUserUid, userId) {
 
     await updateParticipantStatus(diving._id, userId, 'joined')
 
-    if (diving.maxPeopleNumber) {
-        let applicantsNumber = diving.participants
-            .filter(participant => participant.status == 'joined')
-            .count()
+    // if (diving.maxPeopleNumber) {
+    //     let applicantsNumber = diving.participants
+    //         .filter(participant => participant.status == 'joined')
+    //         .count()
 
-        diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
-    }
+    //     diving.peopleLeft = diving.maxPeopleNumber - applicantsNumber
+    // }
 
     await notificationManager.onParticipantAccepted(diving._id, user._id)
 
