@@ -1,3 +1,5 @@
+import cors from 'cors';
+
 const express = require('express');
 const {
   ApolloServer,
@@ -30,11 +32,13 @@ async function startServer() {
   const firebaseApp = initializeApp()
   const firebaseAuth = getAuth(firebaseApp)
 
-  const isProduction = process.env.NODE_ENV == 'production'
-
   const server = new ApolloServer({
+    cors: {
+      origin: ['https://m.wedives.com', 'https://wedives.com', 'https://api.wedives.com']
+    },
     schema: schema,
-    introspection: !isProduction,
+    playground: true,
+    introspection: true,
     context: async ({ req }) => {
 
       // if (!req.headers.authorization) {
