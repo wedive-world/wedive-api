@@ -85,7 +85,12 @@ module.exports = {
 
     Query: {
         async getAllDiveSites(parent, args, context, info) {
+            let skip = args.skip
+            let limit = args.limit
+            
             return await DiveSite.find()
+                .skip(skip)
+                .limit(limit)
                 .lean()
         },
 
