@@ -5,7 +5,7 @@ module.exports = gql`
 type Query {
 
   QUERY____________________________DiveSites: DiveSite
-  getAllDiveSites: [DiveSite]
+  getAllDiveSites(skip: Int = 0, limit: Int = 300): [DiveSite]
   getDiveSites(skip: Int = 0, limit: Int = 100): [DiveSite]
   getDiveSiteById(_id: ID!): DiveSite @cacheControl(maxAge: 60)
   getDiveSiteByUniqueName(uniqueName: String!): DiveSite @cacheControl(maxAge: 60)
