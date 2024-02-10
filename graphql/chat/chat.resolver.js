@@ -97,7 +97,7 @@ module.exports = {
         },
     },
 
-    Forum: {
+    ChatRoom: {
         async chats(parent, args, context, info) {
             return await Chat.find({ targetId: { $in: parent._id } })
                 .limit(10)
