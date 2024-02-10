@@ -5,7 +5,7 @@ const {
     DiveCenter,
     DivePoint,
     DiveSite,
-    Subscribe
+    ChatRoom
 } = require('../../model').schema;
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
     },
 
     Query: {
-        async getChatssByTargetId(parent, args, context, info) {
+        async getChatsByTargetId(parent, args, context, info) {
             console.log(`query | getChatssByTargetId: args=${JSON.stringify(args)}`)
             let searchParam = { targetId: args.targetId }
             
@@ -55,12 +55,12 @@ module.exports = {
                 .lean()
         },
 
-        async getRecentChatBySubscribedCommunity(parent, args, context, info) {
-            console.log(`query | getRecentChatBySubscribedCommunity: args=${JSON.stringify(args)}`)
+        async getRecentChatByChatroom(parent, args, context, info) {
+            console.log(`query | getRecentChatByChatroom: args=${JSON.stringify(args)}`)
             let user = await User.findOne({ uid: context.uid })
                 .select('_id')
                 .lean()
-            return await getRecentChatBySubscribedCommunity(user._id, args.skip, args.limit)
+            return await getRecentChatByChatroom(user._id, args.skip, args.limit)
         },
     },
 
@@ -106,17 +106,17 @@ module.exports = {
     },
 };
 
-async function getRecentChatBySubscribedCommunity(userId, skip, limit) {
-    let subscribeIds = await Subscribe.find({
+async function getRecentChatByChatroom(userId, skip, limit) {
+    let chatRoomIds = await ChatRoom.find({
         userId: userId,
-        targetType: 'community',
+        targetType: 'chatRoom',
         value: true
     })
         .select('targetId')
         .distinct('targetId')
         .lean()
 
-    return await Chat.find({ targetId: { $in: subscribeIds } })
+    return await Chat.find({ targetId: { $in: chatRoomIds } })
         .sort('-createdAt')
         .skip(skip)
         .limit(limit)
