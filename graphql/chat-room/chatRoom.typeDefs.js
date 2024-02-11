@@ -20,7 +20,9 @@ type ChatRoom {
 
   title: String
   latestChat: String
-  users: [ID]
+  users: [User]
+
+  divingInfo : Diving
 
   createdAt: Date
   updatedAt: Date
@@ -31,6 +33,6 @@ input ChatRoomInput {
   
   title: String
   latestChat: String
-  users: [User]
+  users: [ID]
 }
 `;
