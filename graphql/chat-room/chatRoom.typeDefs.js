@@ -31,6 +31,6 @@ input ChatRoomInput {
   
   title: String
   latestChat: String
-  users: [ID]
+  users: [User]
 }
 `;
