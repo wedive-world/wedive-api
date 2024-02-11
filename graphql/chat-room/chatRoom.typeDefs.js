@@ -7,7 +7,7 @@ type Query {
   QUERY____________________________ChatRoom: ChatRoom
   getChatRooms: [ChatRoom]
   getHotHashTags(days: Int = 180, limit: Int = 10): [String]
-  getHotHashTagsById(targetId: ID!, days: Int = 180, limit: Int = 10): [String]
+  getHotHashTagsById(chatRoomId: ID!, days: Int = 180, limit: Int = 10): [String]
 }
 
 type Mutation {

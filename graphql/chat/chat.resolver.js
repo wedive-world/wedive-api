@@ -11,30 +11,26 @@ const {
 module.exports = {
     Chat: {
         async chatParent(parent, args, context, info) {
-            let chatRoom = await ChatRoom.findById(parent.targetId)
+            let chatRoom = await ChatRoom.findById(parent.chatRoomId)
             if (chatRoom) {
                 return chatRoom
             }
 
-            return await Community.findById(parent.targetId)
+            return await ChatRoom.findById(parent.chatRoomId)
         },
     },
 
     
     ChatParent: {
         async __resolveType(obj, context, info) {
-            if (obj.owners) {
-                return 'Community'
-            } else {
-                return 'ChatRoom'
-            }
+            return 'ChatRoom'
         },
     },
 
     Query: {
-        async getChatsByTargetId(parent, args, context, info) {
-            console.log(`query | getChatssByTargetId: args=${JSON.stringify(args)}`)
-            let searchParam = { targetId: args.targetId }
+        async getChatsByChatRoomId(parent, args, context, info) {
+            console.log(`query | getChatssByChatRoomId: args=${JSON.stringify(args)}`)
+            let searchParam = { chatRoomId: args.chatRoomId }
             
             return await Chat.find(searchParam)
                 .sort('-createdAt')
@@ -82,8 +78,14 @@ module.exports = {
 
             let user = await User.findOne({ uid: context.uid }).lean()
             chat.author = user._id
-
+            chat.content = args.input.content
+            chat.chatRoomId = args.input.chatRoomId
             await chat.save()
+
+            let chatRoom = await ChatRoom.findOne({ _id: args.input.chatRoomId }).lean()
+            chatRoom.latestChat = args.input.content
+            await chatRoom.save()
+            
             return chat
         },
 
@@ -99,7 +101,7 @@ module.exports = {
 
     ChatRoom: {
         async chats(parent, args, context, info) {
-            return await Chat.find({ targetId: { $in: parent._id } })
+            return await Chat.find({ chatRoomId: { $in: parent._id } })
                 .limit(10)
                 .lean()
         },
@@ -112,11 +114,11 @@ async function getRecentChatByChatroom(userId, skip, limit) {
         targetType: 'chatRoom',
         value: true
     })
-        .select('targetId')
-        .distinct('targetId')
+        .select('chatRoomId')
+        .distinct('chatRoomId')
         .lean()
 
-    return await Chat.find({ targetId: { $in: chatRoomIds } })
+    return await Chat.find({ chatRoomId: { $in: chatRoomIds } })
         .sort('-createdAt')
         .skip(skip)
         .limit(limit)

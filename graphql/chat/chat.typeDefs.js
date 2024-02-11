@@ -5,7 +5,7 @@ module.exports = gql`
 type Query {
 
   QUERY____________________________Chats: Chat
-  getChatsByTargetId(targetId: ID!, skip: Int = 0, limit: Int = 10): [Chat]
+  getChatsByChatRoomId(chatRoomId: ID!, skip: Int = 0, limit: Int = 10): [Chat]
   getChatById(_id: ID!): Chat
   searchChat(query: String, skip: Int = 0, limit: Int = 10): [Chat]
   getRecentChatByChatroom(skip: Int = 0, limit: Int = 10): [Chat]
@@ -22,8 +22,9 @@ type Chat {
   _id: ID!
   chatParent: ChatParent
 
+  author: ID
   content: String
-  reads: Int
+  reads: [ID]
 
   createdAt: Date
   updatedAt: Date
@@ -31,11 +32,8 @@ type Chat {
 
 input ChatInput {
   _id: ID
-  targetId: ID
-  types: [ID]
-
-  title: String
-  latestChat: String
+  chatRoomId: ID
+  content: String
 }
 
 type ChatRoom {

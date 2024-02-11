@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const schema = new Schema({
 
-    targetId: { type: Schema.Types.ObjectId, index: true },
+    chatRoomId: { type: Schema.Types.ObjectId, ref: 'ChatRoom', index: true },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     content: String,
     reads: { type: Number, default: 0 },

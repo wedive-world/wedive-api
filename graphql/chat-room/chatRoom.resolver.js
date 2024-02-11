@@ -20,6 +20,14 @@ module.exports = {
                 .sort('priority')
                 .lean()
         },
+
+        async getChatRoomsJoinedByCurrentUser(parent, args, context, info) {
+            console.log(`query | getChatRoomsJoinedByCurrentUser: context=${JSON.stringify(context)}`)
+            let user = await User.findOne({ uid: context.uid })
+            return await ChatRoom.find({users: Mongoose.Types.ObjectId(user._id)})
+                .sort('-updatedAt')
+                .lean()
+        },
     },
 
     Mutation: {
