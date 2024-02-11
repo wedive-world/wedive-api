@@ -62,7 +62,7 @@ module.exports = {
 
     Mutation: {
         async upsertChat(parent, args, context, info) {
-            console.log(`mutation | upsertChat: args=${JSON.stringify(args)}`)
+            console.log(`mutation | upsertChat: args=${JSON.stringify(args)}` + ` | context=${JSON.stringify(context)}`)
 
             let chat = null
             const isNewChat = !args.input._id
@@ -76,8 +76,13 @@ module.exports = {
 
             Object.assign(chat, args.input)
 
-            let user = await User.findOne({ uid: context.uid }).lean()
-            chat.author = user._id
+            try {
+                let user = await User.findOne({ uid: context.uid }).lean()
+                chat.author = user._id
+            } catch (e) {
+
+            }
+            
             // chat.content = args.input.content
             chat.chatRoomId = args.input.chatRoomId
             await chat.save()
