@@ -75,5 +75,8 @@ module.exports.schema = {
     AgendaType: require('./agenda-type'),
     Report: require('./report'),
 
+    ChatRoom: require('./chat-room'),
+    Chat: require('./chat'),
+
     WaterTemperature: require('./water-temperature'),
 }
