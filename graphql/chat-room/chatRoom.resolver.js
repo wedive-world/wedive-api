@@ -24,7 +24,7 @@ module.exports = {
         async getChatRoomsJoinedByCurrentUser(parent, args, context, info) {
             console.log(`query | getChatRoomsJoinedByCurrentUser: context=${JSON.stringify(context)}`)
             let user = await User.findOne({ uid: context.uid })
-            let result = await ChatRoom.find({users: Mongoose.Types.ObjectId(user._id)})
+            let result = await ChatRoom.find({users: {$in: Mongoose.Types.ObjectId(user._id)}})
                 .sort('-updatedAt')
                 .lean()
             
@@ -33,7 +33,7 @@ module.exports = {
                 let users = JSON.parse(JSON.stringify(room.users));
                 room.users = [];
                 for (let j=0; j<users.length; j++) {
-                    room.users.push(await User.findOne({uid: users[j]}));
+                    room.users.push(await User.findOne({_id: users[j]}));
                 }
             }
             return result
