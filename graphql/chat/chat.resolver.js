@@ -79,15 +79,15 @@ module.exports = {
             try {
                 let user = await User.findOne({ uid: context.uid }).lean()
                 chat.author = user._id
+                await chat.save()
             } catch (e) {
 
             }
-            
             // chat.content = args.input.content
-            chat.chatRoomId = args.input.chatRoomId
-            await chat.save()
+            // chat.chatRoomId = args.input.chatRoomId
 
             let chatRoom = await ChatRoom.findOne({ _id: args.input.chatRoomId }).lean()
+            console.log("chatRoom : " + JSON.stringify(chatRoom));
             chatRoom.latestChat = args.input.content
             await chatRoom.save()
             
