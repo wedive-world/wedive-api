@@ -9,7 +9,7 @@ const {
     Subscribe,
 } = require('../../model').schema;
 
-const Mongoose = require('mongoose');
+const Mongoose = require('mongoose``');
 
 module.exports = {
 
