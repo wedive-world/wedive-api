@@ -86,10 +86,10 @@ module.exports = {
             // chat.content = args.input.content
             // chat.chatRoomId = args.input.chatRoomId
 
-            let chatRoom = await ChatRoom.findOne({ _id: args.input.chatRoomId }).lean()
+            // let chatRoom = await ChatRoom.findOne({ _id: args.input.chatRoomId }).lean()
+            // chatRoom.latestChat = args.input.content
             console.log("chatRoom : " + JSON.stringify(chatRoom));
-            chatRoom.latestChat = args.input.content
-            await chatRoom.save()
+            await ChatRoom.updateOne({ _id: args.input.chatRoomId }, { latestChat: args.input.content })
             
             return chat
         },
@@ -104,13 +104,13 @@ module.exports = {
         },
     },
 
-    ChatRoom: {
-        async chats(parent, args, context, info) {
-            return await Chat.find({ chatRoomId: { $in: parent._id } })
-                .limit(10)
-                .lean()
-        },
-    },
+    // ChatRoom: {
+    //     async chats(parent, args, context, info) {
+    //         return await Chat.find({ chatRoomId: { $in: parent._id } })
+    //             .limit(10)
+    //             .lean()
+    //     },
+    // },
 };
 
 async function getRecentChatByChatroom(userId, skip, limit) {
