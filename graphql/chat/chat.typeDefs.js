@@ -20,8 +20,6 @@ type Mutation {
 
 type Chat {
   _id: ID!
-  languageCode: String
-
   chatParent: ChatParent
 
   content: String
@@ -37,7 +35,7 @@ input ChatInput {
   types: [ID]
 
   title: String
-  content: String
+  latestChat: String
 }
 
 type ChatRoom {
