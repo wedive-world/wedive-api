@@ -24,15 +24,18 @@ module.exports = {
         async getChatRoomsJoinedByCurrentUser(parent, args, context, info) {
             console.log(`query | getChatRoomsJoinedByCurrentUser: context=${JSON.stringify(context)}`)
             let user = await User.findOne({ uid: context.uid })
-            var result = await ChatRoom.find({users: Mongoose.Types.ObjectId(user._id)})
+            let result = await ChatRoom.find({users: Mongoose.Types.ObjectId(user._id)})
                 .sort('-updatedAt')
                 .lean()
             
-            result.forEach(room => {
+            for (let i=0; i<result.length; i++) {
+                let room = result[i];
                 let users = JSON.parse(JSON.stringify(room.users));
                 room.users = [];
-                users.forEach (async user => room.users.push(await User.findOne({_id: user})) )
-            })
+                for (let j=0; j<users.length; j++) {
+                    room.users.push(await User.findOne({_id: users[j]}));
+                }
+            }
             return result
         },
     },
