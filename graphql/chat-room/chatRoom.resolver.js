@@ -30,7 +30,8 @@ module.exports = {
             
             for (let i=0; i<result.length; i++) {
                 let room = result[i];
-                let users = JSON.parse(JSON.stringify(room.users).replace(/ObjectId\(\"/gi, '').replace(/\"/gi, ''));
+                console.log('room.users : ' + JSON.stringify(room.users));
+                let users = JSON.parse(JSON.stringify(room.users));
                 room.users = [];
                 for (let j=0; j<users.length; j++) {
                     console.log('>> ' + users[j]);
