@@ -88,7 +88,7 @@ module.exports = {
 
             // let chatRoom = await ChatRoom.findOne({ _id: args.input.chatRoomId }).lean()
             // chatRoom.latestChat = args.input.content
-            console.log("chatRoom : " + JSON.stringify(chatRoom));
+            // console.log("chatRoom : " + JSON.stringify(chatRoom));
             await ChatRoom.updateOne({ _id: args.input.chatRoomId }, { latestChat: args.input.content })
             
             return chat
