@@ -65,10 +65,10 @@ module.exports = {
             console.log(`mutation | upsertChat: args=${JSON.stringify(args)}`)
 
             let chat = null
-            const isNewChat = !args.input.chatRoomId
+            const isNewChat = !args.input._id
 
             if (!isNewChat) {
-                chat = await Chat.findById(args.input.chatRoomId)
+                chat = await Chat.findById(args.input._id)
 
             } else {
                 chat = new Chat(args.input)
@@ -78,7 +78,7 @@ module.exports = {
 
             let user = await User.findOne({ uid: context.uid }).lean()
             chat.author = user._id
-            chat.content = args.input.content
+            // chat.content = args.input.content
             chat.chatRoomId = args.input.chatRoomId
             await chat.save()
 
