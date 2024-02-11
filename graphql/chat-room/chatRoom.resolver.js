@@ -33,7 +33,7 @@ module.exports = {
                 let users = JSON.parse(JSON.stringify(room.users));
                 room.users = [];
                 for (let j=0; j<users.length; j++) {
-                    room.users.push(await User.findOne({_id: users[j]}));
+                    room.users.push(await User.findOne({uid: users[j]}));
                 }
             }
             return result
