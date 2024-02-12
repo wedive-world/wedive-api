@@ -8,8 +8,6 @@ const schema = new Schema({
 
     users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     
-    divingInfo: { type: Schema.Types.ObjectId, index: true },
-    
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
