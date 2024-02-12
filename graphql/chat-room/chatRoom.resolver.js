@@ -13,6 +13,14 @@ const Mongoose = require('mongoose');
 
 module.exports = {
 
+    Diving: {
+        async diveCenters(parent, args, context, info) {
+            let languageCode = context.languageCode
+            let diveCenters = await DiveCenter.find({ _id: { $in: parent.diveCenters } }).lean()
+            return diveCenters.map(diveCenter => translator.translateOut(diveCenter, languageCode))
+        }
+    },
+
     Query: {
         async getChatRooms(parent, args, context, info) {
             console.log(`query | getChatRooms: context=${JSON.stringify(context)}`)
@@ -24,11 +32,14 @@ module.exports = {
         async getChatRoomsJoinedByCurrentUser(parent, args, context, info) {
             console.log(`query | getChatRoomsJoinedByCurrentUser: context=${JSON.stringify(context)}`)
             let user = await User.findOne({ uid: context.uid })
-            let result = await ChatRoom.find({users: {$in: user._id}})
-                .sort('-updatedAt')
-                .lean()
-            
-            return result
+
+            return await ChatRoom.find({
+                users: {
+                    '_id': user._id
+                }
+            })
+            .sort('-updatedAt')
+            .lean()
         },
     },
 

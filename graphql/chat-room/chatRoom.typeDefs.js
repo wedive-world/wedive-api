@@ -15,6 +15,11 @@ type Mutation {
   upsertChatRoom(input: ChatRoomInput): ChatRoom!
 }
 
+type Diving {
+    diveShops: [DiveShop]
+    diveCenters: [DiveCenter]
+}
+
 type ChatRoom {
   _id: ID!
 
@@ -35,4 +40,6 @@ input ChatRoomInput {
   latestChat: String
   users: [ID]
 }
+
+
 `;
