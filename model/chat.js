@@ -6,6 +6,7 @@ const schema = new Schema({
     chatRoomId: { type: Schema.Types.ObjectId, ref: 'ChatRoom', index: true },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
     content: String,
+    
     reads: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 
     createdAt: { type: Date, default: Date.now },

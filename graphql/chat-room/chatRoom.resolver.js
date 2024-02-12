@@ -25,7 +25,6 @@ module.exports = {
         async getChatRooms(parent, args, context, info) {
             console.log(`query | getChatRooms: context=${JSON.stringify(context)}`)
             return await ChatRoom.find()
-                .sort('priority')
         },
 
         async getChatRoomsJoinedByCurrentUser(parent, args, context, info) {

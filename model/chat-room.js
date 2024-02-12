@@ -5,7 +5,9 @@ const schema = new Schema({
 
     title : String,
     latestChat: String,
+
     users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    
     divingInfo: { type: Schema.Types.ObjectId, index: true },
     
     createdAt: { type: Date, default: Date.now },

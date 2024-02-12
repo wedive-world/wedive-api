@@ -24,7 +24,7 @@ type Chat {
 
   author: ID
   content: String
-  reads: [ID]
+  reads: [User]
 
   createdAt: Date
   updatedAt: Date
